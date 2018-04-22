@@ -19,7 +19,7 @@ public class Round {
         return player.getId()==currentPlayer;
     }
 
-    boolean isFirstTurn() {
+    public boolean isFirstTurn() {
         return missingPlayers>0;
     }
 
@@ -35,7 +35,7 @@ public class Round {
         return null; //placeholder
     }
 
-    void denyNextTurn() {
+    public void denyNextTurn() {
     }
 
 }

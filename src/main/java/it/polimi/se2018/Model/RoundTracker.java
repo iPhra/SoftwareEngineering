@@ -3,16 +3,16 @@ package it.polimi.se2018.Model;
 import java.util.ArrayList;
 
 public class RoundTracker {
-    private ArrayList<Die>[] roundTracker; //array of arrayList, every position contains an arraylist of dice
+    private ArrayList<Die>[] dice; //array of arrayList, every position contains an arraylist of dice
     private int turn;
 
     public RoundTracker() {
-        this.roundTracker = new ArrayList[10];
+        this.dice = new ArrayList[10];
         turn=0;
     }
 
     public ArrayList<Die>[] getRoundTracker() {
-        return roundTracker;
+        return dice;
     }
 
     void removeFromRoundTracker(int index, Die die) { //removes a die from round tracker

@@ -1,31 +1,31 @@
 package it.polimi.se2018.Model;
 
-import project_temp.Exceptions.DieNotFoundException;
+import it.polimi.se2018.Exceptions.DieNotFoundException;
 
 import java.util.ArrayList;
 
 public class DraftPool {
-    private ArrayList<Die> draftPool; //i 2n+1 dadi draftati vanno messi qui
+    private ArrayList<Die> dice; //i 2n+1 dadi draftati vanno messi qui
 
     public ArrayList<Die> getDraftPool() {
-        return draftPool;
+        return dice;
     }
 
     void fillDraftPool(ArrayList<Die> draftPool) { //riempie la draft pool con i nuovi 2n+1 dadi presi dalla board
-        this.draftPool = draftPool;
+        this.dice = draftPool;
     }
 
     void addToDraftPool(Die die) {
-        draftPool.add(die);
+        dice.add(die);
     }
 
     void removeFromDraftPool(Die die) throws DieNotFoundException { //rimuove un dado dalla draft pool dopo averlo inserito nello schema
-        if (!draftPool.contains(die)) throw new DieNotFoundException("No such die found in Draft Pool to remove");
-        draftPool.remove(die);
+        if (!dice.contains(die)) throw new DieNotFoundException("No such die found in Draft Pool to remove");
+        dice.remove(die);
     }
 
     void emptyDraftPool () { //svuota la draftPool
-        draftPool.clear();
+        dice.clear();
     }
 
 }

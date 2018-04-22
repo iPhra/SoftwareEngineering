@@ -1,13 +1,15 @@
 package it.polimi.se2018.Model;
 
-import project_temp.Exceptions.DieNotFoundException;
-
+import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
+import it.polimi.se2018.Exceptions.DieNotFoundException;
+import it.polimi.se2018.Model.ToolCards.ToolCard;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Board {
     private static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
     private static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
+    private final int id;
     private Round round;
     private final String imagePath;
     private final int playersNumber;
@@ -18,15 +20,16 @@ public class Board {
     private final Bag bag; //ha il riferimento al sacchetto dei dadi
     private final RoundTracker roundTracker; //ha il riferimento al roundTracker
 
-    public Board(ArrayList<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
+    public Board(int id, ArrayList<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
         this.players = players;
         this.imagePath = imagePath;
+        this.id=id;
         this.playersNumber=players.size();
         ArrayList<Integer> playersId = new ArrayList(playersNumber);
         for (int i=0; i<players.size(); i++) {
             playersId.add(players.get(i).getId());
         }
-        Round round = new Round(playersId);
+        round = new Round(playersId);
         draftPool = new DraftPool();
         this.toolCards = toolCards;
         this.publicObjectives = publicObjectives;
@@ -65,6 +68,8 @@ public class Board {
     public PublicObjective[] getPublicObjectives() {
         return publicObjectives;
     }
+
+    public int getId() {return id; }
 
     /*public void initDraftPool() {
         draftPool.fillDraftPool(bag.drawDice(playersNumber));
