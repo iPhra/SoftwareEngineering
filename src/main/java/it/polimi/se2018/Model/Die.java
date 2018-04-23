@@ -18,7 +18,7 @@ public class Die {
         this.value = value;
     }
 
-    void flipDie() {
+    public void flipDie() {
         setValue(7-getValue());
     }
 

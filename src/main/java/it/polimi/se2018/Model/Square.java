@@ -11,11 +11,11 @@ public class Square {
         die=null;
     }
 
-    Die getDie() {
+    public Die getDie() {
         return die;
     }
 
-    void setDie(Die die) {
+    public void setDie(Die die) { //if you want to free the square just pass null to this method
         this.die = die;
     }
 
@@ -24,10 +24,11 @@ public class Square {
     }
 
     boolean sameColor(Die die) {
-        return die.getColor()==Color.WHITE || die.getColor().equals(color);
+        return color==Color.WHITE || die.getColor().equals(color);
     }
 
     boolean sameValue(Die die) {
-        return die.getValue()==(value);
+        return die.getValue()==value;
     }
+
 }

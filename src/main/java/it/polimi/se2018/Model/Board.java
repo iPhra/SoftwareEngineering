@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Board {
     private static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
     private static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
+    private static final int ROUNDSNUMBER = 10; //number of rounds in one game
     private final int id;
     private Round round;
     private final String imagePath;
@@ -34,7 +35,7 @@ public class Board {
         this.toolCards = toolCards;
         this.publicObjectives = publicObjectives;
         bag = new Bag(COLORSNUMBER, DICENUMBER);
-        roundTracker = new RoundTracker();
+        roundTracker = new RoundTracker(ROUNDSNUMBER);
     }
 
     public DraftPool getDraftPool() {

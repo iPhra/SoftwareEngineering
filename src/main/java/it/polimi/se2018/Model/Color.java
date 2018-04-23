@@ -7,5 +7,8 @@ public enum Color {
     private Color(String abbreviation) {
     }
 
-    public String getAbbreviation(){return abbreviation;}
+    public String getAbbreviation(){
+        return abbreviation;
+    }
+
 }
