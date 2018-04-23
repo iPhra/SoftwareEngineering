@@ -6,7 +6,7 @@ public abstract class ObjectiveCard {
     private String imagePath;
     private String title;
 
-    public ObjectiveCard(String imagePath, String title) {
+    protected ObjectiveCard(String imagePath, String title) {
         this.imagePath=imagePath;
         this.title=title;
     }

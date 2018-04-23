@@ -7,12 +7,16 @@ public class Round {
     private int missingPlayers; //number of unique players who still haven't played in the round
     private int currentPlayer;
     private int currentPlayerIndex;
+    private boolean hasPlacedDie;
+    private boolean hasUsedCard;
 
     public Round(ArrayList<Integer> playersOrder) {
         this.playersOrder = playersOrder;
         currentPlayerIndex=0;
         currentPlayer=playersOrder.get(currentPlayerIndex);
         missingPlayers=playersOrder.size()/2;
+        hasPlacedDie = false;
+        hasUsedCard = false;
     }
 
     public boolean isYourTurn(Player player) {
@@ -36,6 +40,14 @@ public class Round {
     }
 
     public void denyNextTurn() {
+    }
+
+    public boolean hasPlacedDie() {
+        return hasPlacedDie;
+    }
+
+    public boolean hasUsedCard() {
+        return hasUsedCard;
     }
 
 }
