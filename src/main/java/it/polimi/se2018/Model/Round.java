@@ -50,4 +50,11 @@ public class Round {
         return hasUsedCard;
     }
 
+    public void setHasPlacedDie(boolean hasPlacedDie) {
+        this.hasPlacedDie = hasPlacedDie;
+    }
+
+    public void setHasUsedCard(boolean hasUsedCard) {
+        this.hasUsedCard = hasUsedCard;
+    }
 }

@@ -32,6 +32,7 @@ public class Board {
         }
         round = new Round(playersId);
         draftPool = new DraftPool();
+        this.initDraftPool();
         this.toolCards = toolCards;
         this.publicObjectives = publicObjectives;
         bag = new Bag(COLORSNUMBER, DICENUMBER);
@@ -72,11 +73,21 @@ public class Board {
 
     public int getId() {return id; }
 
-    /*public void initDraftPool() {
+    public void initDraftPool() {
         draftPool.fillDraftPool(bag.drawDice(playersNumber));
     }
 
-    public void endRound() {
-    }*/
+    public void startRound() {
+        initDraftPool();
+    }
 
+    public void endRound() {}
+
+    public void draftPoolToMap (Player player, Die die, int x, int y) {} //removes a die from the draft pool and places into one player's map
+
+    public void endTurn() {}
+
+    public void useToolCard() {}
+
+    public void endMatch() {}
 }

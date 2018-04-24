@@ -20,4 +20,7 @@ abstract public class ToolCard {
     public void useCard(Move move) { //every specific tool card will implement this method differently
     }
 
+    public boolean isAlreadyUsed() {return alreadyUsed;}
+
+    public void setAlreadyUsed() {alreadyUsed=true;}
 }
