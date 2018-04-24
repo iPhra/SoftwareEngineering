@@ -17,6 +17,8 @@ abstract public class ToolCard {
         this.board=board;
     }
 
+    //REMEMBER to set hasPlacedDie and hasUsedCard attributes in Round
+    //also, if you call denyNextTurn() from Round, you need to throw an exception if player is in his second turn
     public void useCard(Move move) { //every specific tool card will implement this method differently
     }
 
