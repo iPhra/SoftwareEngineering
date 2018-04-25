@@ -19,8 +19,7 @@ public class DraftPool {
         dice.add(die);
     }
 
-    public void removeFromDraftPool(Die die) throws DieNotFoundException { //rimuove un dado dalla draft pool dopo averlo inserito nello schema
-        if (!dice.contains(die)) throw new DieNotFoundException("No such die found in Draft Pool to remove");
+    public void removeFromDraftPool(Die die) { //rimuove un dado dalla draft pool dopo averlo inserito nello schema
         dice.remove(die);
     }
 

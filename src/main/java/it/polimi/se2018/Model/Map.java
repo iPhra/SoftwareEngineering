@@ -40,7 +40,7 @@ public class Map {
         if (col > 0) adjacent.add(matrix[row][col-1].getDie());
         if (col < matrix[0].length) adjacent.add(matrix[row][col+1].getDie());
         return adjacent;
-    };
+    }
 
     //all dice in diagonal and adjacent to a given die
     private boolean hasSurroundingDice(int row, int col) {

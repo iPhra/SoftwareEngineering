@@ -75,7 +75,7 @@ public class Board {
         return id;
     }
 
-    public void initDraftPool() {
+    private void initDraftPool() {
         draftPool.fillDraftPool(bag.drawDice(playersNumber));
     }
 
@@ -85,7 +85,21 @@ public class Board {
 
     public void endRound() {}
 
-    public void draftPoolToMap (Player player, Die die, int row, int col) { //removes a die from the draft pool and places into one player's map
+    public void draftDie (Player player, Die die)  { //removes a die from the draft pool and places into one player's map
+        draftPool.removeFromDraftPool(die);
+        player.setDieInHand(die);
+        round.setHasDraftedDie(true);
+    }
+
+    public void draftedDieToMap(Player player, int row, int col){
+        player.getMap().placeDie(player.getDieInHand(),row,col);
+        player.setDieInHand(null);
+    }
+
+    public void moveDie(Player player, Die die, int row, int col) throws Exception { //standard move of a player, die goes from draftpool to one's map
+        if (!round.isYourTurn(player) || round.hasDraftedDie() || !draftPool.getDraftPool().contains(die) || !player.getMap().isValidMove(die,row,col)) throw new Exception();
+        draftDie(player,die);
+        draftedDieToMap(player,row,col);
     }
 
     public void endTurn() {}

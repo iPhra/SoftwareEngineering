@@ -19,7 +19,7 @@ public class Bag {
             remainingColors = new ArrayList(colorsNumber);
             coloredDiceNumber = diceNumber/colorsNumber;
             for (int i = 0; i<coloredDiceNumber; i++) {
-                remainingColors.set(i,new Integer(coloredDiceNumber));
+                remainingColors.set(i,coloredDiceNumber);
             }
         }
     }
