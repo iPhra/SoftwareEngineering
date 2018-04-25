@@ -9,6 +9,7 @@ public class Player {
     private final PrivateObjective privateObjective;
     private int favorPoints;
     private int score;
+    private boolean isFirstMove; //true if this player hasn't moved yet
 
     public Player(String name, int id, Map map, PrivateObjective privateObjective) {
         this.name=name;
@@ -16,6 +17,7 @@ public class Player {
         this.id=id;
         this.map=map;
         this.privateObjective=privateObjective;
+        isFirstMove=false;
     }
 
     public String getName() {
@@ -48,5 +50,13 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public boolean isFirstMove() {
+        return isFirstMove;
+    }
+
+    public void setFirstMove(boolean firstMove) {
+        isFirstMove = firstMove;
     }
 }
