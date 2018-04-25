@@ -8,4 +8,5 @@ public abstract class Move { //every specific move will inherit from this class
     protected Move(Player player) {
         this.player = player;
     }
+    public Player getPlayer () { return player; }
 }

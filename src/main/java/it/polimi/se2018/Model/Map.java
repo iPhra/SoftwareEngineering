@@ -58,7 +58,7 @@ public class Map {
     }
 
 
-    private boolean isValidMove(Die die, int row, int col) {
+    public boolean isValidMove(Die die, int row, int col) {
         return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && adjacentOk(die,row,col);
     }
 
