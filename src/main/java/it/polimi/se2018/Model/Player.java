@@ -10,6 +10,7 @@ public class Player {
     private int favorPoints;
     private int score;
     private boolean isFirstMove; //true if this player hasn't moved yet
+    private Die draftedDie;
 
     public Player(String name, int id, Map map, PrivateObjective privateObjective) {
         this.name=name;
@@ -58,5 +59,17 @@ public class Player {
 
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
+    }
+
+    public Die getDraftedDie() {
+        return draftedDie;
+    }
+
+    public void setDraftedDie(Die draftedDie) {
+        this.draftedDie = draftedDie;
+    }
+
+    public boolean hasDraftedDie() {
+        return draftedDie!=null;
     }
 }
