@@ -10,14 +10,13 @@ public class CopperFoilBurnisher extends ToolCard {
     }
 
     @Override
-    //Non va bene isValidMove in quanto devo fare meno controlli
     //devo essere riscuro che move abbia i getter giusti
+    //Throw exeption
     public void useCard(Move move) {
-        if(move.getPlayer().getMap().isValidMove(move.getDie(), move.getRowTo(), move.getColTo())) {
+        if(move.getPlayer().getMap().isValidMoveNoValue(move.getDie(), move.getRowTo(), move.getColTo())) {
             move.getPlayer().getMap().popDie(move.getRowFrom(), move.getColFrom());
             move.getPlayer().getMap().placeDie(move.getDie(), move.getRowTo(), move.getColTo()));
         }
-
     }
 }
 

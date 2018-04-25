@@ -22,6 +22,8 @@ public class Die {
         setValue(7-getValue());
     }
 
+    public void rollDie() { this.value = //da implementare}
+
     public Color getColor() {
         return color;
     }

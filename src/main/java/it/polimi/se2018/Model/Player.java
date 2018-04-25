@@ -69,7 +69,7 @@ public class Player {
         this.draftedDie = draftedDie;
     }
 
-    public boolean hasDraftedDie() {
+    public boolean hasDie() {
         return draftedDie!=null;
     }
 }

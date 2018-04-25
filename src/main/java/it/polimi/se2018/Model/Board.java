@@ -85,7 +85,7 @@ public class Board {
 
     public void endRound() {}
 
-    public void draftPoolToMap (Player player, Die die, int x, int y) { //removes a die from the draft pool and places into one player's map
+    public void draftPoolToMap (Player player, Die die, int row, int col) { //removes a die from the draft pool and places into one player's map
     }
 
     public void endTurn() {}
