@@ -11,8 +11,8 @@ public class FluxBrush extends ToolCard {
     @Override
     public void useCard(Move move) {
         //Throw exception if the Player has already placed a die
-        if (move.getPlayer().hasDie()) {
-            move.getPlayer().getDraftedDie().rollDie();
+        if (move.getPlayer().hasDieInHand()) {
+            move.getPlayer().getDieInHand().rollDie();
         }
     }
 }

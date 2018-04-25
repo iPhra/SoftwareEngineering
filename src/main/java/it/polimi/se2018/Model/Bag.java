@@ -25,11 +25,11 @@ public class Bag {
     }
 
     //draws a single die from the bag, used by tool cards
-    Die extractDie () {
+    public Die extractDie () {
         return null;
     }
 
-    void insertDie (Die die) { //inserts a single die in the bag, used by tool cards
+    public void insertDie (Die die) { //inserts a single die in the bag, used by tool cards
     }
 
     //draws 2n+1 dice putting them in a arraylist, used by Board

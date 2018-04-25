@@ -12,9 +12,9 @@ public class CorkBackedStraightedge extends ToolCard {
     @Override
     public void useCard(Move move) {
         //Throw exeption if the Player has already placed a die
-        if (move.getPlayer().hasDie()) {
-            if (move.getPlayer().getMap().isValidMoveDieAlone(move.getPlayer().getDraftedDie(), move.getRowTo(), move.getColTo())) {
-                Board.draftedDietoMap(move.getRowTo(), move.getColTo());
+        if (move.getPlayer().hasDieInHand()) {
+            if (move.getPlayer().getMap().isValidNoValue(move.getPlayer().getDieInHand(), move.getRowTo(), move.getColTo())) {
+                board.draftedDieToMap(move.getRowTo(), move.getColTo());
             }
         }
     }

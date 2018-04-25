@@ -97,7 +97,7 @@ public class Board {
     }
 
     public void moveDie(Player player, Die die, int row, int col) throws Exception { //standard move of a player, die goes from draftpool to one's map
-        if (!round.isYourTurn(player) || round.hasDraftedDie() || !draftPool.getDraftPool().contains(die) || !player.getMap().isValidMove(die,row,col)) throw new Exception();
+        if (round.hasDraftedDie() || !draftPool.getDraftPool().contains(die) || !player.getMap().isValidMove(die,row,col)) throw new Exception();
         draftDie(player,die);
         draftedDieToMap(player,row,col);
     }

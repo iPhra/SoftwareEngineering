@@ -11,12 +11,12 @@ public class FluxRemover extends ToolCard {
     @Override
     public void useCard(Move move) {
         //Throw exeption if the Player has already placed a die
-        if (move.getPlayer().hasDie()) {
-            Board.getBag().insertDie(move.getPlayer().getDraftedDie());
-            move.getPlayer().setDraftedDie(null);
-            move.getPlayer().setDraftedDie(Board.getBag().extractDie());
+        if (move.getPlayer().hasDieInHand()) {
+            board.getBag().insertDie(move.getPlayer().getDieInHand());
+            move.getPlayer().setDieInHand(null);
+            move.getPlayer().setDieInHand(board.getBag().extractDie());
             //darò il colore alla view
-            move.getPlayer().getDraftedDie().setValue(move.getValue());
+            move.getPlayer().getDieInHand().setValue(move.getValue());
             //getValue prende il valore che desidera il giocatore attraverso move (?)
         }
     }
