@@ -34,7 +34,7 @@ public class Map {
 
     //used by method adjacentOk, returns the adjacent dice of a die
     private ArrayList<Die> adjacentDice(int row, int col){
-        ArrayList<Die> adjacent= new ArrayList<Die>();
+        ArrayList<Die> adjacent = new ArrayList<Die>();
         if (row > 0) adjacent.add(matrix[row-1][col].getDie());
         if (row < matrix.length) adjacent.add(matrix[row+1][col].getDie());
         if (col > 0) adjacent.add(matrix[row][col-1].getDie());
@@ -42,19 +42,20 @@ public class Map {
         return adjacent;
     };
 
-    //si può fare un enorme OR delle condizioni
-    private boolean nearDice(int row, int col) {
-        ArrayList<Die> near = new ArrayList<Die>();
-        if (!near.isEmpty()) return true;
+    //all dice in diagonal and adjacent to a given die
+    private boolean hasSurroundingDice(int row, int col) {
+        ArrayList<Die> surrounding = adjacentDice(row,col);
+        if (!surrounding.isEmpty()) return true;
         if (row > 0 && col > 0 && !matrix[row-1][col-1].isEmpty()) return true;
         if (row > 0 && col < matrix[0].length && !matrix[row-1][col+1].isEmpty()) return true;
         if (row < matrix.length && col > 0 && !matrix[row+1][col-1].isEmpty()) return true;
         if (row < matrix.length && col < matrix[0].length && !matrix[row+1][col+1].isEmpty()) return true;
         return false;
     }
+
     //used by method placeDie in order to check if you can place die without "violating" adjacent dice color
-    private boolean adjacentOkColor(Die die, int row, int col) {
-        ArrayList<Die> adjacent= adjacentDice(row,col);
+    private boolean isColorOk(Die die, int row, int col) {
+        ArrayList<Die> adjacent = adjacentDice(row,col);
         for (int i=0; i<adjacent.size(); i++){
             if (die.getColor().equals(adjacent.get(i).getColor())){
                 return false;
@@ -62,8 +63,9 @@ public class Map {
         }
         return true;
     }
+
     //used by method placeDie in order to check if you can place die without "violating" adjacent dice value
-    private boolean adjacentOkValue(Die die, int row, int col) {
+    private boolean isValueOk(Die die, int row, int col) {
         ArrayList<Die> adjacent= adjacentDice(row,col);
         for (int i=0; i<adjacent.size(); i++){
             if (die.getValue() == adjacent.get(i).getValue()){
@@ -77,25 +79,33 @@ public class Map {
     private boolean isOnEdge(int row, int col) {
         return (row==matrix.length-1 || row == 0 || col==matrix[0].length-1 || col == 0);
     }
+
     //This method check all condition to put a die in a square
     public boolean isValidMove(Die die, int row, int col) {
-        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && adjacentOkValue(die,row,col) && adjacentOkColor(die,row,col) && nearDice(row,col);
+        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && isColorOk(die,row,col) && hasSurroundingDice(row,col);
     }
     //This method do NOT check color condition
-    public boolean isValidMoveNoColor(Die die, int row, int col) {
-        return matrix[row][col].isEmpty() && matrix[row][col].sameValue(die) && adjacentOkValue(die,row,col) && nearDice(row,col);
+    public boolean isValidNoColor(Die die, int row, int col) {
+        return matrix[row][col].isEmpty() && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && hasSurroundingDice(row,col);
     }
     //This method do NOT check value condition
-    public boolean isValidMoveNoValue(Die die, int row, int col) {
-        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && adjacentOkColor(die,row,col) && nearDice(row,col);
+    public boolean isValidNoValue(Die die, int row, int col) {
+        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && isColorOk(die,row,col) && hasSurroundingDice(row,col);
     }
     //This method do NOT check that the die is near another die
-    public boolean isValidMoveDieAlone(Die die, int row, int col) {
-        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && adjacentOkValue(die,row,col) && adjacentOkColor(die,row,col);
+    public boolean isValidNoPosition(Die die, int row, int col) {
+        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && isColorOk(die,row,col);
     }
-    //places a die in a given position of the map
+
+    //places a die in a given position of the map, validity is checked by whoever calls this method
     public void placeDie(Die die, int row, int col) {
         matrix[row][col].setDie(die);
+    }
+
+    //places a die on the edge of the map, validity is checked by whoever calls this method
+    public void placeDieOnEdge(Die die, int row, int col) throws Exception{ //da sistemare l'eccezione
+        if (!isOnEdge(row,col)) throw new Exception();
+        placeDie(die,row,col);
     }
 
     //removes a die from a given position of the map

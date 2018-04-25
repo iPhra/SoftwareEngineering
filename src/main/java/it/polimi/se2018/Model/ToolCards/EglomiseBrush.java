@@ -10,7 +10,7 @@ public class EglomiseBrush extends ToolCard {
     }
     @Override
     public void useCard(Move move) {
-        if(move.getPlayer().getMap().isValidMoveNoColor(move.getDie(), move.getRowTo(), move.getColTo())) {
+        if(move.getPlayer().getMap().isValidNoColor(move.getDie(), move.getRowTo(), move.getColTo())) {
             move.getPlayer().getMap().popDie(move.getRowFrom(), move.getColFrom());
             move.getPlayer().getMap().placeDie(move.getDie(), move.getRowTo(), move.getColTo()));
         }

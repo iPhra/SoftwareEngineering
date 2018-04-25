@@ -38,7 +38,6 @@ public class Round {
         missingPlayers--; //when i use the toolcard i check if it's <= 0
         hasDraftedDie = false;
         hasUsedCard = false;
-
     }
 
     Round endRound() {
@@ -53,7 +52,7 @@ public class Round {
         playersOrder.remove(playersOrder.size()- currentPlayerIndex -1);
     }
 
-    public boolean hasDrafteddDie() {
+    public boolean hasDraftedDie() {
         return hasDraftedDie;
     }
 
