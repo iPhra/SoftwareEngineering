@@ -5,7 +5,7 @@ import it.polimi.se2018.Exceptions.DieNotFoundException;
 import java.util.ArrayList;
 
 public class DraftPool {
-    private ArrayList<Die> dice; //i 2n+1 dadi draftati vanno messi qui
+    private ArrayList<Die> dice; //the 2n + 1 drafted dice are placed here
 
     public ArrayList<Die> getDraftPool() {
         return dice;

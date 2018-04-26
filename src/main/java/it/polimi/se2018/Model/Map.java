@@ -1,8 +1,10 @@
 package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class Map {
+public class Map implements  Iterable<Square>{
 
     private final String title;
     private final int level; //it's the level of difficulty
@@ -113,5 +115,36 @@ public class Map {
         Die result = matrix[row][col].getDie();
         matrix[row][col].setDie(null);
         return result;
+    }
+
+    public Iterator<Square> iterator(){
+        return new SquareIterator(this);
+    }
+
+    private static class SquareIterator implements Iterator<Square> {
+        private Map m;
+        private int row;
+        private int col;
+        SquareIterator(Map map){
+            m=map;
+            row=0;
+            col=0;
+        }
+        public boolean hasNext() {
+            return !(row==m.getMatrix().length-1 && col==m.getMatrix()[0].length-1);
+        }
+        public Square next() throws NoSuchElementException{
+            if (!hasNext()) throw new NoSuchElementException("Matrix.terms");
+            else if (col<m.getMatrix()[0].length-1) {
+                col++;
+
+            }
+            else {
+                col=0;
+                row++;
+            }
+            return m.getMatrix()[row][col];
+
+        }
     }
 }
