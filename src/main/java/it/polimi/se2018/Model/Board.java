@@ -83,7 +83,17 @@ public class Board {
         initDraftPool();
     }
 
-    public void endRound() {}
+    public void endRound() {
+        if (round.getRoundNumber() == ROUNDSNUMBER) {
+            this.endMatch();
+        }
+        else {
+            round = round.changeRound();
+            roundTracker.updateRoundTracker(draftPool.getDraftPool());
+            draftPool.emptyDraftPool();
+        }
+
+    }
 
     public void draftDie (Player player, Die die)  { //removes a die from the draft pool and places into one player's map
         draftPool.removeFromDraftPool(die);
@@ -102,7 +112,14 @@ public class Board {
         draftedDieToMap(player,row,col);
     }
 
-    public void endTurn() {}
+    public void endTurn() {
+        if (round.isLastTurn()) {
+            this.endRound();
+        }
+        else {
+            round.changeTurn();
+        }
+    }
 
     public void useToolCard() {}
 
