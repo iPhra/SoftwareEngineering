@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Map implements  Iterable<Square>{
+public class Map implements Iterable<Square>{
 
     private final String title;
     private final int level; //it's the level of difficulty
@@ -118,24 +118,23 @@ public class Map implements  Iterable<Square>{
     }
 
     public Iterator<Square> iterator(){
-        return new SquareIterator(this);
+        return new SquareIterator();
     }
 
-    private static class SquareIterator implements Iterator<Square> {
-        private Map m;
+    private class SquareIterator implements Iterator<Square> {
         private int row;
         private int col;
-        SquareIterator(Map map){
-            m=map;
+        SquareIterator(){
             row=0;
             col=0;
         }
         public boolean hasNext() {
-            return !(row==m.getMatrix().length-1 && col==m.getMatrix()[0].length-1);
+            return !(row==getMatrix().length-1 && col==getMatrix()[0].length-1);
         }
         public Square next() throws NoSuchElementException{
-            if (!hasNext()) throw new NoSuchElementException("Matrix.terms");
-            else if (col<m.getMatrix()[0].length-1) {
+            if (!hasNext()) throw new NoSuchElementException("No more elements available in the iterator");
+            Square res = getMatrix()[row][col];
+            if (col<getMatrix()[0].length-1) {
                 col++;
 
             }
@@ -143,8 +142,7 @@ public class Map implements  Iterable<Square>{
                 col=0;
                 row++;
             }
-            return m.getMatrix()[row][col];
-
+            return res;
         }
     }
 }

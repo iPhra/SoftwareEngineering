@@ -9,11 +9,11 @@ public class Round {
     private int currentPlayerIndex; //index of the array
     private boolean hasDraftedDie;
     private boolean hasUsedCard;
-    private static int roundNumber; //number of this round, start from 1 and go to 10
+    private final int roundNumber; //number of this round, goes from 1 to 10
 
-    public Round(ArrayList<Integer> playersOrder, int numberOfRound) {
+    public Round(ArrayList<Integer> playersOrder, int roundNumber) {
         this.playersOrder = playersOrder;
-        roundNumber = numberOfRound;
+        this.roundNumber = roundNumber;
         currentPlayerIndex=0;
         currentPlayer=playersOrder.get(currentPlayerIndex);
         missingPlayers=playersOrder.size()/2;
@@ -23,11 +23,12 @@ public class Round {
     public int getRoundNumber () {
         return roundNumber;
     }
+
     public boolean isYourTurn(Player player) {
         return player.getId()==currentPlayer;
     }
 
-    public boolean isFirstTurn() {
+    public boolean isFirstRotation() {
         return missingPlayers>0;
     }
 

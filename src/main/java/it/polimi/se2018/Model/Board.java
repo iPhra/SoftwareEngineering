@@ -30,7 +30,7 @@ public class Board {
         for (int i=0; i<players.size(); i++) {
             playersId.add(players.get(i).getId());
         }
-        round = new Round(playersId);
+        round = new Round(playersId, 1);
         draftPool = new DraftPool();
         this.initDraftPool();
         this.toolCards = toolCards;

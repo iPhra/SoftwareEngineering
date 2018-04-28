@@ -18,6 +18,7 @@ public enum Color {
     public String getAbbreviation(){
         return abbreviation;
     }
+
     public static Color fromInt(int value) {
         Color color = null;
         switch (value) {
