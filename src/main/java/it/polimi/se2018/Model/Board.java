@@ -3,10 +3,12 @@ package it.polimi.se2018.Model;
 import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
 import it.polimi.se2018.Exceptions.DieNotFoundException;
 import it.polimi.se2018.Model.ToolCards.ToolCard;
+import it.polimi.se2018.Utils.Observable;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Board {
+public class Board extends Observable<Board> {
     private static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
     private static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
     private static final int ROUNDSNUMBER = 10; //number of rounds in one game
@@ -124,4 +126,7 @@ public class Board {
     public void useToolCard() {}
 
     public void endMatch() {}
+
+    public Board makeCopy() {return this;} //DA IMPLEMENTARE PER MODELVIEW!!
+
 }
