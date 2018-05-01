@@ -31,9 +31,11 @@ public class Map implements Iterable<Square>{
         return imagePath;
     }
 
-    public Square[][] getMatrix() {
-        return matrix;
-    }
+    public Square getSquare(int row, int col) { return matrix[row][col]; }
+
+    public int getRows() { return matrix.length; }
+
+    public int getCols() { return matrix[0].length; }
 
     //used by method adjacentOk, returns the adjacent dice of a die
     private ArrayList<Die> adjacentDice(int row, int col){
@@ -83,16 +85,6 @@ public class Map implements Iterable<Square>{
         return (row==matrix.length-1 || row == 0 || col==matrix[0].length-1 || col == 0);
     }
 
-    //returns dice placed in the 2 diagonals below given position. it's used by ColorDiagonalsObjectives
-    public List<Die> belowDiagonalsDice(int row, int col){
-        ArrayList<Die> belowDiagonals = new ArrayList<>();
-        if (row < matrix.length-1){
-            if (col > 0 && !matrix[row+1][col-1].isEmpty()) belowDiagonals.add(matrix[row+1][col-1].getDie());
-            if (col < matrix[0].length-1 && !matrix[row+1][col+1].isEmpty()) belowDiagonals.add(matrix[row+1][col+1].getDie());
-        }
-        return belowDiagonals;
-    }
-
     //This method check all condition to put a die in a square
     public boolean isValidMove(Die die, int row, int col) {
         return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && isColorOk(die,row,col) && hasSurroundingDice(row,col);
@@ -140,15 +132,14 @@ public class Map implements Iterable<Square>{
             col=0;
         }
         public boolean hasNext() {
-            return !(row==getMatrix().length-1 && col==getMatrix()[0].length-1);
+            return !(row==matrix.length-1 && col==matrix[0].length-1);
         }
 
         public Square next() {
             if (!hasNext()) throw new NoSuchElementException("No more elements available in the iterator");
-            Square res = getMatrix()[row][col];
-            if (col<getMatrix()[0].length-1) {
+            Square res = matrix[row][col];
+            if (col<matrix[0].length-1) {
                 col++;
-
             }
             else {
                 col=0;

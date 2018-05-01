@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
 
+import java.security.InvalidParameterException;
+
 public enum Color {
     BLUE,RED,GREEN,YELLOW,PURPLE,WHITE;
 
@@ -15,7 +17,7 @@ public enum Color {
         return index;
     }
 
-    public static Color fromInt(int value) throws Exception{
+    public static Color fromInt(int value) {
         Color color = null;
         switch (value) {
             case 0: color = Color.BLUE; break;
@@ -24,7 +26,7 @@ public enum Color {
             case 3: color = Color.YELLOW; break;
             case 4: color = Color.PURPLE; break;
             case 5: color = Color.WHITE; break;
-            default: throw new Exception("Invalid value");
+            default: throw new InvalidParameterException("Invalid value");
         }
         return color;
     }

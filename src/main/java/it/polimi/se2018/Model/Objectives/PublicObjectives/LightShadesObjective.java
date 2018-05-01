@@ -14,6 +14,7 @@ public class LightShadesObjective extends PublicObjective {
     private LightShadesObjective(String imagePath, String title){
         super(imagePath,title);
     }
+
     private static synchronized LightShadesObjective createInstance(String imagePath, String title){
         if (instance==null) instance = new LightShadesObjective(imagePath, title);
         return instance;
@@ -24,7 +25,7 @@ public class LightShadesObjective extends PublicObjective {
         return instance;
     }
 
-    private static Predicate<Square> checkIfContainsValue(final int value) {
+    private Predicate<Square> checkIfContainsValue(final int value) {
         return square -> square.getDie() != null && square.getDie().getValue() == value;
     }
 

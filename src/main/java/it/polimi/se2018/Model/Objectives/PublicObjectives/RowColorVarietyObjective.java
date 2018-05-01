@@ -15,6 +15,7 @@ public class RowColorVarietyObjective extends PublicObjective {
     private RowColorVarietyObjective(String imagePath, String title){
         super(imagePath,title);
     }
+
     private static synchronized RowColorVarietyObjective createInstance(String imagePath, String title){
         if (instance==null) instance = new RowColorVarietyObjective(imagePath, title);
         return instance;
@@ -25,7 +26,7 @@ public class RowColorVarietyObjective extends PublicObjective {
         return instance;
     }
 
-    private static Predicate<Square> filterRow(final int row) {
+    private Predicate<Square> filterRow(final int row) {
         return square -> square.getRow() == row;
     }
 

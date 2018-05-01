@@ -27,7 +27,7 @@ public class ColorVarietyObjective extends PublicObjective {
     }
 
 
-    private static Predicate<Square> checkIfContainsColor(final Color color) {
+    private Predicate<Square> checkIfContainsColor(final Color color) {
         return (square -> square.getDie() != null && square.getDie().getColor() == color);
     }
 

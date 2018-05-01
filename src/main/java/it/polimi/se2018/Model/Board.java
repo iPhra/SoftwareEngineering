@@ -90,7 +90,7 @@ public class Board extends Observable<Board> {
         }
         else {
             round = round.changeRound();
-            roundTracker.updateRoundTracker(draftPool.getDraftPool());
+            roundTracker.updateRoundTracker((ArrayList<Die>)draftPool.getDraftPool());
             draftPool.emptyDraftPool();
         }
 
@@ -108,7 +108,7 @@ public class Board extends Observable<Board> {
     }
 
     public void moveDie(Player player, Die die, int row, int col) throws Exception { //standard move of a player, die goes from draftpool to one's map
-        if (round.hasDraftedDie() || !draftPool.getDraftPool().contains(die) || !player.getMap().isValidMove(die,row,col)) throw new Exception();
+        if (round.hasDraftedDie() || !draftPool.contains(die) || !player.getMap().isValidMove(die,row,col)) throw new Exception();
         draftDie(player,die);
         draftedDieToMap(player,row,col);
     }

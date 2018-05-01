@@ -15,6 +15,7 @@ public class RowShadeVarietyObjective  extends PublicObjective{
     private RowShadeVarietyObjective(String imagePath, String title){
         super(imagePath,title);
     }
+
     private static synchronized RowShadeVarietyObjective createInstance(String imagePath, String title){
         if (instance==null) instance = new RowShadeVarietyObjective(imagePath, title);
         return instance;
@@ -25,7 +26,7 @@ public class RowShadeVarietyObjective  extends PublicObjective{
         return instance;
     }
 
-    private static Predicate<Square> filterRow(final int row) {
+    private Predicate<Square> filterRow(final int row) {
         return square -> square.getRow() == row;
     }
 

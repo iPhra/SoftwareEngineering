@@ -12,7 +12,12 @@ public class RoundTracker {
     }
 
     public ArrayList<Die>[] getRoundTracker() {
-        return dice;
+        return (ArrayList<Die>[]) dice.clone();
+    }
+
+    public boolean contains(Die die) {
+        for(int i=0; i<dice.length;i++) if (dice[i].contains(die)) return true;
+        return false;
     }
 
     //!ADD EXCEPTIONS

@@ -15,6 +15,7 @@ public class ColumnColorVarietyObjective extends PublicObjective {
     private ColumnColorVarietyObjective(String imagePath, String title){
         super(imagePath,title);
     }
+
     private static synchronized ColumnColorVarietyObjective createInstance(String imagePath, String title){
         if (instance==null) instance = new ColumnColorVarietyObjective(imagePath, title);
         return instance;
@@ -25,7 +26,7 @@ public class ColumnColorVarietyObjective extends PublicObjective {
         return instance;
     }
 
-    private static Predicate<Square> filterCol(final int column) {
+    private Predicate<Square> filterCol(final int column) {
         return square -> square.getCol() == column;
     }
 

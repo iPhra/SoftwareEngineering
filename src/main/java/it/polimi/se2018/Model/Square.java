@@ -6,13 +6,15 @@ public class Square {
     private Die die;
     private final int row;
     private final int col;
+    private final Map map;
 
-    public Square(Color color, int value, int row, int col) {
+    public Square(Color color, int value, int row, int col, Map map) {
         this.color = color;
         this.value = value;
-        die=null;
         this.row=row;
         this.col=col;
+        this.map=map;
+        die=null;
     }
 
     public Die getDie() {
@@ -27,15 +29,15 @@ public class Square {
 
     public int getRow() {return row; }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return die==null;
     }
 
-    boolean sameColor(Die die) {
+    public boolean sameColor(Die die) {
         return color==Color.WHITE || die.getColor().equals(color);
     }
 
-    boolean sameValue(Die die) {
+    public boolean sameValue(Die die) {
         return die.getValue()==value;
     }
 
