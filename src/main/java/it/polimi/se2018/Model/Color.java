@@ -1,11 +1,11 @@
 package it.polimi.se2018.Model;
 
 public enum Color {
-    BLUE("B"),RED("R"),GREEN("G"),YELLOW("Y"),PURPLE("P"),WHITE("W");
-    private String abbreviation;
+    BLUE,RED,GREEN,YELLOW,PURPLE,WHITE;
 
-    private Color(String abbreviation) {
+    private Color() {
     }
+
     public static int fromColor (Color color) {
         int index = 0;
         for (Color col : Color.values()) {
@@ -15,11 +15,7 @@ public enum Color {
         return index;
     }
 
-    public String getAbbreviation(){
-        return abbreviation;
-    }
-
-    public static Color fromInt(int value) {
+    public static Color fromInt(int value) throws Exception{
         Color color = null;
         switch (value) {
             case 0: color = Color.BLUE; break;
@@ -28,6 +24,7 @@ public enum Color {
             case 3: color = Color.YELLOW; break;
             case 4: color = Color.PURPLE; break;
             case 5: color = Color.WHITE; break;
+            default: throw new Exception("Invalid value");
         }
         return color;
     }

@@ -2,6 +2,7 @@ package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Map implements Iterable<Square>{
@@ -36,7 +37,7 @@ public class Map implements Iterable<Square>{
 
     //used by method adjacentOk, returns the adjacent dice of a die
     private ArrayList<Die> adjacentDice(int row, int col){
-        ArrayList<Die> adjacent = new ArrayList<Die>();
+        ArrayList<Die> adjacent = new ArrayList<>();
         if (row > 0) adjacent.add(matrix[row-1][col].getDie());
         if (row < matrix.length) adjacent.add(matrix[row+1][col].getDie());
         if (col > 0) adjacent.add(matrix[row][col-1].getDie());
@@ -83,7 +84,7 @@ public class Map implements Iterable<Square>{
     }
 
     //returns dice placed in the 2 diagonals below given position. it's used by ColorDiagonalsObjectives
-    public ArrayList<Die> belowDiagonalsDice(int row, int col){
+    public List<Die> belowDiagonalsDice(int row, int col){
         ArrayList<Die> belowDiagonals = new ArrayList<>();
         if (row < matrix.length-1){
             if (col > 0 && !matrix[row+1][col-1].isEmpty()) belowDiagonals.add(matrix[row+1][col-1].getDie());
@@ -141,7 +142,8 @@ public class Map implements Iterable<Square>{
         public boolean hasNext() {
             return !(row==getMatrix().length-1 && col==getMatrix()[0].length-1);
         }
-        public Square next() throws NoSuchElementException{
+
+        public Square next() {
             if (!hasNext()) throw new NoSuchElementException("No more elements available in the iterator");
             Square res = getMatrix()[row][col];
             if (col<getMatrix()[0].length-1) {

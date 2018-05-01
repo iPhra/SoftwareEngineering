@@ -13,6 +13,7 @@ public class ColorDiagonalsObjectives extends PublicObjective {
     private ColorDiagonalsObjectives(String imagePath, String title){
         super(imagePath,title);
     }
+
     private static synchronized ColorDiagonalsObjectives createInstance(String imagePath, String title){
         if (instance==null) instance = new ColorDiagonalsObjectives(imagePath, title);
         return instance;
@@ -29,7 +30,7 @@ public class ColorDiagonalsObjectives extends PublicObjective {
         int points = 0;
         for (Square square : map) {
             if (square.getDie() != null) {
-                ArrayList<Die> belowDiagonalsDice = map.belowDiagonalsDice(square.getRow(),square.getCol());
+                ArrayList<Die> belowDiagonalsDice = (ArrayList<Die>)map.belowDiagonalsDice(square.getRow(),square.getCol());
                 for (Die die : belowDiagonalsDice) {
                     if (die.getColor() == square.getDie().getColor()) points++;
                 }

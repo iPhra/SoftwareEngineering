@@ -2,14 +2,13 @@ package it.polimi.se2018.Model;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 public class Bag {
     private final ArrayList<Integer> remainingColors; //ogni elemento dell'arraylist corrisponde a un colore e indica quanti dati sono rimasti nella bag di quel colore
     private final int colorsNumber; //numero totale di colori che ci sono. (nel gioco è 5, facciamo così per renderlo estendibile)
     private int diceNumber; //numero totale di dadi che ci sono. (nel gioco è 90, facciamo così per renderlo estendibile)
-    private final int coloredDiceNumber; //numero di dati di uno specifico colore
+    private final int coloredDiceNumber; //numero di dadi di uno specifico colore
 
     //gli passi il numero totale di colori e il numero totale di dadi e inizializza remainingColors.
     //non va bene che non siano divisibili, quindi se succede lancia un'eccezione.
@@ -18,8 +17,8 @@ public class Bag {
         else {
             this.colorsNumber = colorsNumber;
             this.diceNumber = diceNumber;
-            remainingColors = new ArrayList(colorsNumber);
-            coloredDiceNumber = diceNumber/colorsNumber;
+            remainingColors = new ArrayList<>(this.colorsNumber);
+            coloredDiceNumber = diceNumber/this.colorsNumber;
             for (int i = 0; i<coloredDiceNumber; i++) {
                 remainingColors.set(i,coloredDiceNumber);
             }
@@ -37,8 +36,7 @@ public class Bag {
         remainingColors.set(index, remainingColors.get(index) - 1);
         diceNumber -= 1;
         int randomValueOfDie = new Random().nextInt(6) + 1;
-        Die die = new Die (randomValueOfDie, Color.fromInt(index));
-        return die;
+        return new Die (randomValueOfDie, Color.fromInt(index));
     }
 
     public void insertDie (Die die) { //inserts a single die in the bag, used by tool cards
@@ -48,7 +46,7 @@ public class Bag {
 
     //draws 2n+1 dice putting them in a arraylist, used by Board
     ArrayList<Die> drawDice (int playersNumber) {
-        ArrayList<Die> drawDice = new ArrayList<Die>();
+        ArrayList<Die> drawDice = new ArrayList<>();
         for (int i = 0; i < 2 * playersNumber + 1; i++) {
             drawDice.add(extractDie());
         }

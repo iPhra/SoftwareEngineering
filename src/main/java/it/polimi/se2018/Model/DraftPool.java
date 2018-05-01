@@ -3,11 +3,12 @@ package it.polimi.se2018.Model;
 import it.polimi.se2018.Exceptions.DieNotFoundException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DraftPool {
     private ArrayList<Die> dice; //the 2n + 1 drafted dice are placed here
 
-    public ArrayList<Die> getDraftPool() {
+    public List<Die> getDraftPool() {
         return dice;
     }
 

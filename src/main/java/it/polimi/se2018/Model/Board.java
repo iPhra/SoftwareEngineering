@@ -1,12 +1,11 @@
 package it.polimi.se2018.Model;
 
 import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
-import it.polimi.se2018.Exceptions.DieNotFoundException;
 import it.polimi.se2018.Model.ToolCards.ToolCard;
 import it.polimi.se2018.Utils.Observable;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board extends Observable<Board> {
     private static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
@@ -23,12 +22,12 @@ public class Board extends Observable<Board> {
     private final Bag bag; //ha il riferimento al sacchetto dei dadi
     private final RoundTracker roundTracker; //ha il riferimento al roundTracker
 
-    public Board(int id, ArrayList<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
-        this.players = players;
+    public Board(int id, List<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
+        this.players = (ArrayList<Player>)players;
         this.imagePath = imagePath;
         this.id=id;
         this.playersNumber=players.size();
-        ArrayList<Integer> playersId = new ArrayList(playersNumber);
+        ArrayList<Integer> playersId = new ArrayList<>(playersNumber);
         for (int i=0; i<players.size(); i++) {
             playersId.add(players.get(i).getId());
         }
@@ -57,7 +56,7 @@ public class Board extends Observable<Board> {
         return roundTracker;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
