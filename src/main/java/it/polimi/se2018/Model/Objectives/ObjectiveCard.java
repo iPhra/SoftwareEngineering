@@ -11,9 +11,8 @@ public abstract class ObjectiveCard {
         this.title=title;
     }
 
-    public int evalPoints(Player player) {
-        return 0;
-    } //evaluates points based on the effect of the card
+    //evaluates points based on the effect of the card
+    public abstract int evalPoints(Player player);
 
 
 }

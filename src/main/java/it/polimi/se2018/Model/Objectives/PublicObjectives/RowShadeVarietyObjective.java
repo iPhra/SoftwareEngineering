@@ -1,8 +1,10 @@
 package it.polimi.se2018.Model.Objectives.PublicObjectives;
 
+import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Model.Square;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -13,7 +15,7 @@ public class RowShadeVarietyObjective  extends PublicObjective{
     private RowShadeVarietyObjective(String imagePath, String title){
         super(imagePath,title);
     }
-    private synchronized static RowShadeVarietyObjective createInstance(String imagePath, String title){
+    private static synchronized RowShadeVarietyObjective createInstance(String imagePath, String title){
         if (instance==null) instance = new RowShadeVarietyObjective(imagePath, title);
         return instance;
     }
@@ -23,20 +25,23 @@ public class RowShadeVarietyObjective  extends PublicObjective{
         return instance;
     }
 
-    private static Predicate<Square> filterCol(final int row) {
+    private static Predicate<Square> filterRow(final int row) {
         return square -> square.getRow() == row;
     }
 
+    @Override
     public int evalPoints(Player player) {
-        Stream<Square> SquareStream = StreamSupport.stream(player.getMap().spliterator(), false);
-        return (Stream.of(1,2,3,4) //the 4 rows
+        return ( (int)Stream.of(1,2,3,4) //the 4 rows
                 .map(row ->
-                        SquareStream
-                                .filter(filterCol(row))
-                                .map(square -> square.getDie().getValue())
+                        StreamSupport.stream(player.getMap().spliterator(), false)
+                                .filter(filterRow(row))
+                                .map(Square::getDie)
+                                .filter(Objects::nonNull)
+                                .map(Die::getColor)
                                 .distinct()
                                 .count()
                 )
-                .anyMatch(distinctValues -> distinctValues == 5)) ? 0 : 5;  //because there are 5 cols
+                .filter(distinctValues -> distinctValues == 5) //because there are 5 columns
+                .count() * 5);  //5 points for each row
     }
 }

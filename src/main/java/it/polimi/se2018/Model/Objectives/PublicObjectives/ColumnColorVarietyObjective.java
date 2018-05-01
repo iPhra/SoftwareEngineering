@@ -1,8 +1,10 @@
 package it.polimi.se2018.Model.Objectives.PublicObjectives;
 
+import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Model.Square;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -13,7 +15,7 @@ public class ColumnColorVarietyObjective extends PublicObjective {
     private ColumnColorVarietyObjective(String imagePath, String title){
         super(imagePath,title);
     }
-    private synchronized static ColumnColorVarietyObjective createInstance(String imagePath, String title){
+    private static synchronized ColumnColorVarietyObjective createInstance(String imagePath, String title){
         if (instance==null) instance = new ColumnColorVarietyObjective(imagePath, title);
         return instance;
     }
@@ -27,16 +29,19 @@ public class ColumnColorVarietyObjective extends PublicObjective {
         return square -> square.getCol() == column;
     }
 
+    @Override
     public int evalPoints(Player player) {
-        Stream<Square> SquareStream = StreamSupport.stream(player.getMap().spliterator(), false);
-        return (Stream.of(1,2,3,4,5) //the 5 columns
+        return ( (int)Stream.of(1,2,3,4,5) //the 5 columns
                 .map(column ->
-                        SquareStream
+                        StreamSupport.stream(player.getMap().spliterator(), false)
                                 .filter(filterCol(column))
-                                .map(square -> square.getDie().getColor())
+                                .map(Square::getDie)
+                                .filter(Objects::nonNull)
+                                .map(Die::getColor)
                                 .distinct()
                                 .count()
                 )
-                .anyMatch(distinctColors -> distinctColors == 4)) ? 0 : 5;  //because there are 4 rows
+                .filter(distinctColors -> distinctColors == 4)
+                .count() * 5);  //5 points for each completed column
     }
 }

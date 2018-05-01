@@ -7,12 +7,12 @@ import java.util.stream.StreamSupport;
 
 public class ShadesOfYellowObjective extends PrivateObjective {
     private static ShadesOfYellowObjective instance = null;
-    final private static Color color = Color.YELLOW;
+    private static final Color color = Color.YELLOW;
 
     private ShadesOfYellowObjective(String imagePath, String title){
         super(imagePath,title);
     }
-    private synchronized static ShadesOfYellowObjective createInstance(String imagePath, String title){
+    private static synchronized ShadesOfYellowObjective createInstance(String imagePath, String title){
         if (instance==null) instance = new ShadesOfYellowObjective(imagePath, title);
         return instance;
     }
@@ -21,6 +21,8 @@ public class ShadesOfYellowObjective extends PrivateObjective {
         if (instance==null) createInstance(imagePath, title);
         return instance;
     }
+
+    @Override
     public int evalPoints(Player player){
         return (int) StreamSupport.stream(player.getMap().spliterator(),false)
                 .filter(square -> square.getDie().getColor()==color)

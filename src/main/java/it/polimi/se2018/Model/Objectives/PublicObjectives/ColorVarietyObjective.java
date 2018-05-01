@@ -4,7 +4,7 @@ import it.polimi.se2018.Model.Color;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Model.Square;
 
-import java.util.EnumSet;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -16,7 +16,7 @@ public class ColorVarietyObjective extends PublicObjective {
         super(imagePath, title);
     }
 
-    private synchronized static ColorVarietyObjective createInstance(String imagePath, String title) {
+    private static synchronized ColorVarietyObjective createInstance(String imagePath, String title) {
         if (instance == null) instance = new ColorVarietyObjective(imagePath, title);
         return instance;
     }
@@ -28,18 +28,19 @@ public class ColorVarietyObjective extends PublicObjective {
 
 
     private static Predicate<Square> checkIfContainsColor(final Color color) {
-        return square -> square.getDie().getColor() == color;
+        return (square -> square.getDie() != null && square.getDie().getColor() == color);
     }
 
 
+    @Override
     public int evalPoints(Player player) {
-        Stream<Square> SquareStream = StreamSupport.stream(player.getMap().spliterator(), false);
-        return (Stream.of(Color.values())
-                .map(color ->
-                        SquareStream
-                                .anyMatch(checkIfContainsColor(color))
-                )
-                .anyMatch(isContained -> !isContained)) ? 0 : 4;
+        Optional<Integer> min = (Stream.of(Color.values())
+                .map(color -> ( (int)StreamSupport.stream(player.getMap().spliterator(), false)
+                        .filter(checkIfContainsColor(color))
+                        .count()))
+                .reduce(Integer::min));
+        return (min.map(integer -> integer * 4).orElse(0));
+
     }
 
 }

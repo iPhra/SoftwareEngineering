@@ -82,6 +82,16 @@ public class Map implements Iterable<Square>{
         return (row==matrix.length-1 || row == 0 || col==matrix[0].length-1 || col == 0);
     }
 
+    //returns dice placed in the 2 diagonals below given position. it's used by ColorDiagonalsObjectives
+    public ArrayList<Die> belowDiagonalsDice(int row, int col){
+        ArrayList<Die> belowDiagonals = new ArrayList<>();
+        if (row < matrix.length-1){
+            if (col > 0 && !matrix[row+1][col-1].isEmpty()) belowDiagonals.add(matrix[row+1][col-1].getDie());
+            if (col < matrix[0].length-1 && !matrix[row+1][col+1].isEmpty()) belowDiagonals.add(matrix[row+1][col+1].getDie());
+        }
+        return belowDiagonals;
+    }
+
     //This method check all condition to put a die in a square
     public boolean isValidMove(Die die, int row, int col) {
         return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && isColorOk(die,row,col) && hasSurroundingDice(row,col);

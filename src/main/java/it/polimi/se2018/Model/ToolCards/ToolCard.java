@@ -3,7 +3,7 @@ package it.polimi.se2018.Model.ToolCards;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Moves.Move;
 
-abstract public class ToolCard {
+public abstract class ToolCard {
     protected boolean alreadyUsed; //true if this tool card has already been used once
     protected boolean usableAfterDraft; //true if this tool card is usable after placing a die
     protected String imagePath;
@@ -19,8 +19,8 @@ abstract public class ToolCard {
 
     //REMEMBER to set hasPlacedDie and hasUsedCard attributes in Round
     //also, if you call denyNextTurn() from Round, you need to throw an exception if player is in his second turn
-    public void useCard(Move move) { //every specific tool card will implement this method differently
-    }
+    public abstract void useCard(Move move); //every specific tool card will implement this method differently
+
 
     public boolean isAlreadyUsed() {return alreadyUsed;}
 
