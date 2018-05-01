@@ -32,7 +32,7 @@ public class RoundTracker {
 
     //!ADD EXCEPTIONS
     void updateRoundTracker(ArrayList<Die> remainingDice) { //increments current turn, fills roundTracker with remaining dice from draftPool
-        dice[turn]=(ArrayList<Die>)remainingDice.clone();
+        dice[turn]=remainingDice;
         turn ++;
     }
 
