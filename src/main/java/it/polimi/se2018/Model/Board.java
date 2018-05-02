@@ -122,11 +122,18 @@ public class Board extends Observable<Board> {
         }
     }
 
+    //Player::getFavorPoints() deve essere coerente con ToolCard::isAlreadyUsed()   (o fai tre if o sdoppi il codice)
+    //ToolCard::useCard()
+    //Player::setFavorPoints()
+    //ToolCard::setAlreadyUsed()
+    //Round::setHasUsedCard()
     public void useToolCard(MoveMessage move) {
     }
 
     public void endMatch() {}
 
-    public Board makeCopy() {return this;} //DA IMPLEMENTARE PER MODELVIEW!!
+    //IMPLEMENTARE TUTTI I METODI COPY PER OGNI CLASSE DA COPIARE
+    public ModelView makeCopy() {return null;
+    }
 
 }

@@ -2,7 +2,9 @@ package it.polimi.se2018.Model.Moves;
 
 import it.polimi.se2018.Model.Player;
 
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoveMessage {
     private final Player player;
@@ -27,19 +29,19 @@ public class MoveMessage {
         return idMove;
     }
 
-    public ArrayList<Coordinate> getStartingPosition() {
+    public List<Coordinate> getStartingPosition() {
         return startingPosition;
     }
 
-    public ArrayList<Coordinate> getFinalPosition() {
+    public List<Coordinate> getFinalPosition() {
         return finalPosition;
     }
 
-    public ArrayList<Integer> getDraftPoolPosition() {
+    public List<Integer> getDraftPoolPosition() {
         return draftPoolPosition;
     }
 
-    public ArrayList<Coordinate> getRoundTrackerPosition() {
+    public List<Coordinate> getRoundTrackerPosition() {
         return roundTrackerPosition;
     }
 
