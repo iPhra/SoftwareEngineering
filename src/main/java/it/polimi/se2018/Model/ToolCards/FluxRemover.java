@@ -1,7 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Moves.Move;
+import it.polimi.se2018.Model.Moves.MoveMessage;
 
 public class FluxRemover extends ToolCard {
 
@@ -9,15 +9,15 @@ public class FluxRemover extends ToolCard {
         super(imagePath, title, board);
     }
     @Override
-    public void useCard(Move move) {
+    public void useCard(MoveMessage moveMessage) {
         //Throw exeption if the Player has already placed a die
-        if (move.getPlayer().hasDieInHand()) {
-            board.getBag().insertDie(move.getPlayer().getDieInHand());
-            move.getPlayer().setDieInHand(null);
-            move.getPlayer().setDieInHand(board.getBag().extractDie());
+        if (moveMessage.getPlayer().hasDieInHand()) {
+            board.getBag().insertDie(moveMessage.getPlayer().getDieInHand());
+            moveMessage.getPlayer().setDieInHand(null);
+            moveMessage.getPlayer().setDieInHand(board.getBag().extractDie());
             //darò il colore alla view
-            move.getPlayer().getDieInHand().setValue(move.getValue());
-            //getValue prende il valore che desidera il giocatore attraverso move (?)
+            moveMessage.getPlayer().getDieInHand().setValue(moveMessage.getValue());
+            //getValue prende il valore che desidera il giocatore attraverso moveMessage (?)
         }
     }
 }

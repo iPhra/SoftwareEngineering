@@ -89,14 +89,17 @@ public class Map implements Iterable<Square>{
     public boolean isValidMove(Die die, int row, int col) {
         return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && isColorOk(die,row,col) && hasSurroundingDice(row,col);
     }
+
     //This method do NOT check color condition
     public boolean isValidNoColor(Die die, int row, int col) {
         return matrix[row][col].isEmpty() && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && hasSurroundingDice(row,col);
     }
+
     //This method do NOT check value condition
     public boolean isValidNoValue(Die die, int row, int col) {
         return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && isColorOk(die,row,col) && hasSurroundingDice(row,col);
     }
+
     //This method do NOT check that the die is near another die
     public boolean isValidNoPosition(Die die, int row, int col) {
         return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && isColorOk(die,row,col);

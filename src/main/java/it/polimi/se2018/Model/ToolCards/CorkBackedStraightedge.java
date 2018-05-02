@@ -1,7 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Moves.Move;
+import it.polimi.se2018.Model.Moves.MoveMessage;
 
 public class CorkBackedStraightedge extends ToolCard {
 
@@ -10,11 +10,11 @@ public class CorkBackedStraightedge extends ToolCard {
     }
 
     @Override
-    public void useCard(Move move) {
+    public void useCard(MoveMessage moveMessage) {
         //Throw exeption if the Player has already placed a die
-        if (move.getPlayer().hasDieInHand()) {
-            if (move.getPlayer().getMap().isValidNoValue(move.getPlayer().getDieInHand(), move.getRowTo(), move.getColTo())) {
-                board.draftedDieToMap(move.getRowTo(), move.getColTo());
+        if (moveMessage.getPlayer().hasDieInHand()) {
+            if (moveMessage.getPlayer().getMap().isValidNoValue(moveMessage.getPlayer().getDieInHand(), moveMessage.getRowTo(), moveMessage.getColTo())) {
+                board.draftedDieToMap(moveMessage.getRowTo(), moveMessage.getColTo());
             }
         }
     }

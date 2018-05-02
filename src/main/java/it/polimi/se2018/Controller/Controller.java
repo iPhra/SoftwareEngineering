@@ -1,10 +1,10 @@
 package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Moves.Move;
+import it.polimi.se2018.Model.Moves.MoveMessage;
 import it.polimi.se2018.Utils.Observer;
 
-public class Controller implements Observer<Move> {
+public class Controller implements Observer<MoveMessage> {
 
     private final Board model;
 
@@ -13,11 +13,14 @@ public class Controller implements Observer<Move> {
         this.model = model;
     }
 
-    private synchronized void performMove(Move move){
+    private void draft(MoveMessage move)
+    //reads id,
+    private synchronized void performMove(MoveMessage move){
+
     }
 
     @Override
-    public void update(Move move) {
-        performMove(move);
+    public void update(MoveMessage moveMessage) {
+        performMove(moveMessage);
     }
 }

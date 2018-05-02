@@ -1,7 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Moves.Move;
+import it.polimi.se2018.Model.Moves.MoveMessage;
 
 public class EglomiseBrush extends ToolCard {
 
@@ -9,10 +9,10 @@ public class EglomiseBrush extends ToolCard {
         super(imagePath, title, board);
     }
     @Override
-    public void useCard(Move move) {
-        if(move.getPlayer().getMap().isValidNoColor(move.getDie(), move.getRowTo(), move.getColTo())) {
-            move.getPlayer().getMap().popDie(move.getRowFrom(), move.getColFrom());
-            move.getPlayer().getMap().placeDie(move.getDie(), move.getRowTo(), move.getColTo()));
+    public void useCard(MoveMessage moveMessage) {
+        if(moveMessage.getPlayer().getMap().isValidNoColor(moveMessage.getDie(), moveMessage.getRowTo(), moveMessage.getColTo())) {
+            moveMessage.getPlayer().getMap().popDie(moveMessage.getRowFrom(), moveMessage.getColFrom());
+            moveMessage.getPlayer().getMap().placeDie(moveMessage.getDie(), moveMessage.getRowTo(), moveMessage.getColTo());
         }
     }
 }

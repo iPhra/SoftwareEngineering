@@ -14,16 +14,14 @@ public class Bag {
     //non va bene che non siano divisibili, quindi se succede lancia un'eccezione.
     public Bag(int colorsNumber, int diceNumber) {
         if (diceNumber%colorsNumber !=0) throw new InvalidParameterException("Number of dice and colors is wrong!");
-        else {
-            this.colorsNumber = colorsNumber;
-            this.diceNumber = diceNumber;
-            remainingColors = new ArrayList<>(this.colorsNumber);
-            coloredDiceNumber = diceNumber/this.colorsNumber;
-            for (int i = 0; i<coloredDiceNumber; i++) {
-                remainingColors.set(i,coloredDiceNumber);
-            }
+        this.colorsNumber = colorsNumber;
+        this.diceNumber = diceNumber;
+        remainingColors = new ArrayList<>(this.colorsNumber);
+        coloredDiceNumber = diceNumber/this.colorsNumber;
+        for (int i = 0; i<coloredDiceNumber; i++) {
+            remainingColors.set(i,coloredDiceNumber);
         }
-    }
+}
 
     //draws a single die from the bag, used by tool cards
     public Die extractDie () {

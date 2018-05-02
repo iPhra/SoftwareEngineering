@@ -20,17 +20,14 @@ public class RoundTracker {
         return false;
     }
 
-    //!ADD EXCEPTIONS
     public void removeFromRoundTracker(int index, Die die) { //used by ToolCards
         dice[index].remove(die);
     }
 
-    //!ADD EXCEPTIONS
     public void addToRoundTracker(int index, Die die) { //used by ToolCards
         dice[index].add(die);
     }
 
-    //!ADD EXCEPTIONS
     void updateRoundTracker(ArrayList<Die> remainingDice) { //increments current turn, fills roundTracker with remaining dice from draftPool
         dice[turn]=remainingDice;
         turn ++;

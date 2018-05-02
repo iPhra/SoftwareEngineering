@@ -26,7 +26,7 @@ public class ColorDiagonalsObjectives extends PublicObjective {
     }
 
     //returns dice placed in the 2 diagonals below given position
-    public List<Die> belowDiagonalsDice(Player player, int row, int col){
+    private List<Die> belowDiagonalsDice(Player player, int row, int col){
         ArrayList<Die> belowDiagonals = new ArrayList<>();
         if (row < player.getMap().getRows()-1){
             if (col > 0 && ! player.getMap().getSquare(row+1,col-1).isEmpty())

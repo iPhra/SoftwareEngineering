@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Model.Moves.Coordinate;
+import it.polimi.se2018.Model.Moves.MoveMessage;
 import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
 import it.polimi.se2018.Model.ToolCards.ToolCard;
 import it.polimi.se2018.Utils.Observable;
@@ -8,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board extends Observable<Board> {
-    private static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
-    private static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
-    private static final int ROUNDSNUMBER = 10; //number of rounds in one game
+    public static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
+    public static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
+    public static final int ROUNDSNUMBER = 10; //number of rounds in one game
     private final int id;
     private Round round;
     private final String imagePath;
@@ -84,7 +86,7 @@ public class Board extends Observable<Board> {
         initDraftPool();
     }
 
-    public void endRound() {
+    private void endRound() {
         if (round.getRoundNumber() == ROUNDSNUMBER) {
             this.endMatch();
         }
@@ -93,7 +95,6 @@ public class Board extends Observable<Board> {
             roundTracker.updateRoundTracker((ArrayList<Die>)draftPool.getDraftPool());
             draftPool.emptyDraftPool();
         }
-
     }
 
     public void draftDie (Player player, Die die)  { //removes a die from the draft pool and places into one player's map
@@ -107,10 +108,9 @@ public class Board extends Observable<Board> {
         player.setDieInHand(null);
     }
 
-    public void moveDie(Player player, Die die, int row, int col) throws Exception { //standard move of a player, die goes from draftpool to one's map
-        if (round.hasDraftedDie() || !draftPool.contains(die) || !player.getMap().isValidMove(die,row,col)) throw new Exception();
-        draftDie(player,die);
-        draftedDieToMap(player,row,col);
+    public void placeDraftedDie (Player player, Die die, Coordinate finalPosition)  { //standard move of a player, die goes from draftpool to one's map
+        //LANCIA ECCEZIONI
+        draftedDieToMap(player,finalPosition.getRow(),finalPosition.getCol());
     }
 
     public void endTurn() {
@@ -122,7 +122,8 @@ public class Board extends Observable<Board> {
         }
     }
 
-    public void useToolCard() {}
+    public void useToolCard(MoveMessage move) {
+    }
 
     public void endMatch() {}
 
