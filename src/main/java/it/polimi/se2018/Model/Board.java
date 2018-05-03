@@ -133,7 +133,7 @@ public class Board extends Observable<Board> {
     public void endMatch() {}
 
     //IMPLEMENTARE TUTTI I METODI COPY PER OGNI CLASSE DA COPIARE
-    public ModelView makeCopy() {return null;
+    public ModelView modelViewCopy() {return null;
     }
 
 }

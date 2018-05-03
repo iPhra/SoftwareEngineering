@@ -27,5 +27,13 @@ public class DraftPool {
         dice.clear();
     }
 
+    public ArrayList<Die> modelViewCopy() {
+        ArrayList<Die> result = new ArrayList<>();
+        for(Die die: dice) {
+            result.add(die.makeCopy());
+        }
+        return result;
+    }
+
 }
 

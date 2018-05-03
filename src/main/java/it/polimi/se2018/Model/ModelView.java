@@ -1,43 +1,59 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
-import it.polimi.se2018.Model.ToolCards.ToolCard;
-
 import java.util.ArrayList;
+import java.util.List;
 
 //updates from model to view
 public class ModelView {
-    private final ArrayList<Player> players; //contiene la mappa di ciascun giocatore
-    private final DraftPool draftPool; //draft pool
-    private final ToolCard[] toolCards; // sono le toolCards sulla board (il gioco prevede da regolamento che siano 3, ma noi lo facciamo parametrico e quindi estendibile)
-    private final PublicObjective[] publicObjectives; //array che contiene le carte degli obbiettivi pubblici
-    private final RoundTracker roundTracker; //ha il riferimento al roundTracker
+    private final ArrayList<Die> draftPool; //draft pool
+    private final ArrayList<Die> roundTracker; //ha il riferimento al roundTracker
+    private final ArrayList<Boolean> usedToolCards; //true if toolcard[i] has already been used
+    private final ArrayList<Square[][]> maps;
+    private final ArrayList<Integer> favorPoints;
+    private final ArrayList<Integer> scores;
+    private final ArrayList<Die> diceInHand;
+    private final int turn; //current turn
 
-    public ModelView(ArrayList<Player> players, DraftPool draftPool, ToolCard[] toolCards, PublicObjective[] publicObjectives, RoundTracker roundTracker) {
-        this.players = players;
-        this.draftPool = draftPool;
-        this.toolCards = toolCards;
-        this.publicObjectives = publicObjectives;
-        this.roundTracker = roundTracker;
+    public ModelView(List<Die> draftPool, List<Die> roundTracker, List<Boolean> usedToolCards, List<Square[][]> maps, List<Integer> favorPoints, List<Integer> scores, List<Die> diceInHand, int turn) {
+        this.maps = (ArrayList<Square[][]>)maps;
+        this.favorPoints = (ArrayList<Integer>)favorPoints;
+        this.scores = (ArrayList<Integer>)scores;
+        this.diceInHand = (ArrayList<Die>)diceInHand;
+        this.draftPool = (ArrayList<Die>)draftPool;
+        this.roundTracker = (ArrayList<Die>)roundTracker;
+        this.usedToolCards = (ArrayList<Boolean>)usedToolCards;
+        this.turn = turn;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public DraftPool getDraftPool() {
+    public ArrayList<Die> getDraftPool() {
         return draftPool;
     }
 
-    public ToolCard[] getToolCards() {
-        return toolCards;
-    }
-
-    public PublicObjective[] getPublicObjectives() {
-        return publicObjectives;
-    }
-
-    public RoundTracker getRoundTracker() {
+    public ArrayList<Die> getRoundTracker() {
         return roundTracker;
+    }
+
+    public ArrayList<Boolean> getUsedToolCards() {
+        return usedToolCards;
+    }
+
+    public ArrayList<Square[][]> getMaps() {
+        return maps;
+    }
+
+    public ArrayList<Integer> getFavorPoints() {
+        return favorPoints;
+    }
+
+    public ArrayList<Integer> getScores() {
+        return scores;
+    }
+
+    public ArrayList<Die> getDiceInHand() {
+        return diceInHand;
+    }
+
+    public int getTurn() {
+        return turn;
     }
 }

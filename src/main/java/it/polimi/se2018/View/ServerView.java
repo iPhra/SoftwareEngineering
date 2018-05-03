@@ -13,10 +13,11 @@ import java.util.Map;
 public class ServerView extends Observable<MoveMessage> implements Observer<ModelView>{
     private Map<Player,ServerConnection> playerConnections;
 
-    private class NetworkObserver implements Observer<MoveMessage> {
+    private class NetworkObserver implements Observer<Object> {
         @Override
-        public void update(MoveMessage message) {
-            handleInput(message);
+        public void update(Object object) {
+            if (object instanceof MoveMessage)
+            handleInput((MoveMessage) object);
         }
     }
 

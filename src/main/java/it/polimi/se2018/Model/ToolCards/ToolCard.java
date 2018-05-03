@@ -4,16 +4,16 @@ import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Moves.MoveMessage;
 
 public abstract class ToolCard {
-    protected boolean alreadyUsed; //true if this tool card has already been used once
+    protected final boolean alreadyUsed; //true if this tool card has already been used once
     protected boolean usableAfterDraft; //true if this tool card is usable after placing a die
-    protected String imagePath;
-    protected String title;
-    protected Board board;
+    protected final String imagePath;
+    protected final String title;
+    protected final Board board;
 
-    protected ToolCard(String imagePath, String title, Board board) {
+    protected ToolCard(String imagePath, String title, Board board, boolean alreadyUsed) {
         this.imagePath=imagePath;
         this.title=title;
-        alreadyUsed = false;
+        this.alreadyUsed = alreadyUsed;
         this.board=board;
     }
 
@@ -21,8 +21,10 @@ public abstract class ToolCard {
     //also, if you call denyNextTurn() from Round, you need to throw an exception if player is in his second turn
     public abstract void useCard(MoveMessage moveMessage); //every specific tool card will implement this method differently
 
-
     public boolean isAlreadyUsed() {return alreadyUsed;}
 
-    public void setAlreadyUsed() {alreadyUsed=true;}
+    //creates a new ToolCard identical to this one but with alreadyUsed=true
+    public abstract ToolCard setAlreadyUsed();
+
+
 }

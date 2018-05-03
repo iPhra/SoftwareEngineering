@@ -14,7 +14,12 @@ public class CLIClientView {
     private final InputStream input;
     private final OutputStream output;
 
-    private class NetworkObserver   { //RISOLVERE IL PROBLEMA DEL DOPPIO OSSERVATORE
+    private class NetworkObserver implements Observer<Object> { //RISOLVERE IL PROBLEMA DEL DOPPIO OSSERVATORE
+        @Override
+        public void update(Object object) {
+            if (object instanceof String) messageService((String)object);
+            if (object instanceof ModelView) printModel((ModelView)object);
+        }
     }
 
     public CLIClientView(Player player, ClientConnection connection, InputStream input, OutputStream output) {
@@ -24,7 +29,11 @@ public class CLIClientView {
         this.output = output;
     }
 
-    public void handleError(String error) {}
+    //if it's my turn i call getInput, else if it's an error i print the error
+    public void messageService(String message) {}
+
+    //called by messageService when it receives an error
+    public void printMessage(String error) {}
 
     //called whenever it's this player's turn
     public void getInput() {}

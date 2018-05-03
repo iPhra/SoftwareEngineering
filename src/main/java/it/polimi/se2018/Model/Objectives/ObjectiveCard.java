@@ -3,8 +3,8 @@ package it.polimi.se2018.Model.Objectives;
 import it.polimi.se2018.Model.Player;
 
 public abstract class ObjectiveCard {
-    protected String imagePath;
-    protected String title;
+    protected final String imagePath;
+    protected final String title;
 
     protected ObjectiveCard(String imagePath, String title) {
         this.imagePath=imagePath;

@@ -31,4 +31,8 @@ public class Die {
     public Color getColor() {
         return color;
     }
+
+    public Die makeCopy() {
+        return new Die(value,color);
+    }
 }

@@ -33,4 +33,16 @@ public class RoundTracker {
         turn ++;
     }
 
+    public ArrayList<Die>[] modelViewCopy() {
+        ArrayList<Die>[] result = new ArrayList[dice.length];
+        ArrayList<Die> array = new ArrayList<>();
+        for(ArrayList<Die> arrayList: dice) {
+            for(Die die: arrayList) {
+                array.add(die.makeCopy());
+            }
+            array.clear();
+        }
+        return result;
+    }
+
 }

@@ -37,6 +37,8 @@ public class Map implements Iterable<Square>{
 
     public int getCols() { return matrix[0].length; }
 
+    public Square[][] modelViewCopy() {return null;} //da implementare
+
     //used by method adjacentOk, returns the adjacent dice of a die
     private ArrayList<Die> adjacentDice(int row, int col){
         ArrayList<Die> adjacent = new ArrayList<>();
