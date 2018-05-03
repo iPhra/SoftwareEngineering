@@ -33,6 +33,8 @@ public class RoundTracker {
         turn ++;
     }
 
+    public int getTurn() {return turn;}
+
     public ArrayList<Die>[] modelViewCopy() {
         ArrayList<Die>[] result = new ArrayList[dice.length];
         ArrayList<Die> array = new ArrayList<>();

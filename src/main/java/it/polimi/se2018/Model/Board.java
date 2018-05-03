@@ -133,7 +133,22 @@ public class Board extends Observable<Board> {
     public void endMatch() {}
 
     //IMPLEMENTARE TUTTI I METODI COPY PER OGNI CLASSE DA COPIARE
-    public ModelView modelViewCopy() {return null;
+    public ModelView modelViewCopy() {
+        ArrayList<Boolean> usedToolCards = new ArrayList<>();
+        ArrayList<Square[][]> maps = new ArrayList<>();
+        ArrayList<Integer> favorPoints = new ArrayList<>();
+        ArrayList<Integer> scores = new ArrayList<>();
+        ArrayList<Die> diceInHand = new ArrayList<>();
+        for(ToolCard toolCard : toolCards) {
+            usedToolCards.add(toolCard.isAlreadyUsed());
+        }
+        for(Player player : players) {
+            maps.add(player.getMap().modelViewCopy());
+            favorPoints.add(player.getFavorPoints());
+            scores.add(player.getScore());
+            diceInHand.add(player.getDieInHand());
+        }
+        return new ModelView(this.draftPool.modelViewCopy(),this.roundTracker.modelViewCopy(),usedToolCards,maps,favorPoints,scores,diceInHand,this.roundTracker.getTurn());
     }
 
 }
