@@ -34,12 +34,12 @@ public class Board extends Observable<Board> {
             playersId.add(players.get(i).getId());
         }
         round = new Round(playersId, 1);
-        draftPool = new DraftPool();
-        this.initDraftPool();
         this.toolCards = toolCards;
         this.publicObjectives = publicObjectives;
         bag = new Bag(COLORSNUMBER, DICENUMBER);
         roundTracker = new RoundTracker(ROUNDSNUMBER);
+        draftPool=new DraftPool();
+        draftPool.fillDraftPool(bag.drawDice(playersNumber));
     }
 
     public DraftPool getDraftPool() {
@@ -78,61 +78,12 @@ public class Board extends Observable<Board> {
         return id;
     }
 
-    private void initDraftPool() {
-        draftPool.fillDraftPool(bag.drawDice(playersNumber));
+    public int getPlayersNumber() {return playersNumber;}
+
+    public void setRound(Round round) {
+        this.round=round;
     }
 
-    public void startRound() {
-        initDraftPool();
-    }
-
-    private void endRound() {
-        if (round.getRoundNumber() == ROUNDSNUMBER) {
-            this.endMatch();
-        }
-        else {
-            round = round.changeRound();
-            roundTracker.updateRoundTracker((ArrayList<Die>)draftPool.modelViewCopy());
-            draftPool.emptyDraftPool();
-        }
-    }
-
-    public void draftDie (Player player, Die die)  { //removes a die from the draft pool and places into one player's map
-        draftPool.removeFromDraftPool(die);
-        player.setDieInHand(die);
-        round.setHasDraftedDie(true);
-    }
-
-    public void draftedDieToMap(Player player, int row, int col){
-        player.getMap().placeDie(player.getDieInHand(),row,col);
-        player.setDieInHand(null);
-    }
-
-    public void placeDraftedDie (Player player, Die die, Coordinate finalPosition)  { //standard move of a player, die goes from draftpool to one's map
-        //LANCIA ECCEZIONI
-        draftedDieToMap(player,finalPosition.getRow(),finalPosition.getCol());
-    }
-
-    public void endTurn() {
-        if (round.isLastTurn()) {
-            this.endRound();
-        }
-        else {
-            round.changeTurn();
-        }
-    }
-
-    //Player::getFavorPoints() deve essere coerente con ToolCard::isAlreadyUsed()   (o fai tre if o sdoppi il codice)
-    //ToolCard::useCard()
-    //Player::setFavorPoints()
-    //ToolCard::setAlreadyUsed()
-    //Round::setHasUsedCard()
-    public void useToolCard(MoveMessage move) {
-    }
-
-    public void endMatch() {}
-
-    //IMPLEMENTARE TUTTI I METODI COPY PER OGNI CLASSE DA COPIARE
     public ModelView modelViewCopy() {
         ArrayList<Boolean> usedToolCards = new ArrayList<>();
         ArrayList<Square[][]> maps = new ArrayList<>();

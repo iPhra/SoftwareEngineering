@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoundTracker {
     private ArrayList<Die>[] dice; //array of arrayList, every position contains an arraylist of dice
@@ -24,21 +25,19 @@ public class RoundTracker {
         dice[index].add(die);
     }
 
-    void updateRoundTracker(ArrayList<Die> remainingDice) { //increments current turn, fills roundTracker with remaining dice from draftPool
-        dice[turn]=remainingDice;
+    public void updateRoundTracker(List<Die> remainingDice) { //increments current turn, fills roundTracker with remaining dice from draftPool
+        dice[turn]=(ArrayList<Die>)remainingDice;
         turn ++;
     }
 
     public int getTurn() {return turn;}
 
-    public ArrayList<Die>[] modelViewCopy() {
+    public List<Die>[] modelViewCopy() {
         ArrayList<Die>[] result = new ArrayList[dice.length];
-        ArrayList<Die> array = new ArrayList<>();
-        for(ArrayList<Die> arrayList: dice) {
-            for(Die die: arrayList) {
-                array.add(die.modelViewCopy());
+        for(int i=0; i<result.length; i++) {
+            for(Die die: dice[i]) {
+                result[i].add((die.modelViewCopy()));
             }
-            array.clear();
         }
         return result;
     }

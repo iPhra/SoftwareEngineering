@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Model.Moves.Coordinate;
+
 public class Square {
     private final Color color;
     private final int value;
@@ -8,11 +10,11 @@ public class Square {
     private final int col;
     private final Map map;
 
-    public Square(Color color, int value, int row, int col, Map map) {
+    public Square(Color color, int value, Coordinate coordinate, Map map) {
         this.color = color;
         this.value = value;
-        this.row=row;
-        this.col=col;
+        this.row=coordinate.getRow();
+        this.col=coordinate.getCol();
         this.map=map;
         die=null;
     }
@@ -39,6 +41,12 @@ public class Square {
 
     public boolean sameValue(Die die) {
         return die.getValue()==value;
+    }
+
+    public Square modelViewCopy() {
+        Square result = new Square(color,value,new Coordinate(row,col),map);
+        result.setDie(die.modelViewCopy());
+        return result;
     }
 
 }

@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Round {
     private ArrayList<Integer> playersOrder; //arraylist of player's IDs. example: ABCDDCBA
@@ -11,8 +12,8 @@ public class Round {
     private boolean hasUsedCard;
     private final int roundNumber; //number of this round, goes from 1 to 10
 
-    public Round(ArrayList<Integer> playersOrder, int roundNumber) {
-        this.playersOrder = playersOrder;
+    public Round(List<Integer> playersOrder, int roundNumber) {
+        this.playersOrder = (ArrayList<Integer>)playersOrder;
         this.roundNumber = roundNumber;
         currentPlayerIndex=0;
         currentPlayer=playersOrder.get(currentPlayerIndex);
@@ -50,7 +51,7 @@ public class Round {
     }
     //changeRound() build the next array player order
     //and give it to the costructor of the next round with the new roundNumber
-    Round changeRound() {
+    public Round changeRound() {
         return null; //placeholder
     }
 

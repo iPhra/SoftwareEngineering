@@ -9,8 +9,8 @@ public class DraftPool {
 
     public boolean contains(Die die) {return dice.contains(die); }
 
-    void fillDraftPool(ArrayList<Die> draftPool) { //riempie la draft pool con i nuovi 2n+1 dadi presi dalla board
-        this.dice = draftPool;
+    public void fillDraftPool(List<Die> draftPool) { //riempie la draft pool con i nuovi 2n+1 dadi presi dalla board
+        this.dice = (ArrayList<Die>)draftPool;
     }
 
     public void addToDraftPool(Die die) {
@@ -21,11 +21,11 @@ public class DraftPool {
         dice.remove(die);
     }
 
-    void emptyDraftPool () { //svuota la draftPool
+    public void emptyDraftPool () { //svuota la draftPool
         dice.clear();
     }
 
-    public ArrayList<Die> modelViewCopy() {
+    public List<Die> modelViewCopy() {
         ArrayList<Die> result = new ArrayList<>();
         for(Die die: dice) {
             result.add(die.modelViewCopy());

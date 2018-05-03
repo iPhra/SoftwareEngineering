@@ -2,6 +2,7 @@ package it.polimi.se2018.Model;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Bag {
@@ -43,7 +44,7 @@ public class Bag {
     }
 
     //draws 2n+1 dice putting them in a arraylist, used by Board
-    ArrayList<Die> drawDice (int playersNumber) {
+    public List<Die> drawDice (int playersNumber) {
         ArrayList<Die> drawDice = new ArrayList<>();
         for (int i = 0; i < 2 * playersNumber + 1; i++) {
             drawDice.add(extractDie());
