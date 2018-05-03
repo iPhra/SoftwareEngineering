@@ -32,7 +32,7 @@ public class Die {
         return color;
     }
 
-    public Die makeCopy() {
+    public Die modelViewCopy() {
         return new Die(value,color);
     }
 }

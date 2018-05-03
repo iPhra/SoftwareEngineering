@@ -11,10 +11,6 @@ public class RoundTracker {
         turn=0; //this variable matches the actual turns -1
     }
 
-    public ArrayList<Die>[] getRoundTracker() {
-        return (ArrayList<Die>[]) dice.clone();
-    }
-
     public boolean contains(Die die) {
         for(int i=0; i<dice.length;i++) if (dice[i].contains(die)) return true;
         return false;
@@ -40,7 +36,7 @@ public class RoundTracker {
         ArrayList<Die> array = new ArrayList<>();
         for(ArrayList<Die> arrayList: dice) {
             for(Die die: arrayList) {
-                array.add(die.makeCopy());
+                array.add(die.modelViewCopy());
             }
             array.clear();
         }

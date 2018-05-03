@@ -7,8 +7,6 @@ import java.util.List;
 public class DraftPool {
     private ArrayList<Die> dice; //the 2n + 1 drafted dice are placed here
 
-    public List<Die> getDraftPool() {return (ArrayList<Die>) dice.clone(); }
-
     public boolean contains(Die die) {return dice.contains(die); }
 
     void fillDraftPool(ArrayList<Die> draftPool) { //riempie la draft pool con i nuovi 2n+1 dadi presi dalla board
@@ -30,7 +28,7 @@ public class DraftPool {
     public ArrayList<Die> modelViewCopy() {
         ArrayList<Die> result = new ArrayList<>();
         for(Die die: dice) {
-            result.add(die.makeCopy());
+            result.add(die.modelViewCopy());
         }
         return result;
     }

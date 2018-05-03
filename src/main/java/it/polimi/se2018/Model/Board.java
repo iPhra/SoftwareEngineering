@@ -92,7 +92,7 @@ public class Board extends Observable<Board> {
         }
         else {
             round = round.changeRound();
-            roundTracker.updateRoundTracker((ArrayList<Die>)draftPool.getDraftPool());
+            roundTracker.updateRoundTracker((ArrayList<Die>)draftPool.modelViewCopy());
             draftPool.emptyDraftPool();
         }
     }
