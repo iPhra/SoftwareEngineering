@@ -8,14 +8,12 @@ public class Square {
     private Die die;
     private final int row;
     private final int col;
-    private final Map map;
 
-    public Square(Color color, int value, Coordinate coordinate, Map map) {
+    public Square(Color color, int value, Coordinate coordinate) {
         this.color = color;
         this.value = value;
         this.row=coordinate.getRow();
         this.col=coordinate.getCol();
-        this.map=map;
         die=null;
     }
 
@@ -44,7 +42,7 @@ public class Square {
     }
 
     public Square modelViewCopy() {
-        Square result = new Square(color,value,new Coordinate(row,col),map);
+        Square result = new Square(color,value,new Coordinate(row,col));
         result.setDie(die.modelViewCopy());
         return result;
     }

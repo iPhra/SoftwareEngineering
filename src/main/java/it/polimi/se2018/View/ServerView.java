@@ -2,7 +2,6 @@ package it.polimi.se2018.View;
 
 import it.polimi.se2018.Connections.ServerConnection;
 import it.polimi.se2018.Model.ModelView;
-import it.polimi.se2018.Model.Moves.MoveMessage;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Utils.Observable;
 import it.polimi.se2018.Utils.Observer;
@@ -10,14 +9,12 @@ import it.polimi.se2018.Utils.Observer;
 
 import java.util.Map;
 
-public class ServerView extends Observable<MoveMessage> implements Observer<ModelView>{
+public class ServerView extends Observable<Object> implements Observer<ModelView>{
     private Map<Player,ServerConnection> playerConnections;
 
     private class NetworkObserver implements Observer<Object> {
         @Override
         public void update(Object object) {
-            if (object instanceof MoveMessage)
-            handleInput((MoveMessage) object);
         }
     }
 
@@ -34,7 +31,7 @@ public class ServerView extends Observable<MoveMessage> implements Observer<Mode
     }
 
     //receives input from the network, notifies the controller
-    public void handleInput(MoveMessage input) {
+    public void handleInput(Object input) {
         notify(input);
     }
 

@@ -6,17 +6,19 @@ import it.polimi.se2018.Model.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoveMessage {
+public class ToolCardMessage {
     private final Player player;
-    private final int idMove;
+    private final int toolCardNumber; //0 to 2, number of toolcard in the board
+    private int value;
     private ArrayList<Coordinate> startingPosition;
     private ArrayList<Coordinate> finalPosition;
     private ArrayList<Integer> draftPoolPosition;
     private ArrayList<Coordinate> roundTrackerPosition;
 
-    public MoveMessage(Player player, int idMove) {
+    public ToolCardMessage(Player player, int toolCardNumber, int value) {
         this.player = player;
-        this.idMove = idMove;
+        this.toolCardNumber = toolCardNumber;
+        this.value = value;
         startingPosition = new ArrayList<>();
         finalPosition = new ArrayList<>();
         draftPoolPosition = new ArrayList<>();
@@ -25,8 +27,8 @@ public class MoveMessage {
 
     public Player getPlayer () { return player; }
 
-    public int getIdMove() {
-        return idMove;
+    public int getToolCardNumber() {
+        return toolCardNumber;
     }
 
     public List<Coordinate> getStartingPosition() {
@@ -59,5 +61,13 @@ public class MoveMessage {
 
     public void addRoundTrackerPosition(Coordinate coordinate) {
         roundTrackerPosition.add(coordinate);
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void addValue(int value) {
+        this.value = value;
     }
 }

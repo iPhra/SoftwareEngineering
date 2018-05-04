@@ -2,13 +2,15 @@ package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Moves.MoveMessage;
+import it.polimi.se2018.Model.Moves.DraftMessage;
+import it.polimi.se2018.Model.Moves.PlaceMessage;
+import it.polimi.se2018.Model.Moves.ToolCardMessage;
 import it.polimi.se2018.Utils.Observer;
 import it.polimi.se2018.View.ServerView;
 
 import java.util.ArrayList;
 
-public class Controller implements Observer<MoveMessage> {
+public class Controller implements Observer<Object> {
     private final Board model;
     private final ServerView view;
 
@@ -19,27 +21,27 @@ public class Controller implements Observer<MoveMessage> {
     }
 
     //reads player, checks if it's his turn, reads move id, calls right methods
-    private void performMove(MoveMessage move){
+    private void performMove(Object move){
     }
 
     //draftPool.removeFromDraftPool(die);
     //player.setDieInHand(die);
     //round.setHasDraftedDie(true);
-    private void draft(MoveMessage move) {}
+    private void draft(DraftMessage move) {}
 
-    //calcola il punteggio, setta la score del player desiderato
-    private void evaluatePoints(MoveMessage move) {}
+    //calcola il punteggio, setta la score di tutti i player
+    private void evaluatePoints() {}
 
     //Player::getFavorPoints() deve essere coerente con ToolCard::isAlreadyUsed()   (o fai tre if o sdoppi il codice)
     //ToolCard::useCard()
     //Player::setFavorPoints()
     //ToolCard::setAlreadyUsed()
     //Round::setHasUsedCard()
-    private void useToolCard(MoveMessage move) {}
+    private void useToolCard(ToolCardMessage move) {}
 
     //player.getMap().placeDie(player.getDieInHand(),row,col);
     //player.setDieInHand(null);
-    private void placeDie(MoveMessage move) {}
+    private void placeDie(PlaceMessage move) {}
 
     private void initDraftPool() {
         model.getDraftPool().fillDraftPool(model.getBag().drawDice(model.getPlayersNumber()));
@@ -73,7 +75,6 @@ public class Controller implements Observer<MoveMessage> {
     }
 
     @Override
-    public void update(MoveMessage moveMessage) {
-        performMove(moveMessage);
+    public void update(Object input) {
     }
 }
