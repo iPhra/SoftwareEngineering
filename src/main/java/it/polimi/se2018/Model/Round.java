@@ -21,6 +21,9 @@ public class Round {
         hasDraftedDie = false;
         hasUsedCard = false;
     }
+
+    public int getCurrentPlayerIndex() {return currentPlayerIndex;}
+
     public int getRoundNumber () {
         return roundNumber;
     }

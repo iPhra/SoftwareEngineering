@@ -14,7 +14,7 @@ public class CLIClientView {
     private final InputStream input;
     private final OutputStream output;
 
-    private class NetworkObserver implements Observer<Object> { //RISOLVERE IL PROBLEMA DEL DOPPIO OSSERVATORE
+    private class NetworkObserver implements Observer<Object> {
         @Override
         public void update(Object object) {
             if (object instanceof String) messageService((String)object);

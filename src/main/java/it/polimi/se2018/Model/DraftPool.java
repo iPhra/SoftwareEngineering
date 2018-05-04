@@ -25,6 +25,11 @@ public class DraftPool {
         dice.clear();
     }
 
+    public Die getDie(int index) throws Exception{
+        if (index>=dice.size()) throw new Exception();
+        return dice.get(index);
+    }
+
     public List<Die> modelViewCopy() {
         ArrayList<Die> result = new ArrayList<>();
         for(Die die: dice) {

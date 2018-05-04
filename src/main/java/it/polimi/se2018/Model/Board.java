@@ -1,11 +1,10 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.Moves.Coordinate;
-import it.polimi.se2018.Model.Moves.MoveMessage;
 import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
 import it.polimi.se2018.Model.ToolCards.ToolCard;
 import it.polimi.se2018.Utils.Observable;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,22 +83,15 @@ public class Board extends Observable<Board> {
         this.round=round;
     }
 
+    public Player getPlayerByIndex(int index){
+        for(Player player: players) {
+            if(player.getId()==index) return player;
+        }
+        throw new InvalidParameterException();
+    }
+
     public ModelView modelViewCopy() {
-        ArrayList<Boolean> usedToolCards = new ArrayList<>();
-        ArrayList<Square[][]> maps = new ArrayList<>();
-        ArrayList<Integer> favorPoints = new ArrayList<>();
-        ArrayList<Integer> scores = new ArrayList<>();
-        ArrayList<Die> diceInHand = new ArrayList<>();
-        for(ToolCard toolCard : toolCards) {
-            usedToolCards.add(toolCard.isAlreadyUsed());
-        }
-        for(Player player : players) {
-            maps.add(player.getMap().modelViewCopy());
-            favorPoints.add(player.getFavorPoints());
-            scores.add(player.getScore());
-            diceInHand.add(player.getDieInHand());
-        }
-        return new ModelView(this.draftPool.modelViewCopy(),this.roundTracker.modelViewCopy(),usedToolCards,maps,favorPoints,scores,diceInHand,this.roundTracker.getTurn());
+        return new ModelView(this);
     }
 
 }

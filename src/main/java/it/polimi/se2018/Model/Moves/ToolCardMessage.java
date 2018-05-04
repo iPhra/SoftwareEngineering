@@ -6,8 +6,7 @@ import it.polimi.se2018.Model.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToolCardMessage {
-    private final Player player;
+public class ToolCardMessage extends Message {
     private final int toolCardNumber; //0 to 2, number of toolcard in the board
     private int value;
     private ArrayList<Coordinate> startingPosition;
@@ -16,7 +15,7 @@ public class ToolCardMessage {
     private ArrayList<Coordinate> roundTrackerPosition;
 
     public ToolCardMessage(Player player, int toolCardNumber, int value) {
-        this.player = player;
+        super(player);
         this.toolCardNumber = toolCardNumber;
         this.value = value;
         startingPosition = new ArrayList<>();
@@ -25,7 +24,6 @@ public class ToolCardMessage {
         roundTrackerPosition = new ArrayList<>();
     }
 
-    public Player getPlayer () { return player; }
 
     public int getToolCardNumber() {
         return toolCardNumber;

@@ -2,13 +2,12 @@ package it.polimi.se2018.Model.Moves;
 
 import it.polimi.se2018.Model.Player;
 
-public class PlaceMessage {
-    private final Player player;
+public class PlaceMessage extends Message {
     private Coordinate finalPosition;
 
     public PlaceMessage(Coordinate finalPosition, Player player) {
+        super(player);
         this.finalPosition = finalPosition;
-        this.player = player;
     }
 
     public Coordinate getFinalPosition() {
@@ -19,7 +18,4 @@ public class PlaceMessage {
         this.finalPosition = finalPosition;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
 }
