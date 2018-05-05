@@ -51,7 +51,7 @@ public class Map implements Iterable<Square>{
     }
 
     //used by method adjacentOk, returns the adjacent dice of a die
-    private ArrayList<Die> adjacentDice(int row, int col){
+    public ArrayList<Die> adjacentDice(int row, int col){
         ArrayList<Die> adjacent = new ArrayList<>();
         if (row > 0) adjacent.add(matrix[row-1][col].getDie());
         if (row < matrix.length) adjacent.add(matrix[row+1][col].getDie());
@@ -60,6 +60,11 @@ public class Map implements Iterable<Square>{
         return adjacent;
     }
 
+    //row and col are indexes, they start from 0
+    private boolean isOnEdge(int row, int col) {
+        return (row==matrix.length-1 || row == 0 || col==matrix[0].length-1 || col == 0);
+    }
+/*
     //all dice in diagonal and adjacent to a given die
     private boolean hasSurroundingDice(int row, int col) {
         ArrayList<Die> surrounding = adjacentDice(row,col);
@@ -93,10 +98,7 @@ public class Map implements Iterable<Square>{
         return true;
     }
 
-    //row and col are indexes, they start from 0
-    private boolean isOnEdge(int row, int col) {
-        return (row==matrix.length-1 || row == 0 || col==matrix[0].length-1 || col == 0);
-    }
+
 
     //This method check all condition to put a die in a square
     public boolean isValidMove(Die die, int row, int col) {
@@ -122,7 +124,7 @@ public class Map implements Iterable<Square>{
     public void placeDie(Die die, Coordinate coordinate) {
         matrix[coordinate.getRow()][coordinate.getCol()].setDie(die);
     }
-
+*/
     //places a die on the edge of the map, validity is checked by whoever calls this method
     public void placeDieOnEdge(Die die, Coordinate coordinate) throws InvalidPlacementException{ //da sistemare l'eccezione
         if (!isOnEdge(coordinate.getRow(),coordinate.getCol())) throw new InvalidPlacementException();
@@ -162,6 +164,12 @@ public class Map implements Iterable<Square>{
                 row++;
             }
             return res;
+        }
+
+        //return number of empty slot in a map
+        public int countEmptySlots() {
+            int countSlot = 0;
+            return countSlot;
         }
     }
 }
