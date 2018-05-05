@@ -68,4 +68,9 @@ public class ToolCardMessage extends Message {
     public void addValue(int value) {
         this.value = value;
     }
+
+    @Override
+    public void handle(MessageHandler handler) {
+        handler.performMove(this);
+    }
 }

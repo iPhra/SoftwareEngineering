@@ -8,7 +8,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board extends Observable<Board> {
+public class Board extends Observable<ModelView> {
     public static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
     public static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
     public static final int ROUNDSNUMBER = 10; //number of rounds in one game
@@ -92,6 +92,10 @@ public class Board extends Observable<Board> {
 
     public ModelView modelViewCopy() {
         return new ModelView(this);
+    }
+
+    public void setToolCard(ToolCard toolCard, int index) {
+        toolCards[index]=toolCard;
     }
 
 }

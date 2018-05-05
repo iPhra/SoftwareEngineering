@@ -1,5 +1,8 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.InvalidPlacementException;
+import it.polimi.se2018.Model.Messages.Coordinate;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -116,20 +119,20 @@ public class Map implements Iterable<Square>{
     }
 
     //places a die in a given position of the map, validity is checked by whoever calls this method
-    public void placeDie(Die die, int row, int col) {
-        matrix[row][col].setDie(die);
+    public void placeDie(Die die, Coordinate coordinate) {
+        matrix[coordinate.getRow()][coordinate.getCol()].setDie(die);
     }
 
     //places a die on the edge of the map, validity is checked by whoever calls this method
-    public void placeDieOnEdge(Die die, int row, int col) throws Exception{ //da sistemare l'eccezione
-        if (!isOnEdge(row,col)) throw new Exception();
-        placeDie(die,row,col);
+    public void placeDieOnEdge(Die die, Coordinate coordinate) throws InvalidPlacementException{ //da sistemare l'eccezione
+        if (!isOnEdge(coordinate.getRow(),coordinate.getCol())) throw new InvalidPlacementException();
+        placeDie(die,coordinate);
     }
 
     //removes a die from a given position of the map
-    public Die popDie(int row, int col) {
-        Die result = matrix[row][col].getDie();
-        matrix[row][col].setDie(null);
+    public Die popDie(Coordinate coordinate) {
+        Die result = matrix[coordinate.getRow()][coordinate.getCol()].getDie();
+        matrix[coordinate.getRow()][coordinate.getCol()].setDie(null);
         return result;
     }
 

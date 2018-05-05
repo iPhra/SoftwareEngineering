@@ -8,4 +8,9 @@ public class PassMessage extends Message {
         super(player);
     }
 
+    @Override
+    public void handle(MessageHandler handler) {
+        handler.performMove(this);
+    }
+
 }

@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model;
 
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,8 @@ public class DraftPool {
         dice.clear();
     }
 
-    public Die getDie(int index) throws Exception{
-        if (index>=dice.size()) throw new Exception();
+    public Die getDie(int index) {
+        if (index>=dice.size()) throw new InvalidParameterException();
         return dice.get(index);
     }
 

@@ -17,4 +17,10 @@ public class DraftMessage extends Message {
     public void setDraftPoolPosition(int draftPoolPosition) {
         this.draftPoolPosition = draftPoolPosition;
     }
+
+    @Override
+    public void handle(MessageHandler handler) {
+        handler.performMove(this);
+    }
+
 }
