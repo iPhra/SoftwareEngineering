@@ -4,6 +4,7 @@ import it.polimi.se2018.Exceptions.InvalidPlacementException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Messages.*;
+import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Model.ToolCards.ToolCard;
 import it.polimi.se2018.Utils.Observer;
@@ -110,14 +111,25 @@ public class Controller implements Observer<Message>, MessageHandler {
         }
     }
 
-    //evaluates point for all players and broadcasts each score to each player
-    private void evaluatePoints() {}
+    //evaluates point for all players
+    private void evaluatePoints() {
+        for(Player player: model.getPlayers()) {
+            int score = player.getPrivateObjective().evalPoints(player);
+            for(PublicObjective pub: model.getPublicObjectives()) {
+                score+=pub.evalPoints(player);
+            }
+            score+=player.getFavorPoints();
+            //score-=player.getMap().countEmptySlots();
+            player.setScore(score);
+        }
+    }
 
     private void startRound() {
         model.getDraftPool().fillDraftPool(model.getBag().drawDice(model.getPlayersNumber()));
     }
 
     private void endMatch() {
+        evaluatePoints();
     }
 
     @Override

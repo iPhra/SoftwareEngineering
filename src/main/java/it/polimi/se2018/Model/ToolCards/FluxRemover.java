@@ -1,23 +1,27 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Messages.MoveMessage;
+import it.polimi.se2018.Model.Messages.ToolCardMessage;
 
 public class FluxRemover extends ToolCard {
 
-    public FluxRemover(String imagePath, String title, Board board) {
-        super(imagePath, title, board);
+    public FluxRemover(String imagePath, String title, Board board, boolean alreadyUsed) {
+        super(imagePath, title, board, alreadyUsed);
     }
     @Override
-    public void useCard(MoveMessage moveMessage) {
-        //Throw exeption if the Player has already placed a die
-        if (moveMessage.getPlayer().hasDieInHand()) {
-            board.getBag().insertDie(moveMessage.getPlayer().getDieInHand());
-            moveMessage.getPlayer().setDieInHand(null);
-            moveMessage.getPlayer().setDieInHand(board.getBag().extractDie());
+    public void useCard(ToolCardMessage toolCardMessage) {
+        //l'if dovrebbe essere il complemento, se è vero lancia eccezione, altrimenti esegue il metodo
+        if (toolCardMessage.getPlayer().hasDieInHand()) {
+            board.getBag().insertDie(toolCardMessage.getPlayer().getDieInHand());
+            toolCardMessage.getPlayer().setDieInHand(board.getBag().extractDie());
             //darò il colore alla view
-            moveMessage.getPlayer().getDieInHand().setValue(moveMessage.getValue());
+            toolCardMessage.getPlayer().getDieInHand().setValue(toolCardMessage.getValue());
             //getValue prende il valore che desidera il giocatore attraverso moveMessage (?)
         }
+    }
+
+    @Override
+    public ToolCard setAlreadyUsed() {
+        return null;
     }
 }

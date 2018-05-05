@@ -1,19 +1,20 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Messages.MoveMessage;
+import it.polimi.se2018.Model.Messages.ToolCardMessage;
 
 public class FluxBrush extends ToolCard {
 
-    public FluxBrush(String imagePath, String title, Board board) {
-        super(imagePath, title, board);
+    public FluxBrush(String imagePath, String title, Board board, boolean alreadyUsed) {
+        super(imagePath, title, board,alreadyUsed);
     }
     @Override
-    public void useCard(MoveMessage moveMessage) {
-        //Throw exception if the Player has already placed a die
-        if (moveMessage.getPlayer().hasDieInHand()) {
-            moveMessage.getPlayer().getDieInHand().rollDie();
-        }
+    public void useCard(ToolCardMessage toolCardMessage) {
+    }
+
+    @Override
+    public ToolCard setAlreadyUsed() {
+        return null;
     }
 }
 

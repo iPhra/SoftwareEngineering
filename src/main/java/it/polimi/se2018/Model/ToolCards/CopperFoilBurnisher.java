@@ -1,22 +1,22 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Messages.MoveMessage;
+import it.polimi.se2018.Model.Messages.ToolCardMessage;
 
 public class CopperFoilBurnisher extends ToolCard {
 
-    public CopperFoilBurnisher(String imagePath, String title, Board board) {
-        super(imagePath, title, board);
+    public CopperFoilBurnisher(String imagePath, String title, Board board, boolean alreadyUsed) {
+        super(imagePath, title, board,alreadyUsed);
+        //SETTARE USABLEAFTERDRAFT
     }
 
     @Override
-    //devo essere riscuro che moveMessage abbia i getter giusti
-    //Throw exeption
-    public void useCard(MoveMessage moveMessage) {
-        if(moveMessage.getPlayer().getMap().isValidNoValue(moveMessage.getDie(), moveMessage.getRowTo(), moveMessage.getColTo())) {
-            moveMessage.getPlayer().getMap().popDie(moveMessage.getRowFrom(), moveMessage.getColFrom());
-            moveMessage.getPlayer().getMap().placeDie(moveMessage.getDie(), moveMessage.getRowTo(), moveMessage.getColTo());
-        }
+    public void useCard(ToolCardMessage toolCardMessage) {
+    }
+
+    @Override
+    public ToolCard setAlreadyUsed() {
+        return null;
     }
 }
 
