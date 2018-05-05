@@ -1,7 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Moves.MoveMessage;
+import it.polimi.se2018.Model.Messages.MoveMessage;
 
 public class FluxRemover extends ToolCard {
 

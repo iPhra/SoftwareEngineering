@@ -1,6 +1,6 @@
 package it.polimi.se2018.View;
 
-import it.polimi.se2018.Connections.ClientConnection;
+import it.polimi.se2018.Connections.Connection;
 import it.polimi.se2018.Model.ModelView;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Utils.Observer;
@@ -10,7 +10,7 @@ import java.io.OutputStream;
 
 public class CLIClientView {
     private final Player player;
-    private final ClientConnection connection;
+    private final Connection connection;
     private final InputStream input;
     private final OutputStream output;
 
@@ -22,7 +22,7 @@ public class CLIClientView {
         }
     }
 
-    public CLIClientView(Player player, ClientConnection connection, InputStream input, OutputStream output) {
+    public CLIClientView(Player player, Connection connection, InputStream input, OutputStream output) {
         this.player = player;
         this.connection = connection;
         this.input = input;

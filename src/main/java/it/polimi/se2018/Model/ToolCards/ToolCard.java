@@ -1,7 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Moves.MoveMessage;
+import it.polimi.se2018.Model.Messages.MoveMessage;
 
 public abstract class ToolCard {
     protected final boolean alreadyUsed; //true if this tool card has already been used once

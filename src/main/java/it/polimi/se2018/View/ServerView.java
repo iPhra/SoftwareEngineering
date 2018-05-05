@@ -1,8 +1,8 @@
 package it.polimi.se2018.View;
 
-import it.polimi.se2018.Connections.ServerConnection;
+import it.polimi.se2018.Connections.Connection;
 import it.polimi.se2018.Model.ModelView;
-import it.polimi.se2018.Model.Moves.Message;
+import it.polimi.se2018.Model.Messages.Message;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Utils.Observable;
 import it.polimi.se2018.Utils.Observer;
@@ -11,7 +11,7 @@ import it.polimi.se2018.Utils.Observer;
 import java.util.Map;
 
 public class ServerView extends Observable<Message> implements Observer<ModelView>{
-    private Map<Player,ServerConnection> playerConnections;
+    private Map<Player,Connection> playerConnections;
 
     private class NetworkObserver implements Observer<Message> {
         @Override
@@ -20,11 +20,11 @@ public class ServerView extends Observable<Message> implements Observer<ModelVie
         }
     }
 
-    public ServerView(Map<Player,ServerConnection> playerConnections) {
+    public ServerView(Map<Player,Connection> playerConnections) {
         this.playerConnections = playerConnections;
     }
 
-    public ServerConnection getPlayerConnection(Player player) {
+    public Connection getPlayerConnection(Player player) {
         return playerConnections.get(player);
     }
 

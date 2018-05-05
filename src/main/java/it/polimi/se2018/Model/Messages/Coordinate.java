@@ -1,4 +1,4 @@
-package it.polimi.se2018.Model.Moves;
+package it.polimi.se2018.Model.Messages;
 
 public class Coordinate {
     private final int row;

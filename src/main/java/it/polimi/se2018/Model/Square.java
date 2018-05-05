@@ -1,6 +1,6 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Model.Moves.Coordinate;
+import it.polimi.se2018.Model.Messages.Coordinate;
 
 public class Square {
     private final Color color;

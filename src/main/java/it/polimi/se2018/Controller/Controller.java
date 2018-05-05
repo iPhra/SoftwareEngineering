@@ -2,7 +2,7 @@ package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Moves.*;
+import it.polimi.se2018.Model.Messages.*;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Utils.Observer;
 import it.polimi.se2018.View.ServerView;
@@ -20,11 +20,13 @@ public class Controller implements Observer<Message>, MessageHandler {
     }
 
     //reads player, checks if it's his turn, call performMove
-    public void performMove(Message message){
+    public void handleMessage(Message message){
         Player player = message.getPlayer();
         if (!model.getRound().isYourTurn(player)) view.messageService("It's not your turn",player);
         else performMove(message);
     }
+
+    public void performMove(Message message) {}
 
     //use a toolcard
     //Player::getFavorPoints() deve essere coerente con ToolCard::isAlreadyUsed()   (o fai tre if o sdoppi il codice)
@@ -37,7 +39,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     //place a die
     //player.getMap().placeDie(player.getDieInHand(),row,col);
     //player.setDieInHand(null);
-    private void performMove(PlaceMessage move) {}
+    private void performMove(PlaceMessage placeMessage) {}
 
     //draft a die
     private void performMove(DraftMessage draftMessage) {
@@ -54,7 +56,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     }
 
     //pass
-    public void performMove(PassMessage passMessage) {
+    private void performMove(PassMessage passMessage) {
         if (model.getRound().isLastTurn()) {
             this.endRound();
         }
@@ -76,7 +78,7 @@ public class Controller implements Observer<Message>, MessageHandler {
         model.getDraftPool().fillDraftPool(model.getBag().drawDice(model.getPlayersNumber()));
     }
 
-    public void startRound() {
+    private void startRound() {
         initDraftPool();
     }
 
