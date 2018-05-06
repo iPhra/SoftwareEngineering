@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.DieException;
+
 import java.util.Random;
 
 public class Die {
@@ -16,11 +18,14 @@ public class Die {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(int value) throws DieException {
+        if (value > 6 || value < 1) {
+            throw new DieException();
+        }
         this.value = value;
     } //used if you already know what value to give
 
-    public void flipDie() {
+    public void flipDie() throws DieException{
         setValue(7-getValue());
     } //used by Tool Cards
 

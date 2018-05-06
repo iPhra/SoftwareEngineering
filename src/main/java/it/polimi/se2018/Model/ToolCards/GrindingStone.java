@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
+import it.polimi.se2018.Exceptions.DieException;
+import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Messages.ToolCardMessage;
 
@@ -10,7 +12,18 @@ public class GrindingStone extends ToolCard {
     }
 
     @Override
-    public void useCard(ToolCardMessage toolCardMessage) {}
+    //After drafting, flip the die to its opposite side
+    public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException{
+        try {
+            if (!toolCardMessage.getPlayer().hasDieInHand()) {
+                throw new ToolCardException();
+            }
+            toolCardMessage.getPlayer().getDieInHand().flipDie();
+        }
+        catch (DieException e) {
+            throw new ToolCardException();
+        }
+    }
 
     @Override
     public ToolCard setAlreadyUsed() {

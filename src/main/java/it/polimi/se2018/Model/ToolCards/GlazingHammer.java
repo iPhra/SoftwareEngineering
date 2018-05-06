@@ -10,7 +10,10 @@ public class GlazingHammer extends ToolCard {
     }
 
     @Override
-    public void useCard(ToolCardMessage toolCardMessage) {}
+    //Re-roll all dice in the Draft Pool
+    public void useCard(ToolCardMessage toolCardMessage) {
+
+    }
 
     @Override
     public ToolCard setAlreadyUsed() {

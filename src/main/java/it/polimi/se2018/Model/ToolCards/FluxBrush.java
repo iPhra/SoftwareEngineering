@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model.ToolCards;
 
+import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Messages.ToolCardMessage;
 
@@ -9,7 +10,12 @@ public class FluxBrush extends ToolCard {
         super(imagePath, title, board,alreadyUsed);
     }
     @Override
-    public void useCard(ToolCardMessage toolCardMessage) {
+    //After drafting, re-roll the drafted die
+    public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
+        if (!toolCardMessage.getPlayer().hasDieInHand()) {
+            throw new ToolCardException();
+        }
+        toolCardMessage.getPlayer().getDieInHand().rollDie();
     }
 
     @Override
