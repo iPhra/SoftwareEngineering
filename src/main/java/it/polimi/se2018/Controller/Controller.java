@@ -58,7 +58,7 @@ public class Controller implements Observer<Message>, MessageHandler {
                     placeMessage.getPlayer().getMap().placeDieOnEdge(die,placeMessage.getFinalPosition());
                     placeMessage.getPlayer().setFirstMove(true);
                 }
-                else placeMessage.getPlayer().getMap().placeDie(die,placeMessage.getFinalPosition());
+                else //placeMessage.getPlayer().getMap().placeDie(die,placeMessage.getFinalPosition());
                 placeMessage.getPlayer().setDieInHand(null);
             }
             catch(InvalidPlacementException e) {view.messageService("You can't place the die there",placeMessage.getPlayer());}
@@ -119,7 +119,7 @@ public class Controller implements Observer<Message>, MessageHandler {
                 score+=pub.evalPoints(player);
             }
             score+=player.getFavorPoints();
-            //score-=player.getMap().countEmptySlots();
+            score-=player.getMap().countEmptySlots();
             player.setScore(score);
         }
     }

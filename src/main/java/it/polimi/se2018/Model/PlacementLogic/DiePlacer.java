@@ -1,4 +1,4 @@
-package it.polimi.se2018.Model.PlaceDie;
+package it.polimi.se2018.Model.PlacementLogic;
 
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Map;
@@ -7,22 +7,21 @@ import it.polimi.se2018.Model.Square;
 
 import java.util.ArrayList;
 
-public abstract class PlaceDie {
+public abstract class DiePlacer {
     protected Die die;
     protected Coordinate coordinate;
     protected Square square;
     protected Map map;
 
-    protected PlaceDie() {
+    protected DiePlacer(Die die, Coordinate coordinate, Map map) {
         this.die = die;
         this.coordinate = coordinate;
         this.map = map;
         this.square = map.getSquare(coordinate.getRow(),coordinate.getCol());
     }
 
-    public boolean checkCondition (){
-        return true;
-    }
+    public abstract boolean checkCondition ();
+
     public void placeDie() {
         if(this.checkCondition()) {
             square.setDie(die);

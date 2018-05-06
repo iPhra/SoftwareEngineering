@@ -126,9 +126,9 @@ public class Map implements Iterable<Square>{
     }
 */
     //places a die on the edge of the map, validity is checked by whoever calls this method
-    public void placeDieOnEdge(Die die, Coordinate coordinate) throws InvalidPlacementException{ //da sistemare l'eccezione
+    public void placeDieOnEdge(Die die, Coordinate coordinate) throws InvalidPlacementException{
         if (!isOnEdge(coordinate.getRow(),coordinate.getCol())) throw new InvalidPlacementException();
-        placeDie(die,coordinate);
+        //placeDie(die,coordinate);
     }
 
     //removes a die from a given position of the map
@@ -136,6 +136,12 @@ public class Map implements Iterable<Square>{
         Die result = matrix[coordinate.getRow()][coordinate.getCol()].getDie();
         matrix[coordinate.getRow()][coordinate.getCol()].setDie(null);
         return result;
+    }
+
+    //return number of empty slot in a map
+    public int countEmptySlots() {
+        int countSlot = 0;
+        return countSlot;
     }
 
     public Iterator<Square> iterator(){
@@ -166,10 +172,5 @@ public class Map implements Iterable<Square>{
             return res;
         }
 
-        //return number of empty slot in a map
-        public int countEmptySlots() {
-            int countSlot = 0;
-            return countSlot;
-        }
     }
 }
