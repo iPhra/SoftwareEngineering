@@ -55,7 +55,16 @@ public class Round {
     //changeRound() build the next array player order
     //and give it to the costructor of the next round with the new roundNumber
     public Round changeRound() {
-        return null; //placeholder
+        List<Integer> newPlayersOrder = new ArrayList<Integer>();
+        for(int i=0; i < playersOrder.size()/2 - 1; i++){
+            newPlayersOrder.add(playersOrder.get(i+1));
+        }    //given ABCDDCBA, now we have BCD
+        newPlayersOrder.add(playersOrder.get(0)); //BCDA
+        newPlayersOrder.add(playersOrder.get(0)); //BCDAA
+        for(int i=playersOrder.size()/2; i<playersOrder.size() - 1; i++ ){
+            newPlayersOrder.add(playersOrder.get(i));
+        } //BCDAADCB, that's what we wanted
+        return new Round(newPlayersOrder,roundNumber + 1);
     }
 
     // used by the toolcard that allows you to place the die twice and skip your second turn

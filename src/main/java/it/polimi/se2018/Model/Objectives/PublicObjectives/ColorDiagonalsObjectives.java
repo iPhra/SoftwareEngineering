@@ -10,9 +10,12 @@ import java.util.List;
 
 public class ColorDiagonalsObjectives extends PublicObjective {
     private static ColorDiagonalsObjectives instance = null;
+    private boolean[][] alreadyCounted;  //needed in order not to count the same die twice while evaluating points
 
     private ColorDiagonalsObjectives(String imagePath, String title){
         super(imagePath,title);
+        alreadyCounted = new boolean[4][5];
+        for (boolean[] row : alreadyCounted) for (boolean cell : row) cell = false;
     }
 
     private static synchronized ColorDiagonalsObjectives createInstance(String imagePath, String title){
@@ -29,10 +32,14 @@ public class ColorDiagonalsObjectives extends PublicObjective {
     private List<Die> belowDiagonalsDice(Player player, int row, int col){
         ArrayList<Die> belowDiagonals = new ArrayList<>();
         if (row < player.getMap().getRows()-1){
-            if (col > 0 && ! player.getMap().getSquare(row+1,col-1).isEmpty())
+            if (col > 0 && !player.getMap().getSquare(row+1,col-1).isEmpty() && !alreadyCounted[row+1][col-1]){
                 belowDiagonals.add(player.getMap().getSquare(row+1,col-1).getDie());
-            if (col < player.getMap().getCols()-1 && !player.getMap().getSquare(row+1,col+1).isEmpty())
+                alreadyCounted[row+1][col-1] = true;
+            }
+            if (col < player.getMap().getCols()-1 && !player.getMap().getSquare(row+1,col+1).isEmpty() && !alreadyCounted[row+1][col+1]){
                 belowDiagonals.add(player.getMap().getSquare(row+1,col+1).getDie());
+                alreadyCounted[row+1][col+1] = true;
+            }
         }
         return belowDiagonals;
     }
