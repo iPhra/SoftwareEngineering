@@ -97,4 +97,16 @@ public class Map implements Iterable<Square>{
         }
 
     }
+
+    //used by method adjacentOk, returns the adjacent dice of a die
+    public List<Die> adjacentDice(int row, int col){
+        ArrayList<Die> adjacent = new ArrayList<>();
+        int rows = getRows();
+        int cols = getCols();
+        if (row > 0) adjacent.add(getSquare(row-1,col).getDie());
+        if (row < rows-1) adjacent.add(getSquare(row+1,col).getDie());
+        if (col > 0) adjacent.add(getSquare(row,col-1).getDie());
+        if (col < cols-1) adjacent.add(getSquare(row,col+1).getDie());
+        return adjacent;
+    }
 }
