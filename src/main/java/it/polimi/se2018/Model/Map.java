@@ -59,12 +59,12 @@ public class Map implements Iterable<Square>{
         if (col < matrix[0].length) adjacent.add(matrix[row][col+1].getDie());
         return adjacent;
     }
-
+/*
     //row and col are indexes, they start from 0
     private boolean isOnEdge(int row, int col) {
         return (row==matrix.length-1 || row == 0 || col==matrix[0].length-1 || col == 0);
     }
-/*
+
     //all dice in diagonal and adjacent to a given die
     private boolean hasSurroundingDice(int row, int col) {
         ArrayList<Die> surrounding = adjacentDice(row,col);
@@ -124,13 +124,13 @@ public class Map implements Iterable<Square>{
     public void placeDie(Die die, Coordinate coordinate) {
         matrix[coordinate.getRow()][coordinate.getCol()].setDie(die);
     }
-*/
+
     //places a die on the edge of the map, validity is checked by whoever calls this method
     public void placeDieOnEdge(Die die, Coordinate coordinate) throws InvalidPlacementException{
         if (!isOnEdge(coordinate.getRow(),coordinate.getCol())) throw new InvalidPlacementException();
         //placeDie(die,coordinate);
     }
-
+*/
     //removes a die from a given position of the map
     public Die popDie(Coordinate coordinate) {
         Die result = matrix[coordinate.getRow()][coordinate.getCol()].getDie();

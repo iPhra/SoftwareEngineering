@@ -49,5 +49,19 @@ public abstract class DiePlacer {
         }
         return true;
     }
+    //all dice in diagonal and adjacent to a given die
+    public boolean hasSurroundingDice() {
+        ArrayList<Die> surrounding = map.adjacentDice(square.getRow(),square.getCol());
+        if (!surrounding.isEmpty()) return true;
+        if (square.getRow() > 0 && square.getCol() > 0 && !map.getSquare(square.getRow()-1,square.getCol()-1).isEmpty()) return true;
+        if (square.getRow() > 0 && square.getCol() < map.getCols() && !map.getSquare(square.getRow()-1,square.getCol()+1).isEmpty()) return true;
+        if (square.getRow() < map.getRows() && square.getCol() > 0 && !map.getSquare(square.getRow()+1,square.getCol()-1).isEmpty()) return true;
+        if (square.getRow() < map.getRows() && square.getCol() < map.getCols() && !map.getSquare(square.getRow()+1,square.getCol()+1).isEmpty()) return true;
+        return false;
+    }
 
+    //row and col are indexes, they start from 0
+    public boolean isOnEdge() {
+        return (square.getRow()==map.getRows()-1 || square.getRow() == 0 || square.getCol()==map.getCols()-1 || square.getCol() == 0);
+    }
 }

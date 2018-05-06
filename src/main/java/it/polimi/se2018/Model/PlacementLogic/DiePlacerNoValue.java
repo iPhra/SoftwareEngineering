@@ -12,6 +12,6 @@ public class DiePlacerNoValue extends DiePlacer {
 
     @Override
     public boolean checkCondition() {
-        return square.isEmpty() && square.sameColor(die) && isColorOk();// && hasSurroundingDice(row,col);
+        return square.isEmpty() && square.sameColor(die) && isColorOk() && hasSurroundingDice();
     }
 }
