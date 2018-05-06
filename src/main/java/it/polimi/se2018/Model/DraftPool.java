@@ -1,17 +1,19 @@
 package it.polimi.se2018.Model;
 
 
+import it.polimi.se2018.Exceptions.NoDieException;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DraftPool {
-    private ArrayList<Die> dice; //the 2n + 1 drafted dice are placed here
+    private List<Die> dice; //the 2n + 1 drafted dice are placed here
 
     public boolean contains(Die die) {return dice.contains(die); }
 
     public void fillDraftPool(List<Die> draftPool) { //riempie la draft pool con i nuovi 2n+1 dadi presi dalla board
-        this.dice = (ArrayList<Die>)draftPool;
+        this.dice = draftPool;
     }
 
     public void addToDraftPool(Die die) {
@@ -26,8 +28,8 @@ public class DraftPool {
         dice.clear();
     }
 
-    public Die getDie(int index) {
-        if (index>=dice.size()) throw new InvalidParameterException();
+    public Die getDie(int index) throws NoDieException{
+        if (index>=dice.size()) throw new NoDieException();
         return dice.get(index);
     }
 

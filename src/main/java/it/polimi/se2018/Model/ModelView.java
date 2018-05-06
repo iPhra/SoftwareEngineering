@@ -7,13 +7,13 @@ import java.util.List;
 
 //updates from model to view
 public class ModelView {
-    private final ArrayList<Die> draftPool; //draft pool
-    private final ArrayList<Die>[] roundTracker; //ha il riferimento al roundTracker
-    private final ArrayList<Boolean> usedToolCards; //true if toolcard[i] has already been used
-    private final ArrayList<Square[][]> maps;
-    private final ArrayList<Integer> favorPoints;
-    private final ArrayList<Integer> scores;
-    private final ArrayList<Die> diceInHand;
+    private final List<Die> draftPool; //draft pool
+    private final List<Die>[] roundTracker; //ha il riferimento al roundTracker
+    private final List<Boolean> usedToolCards; //true if toolcard[i] has already been used
+    private final List<Square[][]> maps;
+    private final List<Integer> favorPoints;
+    private final List<Integer> scores;
+    private final List<Die> diceInHand;
     private final int turn; //current turn
 
     public ModelView(Board board) {

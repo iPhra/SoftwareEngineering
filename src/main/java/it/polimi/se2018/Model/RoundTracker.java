@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RoundTracker {
-    private ArrayList<Die>[] dice; //array of arrayList, every position contains an arraylist of dice
+    private List<Die>[] dice; //array of arrayList, every position contains an arraylist of dice
     private int turn;
 
     public RoundTracker(int roundsNumber) {
@@ -13,7 +13,7 @@ public class RoundTracker {
     }
 
     public boolean contains(Die die) {
-        for(int i=0; i<dice.length;i++) if (dice[i].contains(die)) return true;
+        for(List<Die> array : dice) if (array.contains(die)) return true;
         return false;
     }
 
@@ -26,14 +26,14 @@ public class RoundTracker {
     }
 
     public void updateRoundTracker(List<Die> remainingDice) { //increments current turn, fills roundTracker with remaining dice from draftPool
-        dice[turn]=(ArrayList<Die>)remainingDice;
+        dice[turn]= remainingDice;
         turn ++;
     }
 
     public int getTurn() {return turn;}
 
     public List<Die>[] modelViewCopy() {
-        ArrayList<Die>[] result = new ArrayList[dice.length];
+        List<Die>[] result = new ArrayList[dice.length];
         for(int i=0; i<result.length; i++) {
             for(Die die: dice[i]) {
                 result[i].add((die.modelViewCopy()));

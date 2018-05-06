@@ -5,12 +5,9 @@ import it.polimi.se2018.Model.Map;
 import it.polimi.se2018.Model.Messages.Coordinate;
 
 public class DiePlacerNormal extends DiePlacer {
+
     public DiePlacerNormal(Die die, Coordinate coordinate, Map map) {
         super(die,coordinate,map);
-        this.die = die;
-        this.coordinate = coordinate;
-        this.map = map;
-        this.square = map.getSquare(coordinate.getRow(),coordinate.getCol());
     }
 
     @Override

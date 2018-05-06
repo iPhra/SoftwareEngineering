@@ -16,7 +16,7 @@ public class Board extends Observable<ModelView> {
     private Round round;
     private final String imagePath;
     private final int playersNumber;
-    private final ArrayList<Player> players; //contiene la mappa di ciascun giocatore
+    private final List<Player> players; //contiene la mappa di ciascun giocatore
     private final DraftPool draftPool; //draft pool
     private final ToolCard[] toolCards; // sono le toolCards sulla board (il gioco prevede da regolamento che siano 3, ma noi lo facciamo parametrico e quindi estendibile)
     private final PublicObjective[] publicObjectives; //array che contiene le carte degli obbiettivi pubblici
@@ -24,13 +24,13 @@ public class Board extends Observable<ModelView> {
     private final RoundTracker roundTracker; //ha il riferimento al roundTracker
 
     public Board(int id, List<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
-        this.players = (ArrayList<Player>)players;
+        this.players = players;
         this.imagePath = imagePath;
         this.id=id;
         this.playersNumber=players.size();
         ArrayList<Integer> playersId = new ArrayList<>(playersNumber);
-        for (int i=0; i<players.size(); i++) {
-            playersId.add(players.get(i).getId());
+        for (Player player : players) {
+            playersId.add(player.getId());
         }
         round = new Round(playersId, 1);
         this.toolCards = toolCards;

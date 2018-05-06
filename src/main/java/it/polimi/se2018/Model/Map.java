@@ -50,87 +50,6 @@ public class Map implements Iterable<Square>{
         return result;
     }
 
-    //used by method adjacentOk, returns the adjacent dice of a die
-    public ArrayList<Die> adjacentDice(int row, int col){
-        ArrayList<Die> adjacent = new ArrayList<>();
-        if (row > 0) adjacent.add(matrix[row-1][col].getDie());
-        if (row < matrix.length) adjacent.add(matrix[row+1][col].getDie());
-        if (col > 0) adjacent.add(matrix[row][col-1].getDie());
-        if (col < matrix[0].length) adjacent.add(matrix[row][col+1].getDie());
-        return adjacent;
-    }
-/*
-    //row and col are indexes, they start from 0
-    private boolean isOnEdge(int row, int col) {
-        return (row==matrix.length-1 || row == 0 || col==matrix[0].length-1 || col == 0);
-    }
-
-    //all dice in diagonal and adjacent to a given die
-    private boolean hasSurroundingDice(int row, int col) {
-        ArrayList<Die> surrounding = adjacentDice(row,col);
-        if (!surrounding.isEmpty()) return true;
-        if (row > 0 && col > 0 && !matrix[row-1][col-1].isEmpty()) return true;
-        if (row > 0 && col < matrix[0].length && !matrix[row-1][col+1].isEmpty()) return true;
-        if (row < matrix.length && col > 0 && !matrix[row+1][col-1].isEmpty()) return true;
-        if (row < matrix.length && col < matrix[0].length && !matrix[row+1][col+1].isEmpty()) return true;
-        return false;
-    }
-
-    //used by method placeDie in order to check if you can place die without "violating" adjacent dice color
-    private boolean isColorOk(Die die, int row, int col) {
-        ArrayList<Die> adjacent = adjacentDice(row,col);
-        for (int i=0; i<adjacent.size(); i++){
-            if (die.getColor().equals(adjacent.get(i).getColor())){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    //used by method placeDie in order to check if you can place die without "violating" adjacent dice value
-    private boolean isValueOk(Die die, int row, int col) {
-        ArrayList<Die> adjacent= adjacentDice(row,col);
-        for (int i=0; i<adjacent.size(); i++){
-            if (die.getValue() == adjacent.get(i).getValue()){
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-
-    //This method check all condition to put a die in a square
-    public boolean isValidMove(Die die, int row, int col) {
-        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && isColorOk(die,row,col) && hasSurroundingDice(row,col);
-    }
-
-    //This method do NOT check color condition
-    public boolean isValidNoColor(Die die, int row, int col) {
-        return matrix[row][col].isEmpty() && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && hasSurroundingDice(row,col);
-    }
-
-    //This method do NOT check value condition
-    public boolean isValidNoValue(Die die, int row, int col) {
-        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && isColorOk(die,row,col) && hasSurroundingDice(row,col);
-    }
-
-    //This method do NOT check that the die is near another die
-    public boolean isValidNoPosition(Die die, int row, int col) {
-        return matrix[row][col].isEmpty() && matrix[row][col].sameColor(die) && matrix[row][col].sameValue(die) && isValueOk(die,row,col) && isColorOk(die,row,col);
-    }
-
-    //places a die in a given position of the map, validity is checked by whoever calls this method
-    public void placeDie(Die die, Coordinate coordinate) {
-        matrix[coordinate.getRow()][coordinate.getCol()].setDie(die);
-    }
-
-    //places a die on the edge of the map, validity is checked by whoever calls this method
-    public void placeDieOnEdge(Die die, Coordinate coordinate) throws InvalidPlacementException{
-        if (!isOnEdge(coordinate.getRow(),coordinate.getCol())) throw new InvalidPlacementException();
-        //placeDie(die,coordinate);
-    }
-*/
     //removes a die from a given position of the map
     public Die popDie(Coordinate coordinate) {
         Die result = matrix[coordinate.getRow()][coordinate.getCol()].getDie();
@@ -141,6 +60,11 @@ public class Map implements Iterable<Square>{
     //return number of empty slot in a map
     public int countEmptySlots() {
         int countSlot = 0;
+        for (Square[] squares : matrix) {
+            for (Square square : squares) {
+                if (square.isEmpty()) countSlot++;
+            }
+        }
         return countSlot;
     }
 
