@@ -2,6 +2,7 @@ package it.polimi.se2018.Controller;
 
 import it.polimi.se2018.Exceptions.InvalidPlacementException;
 import it.polimi.se2018.Exceptions.NoDieException;
+import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Messages.*;
@@ -43,9 +44,12 @@ public class Controller implements Observer<Message>, MessageHandler {
             int cost = toolCard.isAlreadyUsed()? 2:1;
             if(player.getFavorPoints()<cost) view.messageService("Not enough favor points",player);
             else {
-                toolCard.useCard(toolCardMessage);
-                player.setFavorPoints(player.getFavorPoints()-cost);
-                updateToolCard(toolCard,toolCardMessage);
+                try {
+                    toolCard.useCard(toolCardMessage);
+                    player.setFavorPoints(player.getFavorPoints()-cost);
+                    updateToolCard(toolCard,toolCardMessage);
+                }
+                catch (ToolCardException e) {view.messageService(e.getMessage(),player);}
             }
         }
     }

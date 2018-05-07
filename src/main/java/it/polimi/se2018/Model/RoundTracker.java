@@ -1,9 +1,11 @@
 package it.polimi.se2018.Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public class RoundTracker {
+public class RoundTracker implements Iterable<Die>{
     private List<Die>[] dice; //array of arrayList, every position contains an arraylist of dice
     private int turn;
 
@@ -17,8 +19,12 @@ public class RoundTracker {
         return false;
     }
 
-    public void removeFromRoundTracker(int index, Die die) { //used by ToolCards
-        dice[index].remove(die);
+    public void removeFromRoundTracker(Die die) {
+        for(List<Die> currentList : dice) {
+            for (Die currentDie : currentList) {
+                if (currentDie.equals(die)) currentList.remove(die);
+            }
+        }
     }
 
     public void addToRoundTracker(int index, Die die) { //used by ToolCards
@@ -40,6 +46,38 @@ public class RoundTracker {
             }
         }
         return result;
+    }
+
+    public Iterator<Die> iterator(){
+        return new DieIterator();
+    }
+
+    private class DieIterator implements Iterator<Die> {
+        List<Die> currentTurn;
+        int currentTurnIndex;
+        int currentDieIndex;
+
+        DieIterator(){
+            currentTurnIndex = 0;
+            currentDieIndex = 0;
+            currentTurn=dice[0];
+        }
+
+        public boolean hasNext() {
+            return !(currentTurnIndex==dice.length && currentDieIndex==currentTurn.size()-1);
+        }
+
+        public Die next() {
+            if (!hasNext()) throw new NoSuchElementException("No more elements available in the iterator");
+            Die result = currentTurn.get(currentDieIndex);
+            if(currentDieIndex<currentTurn.size()-1) currentDieIndex++;
+            else {
+                currentDieIndex=0;
+                currentTurnIndex++;
+                currentTurn=dice[currentTurnIndex];
+            }
+            return result;
+        }
     }
 
 }
