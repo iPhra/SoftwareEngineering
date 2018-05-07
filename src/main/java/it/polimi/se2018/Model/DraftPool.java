@@ -3,7 +3,6 @@ package it.polimi.se2018.Model;
 
 import it.polimi.se2018.Exceptions.NoDieException;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +28,13 @@ public class DraftPool {
     }
 
     public Die getDie(int index) throws NoDieException{
-        if (index>=dice.size()) throw new NoDieException();
+        if (index>=dice.size() || index<0) throw new NoDieException();
         return dice.get(index);
     }
 
     public List<Die> getAllDice  () {
         return new ArrayList<>(dice);
     }
-
 
     public List<Die> modelViewCopy() {
         ArrayList<Die> result = new ArrayList<>();

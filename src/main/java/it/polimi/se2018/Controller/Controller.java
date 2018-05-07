@@ -15,8 +15,6 @@ import it.polimi.se2018.Model.ToolCards.ToolCard;
 import it.polimi.se2018.Utils.Observer;
 import it.polimi.se2018.View.ServerView;
 
-import java.util.ArrayList;
-
 public class Controller implements Observer<Message>, MessageHandler {
     private final Board model;
     private final ServerView view;

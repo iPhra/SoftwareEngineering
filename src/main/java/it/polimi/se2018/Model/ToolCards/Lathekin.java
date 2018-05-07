@@ -34,8 +34,9 @@ public class Lathekin extends ToolCard {
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
         boolean twoDiceNotCombatible = false; //this check that the two die can be moved together
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
-        Die dieOne = toolCardMessage.getPlayer().getMap().popDie(toolCardMessage.getStartingPosition().get(0));
-        Die dieTwo = toolCardMessage.getPlayer().getMap().popDie(toolCardMessage.getStartingPosition().get(1));
+        Die dieOne = toolCardMessage.getPlayer().getMap().getDie(toolCardMessage.getStartingPosition().get(0));
+        Die dieTwo = toolCardMessage.getPlayer().getMap().getDie((toolCardMessage.getStartingPosition().get(1)));
+        //TODO ti ho modificato popDie in getDie, ricorda di aggiungerlo
         if (dieOne.getColor() == dieTwo.getColor() || dieOne.getValue() == dieTwo.getValue()) {
             twoDiceNotCombatible = true;
         }

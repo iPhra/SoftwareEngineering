@@ -6,7 +6,6 @@ import it.polimi.se2018.Model.Map;
 import it.polimi.se2018.Model.Messages.Coordinate;
 import it.polimi.se2018.Model.Square;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DiePlacer {

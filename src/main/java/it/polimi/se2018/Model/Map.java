@@ -1,6 +1,5 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Exceptions.InvalidPlacementException;
 import it.polimi.se2018.Model.Messages.Coordinate;
 
 import java.util.ArrayList;
