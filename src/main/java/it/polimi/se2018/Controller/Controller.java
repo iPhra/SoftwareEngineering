@@ -128,7 +128,7 @@ public class Controller implements Observer<Message>, MessageHandler {
 
     private void startRound() {
         model.setRound(model.getRound().changeRound());
-        model.getRoundTracker().updateRoundTracker((ArrayList<Die>)model.getDraftPool().modelViewCopy());
+        model.getRoundTracker().updateRoundTracker(model.getDraftPool().getAllDice());
         model.getDraftPool().fillDraftPool(model.getBag().drawDice(model.getPlayersNumber()));
     }
 

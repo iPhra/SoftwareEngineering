@@ -18,10 +18,11 @@ public class CopperFoilBurnisher extends ToolCard {
     //Move any one die in your window ignoring value restrictions
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
         try {
-            Die dieToMove = toolCardMessage.getPlayer().getMap().popDie(toolCardMessage.getStartingPosition().get(0));
+            Die dieToMove = toolCardMessage.getPlayer().getMap().getDie(toolCardMessage.getStartingPosition().get(0));
         //non sono sicuro sull'implementazione di Pop in caso di insuccesso del try
             DiePlacerNoValue placer = new DiePlacerNoValue(dieToMove, toolCardMessage.getFinalPosition().get(0), toolCardMessage.getPlayer().getMap());
             placer.placeDie();
+            toolCardMessage.getPlayer().getMap().popDie(toolCardMessage.getStartingPosition().get(0));
         }
         catch (InvalidPlacementException e) {
             throw new ToolCardException();

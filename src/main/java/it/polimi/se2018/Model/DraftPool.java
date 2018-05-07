@@ -33,6 +33,11 @@ public class DraftPool {
         return dice.get(index);
     }
 
+    public List<Die> getAllDice  () {
+        return new ArrayList<>(dice);
+    }
+
+
     public List<Die> modelViewCopy() {
         ArrayList<Die> result = new ArrayList<>();
         for(Die die: dice) {

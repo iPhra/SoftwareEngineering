@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Model.Board;
+import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Messages.ToolCardMessage;
 
 public class GlazingHammer extends ToolCard {
@@ -12,7 +13,9 @@ public class GlazingHammer extends ToolCard {
     @Override
     //Re-roll all dice in the Draft Pool
     public void useCard(ToolCardMessage toolCardMessage) {
-
+        for(Die die : board.getDraftPool().getAllDice()) {
+            die.rollDie();
+        }
     }
 
     @Override

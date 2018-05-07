@@ -17,9 +17,10 @@ public class EglomiseBrush extends ToolCard {
     //Move any die in your window ignoring color restrictions
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
         try {
-            Die dieToMove = toolCardMessage.getPlayer().getMap().popDie(toolCardMessage.getStartingPosition().get(0));
+            Die dieToMove = toolCardMessage.getPlayer().getMap().getDie(toolCardMessage.getStartingPosition().get(0));
             DiePlacerNoColor placer = new DiePlacerNoColor(dieToMove, toolCardMessage.getFinalPosition().get(0), toolCardMessage.getPlayer().getMap());
             placer.placeDie();
+            toolCardMessage.getPlayer().getMap().popDie(toolCardMessage.getStartingPosition().get(0));
         }
         catch (InvalidPlacementException e) {
                 throw new ToolCardException();

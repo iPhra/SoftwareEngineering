@@ -50,11 +50,13 @@ public class Map implements Iterable<Square>{
         return result;
     }
 
+    public Die getDie (Coordinate coordinate) {
+        return matrix[coordinate.getRow()][coordinate.getCol()].getDie();
+    }
+
     //removes a die from a given position of the map
-    public Die popDie(Coordinate coordinate) {
-        Die result = matrix[coordinate.getRow()][coordinate.getCol()].getDie();
+    public void popDie(Coordinate coordinate) {
         matrix[coordinate.getRow()][coordinate.getCol()].setDie(null);
-        return result;
     }
 
     //return number of empty slot in a map
