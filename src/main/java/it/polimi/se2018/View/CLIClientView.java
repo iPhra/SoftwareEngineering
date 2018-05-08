@@ -1,43 +1,48 @@
 package it.polimi.se2018.View;
 
-import it.polimi.se2018.Connections.Connection;
-import it.polimi.se2018.Model.ModelView;
+import it.polimi.se2018.Connections.ClientConnection;
+import it.polimi.se2018.Model.Messages.*;
 import it.polimi.se2018.Model.Player;
-import it.polimi.se2018.Utils.Observer;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class CLIClientView {
+public class CLIClientView implements ResponseHandler {
     private final Player player;
-    private final Connection connection;
+    private final ClientConnection clientConnection;
     private final InputStream input;
     private final OutputStream output;
 
-    private class NetworkObserver implements Observer<Object> {
-        @Override
-        public void update(Object object) {
-            if (object instanceof String) messageService((String)object);
-            if (object instanceof ModelView) printModel((ModelView)object);
-        }
-    }
-
-    public CLIClientView(Player player, Connection connection, InputStream input, OutputStream output) {
+    public CLIClientView(Player player, ClientConnection clientConnection, InputStream input, OutputStream output) {
         this.player = player;
-        this.connection = connection;
+        this.clientConnection = clientConnection;
         this.input = input;
         this.output = output;
     }
 
-    //if it's my turn i call getInput, else if it's an error i print the error
-    public void messageService(String message) {}
+    //receives input from the network, called by class clientConnection
+    public void handleNetworkInput(Response response) {
+        response.handle(this);
+    }
 
-    //called by messageService when it receives an error
-    public void printMessage(String error) {}
+    //called when i receive a TextResponse
+    public void handleUserInput() {
 
-    //called whenever it's this player's turn
-    public void getInput() {}
+    }
 
-    public void printModel(ModelView modelView) {}
+    //updates the board
+    @Override
+    public void handleResponse(ModelViewResponse modelViewResponse) {
+    }
+
+    //prints the text message
+    @Override
+    public void handleResponse(TextResponse textResponse) {
+    }
+
+    @Override
+    public void handleResponse(TurnStartResponse turnStartResponse) {
+
+    }
 
 }

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class DraftPoolTest {
+public class TestDraftPool {
     private DraftPool draftPool;
     private List<Die> dice;
 
@@ -50,7 +50,6 @@ public class DraftPoolTest {
             draftPool.getDie(10);
         }
         catch (NoDieException e) {
-            Assert.assertTrue(true);
             return;
         }
         fail();
@@ -62,7 +61,6 @@ public class DraftPoolTest {
             draftPool.getDie(-4);
         }
         catch (NoDieException e) {
-            Assert.assertTrue(true);
             return;
         }
         fail();

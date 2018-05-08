@@ -1,3 +1,3 @@
 package it.polimi.se2018.Connections;
 
-public interface Connection {}
+public interface ClientConnection {}

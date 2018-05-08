@@ -28,7 +28,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     //reads player, checks if it's his turn, call performMove
     private void checkInput(Message message){
         Player player = message.getPlayer();
-        if (!model.getRound().isYourTurn(player)) view.messageService("It's not your turn",player);
+        if (!model.getRound().isYourTurn(player)) model.notify(new TextResponse(player,"It's not your turn"));
         else message.handle(this);
     }
 
@@ -36,18 +36,19 @@ public class Controller implements Observer<Message>, MessageHandler {
     @Override
     public void performMove(ToolCardMessage toolCardMessage) {
         Player player = toolCardMessage.getPlayer();
-        if(model.getRound().hasUsedCard()) view.messageService("You have already used a Tool Card",player);
+        if(model.getRound().hasUsedCard()) model.notify(new TextResponse(player,"You have already used a Tool Card"));
         else {
             ToolCard toolCard = model.getToolCards()[toolCardMessage.getToolCardNumber()];
             int cost = toolCard.isAlreadyUsed()? 2:1;
-            if(player.getFavorPoints()<cost) view.messageService("Not enough favor points",player);
+            if(player.getFavorPoints()<cost) model.notify(new TextResponse(player,"Not enough favor points"));
             else {
                 try {
                     toolCard.useCard(toolCardMessage);
                     player.setFavorPoints(player.getFavorPoints()-cost);
                     updateToolCard(toolCard,toolCardMessage);
+                    model.notify(new ModelViewResponse(model));
                 }
-                catch (ToolCardException e) {view.messageService(e.getMessage(),player);}
+                catch (ToolCardException e) {model.notify(new TextResponse(player,e.getMessage()));}
             }
         }
     }
@@ -56,7 +57,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     @Override
     public void performMove(PlaceMessage placeMessage) {
         Player player = placeMessage.getPlayer();
-        if(!player.hasDieInHand()) view.messageService("You haven't selected a die!",player);
+        if(!player.hasDieInHand()) model.notify(new TextResponse(player,"You haven't selected a die"));
         else {
             try {
                 Die die = player.getDieInHand();
@@ -68,20 +69,23 @@ public class Controller implements Observer<Message>, MessageHandler {
                     placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getMap()));
                 }
                 player.setDieInHand(null);
+                model.notify(new ModelViewResponse(model));
             }
-            catch(InvalidPlacementException e) {view.messageService("You can't place the die there",placeMessage.getPlayer());}
+            catch(InvalidPlacementException e) {model.notify(new TextResponse(player,"You can't place the die there"));}
         }
     }
 
     //draft a die
     @Override
     public void performMove(DraftMessage draftMessage) {
-        if (model.getRound().hasDraftedDie()) view.messageService("You have already drafted!",draftMessage.getPlayer());
+        Player player = draftMessage.getPlayer();
+        if (model.getRound().hasDraftedDie()) model.notify(new TextResponse(player,"You have already drafted"));
         else {
             try {
                 draft(draftMessage);
+                model.notify(new ModelViewResponse(model));
             } catch (NoDieException e) {
-                view.messageService("The die you want to draft does not exist", draftMessage.getPlayer());
+                model.notify(new TextResponse(player,"The die you want to draft does not exit"));
             }
         }
     }
@@ -97,7 +101,9 @@ public class Controller implements Observer<Message>, MessageHandler {
             if (passMessage.getPlayer().hasDieInHand()) {
                dropDie(passMessage);
             }
-            view.messageService("It's your turn",model.getPlayerByIndex((model.getRound().getCurrentPlayerIndex()))); //notifies to the next player that it's his turn
+            Player nextPlayer = model.getPlayerByIndex(model.getRound().getCurrentPlayerIndex());
+            model.notify(new TurnStartResponse(nextPlayer));
+            model.notify(new ModelViewResponse(model));
         }
     }
 
@@ -107,7 +113,9 @@ public class Controller implements Observer<Message>, MessageHandler {
         }
         else {
             startRound();
-            view.messageService("It's your turn",model.getPlayerByIndex((model.getRound().getCurrentPlayerIndex())));
+            Player nextPlayer = model.getPlayerByIndex(model.getRound().getCurrentPlayerIndex());
+            model.notify(new TurnStartResponse(nextPlayer));
+            model.notify(new ModelViewResponse(model));
         }
     }
 
@@ -131,6 +139,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     }
 
     private void endMatch() {
+        model.notify(new ModelViewResponse(model));
         evaluatePoints();
     }
 

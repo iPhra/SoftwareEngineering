@@ -1,12 +1,16 @@
-package it.polimi.se2018.Model;
+package it.polimi.se2018.Model.Messages;
 
+import it.polimi.se2018.Model.Board;
+import it.polimi.se2018.Model.Die;
+import it.polimi.se2018.Model.Player;
+import it.polimi.se2018.Model.Square;
 import it.polimi.se2018.Model.ToolCards.ToolCard;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //updates from model to view
-public class ModelView {
+public class ModelViewResponse extends Response {
     private final List<Die> draftPool; //draft pool
     private final List<Die>[] roundTracker; //ha il riferimento al roundTracker
     private final List<Boolean> usedToolCards; //true if toolcard[i] has already been used
@@ -16,7 +20,8 @@ public class ModelView {
     private final List<Die> diceInHand;
     private final int turn; //current turn
 
-    public ModelView(Board board) {
+    public ModelViewResponse(Board board) {
+        super(null);
         usedToolCards = new ArrayList<>();
         maps = new ArrayList<>();
         favorPoints = new ArrayList<>();
@@ -32,8 +37,8 @@ public class ModelView {
             diceInHand.add(player.getDieInHand());
         }
         turn=board.getRoundTracker().getTurn();
-        draftPool=(ArrayList<Die>)board.getDraftPool().modelViewCopy();
-        roundTracker=(ArrayList<Die>[])board.getRoundTracker().modelViewCopy();
+        draftPool=board.getDraftPool().modelViewCopy();
+        roundTracker=board.getRoundTracker().modelViewCopy();
     }
 
     public List<Die> getDraftPool() {
@@ -67,6 +72,8 @@ public class ModelView {
     public int getTurn() {
         return turn;
     }
+
+    public void handle(ResponseHandler responseHandler) { responseHandler.handleResponse(this);}
 
 
 }
