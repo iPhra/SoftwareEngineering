@@ -18,10 +18,10 @@ public enum Color {
     public static int fromColor (Color color) {
         int index = 0;
         for (Color col : Color.values()) {
-            if (col == color) break;
+            if (col == color) return index;
             index += 1;
         }
-        return index;
+        return -1;
     }
 
 }

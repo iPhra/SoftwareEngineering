@@ -1,7 +1,6 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Exceptions.NoDieException;
-import it.polimi.se2018.Model.Messages.Coordinate;
+import it.polimi.se2018.Network.Messages.Coordinate;
 
 public class Square {
     private final Color color;

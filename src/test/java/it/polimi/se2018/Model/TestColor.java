@@ -14,5 +14,6 @@ public class TestColor {
         Assert.assertEquals(3,Color.fromColor(Color.YELLOW));
         Assert.assertEquals(4,Color.fromColor(Color.PURPLE));
         Assert.assertEquals(5,Color.fromColor(Color.WHITE));
+        Assert.assertEquals(-1,Color.fromColor(null));
     }
 }

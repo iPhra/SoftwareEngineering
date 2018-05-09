@@ -2,7 +2,7 @@ package it.polimi.se2018.Model.PlacementLogic;
 
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Map;
-import it.polimi.se2018.Model.Messages.Coordinate;
+import it.polimi.se2018.Network.Messages.Coordinate;
 
 public class DiePlacerNoColor extends DiePlacer {
 

@@ -69,8 +69,24 @@ public class TestDie {
     }
 
     @Test
+    public void testSetValueException2() {
+        try {
+            die.setValue(-2);
+        }
+        catch (DieException e) {
+            return;
+        }
+        fail();
+    }
+
+    @Test
     public void testModelViewCopy() {
         Die newDie = die.modelViewCopy();
         Assert.assertEquals(newDie,die);
+    }
+
+    @Test
+    public void testEquals() {
+        //Assert.assertEquals(die.hashCode(),new Die(value,color).hashCode());
     }
 }

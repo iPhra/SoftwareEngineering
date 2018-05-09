@@ -5,7 +5,10 @@ import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Messages.*;
+import it.polimi.se2018.Network.Messages.Requests.*;
+import it.polimi.se2018.Network.Messages.Responses.ModelViewResponse;
+import it.polimi.se2018.Network.Messages.Responses.TextResponse;
+import it.polimi.se2018.Network.Messages.Responses.TurnStartResponse;
 import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
 import it.polimi.se2018.Model.PlacementLogic.DiePlacer;
 import it.polimi.se2018.Model.PlacementLogic.DiePlacerFirst;
@@ -13,16 +16,13 @@ import it.polimi.se2018.Model.PlacementLogic.DiePlacerNormal;
 import it.polimi.se2018.Model.Player;
 import it.polimi.se2018.Model.ToolCards.ToolCard;
 import it.polimi.se2018.Utils.Observer;
-import it.polimi.se2018.View.ServerView;
 
 public class Controller implements Observer<Message>, MessageHandler {
     private final Board model;
-    private final ServerView view;
 
-    public Controller(Board model, ServerView view) {
+    public Controller(Board model) {
         super();
         this.model = model;
-        this.view = view;
     }
 
     //reads player, checks if it's his turn, call performMove

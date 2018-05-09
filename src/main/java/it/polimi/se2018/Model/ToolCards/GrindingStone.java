@@ -1,10 +1,9 @@
 package it.polimi.se2018.Model.ToolCards;
 
-import it.polimi.se2018.Exceptions.DieException;
 import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Messages.ToolCardMessage;
+import it.polimi.se2018.Network.Messages.Requests.ToolCardMessage;
 
 public class GrindingStone extends ToolCard {
 

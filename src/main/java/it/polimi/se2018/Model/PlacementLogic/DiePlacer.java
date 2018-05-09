@@ -3,7 +3,7 @@ package it.polimi.se2018.Model.PlacementLogic;
 import it.polimi.se2018.Exceptions.InvalidPlacementException;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Map;
-import it.polimi.se2018.Model.Messages.Coordinate;
+import it.polimi.se2018.Network.Messages.Coordinate;
 import it.polimi.se2018.Model.Square;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public abstract class DiePlacer {
         this.die = die;
         this.coordinate = coordinate;
         this.map = map;
-        this.square = map.getSquare(coordinate.getRow(),coordinate.getCol());
+        this.square = map.getSquare(coordinate);
     }
 
     protected abstract boolean checkCondition ();
@@ -30,7 +30,7 @@ public abstract class DiePlacer {
 
     //used by method checkCondition in order to check if you can place die without "violating" adjacent dice color
     protected boolean isColorOk() {
-        List<Die> adjacent = map.adjacentDice(square.getRow(), square.getCol());
+        List<Die> adjacent = map.adjacentDice(new Coordinate(square.getRow(), square.getCol()));
         for (Die near : adjacent){
             if (die.getColor().equals(near.getColor())){
                 return false;
@@ -41,7 +41,7 @@ public abstract class DiePlacer {
 
     //used by method placeDie in order to check if you can place die without "violating" adjacent dice value
     protected boolean isValueOk() {
-        List<Die> adjacent= map.adjacentDice(square.getRow(),square.getCol());
+        List<Die> adjacent= map.adjacentDice(new Coordinate(square.getRow(),square.getCol()));
         for (Die near : adjacent){
             if (die.getValue() == near.getValue()){
                 return false;
@@ -52,12 +52,12 @@ public abstract class DiePlacer {
 
     //all dice in diagonal and adjacent to a given die
     protected boolean hasSurroundingDice() {
-        List<Die> surrounding = map.adjacentDice(square.getRow(),square.getCol());
+        List<Die> surrounding = map.adjacentDice(new Coordinate(square.getRow(),square.getCol()));
         if (!surrounding.isEmpty()) return true;
-        if (square.getRow() > 0 && square.getCol() > 0 && !map.getSquare(square.getRow()-1,square.getCol()-1).isEmpty()) return true;
-        if (square.getRow() > 0 && square.getCol() < map.getCols() && !map.getSquare(square.getRow()-1,square.getCol()+1).isEmpty()) return true;
-        if (square.getRow() < map.getRows() && square.getCol() > 0 && !map.getSquare(square.getRow()+1,square.getCol()-1).isEmpty()) return true;
-        if (square.getRow() < map.getRows() && square.getCol() < map.getCols() && !map.getSquare(square.getRow()+1,square.getCol()+1).isEmpty()) return true;
+        if (square.getRow() > 0 && square.getCol() > 0 && !map.getSquare(new Coordinate(square.getRow()-1,square.getCol()-1)).isEmpty()) return true;
+        if (square.getRow() > 0 && square.getCol() < map.getCols() && !map.getSquare(new Coordinate(square.getRow()-1,square.getCol()+1)).isEmpty()) return true;
+        if (square.getRow() < map.getRows() && square.getCol() > 0 && !map.getSquare(new Coordinate(square.getRow()+1,square.getCol()-1)).isEmpty()) return true;
+        if (square.getRow() < map.getRows() && square.getCol() < map.getCols() && !map.getSquare(new Coordinate(square.getRow()+1,square.getCol()+1)).isEmpty()) return true;
         return false;
     }
 

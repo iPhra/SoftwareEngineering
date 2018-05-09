@@ -1,8 +1,8 @@
 package it.polimi.se2018.View;
 
-import it.polimi.se2018.Connections.ClientConnection;
-import it.polimi.se2018.Model.Messages.*;
+import it.polimi.se2018.Network.Connections.ClientConnection;
 import it.polimi.se2018.Model.Player;
+import it.polimi.se2018.Network.Messages.Responses.*;
 
 import java.io.InputStream;
 import java.io.OutputStream;

@@ -5,7 +5,7 @@ import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Messages.ToolCardMessage;
+import it.polimi.se2018.Network.Messages.Requests.ToolCardMessage;
 import it.polimi.se2018.Model.PlacementLogic.DiePlacerNoValue;
 import it.polimi.se2018.Model.Square;
 

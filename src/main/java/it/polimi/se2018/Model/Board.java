@@ -1,8 +1,8 @@
 package it.polimi.se2018.Model;
 
 import it.polimi.se2018.Exceptions.NoDieException;
-import it.polimi.se2018.Model.Messages.ModelViewResponse;
-import it.polimi.se2018.Model.Messages.Response;
+import it.polimi.se2018.Network.Messages.Responses.ModelViewResponse;
+import it.polimi.se2018.Network.Messages.Responses.Response;
 import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
 import it.polimi.se2018.Model.ToolCards.ToolCard;
 import it.polimi.se2018.Utils.Observable;

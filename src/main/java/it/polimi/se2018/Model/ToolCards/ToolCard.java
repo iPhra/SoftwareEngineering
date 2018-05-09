@@ -2,7 +2,7 @@ package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
-import it.polimi.se2018.Model.Messages.ToolCardMessage;
+import it.polimi.se2018.Network.Messages.Requests.ToolCardMessage;
 
 public abstract class ToolCard {
     protected final boolean alreadyUsed; //true if this tool card has already been used once
