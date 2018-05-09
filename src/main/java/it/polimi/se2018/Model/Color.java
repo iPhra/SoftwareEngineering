@@ -1,13 +1,20 @@
 package it.polimi.se2018.Model;
 
-import java.security.InvalidParameterException;
-
+/**
+ * Enumeration for all the colors of {@link Die} and {@link Square}
+ * @Author Francesco Lorenzo
+ */
 public enum Color {
     BLUE,RED,GREEN,YELLOW,PURPLE,WHITE;
 
     private Color() {
     }
 
+    /**
+     * Given a color returns its index as if the enumeration was an array
+     * @param color is the given color
+     * @return the index of the given color
+     */
     public static int fromColor (Color color) {
         int index = 0;
         for (Color col : Color.values()) {
@@ -17,17 +24,4 @@ public enum Color {
         return index;
     }
 
-    public static Color fromInt(int value) {
-        Color color = null;
-        switch (value) {
-            case 0: color = Color.BLUE; break;
-            case 1: color = Color.RED; break;
-            case 2: color = Color.GREEN; break;
-            case 3: color = Color.YELLOW; break;
-            case 4: color = Color.PURPLE; break;
-            case 5: color = Color.WHITE; break;
-            default: throw new InvalidParameterException("Invalid value");
-        }
-        return color;
-    }
 }

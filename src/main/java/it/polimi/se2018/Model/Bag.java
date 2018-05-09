@@ -40,7 +40,7 @@ public class Bag {
         remainingColors.set(index, remainingColors.get(index) - 1);
         diceNumber -= 1;
         int randomValueOfDie = new Random().nextInt(6) + 1;
-        return new Die (randomValueOfDie, Color.fromInt(index));
+        return new Die (randomValueOfDie, Color.values()[index]);
     }
 
     public void insertDie (Die die) { //inserts a single die in the bag, used by tool cards
