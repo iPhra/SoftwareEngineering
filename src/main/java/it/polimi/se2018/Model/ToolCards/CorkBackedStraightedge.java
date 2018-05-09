@@ -22,11 +22,8 @@ public class CorkBackedStraightedge extends ToolCard {
             DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), toolCardMessage.getPlayer().getMap());
             placer.placeDie();
         }
-        catch (NoDieException e) {
-            throw new ToolCardException();
-        }
         catch (InvalidPlacementException e) {
-            throw new ToolCardException();
+            throw new ToolCardException("La posizione scelta non è valida");
         }
     }
 

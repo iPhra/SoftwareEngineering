@@ -18,10 +18,7 @@ public class Square {
         die=null;
     }
 
-    public Die getDie() throws NoDieException {
-        if ((isEmpty())) {
-            throw new NoDieException();
-        }
+    public Die getDie() {
         return die;
     }
 

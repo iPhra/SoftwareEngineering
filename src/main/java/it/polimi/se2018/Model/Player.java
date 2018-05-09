@@ -62,10 +62,7 @@ public class Player {
         isFirstMove = firstMove;
     }
 
-    public Die getDieInHand() throws NoDieException {
-        if (!hasDieInHand()) {
-            throw new NoDieException();
-        }
+    public Die getDieInHand() {
         return dieInHand;
     }
 

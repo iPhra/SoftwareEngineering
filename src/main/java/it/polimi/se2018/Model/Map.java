@@ -34,7 +34,7 @@ public class Map implements Iterable<Square>{
         return imagePath;
     }
 
-    public Square getSquare(int row, int col) { return matrix[row][col]; }
+    public Square getSquare(Coordinate coordinate) { return matrix[coordinate.getRow()][coordinate.getCol()]; }
 
     public int getRows() { return matrix.length; }
 
@@ -50,15 +50,12 @@ public class Map implements Iterable<Square>{
         return result;
     }
 
-    public Die getDie (Coordinate coordinate) throws NoDieException {
+    public Die getDie (Coordinate coordinate) {
         return matrix[coordinate.getRow()][coordinate.getCol()].getDie();
     }
 
     //removes a die from a given position of the map
-    public void popDie(Coordinate coordinate) throws NoDieException {
-        if (matrix[coordinate.getRow()][coordinate.getCol()].isEmpty()) {
-            throw new NoDieException();
-        }
+    public void popDie(Coordinate coordinate) {
         matrix[coordinate.getRow()][coordinate.getCol()].setDie(null);
     }
 
@@ -104,17 +101,20 @@ public class Map implements Iterable<Square>{
     }
 
     //used by method adjacentOk, returns the adjacent dice of a die
-    public List<Die> adjacentDice(int row, int col) {
+    public List<Die> adjacentDice(Coordinate coordinate) {
+        int row = coordinate.getRow();
+        int col = coordinate.getCol();
         ArrayList<Die> adjacent = new ArrayList<>();
         int rows = getRows();
         int cols = getCols();
-        try {
-            if (row > 0 && !getSquare(row - 1, col).isEmpty()) adjacent.add(getSquare(row - 1, col).getDie());
-            if (row < rows - 1 && !getSquare(row + 1, col).isEmpty()) adjacent.add(getSquare(row + 1, col).getDie());
-            if (col > 0 && !getSquare(row, col - 1).isEmpty()) adjacent.add(getSquare(row, col - 1).getDie());
-            if (col < cols - 1 && !getSquare(row, col + 1).isEmpty()) adjacent.add(getSquare(row, col + 1).getDie());
-            return adjacent;
-        }
-        catch (NoDieException e) {return null;}
+        Coordinate cor1 = new Coordinate(row - 1, col);
+        Coordinate cor2 = new Coordinate(row + 1, col);
+        Coordinate cor3 = new Coordinate(row, col - 1);
+        Coordinate cor4 = new Coordinate (row, col + 1);
+        if (row > 0 && !getSquare(cor1).isEmpty()) adjacent.add(getSquare(cor1).getDie());
+        if (row < rows - 1 && !getSquare(cor2).isEmpty()) adjacent.add(getSquare(cor2).getDie());
+        if (col > 0 && !getSquare(cor3).isEmpty()) adjacent.add(getSquare(cor3).getDie());
+        if (col < cols - 1 && !getSquare(cor4).isEmpty()) adjacent.add(getSquare(cor4).getDie());
+        return adjacent;
     }
 }

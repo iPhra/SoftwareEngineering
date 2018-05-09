@@ -15,15 +15,10 @@ public class GrindingStone extends ToolCard {
     @Override
     //After drafting, flip the die to its opposite side
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException{
-        try {
-            if (!toolCardMessage.getPlayer().hasDieInHand()) {
-                throw new ToolCardException();
-            }
-            toolCardMessage.getPlayer().getDieInHand().flipDie();
+        if (!toolCardMessage.getPlayer().hasDieInHand()) {
+            throw new ToolCardException("Non hai un dado in mano!");
         }
-        catch (NoDieException e) {
-            throw new ToolCardException();
-        }
+        toolCardMessage.getPlayer().getDieInHand().flipDie();
     }
 
     @Override

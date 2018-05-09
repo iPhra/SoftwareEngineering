@@ -13,16 +13,15 @@ public class LensCutter extends ToolCard {
     }
 
     @Override
+    //After drafting, swap the drafted die with a die from the Round Track
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
         if (!toolCardMessage.getPlayer().hasDieInHand()) {
-            throw new ToolCardException();
+            throw new ToolCardException("Non hai un dado in mano!");
         }
-        try {
-            Die dieDrafted = toolCardMessage.getPlayer().getDieInHand();
-        }
-        catch (NoDieException e) {
-            throw new ToolCardException();
-        }
+        Die dieDrafted = toolCardMessage.getPlayer().getDieInHand();
+        Die dieFromRoundTrack = board.getRoundTracker().getDie(toolCardMessage.getRoundTrackerPosition().get(0).getRow(), toolCardMessage.getRoundTrackerPosition().get(0).getCol());
+        toolCardMessage.getPlayer().setDieInHand(dieFromRoundTrack);
+        board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().get(0).getRow(), dieDrafted);
     }
 
     @Override

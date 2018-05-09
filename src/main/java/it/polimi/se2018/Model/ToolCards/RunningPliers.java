@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model.ToolCards;
 
+import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Messages.ToolCardMessage;
 
@@ -10,7 +11,17 @@ public class RunningPliers extends ToolCard {
     }
 
     @Override
-    public void useCard(ToolCardMessage toolCardMessage) {}
+    //After your first turn, immediately draft a die
+    public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
+        if (!board.getRound().isFirstRotation()) {
+            throw new ToolCardException("Non è il primo turno, non puoi usare questa Toolcard!");
+        }
+        if (toolCardMessage.getPlayer().hasDieInHand() || !board.getRound().hasDraftedDie()){
+            throw new ToolCardException("Non hai un dado in mano!");
+        }
+        board.getRound().setHasDraftedDie(false);
+        board.getRound().denyNextTurn();
+    }
 
     @Override
     public ToolCard setAlreadyUsed() {

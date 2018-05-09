@@ -14,6 +14,10 @@ public class RoundTracker implements Iterable<Die>{
         turn=0; //this variable matches the actual turns -1
     }
 
+    public Die getDie (int turn, int index) {
+        return dice[turn].get(index);
+    }
+
     public boolean contains(Die die) {
         for(List<Die> array : dice) if (array.contains(die)) return true;
         return false;

@@ -16,7 +16,7 @@ public class FluxRemover extends ToolCard {
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
         try {
             if (!toolCardMessage.getPlayer().hasDieInHand()) {
-                throw new ToolCardException();
+                throw new ToolCardException("Non hai un dado in mano!");
             }
             board.getBag().insertDie(toolCardMessage.getPlayer().getDieInHand());
             toolCardMessage.getPlayer().setDieInHand(board.getBag().extractDie());
@@ -25,10 +25,10 @@ public class FluxRemover extends ToolCard {
             //getValue prende il valore che desidera il giocatore attraverso moveMessage (?)
         }
         catch (NoDieException e) {
-            throw new ToolCardException();
+            throw new ToolCardException("La bag non ha dadi");
         }
         catch (DieException e) {
-            throw new ToolCardException();
+            throw new ToolCardException("Valore del dado non valido!");
         }
     }
 

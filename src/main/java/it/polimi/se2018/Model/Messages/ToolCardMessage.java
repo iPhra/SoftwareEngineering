@@ -11,8 +11,8 @@ public class ToolCardMessage extends Message {
     private int value;
     private ArrayList<Coordinate> startingPosition;
     private ArrayList<Coordinate> finalPosition;
-    private ArrayList<Integer> draftPoolPosition;
-    private ArrayList<Coordinate> roundTrackerPosition;
+    private ArrayList draftPoolPosition;
+    private ArrayList roundTrackerPosition; //x is the Turn, y is the position
 
     public ToolCardMessage(Player player, int toolCardNumber, int value) {
         super(player);

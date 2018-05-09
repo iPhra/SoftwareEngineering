@@ -17,21 +17,18 @@ public class GrozingPliers extends ToolCard {
     //After drafting, increase or decrease the value of the drafted die by 1
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException{
         if (!toolCardMessage.getPlayer().hasDieInHand()) {
-            throw new ToolCardException();
+            throw new ToolCardException("Non hai un dado in mano!");
         }
         if (toolCardMessage.getValue() != 1 || toolCardMessage.getValue() != -1) {
         //This toolcard change the value of the die by +1 or -1, other value are not allowed
-            throw  new ToolCardException();
+            throw  new ToolCardException("Non puoi modificare nel modo indicato il dado! Puoi scegliere solo +1 o -1");
         }
         try {
             Die dieToChange = toolCardMessage.getPlayer().getDieInHand();
             dieToChange.setValue(dieToChange.getValue() + toolCardMessage.getValue());
         }
-        catch (NoDieException e) {
-            throw new ToolCardException();
-        }
         catch (DieException e) {
-            throw new ToolCardException();
+            throw new ToolCardException("Il dado assume un valore troppo alto/basso");
         }
     }
 

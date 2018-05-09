@@ -8,6 +8,7 @@ import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Messages.Coordinate;
 import it.polimi.se2018.Model.Messages.ToolCardMessage;
 import it.polimi.se2018.Model.PlacementLogic.DiePlacerNoValue;
+import it.polimi.se2018.Model.Square;
 
 public class Lathekin extends ToolCard {
 
@@ -31,35 +32,34 @@ public class Lathekin extends ToolCard {
     }
 
     @Override
-    //Move exactly teo dice, obeying all placement restrictions
+    //Move exactly two dice, obeying all placement restrictions
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
-        boolean twoDiceNotCombatible = false; //this check that the two die can be moved together
+        boolean twoDiceNotCompatible = false; //this check that the two die can be moved together
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
-        try {
-            Die dieOne = toolCardMessage.getPlayer().getMap().getDie(toolCardMessage.getStartingPosition().get(0));
-            Die dieTwo = toolCardMessage.getPlayer().getMap().getDie((toolCardMessage.getStartingPosition().get(1)));
-            //TODO ti ho modificato popDie in getDie, ricorda di aggiungerlo
-            if (dieOne.getColor() == dieTwo.getColor() || dieOne.getValue() == dieTwo.getValue()) {
-                twoDiceNotCombatible = true;
-            }
-            if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) {
-                diceGoInAdjacentPosition = true;
-            }
-            if (twoDiceNotCombatible && diceGoInAdjacentPosition) {
-                throw new ToolCardException();
-            }
-            try {
-                DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), toolCardMessage.getPlayer().getMap());
-                placerOne.placeDie();
-                DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), toolCardMessage.getPlayer().getMap());
-                placerTwo.placeDie();
-            }
-            catch (InvalidPlacementException e) {
-                throw new ToolCardException();
-            }
+        Square squareOne = toolCardMessage.getPlayer().getMap().getSquare(toolCardMessage.getStartingPosition().get(0));
+        Square squareTwo = toolCardMessage.getPlayer().getMap().getSquare((toolCardMessage.getStartingPosition().get(1)));
+        Die dieOne = squareOne.getDie();
+        Die dieTwo = squareTwo.getDie();
+        //TODO ti ho modificato popDie in getDie, ricorda di aggiungerlo
+        if (dieOne.getColor() == dieTwo.getColor() || dieOne.getValue() == dieTwo.getValue()) {
+            twoDiceNotCompatible = true;
         }
-        catch (NoDieException e) {
-            throw new ToolCardException();
+        if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) {
+           diceGoInAdjacentPosition = true;
+        }
+        if (twoDiceNotCompatible && diceGoInAdjacentPosition) {
+            throw new ToolCardException("I due dadi non possono essere spostati insieme");
+        }
+        try {
+            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), toolCardMessage.getPlayer().getMap());
+            placerOne.placeDie();
+            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), toolCardMessage.getPlayer().getMap());
+            placerTwo.placeDie();
+            squareOne.setDie(null);
+            squareTwo.setDie(null);
+        }
+        catch (InvalidPlacementException e) {
+           throw new ToolCardException("Uno spostamento selezionato non è valido");
         }
     }
 

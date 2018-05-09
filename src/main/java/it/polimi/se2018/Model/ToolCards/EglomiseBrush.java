@@ -7,6 +7,7 @@ import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Model.Messages.ToolCardMessage;
 import it.polimi.se2018.Model.PlacementLogic.DiePlacerNoColor;
+import it.polimi.se2018.Model.Square;
 
 public class EglomiseBrush extends ToolCard {
 
@@ -18,17 +19,21 @@ public class EglomiseBrush extends ToolCard {
     //Move any die in your window ignoring color restrictions
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
         try {
-            Die dieToMove = toolCardMessage.getPlayer().getMap().getDie(toolCardMessage.getStartingPosition().get(0));
+            Square squareStart = toolCardMessage.getPlayer().getMap().getSquare(toolCardMessage.getStartingPosition().get(0));
+            if (squareStart.isEmpty()) {
+                throw new NoDieException();
+            }
+            Die dieToMove = squareStart.getDie();
             DiePlacerNoColor placer = new DiePlacerNoColor(dieToMove, toolCardMessage.getFinalPosition().get(0), toolCardMessage.getPlayer().getMap());
             placer.placeDie();
-            toolCardMessage.getPlayer().getMap().popDie(toolCardMessage.getStartingPosition().get(0));
+            squareStart.setDie(null);
         }
         catch (NoDieException e) {
-            throw new ToolCardException();
+            throw new ToolCardException("Non hai selezionato un dado");
         }
         catch (InvalidPlacementException e) {
-                throw new ToolCardException();
-            }
+            throw new ToolCardException("La posizione scelta non è valida");
+        }
     }
 
     @Override

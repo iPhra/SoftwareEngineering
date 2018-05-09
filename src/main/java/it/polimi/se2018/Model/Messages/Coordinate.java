@@ -1,8 +1,8 @@
 package it.polimi.se2018.Model.Messages;
 
 public class Coordinate {
-    private final int row;
-    private final int col;
+    private final int row; //This is x
+    private final int col; //This is y
 
     public Coordinate(int row, int col) {
         //aggiungere controlli sulla validità

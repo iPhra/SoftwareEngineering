@@ -13,14 +13,10 @@ public class FluxBrush extends ToolCard {
     @Override
     //After drafting, re-roll the drafted die
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
-        try {
-            if (!toolCardMessage.getPlayer().hasDieInHand()) {
-                throw new ToolCardException();
-            }
-            toolCardMessage.getPlayer().getDieInHand().rollDie();
-        } catch (NoDieException e) {
-            throw new ToolCardException();
-        }
+           if (!toolCardMessage.getPlayer().hasDieInHand()) {
+                throw new ToolCardException("Non hai un dado in mano!");
+           }
+           toolCardMessage.getPlayer().getDieInHand().rollDie();
     }
 
 
