@@ -71,11 +71,6 @@ public class TestDraftPool {
         Assert.assertTrue(draftPool.getAllDice().containsAll(dice) && dice.containsAll(draftPool.getAllDice()));
     }
 
-    @Test
-    public void testEmptyDraftPool() {
-        draftPool.emptyDraftPool();
-        Assert.assertTrue(draftPool.getAllDice().isEmpty());
-    }
 
     @Test
     public void testAddToDraftPool() throws NoDieException{
@@ -92,7 +87,19 @@ public class TestDraftPool {
     }
 
     @Test
-    public void testModelViewCopy() {
-        assertTrue(dice.containsAll(draftPool.modelViewCopy()) && draftPool.modelViewCopy().containsAll(dice));
+    public void testRemoveFromDraftPoolException() throws NoDieException {
+        try {
+            draftPool.removeFromDraftPool(new Die(5,Color.GREEN));
+        }
+        catch (NoDieException e) {
+            return;
+        }
+        fail();
     }
+
+    @Test
+    public void testModelViewCopy() {
+        Assert.assertTrue(dice.containsAll(draftPool.modelViewCopy()) && draftPool.modelViewCopy().containsAll(dice));
+    }
+
 }

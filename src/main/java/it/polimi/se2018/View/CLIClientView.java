@@ -27,7 +27,6 @@ public class CLIClientView implements ResponseHandler {
 
     //called when i receive a TextResponse
     public void handleUserInput() {
-
     }
 
     //updates the board
