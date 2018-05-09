@@ -1,15 +1,16 @@
 package it.polimi.se2018.View;
 
-import it.polimi.se2018.Connections.ServerConnection;
-import it.polimi.se2018.Model.Messages.*;
+import it.polimi.se2018.Network.Connections.ServerConnection;
+import it.polimi.se2018.Network.Messages.Requests.Message;
 import it.polimi.se2018.Model.Player;
+import it.polimi.se2018.Network.Messages.Responses.*;
 import it.polimi.se2018.Utils.Observable;
 import it.polimi.se2018.Utils.Observer;
 
 
 import java.util.Map;
 
-public class ServerView extends Observable<Message> implements Observer<Response>, ResponseHandler{
+public class ServerView extends Observable<Message> implements Observer<Response>, ResponseHandler {
     private Map<Player,ServerConnection> playerConnections;
 
     public ServerView(Map<Player,ServerConnection> playerConnections) {

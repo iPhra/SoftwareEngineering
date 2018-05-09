@@ -1,4 +1,4 @@
-package it.polimi.se2018.Model.Messages;
+package it.polimi.se2018.Network.Messages.Responses;
 
 public interface ResponseHandler {
 

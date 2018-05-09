@@ -5,8 +5,8 @@ import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Messages.Coordinate;
-import it.polimi.se2018.Model.Messages.ToolCardMessage;
+import it.polimi.se2018.Network.Messages.Coordinate;
+import it.polimi.se2018.Network.Messages.Requests.ToolCardMessage;
 import it.polimi.se2018.Model.PlacementLogic.DiePlacerNoValue;
 import it.polimi.se2018.Model.Square;
 
@@ -40,7 +40,6 @@ public class Lathekin extends ToolCard {
         Square squareTwo = toolCardMessage.getPlayer().getMap().getSquare((toolCardMessage.getStartingPosition().get(1)));
         Die dieOne = squareOne.getDie();
         Die dieTwo = squareTwo.getDie();
-        //TODO ti ho modificato popDie in getDie, ricorda di aggiungerlo
         if (dieOne.getColor() == dieTwo.getColor() || dieOne.getValue() == dieTwo.getValue()) {
             twoDiceNotCompatible = true;
         }

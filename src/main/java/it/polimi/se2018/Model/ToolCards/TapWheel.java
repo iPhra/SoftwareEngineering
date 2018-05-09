@@ -4,10 +4,12 @@ import it.polimi.se2018.Exceptions.InvalidPlacementException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
-import it.polimi.se2018.Model.Messages.Coordinate;
-import it.polimi.se2018.Model.Messages.ToolCardMessage;
+
+
 import it.polimi.se2018.Model.PlacementLogic.DiePlacerNoValue;
 import it.polimi.se2018.Model.Square;
+import it.polimi.se2018.Network.Messages.Coordinate;
+import it.polimi.se2018.Network.Messages.Requests.ToolCardMessage;
 
 public class TapWheel extends ToolCard {
 
@@ -35,7 +37,7 @@ public class TapWheel extends ToolCard {
     public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
         Square squareOne = toolCardMessage.getPlayer().getMap().getSquare(toolCardMessage.getStartingPosition().get(0));
-        Square squareTwo = toolCardMessage.getPlayer().getMap().getSquare((toolCardMessage.getStartingPosition().get(1)));
+        Square squareTwo = toolCardMessage.getPlayer().getMap().getSquare(toolCardMessage.getStartingPosition().get(1));
         Die dieOne = squareOne.getDie();
         Die dieTwo = squareTwo.getDie();
         Coordinate indexRoundTracker = toolCardMessage.getRoundTrackerPosition().get(0);
@@ -46,7 +48,6 @@ public class TapWheel extends ToolCard {
         if (dieTwo.getColor() != dieRoundTracker.getColor()) {
             throw new ToolCardException("I due dadi non sono dello stesso colore del dado sul RoundTracker");
         }
-        //TODO ti ho modificato popDie in getDie, ricorda di aggiungerlo
         if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) {
             diceGoInAdjacentPosition = true;
         }

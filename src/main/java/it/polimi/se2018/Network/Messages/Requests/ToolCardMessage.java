@@ -1,5 +1,6 @@
-package it.polimi.se2018.Model.Messages;
+package it.polimi.se2018.Network.Messages.Requests;
 
+import it.polimi.se2018.Network.Messages.Coordinate;
 import it.polimi.se2018.Model.Player;
 
 
@@ -23,7 +24,6 @@ public class ToolCardMessage extends Message {
         draftPoolPosition = new ArrayList<>();
         roundTrackerPosition = new ArrayList<>();
     }
-
 
     public int getToolCardNumber() {
         return toolCardNumber;

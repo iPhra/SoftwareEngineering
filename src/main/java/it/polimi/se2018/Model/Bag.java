@@ -49,12 +49,15 @@ public class Bag {
     }
 
     //draws 2n+1 dice putting them in a arraylist, used by Board
-    public List<Die> drawDice (int playersNumber) throws NoDieException{
-        ArrayList<Die> drawDice = new ArrayList<>();
-        for (int i = 0; i < 2 * playersNumber + 1; i++) {
-            drawDice.add(extractDie());
+    public List<Die> drawDice (int playersNumber) {
+        try {
+            ArrayList<Die> drawDice = new ArrayList<>();
+            for (int i = 0; i < 2 * playersNumber + 1; i++) {
+                drawDice.add(extractDie());
+            }
+            return drawDice;
         }
-        return drawDice;
+        catch(NoDieException e) {return new ArrayList<>();}
     }
 
 }

@@ -1,6 +1,5 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Model.Objectives.PrivateObjectives.PrivateObjective;
 
 public class Player {
@@ -12,14 +11,18 @@ public class Player {
     private int score;
     private boolean isFirstMove; //true if this player hasn't moved yet
     private Die dieInHand;
+    private boolean hasDraftedDie;
+    private boolean hasUsedCard;
 
     public Player(String name, int id, Map map, PrivateObjective privateObjective) {
-        this.name=name;
-        this.favorPoints=map.getLevel();
-        this.id=id;
-        this.map=map;
-        this.privateObjective=privateObjective;
-        isFirstMove=false;
+        this.name = name;
+        this.favorPoints = map.getLevel();
+        this.id = id;
+        this.map = map;
+        this.privateObjective = privateObjective;
+        isFirstMove = false;
+        hasDraftedDie = false;
+        hasUsedCard = false;
     }
 
     public String getName() {
@@ -71,6 +74,22 @@ public class Player {
     }
 
     public boolean hasDieInHand() {
-        return dieInHand!=null;
+        return dieInHand != null;
+    }
+
+    public boolean hasDraftedDie() {
+        return hasDraftedDie;
+    }
+
+    public void setHasDraftedDie(boolean hasDraftedDie) {
+        this.hasDraftedDie = hasDraftedDie;
+    }
+
+    public boolean hasUsedCard() {
+        return hasUsedCard;
+    }
+
+    public void setHasUsedCard(boolean hasUsedCard) {
+        this.hasUsedCard = hasUsedCard;
     }
 }

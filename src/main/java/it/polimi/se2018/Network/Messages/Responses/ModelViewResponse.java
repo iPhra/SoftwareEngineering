@@ -1,4 +1,4 @@
-package it.polimi.se2018.Model.Messages;
+package it.polimi.se2018.Network.Messages.Responses;
 
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;

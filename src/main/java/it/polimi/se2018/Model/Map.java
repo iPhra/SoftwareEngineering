@@ -1,7 +1,6 @@
 package it.polimi.se2018.Model;
 
-import it.polimi.se2018.Exceptions.NoDieException;
-import it.polimi.se2018.Model.Messages.Coordinate;
+import it.polimi.se2018.Network.Messages.Coordinate;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,11 +51,6 @@ public class Map implements Iterable<Square>{
 
     public Die getDie (Coordinate coordinate) {
         return matrix[coordinate.getRow()][coordinate.getCol()].getDie();
-    }
-
-    //removes a die from a given position of the map
-    public void popDie(Coordinate coordinate) {
-        matrix[coordinate.getRow()][coordinate.getCol()].setDie(null);
     }
 
     //return number of empty slot in a map
