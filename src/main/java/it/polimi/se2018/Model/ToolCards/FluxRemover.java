@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Exceptions.DieException;
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Messages.ToolCardMessage;
@@ -22,6 +23,9 @@ public class FluxRemover extends ToolCard {
             //darò il colore alla view
             toolCardMessage.getPlayer().getDieInHand().setValue(toolCardMessage.getValue());
             //getValue prende il valore che desidera il giocatore attraverso moveMessage (?)
+        }
+        catch (NoDieException e) {
+            throw new ToolCardException();
         }
         catch (DieException e) {
             throw new ToolCardException();

@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Model.Messages.Coordinate;
 
 import java.util.ArrayList;
@@ -49,12 +50,15 @@ public class Map implements Iterable<Square>{
         return result;
     }
 
-    public Die getDie (Coordinate coordinate) {
+    public Die getDie (Coordinate coordinate) throws NoDieException {
         return matrix[coordinate.getRow()][coordinate.getCol()].getDie();
     }
 
     //removes a die from a given position of the map
-    public void popDie(Coordinate coordinate) {
+    public void popDie(Coordinate coordinate) throws NoDieException {
+        if (matrix[coordinate.getRow()][coordinate.getCol()].isEmpty()) {
+            throw new NoDieException();
+        }
         matrix[coordinate.getRow()][coordinate.getCol()].setDie(null);
     }
 
@@ -100,14 +104,17 @@ public class Map implements Iterable<Square>{
     }
 
     //used by method adjacentOk, returns the adjacent dice of a die
-    public List<Die> adjacentDice(int row, int col){
+    public List<Die> adjacentDice(int row, int col) {
         ArrayList<Die> adjacent = new ArrayList<>();
         int rows = getRows();
         int cols = getCols();
-        if (row > 0) adjacent.add(getSquare(row-1,col).getDie());
-        if (row < rows-1) adjacent.add(getSquare(row+1,col).getDie());
-        if (col > 0) adjacent.add(getSquare(row,col-1).getDie());
-        if (col < cols-1) adjacent.add(getSquare(row,col+1).getDie());
-        return adjacent;
+        try {
+            if (row > 0 && !getSquare(row - 1, col).isEmpty()) adjacent.add(getSquare(row - 1, col).getDie());
+            if (row < rows - 1 && !getSquare(row + 1, col).isEmpty()) adjacent.add(getSquare(row + 1, col).getDie());
+            if (col > 0 && !getSquare(row, col - 1).isEmpty()) adjacent.add(getSquare(row, col - 1).getDie());
+            if (col < cols - 1 && !getSquare(row, col + 1).isEmpty()) adjacent.add(getSquare(row, col + 1).getDie());
+            return adjacent;
+        }
+        catch (NoDieException e) {return null;}
     }
 }

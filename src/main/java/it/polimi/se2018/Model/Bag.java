@@ -1,5 +1,7 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.NoDieException;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,10 @@ public class Bag {
 }
 
     //draws a single die from the bag, used by tool cards
-    public Die extractDie () {
+    public Die extractDie () throws NoDieException {
+        if (diceNumber <= 0) {
+            throw new NoDieException();
+        }
         int randomDie = new Random().nextInt(diceNumber) + 1;
         int index = 0;
         for (int i = 0; remainingColors.get(i) < randomDie; i++) {
@@ -44,7 +49,7 @@ public class Bag {
     }
 
     //draws 2n+1 dice putting them in a arraylist, used by Board
-    public List<Die> drawDice (int playersNumber) {
+    public List<Die> drawDice (int playersNumber) throws NoDieException{
         ArrayList<Die> drawDice = new ArrayList<>();
         for (int i = 0; i < 2 * playersNumber + 1; i++) {
             drawDice.add(extractDie());

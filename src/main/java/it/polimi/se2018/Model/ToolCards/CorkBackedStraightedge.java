@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Exceptions.InvalidPlacementException;
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
@@ -20,6 +21,9 @@ public class CorkBackedStraightedge extends ToolCard {
             Die dieToPlace = toolCardMessage.getPlayer().getDieInHand();
             DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), toolCardMessage.getPlayer().getMap());
             placer.placeDie();
+        }
+        catch (NoDieException e) {
+            throw new ToolCardException();
         }
         catch (InvalidPlacementException e) {
             throw new ToolCardException();

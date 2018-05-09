@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Exceptions.DieException;
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Messages.ToolCardMessage;
@@ -20,7 +21,7 @@ public class GrindingStone extends ToolCard {
             }
             toolCardMessage.getPlayer().getDieInHand().flipDie();
         }
-        catch (DieException e) {
+        catch (NoDieException e) {
             throw new ToolCardException();
         }
     }

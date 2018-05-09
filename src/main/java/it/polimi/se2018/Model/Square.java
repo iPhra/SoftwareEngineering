@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Model.Messages.Coordinate;
 
 public class Square {
@@ -17,7 +18,10 @@ public class Square {
         die=null;
     }
 
-    public Die getDie() {
+    public Die getDie() throws NoDieException {
+        if ((isEmpty())) {
+            throw new NoDieException();
+        }
         return die;
     }
 

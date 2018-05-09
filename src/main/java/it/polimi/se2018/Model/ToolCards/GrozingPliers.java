@@ -1,6 +1,7 @@
 package it.polimi.se2018.Model.ToolCards;
 
 import it.polimi.se2018.Exceptions.DieException;
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
@@ -25,6 +26,9 @@ public class GrozingPliers extends ToolCard {
         try {
             Die dieToChange = toolCardMessage.getPlayer().getDieInHand();
             dieToChange.setValue(dieToChange.getValue() + toolCardMessage.getValue());
+        }
+        catch (NoDieException e) {
+            throw new ToolCardException();
         }
         catch (DieException e) {
             throw new ToolCardException();

@@ -25,8 +25,8 @@ public class Die {
         this.value = value;
     } //used if you already know what value to give
 
-    public void flipDie() throws DieException {
-        setValue(7 - getValue());
+    public void flipDie()  {
+        this.value = 7 - value;
     } //used by Tool Cards
 
     public void rollDie() { //gives a random value to the Die

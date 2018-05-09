@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Model.Messages.ModelViewResponse;
 import it.polimi.se2018.Model.Messages.Response;
 import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
@@ -25,7 +26,7 @@ public class Board extends Observable<Response> {
     private final Bag bag; //ha il riferimento al sacchetto dei dadi
     private final RoundTracker roundTracker; //ha il riferimento al roundTracker
 
-    public Board(int id, List<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
+    public Board(int id, List<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) throws NoDieException {
         this.players = players;
         this.imagePath = imagePath;
         this.id=id;

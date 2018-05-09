@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model.ToolCards;
 
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Model.Die;
@@ -16,7 +17,12 @@ public class LensCutter extends ToolCard {
         if (!toolCardMessage.getPlayer().hasDieInHand()) {
             throw new ToolCardException();
         }
-        Die dieDrafted = toolCardMessage.getPlayer().getDieInHand();
+        try {
+            Die dieDrafted = toolCardMessage.getPlayer().getDieInHand();
+        }
+        catch (NoDieException e) {
+            throw new ToolCardException();
+        }
     }
 
     @Override

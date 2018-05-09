@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Model.Objectives.PrivateObjectives.PrivateObjective;
 
 public class Player {
@@ -61,7 +62,10 @@ public class Player {
         isFirstMove = firstMove;
     }
 
-    public Die getDieInHand() {
+    public Die getDieInHand() throws NoDieException {
+        if (!hasDieInHand()) {
+            throw new NoDieException();
+        }
         return dieInHand;
     }
 
