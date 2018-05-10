@@ -3,7 +3,7 @@ package it.polimi.se2018.Network.Messages.Requests;
 import it.polimi.se2018.Model.Player;
 
 /**
- * This class represents a message from a player whishing to draft a die
+ * This class represents a message from a player wishing to draft a die
  * @Author Francesco Lorenzo
  */
 public class DraftMessage extends Message {

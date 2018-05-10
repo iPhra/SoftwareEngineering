@@ -1,4 +1,4 @@
-package it.polimi.se2018.Model;
+package it.polimi.se2018.Network.Messages;
 
 import it.polimi.se2018.Network.Messages.Coordinate;
 import org.junit.Assert;

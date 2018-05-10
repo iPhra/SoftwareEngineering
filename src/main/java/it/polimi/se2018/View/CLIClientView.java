@@ -41,7 +41,6 @@ public class CLIClientView implements ResponseHandler {
 
     @Override
     public void handleResponse(TurnStartResponse turnStartResponse) {
-
     }
 
 }

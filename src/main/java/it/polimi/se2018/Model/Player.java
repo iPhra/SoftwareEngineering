@@ -9,8 +9,10 @@ public class Player {
     private final PrivateObjective privateObjective;
     private int favorPoints;
     private int score;
-    private boolean isFirstMove; //true if this player hasn't moved yet
+    private boolean isFirstMove;
     private Die dieInHand;
+    private boolean hasDraftedDie;
+    private boolean hasUsedCard;
 
     public Player(String name, int id, Map map, PrivateObjective privateObjective) {
         this.name=name;
@@ -19,6 +21,8 @@ public class Player {
         this.map=map;
         this.privateObjective=privateObjective;
         isFirstMove=false;
+        hasDraftedDie=false;
+        hasUsedCard=false;
     }
 
     public String getName() {
@@ -71,5 +75,21 @@ public class Player {
 
     public boolean hasDieInHand() {
         return dieInHand!=null;
+    }
+
+    public boolean hasDraftedDie() {
+        return hasDraftedDie;
+    }
+
+    public void setHasDraftedDie(boolean hasDraftedDie) {
+        this.hasDraftedDie = hasDraftedDie;
+    }
+
+    public boolean hasUsedCard() {
+        return hasUsedCard;
+    }
+
+    public void setHasUsedCard(boolean hasUsedCard) {
+        this.hasUsedCard = hasUsedCard;
     }
 }

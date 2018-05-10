@@ -8,8 +8,6 @@ public class Round {
     private int missingPlayers; //number of unique players who still haven't played in the round. it's 0 when you are in the middle of the array (every played played once)
     private int currentPlayer; //id of the player
     private int currentPlayerIndex; //index of the array
-    private boolean hasDraftedDie;
-    private boolean hasUsedCard;
     private final int roundNumber; //number of this round, goes from 1 to 10
 
     public Round(List<Integer> playersOrder, int roundNumber) {
@@ -18,8 +16,6 @@ public class Round {
         currentPlayerIndex=0;
         currentPlayer=playersOrder.get(currentPlayerIndex);
         missingPlayers=playersOrder.size()/2;
-        hasDraftedDie = false;
-        hasUsedCard = false;
     }
 
     public int getCurrentPlayerIndex() {return currentPlayerIndex;}
@@ -49,8 +45,6 @@ public class Round {
     public void changeTurn() {
         changePlayer();
         missingPlayers--; //when i use the toolcard i check if it's <= 0
-        hasDraftedDie = false;
-        hasUsedCard = false;
     }
     //changeRound() build the next array player order
     //and give it to the costructor of the next round with the new roundNumber
@@ -75,19 +69,4 @@ public class Round {
         playersOrder.remove(playersOrder.size()- currentPlayerIndex -1);
     }
 
-    public boolean hasDraftedDie() {
-        return hasDraftedDie;
-    }
-
-    public boolean hasUsedCard() {
-        return hasUsedCard;
-    }
-
-    public void setHasDraftedDie(boolean hasDraftedDie) {
-        this.hasDraftedDie = hasDraftedDie;
-    }
-
-    public void setHasUsedCard(boolean hasUsedCard) {
-        this.hasUsedCard = hasUsedCard;
-    }
 }

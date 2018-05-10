@@ -36,7 +36,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     @Override
     public void performMove(ToolCardMessage toolCardMessage) {
         Player player = toolCardMessage.getPlayer();
-        if(model.getRound().hasUsedCard()) model.notify(new TextResponse(player,"You have already used a Tool Card"));
+        if(player.hasUsedCard()) model.notify(new TextResponse(player,"You have already used a Tool Card"));
         else {
             ToolCard toolCard = model.getToolCards()[toolCardMessage.getToolCardNumber()];
             int cost = toolCard.isAlreadyUsed()? 2:1;
@@ -79,7 +79,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     @Override
     public void performMove(DraftMessage draftMessage) {
         Player player = draftMessage.getPlayer();
-        if (model.getRound().hasDraftedDie()) model.notify(new TextResponse(player,"You have already drafted"));
+        if (player.hasDraftedDie()) model.notify(new TextResponse(player,"You have already drafted"));
         else {
             try {
                 draft(draftMessage);
@@ -93,14 +93,12 @@ public class Controller implements Observer<Message>, MessageHandler {
     //pass
     @Override
     public void performMove(PassMessage passMessage) {
+        Player player = passMessage.getPlayer();
         if (model.getRound().isLastTurn()) {
             this.endRound();
         }
         else {
-            model.getRound().changeTurn();
-            if (passMessage.getPlayer().hasDieInHand()) {
-               dropDie(passMessage);
-            }
+            pass(player);
             Player nextPlayer = model.getPlayerByIndex(model.getRound().getCurrentPlayerIndex());
             model.notify(new TurnStartResponse(nextPlayer));
             model.notify(new ModelViewResponse(model));
@@ -145,20 +143,25 @@ public class Controller implements Observer<Message>, MessageHandler {
 
     private void updateToolCard(ToolCard toolCard, ToolCardMessage toolCardMessage) {
         model.setToolCard(toolCard.setAlreadyUsed(),toolCardMessage.getToolCardNumber());
-        model.getRound().setHasUsedCard(true);
+        toolCardMessage.getPlayer().setHasUsedCard(true);
     }
 
     private void draft(DraftMessage draftMessage) throws NoDieException {
         Die die = model.getDraftPool().getDie(draftMessage.getDraftPoolPosition());
         model.getDraftPool().removeFromDraftPool(die);
         draftMessage.getPlayer().setDieInHand(die);
-        model.getRound().setHasDraftedDie(true);
+        draftMessage.getPlayer().setHasDraftedDie(true);
     }
 
-    private void dropDie(PassMessage passMessage) {
-        Die die = passMessage.getPlayer().getDieInHand();
-        passMessage.getPlayer().setDieInHand(null);
-        model.getDraftPool().addToDraftPool(die);
+    private void pass(Player player) {
+        model.getRound().changeTurn();
+        player.setHasUsedCard(false);
+        player.setHasDraftedDie(false);
+        if (player.hasDieInHand()) {
+            Die die = player.getDieInHand();
+            player.setDieInHand(null);
+            model.getDraftPool().addToDraftPool(die);
+        }
     }
 
     private void placeDie(DiePlacer diePlacer) throws InvalidPlacementException {
