@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model.ToolCards;
 
+import it.polimi.se2018.Controller.ToolCardHandler;
 import it.polimi.se2018.Exceptions.InvalidPlacementException;
 import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
@@ -15,16 +16,8 @@ public class CorkBackedStraightedge extends ToolCard {
     }
 
     @Override
-    //After drafting, place the die in a spot that is not adjacent to another die
-    public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
-        try {
-            Die dieToPlace = toolCardMessage.getPlayer().getDieInHand();
-            DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), toolCardMessage.getPlayer().getMap());
-            placer.placeDie();
-        }
-        catch (InvalidPlacementException e) {
-            throw new ToolCardException("La posizione scelta non è valida");
-        }
+    public void handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
+        handler.useCard(this, message);
     }
 
     @Override

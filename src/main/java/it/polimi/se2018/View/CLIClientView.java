@@ -1,8 +1,10 @@
 package it.polimi.se2018.View;
 
 import it.polimi.se2018.Client.ModelView;
+import it.polimi.se2018.Model.ToolCards.ToolCard;
 import it.polimi.se2018.Network.Connections.ClientConnection;
 import it.polimi.se2018.Model.Player;
+import it.polimi.se2018.Network.Connections.RemoteView;
 import it.polimi.se2018.Network.Messages.Requests.DraftMessage;
 import it.polimi.se2018.Network.Messages.Requests.Message;
 import it.polimi.se2018.Network.Messages.Requests.PassMessage;
@@ -10,9 +12,10 @@ import it.polimi.se2018.Network.Messages.Responses.*;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
-public class CLIClientView implements ResponseHandler {
+public class CLIClientView implements ResponseHandler, ClientView {
     private final Player player;
     private final ClientConnection clientConnection;
     private ModelView board;
@@ -26,9 +29,15 @@ public class CLIClientView implements ResponseHandler {
         this.output = output;
     }
 
+    @Override
     //receives input from the network, called by class clientConnection
     public void handleNetworkInput(Response response) {
         response.handle(this);
+    }
+
+    @Override
+    public void handleNetworkInput(Message message) {
+        //not implemented client-side
     }
 
     //called when i receive a TextResponse
@@ -47,10 +56,13 @@ public class CLIClientView implements ResponseHandler {
 
     @Override
     public void handleResponse(TurnStartResponse turnStartResponse) {
-
     }
 
-    public void chooseAction () {
+    @Override
+    public void handleResponse(ToolCardResponse toolCardResponse) {
+    }
+
+    public void chooseAction () throws RemoteException{
         //Choose the action to do DraftDie, UseToolcard, PlaceDie, PassTurn
         int choice = -1;
         while (choice < 1 || choice > 4){
@@ -85,11 +97,11 @@ public class CLIClientView implements ResponseHandler {
         }
     }
 
-    public void passTurn () {
+    public void passTurn () throws RemoteException{
         clientConnection.sendMessage(new PassMessage(player));
     }
 
-    public void draftDie () {
+    public void draftDie () throws RemoteException {
         int choice = -1;
         System.out.print("Dice on Draftpool are:");
         while (choice < 1 || choice >= board.getDraftPool().size()) {

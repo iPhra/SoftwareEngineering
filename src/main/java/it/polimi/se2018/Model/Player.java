@@ -1,6 +1,8 @@
 package it.polimi.se2018.Model;
 
+import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Objectives.PrivateObjectives.PrivateObjective;
+import it.polimi.se2018.Model.ToolCards.ToolCard;
 
 public class Player {
     private final String name;
@@ -11,6 +13,7 @@ public class Player {
     private int score;
     private boolean isFirstMove; //true if this player hasn't moved yet
     private Die dieInHand;
+    private ToolCard cardInUse;
     private boolean hasDraftedDie;
     private boolean hasUsedCard;
 
@@ -91,5 +94,14 @@ public class Player {
 
     public void setHasUsedCard(boolean hasUsedCard) {
         this.hasUsedCard = hasUsedCard;
+    }
+
+    public ToolCard getCardInUse() throws ToolCardException {
+        if(cardInUse==null) throw new ToolCardException("You haven't selected a Tool Card");
+        return cardInUse;
+    }
+
+    public void setCardInUse(ToolCard cardInUse) {
+        this.cardInUse = cardInUse;
     }
 }

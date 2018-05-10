@@ -30,4 +30,10 @@ public interface MessageHandler {
      */
     public void performMove(DraftMessage draftMessage);
 
+    /**
+     * This method checks if you can use a specific Tool Card
+     * @param toolCardRequestMessage contains the number of the tool card you want to use
+     */
+    public void performMove(ToolCardRequestMessage toolCardRequestMessage);
+
 }

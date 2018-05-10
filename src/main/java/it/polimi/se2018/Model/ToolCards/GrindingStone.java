@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model.ToolCards;
 
+import it.polimi.se2018.Controller.ToolCardHandler;
 import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
@@ -12,12 +13,8 @@ public class GrindingStone extends ToolCard {
     }
 
     @Override
-    //After drafting, flip the die to its opposite side
-    public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException{
-        if (!toolCardMessage.getPlayer().hasDieInHand()) {
-            throw new ToolCardException("Non hai un dado in mano!");
-        }
-        toolCardMessage.getPlayer().getDieInHand().flipDie();
+    public void handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
+        handler.useCard(this, message);
     }
 
     @Override

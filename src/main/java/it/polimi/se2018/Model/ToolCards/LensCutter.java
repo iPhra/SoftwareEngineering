@@ -1,5 +1,6 @@
 package it.polimi.se2018.Model.ToolCards;
 
+import it.polimi.se2018.Controller.ToolCardHandler;
 import it.polimi.se2018.Exceptions.NoDieException;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
@@ -13,15 +14,8 @@ public class LensCutter extends ToolCard {
     }
 
     @Override
-    //After drafting, swap the drafted die with a die from the Round Track
-    public void useCard(ToolCardMessage toolCardMessage) throws ToolCardException {
-        if (!toolCardMessage.getPlayer().hasDieInHand()) {
-            throw new ToolCardException("Non hai un dado in mano!");
-        }
-        Die dieDrafted = toolCardMessage.getPlayer().getDieInHand();
-        Die dieFromRoundTrack = board.getRoundTracker().getDie(toolCardMessage.getRoundTrackerPosition().get(0).getRow(), toolCardMessage.getRoundTrackerPosition().get(0).getCol());
-        toolCardMessage.getPlayer().setDieInHand(dieFromRoundTrack);
-        board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().get(0).getRow(), dieDrafted);
+    public void handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
+        handler.useCard(this, message);
     }
 
     @Override

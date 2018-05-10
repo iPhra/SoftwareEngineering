@@ -8,6 +8,7 @@ import it.polimi.se2018.Model.Die;
 import it.polimi.se2018.Network.Messages.Requests.*;
 import it.polimi.se2018.Network.Messages.Responses.ModelViewResponse;
 import it.polimi.se2018.Network.Messages.Responses.TextResponse;
+import it.polimi.se2018.Network.Messages.Responses.ToolCardResponse;
 import it.polimi.se2018.Network.Messages.Responses.TurnStartResponse;
 import it.polimi.se2018.Model.Objectives.PublicObjectives.PublicObjective;
 import it.polimi.se2018.Model.PlacementLogic.DiePlacer;
@@ -19,10 +20,12 @@ import it.polimi.se2018.Utils.Observer;
 
 public class Controller implements Observer<Message>, MessageHandler {
     private final Board model;
+    private final ToolCardController toolCardController;
 
     public Controller(Board model) {
         super();
         this.model = model;
+        toolCardController = new ToolCardController(model);
     }
 
     //reads player, checks if it's his turn, call performMove
@@ -36,19 +39,26 @@ public class Controller implements Observer<Message>, MessageHandler {
     @Override
     public void performMove(ToolCardMessage toolCardMessage) {
         Player player = toolCardMessage.getPlayer();
+        try {
+            ToolCard toolCard = player.getCardInUse();
+            toolCard.handle(toolCardController,toolCardMessage);
+            updateToolCard(toolCard,toolCardMessage);
+            model.notify(new ModelViewResponse(model));
+        }
+        catch (ToolCardException e) {model.notify(new TextResponse(player,e.getMessage()));}
+    }
+
+    @Override
+    public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
+        Player player = toolCardRequestMessage.getPlayer();
         if(player.hasUsedCard()) model.notify(new TextResponse(player,"You have already used a Tool Card"));
         else {
-            ToolCard toolCard = model.getToolCards()[toolCardMessage.getToolCardNumber()];
+            ToolCard toolCard = model.getToolCards()[toolCardRequestMessage.getToolCardNumber()];
             int cost = toolCard.isAlreadyUsed()? 2:1;
             if(player.getFavorPoints()<cost) model.notify(new TextResponse(player,"Not enough favor points"));
             else {
-                try {
-                    toolCard.useCard(toolCardMessage);
-                    player.setFavorPoints(player.getFavorPoints()-cost);
-                    updateToolCard(toolCard,toolCardMessage);
-                    model.notify(new ModelViewResponse(model));
-                }
-                catch (ToolCardException e) {model.notify(new TextResponse(player,e.getMessage()));}
+                player.setCardInUse(toolCard);
+                model.notify(new ToolCardResponse(player,toolCard.getPlayerRequests()));
             }
         }
     }
@@ -142,8 +152,11 @@ public class Controller implements Observer<Message>, MessageHandler {
     }
 
     private void updateToolCard(ToolCard toolCard, ToolCardMessage toolCardMessage) {
+        Player player = toolCardMessage.getPlayer();
         model.setToolCard(toolCard.setAlreadyUsed(),toolCardMessage.getToolCardNumber());
-        toolCardMessage.getPlayer().setHasUsedCard(true);
+        player.setFavorPoints(player.getFavorPoints()-(toolCard.isAlreadyUsed()? 2:1));
+        player.setHasUsedCard(true);
+        player.setCardInUse(null);
     }
 
     private void draft(DraftMessage draftMessage) throws NoDieException {

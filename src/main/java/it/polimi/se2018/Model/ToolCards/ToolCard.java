@@ -1,16 +1,18 @@
 package it.polimi.se2018.Model.ToolCards;
 
+import it.polimi.se2018.Controller.ToolCardHandler;
 import it.polimi.se2018.Exceptions.ToolCardException;
 import it.polimi.se2018.Model.Board;
 import it.polimi.se2018.Network.Messages.Requests.ToolCardMessage;
 
+import java.util.List;
+
 public abstract class ToolCard {
     protected final boolean alreadyUsed; //true if this tool card has already been used once
-    protected boolean usableAfterDraft; //true if this tool card is usable after placing a die
     protected final String imagePath;
     protected final String title;
     protected final Board board;
-
+    protected List<String> playerRequests;
     protected ToolCard(String imagePath, String title, Board board, boolean alreadyUsed) {
         this.imagePath=imagePath;
         this.title=title;
@@ -18,14 +20,14 @@ public abstract class ToolCard {
         this.board=board;
     }
 
-    //REMEMBER to set hasPlacedDie and hasUsedCard attributes in Round
-    //also, if you call denyNextTurn() from Round, you need to throw an exception if player is in his second turn
-    public abstract void useCard(ToolCardMessage toolCardMessage) throws ToolCardException; //every specific tool card will implement this method differently
-
     public boolean isAlreadyUsed() {return alreadyUsed;}
 
-    //creates a new ToolCard identical to this one but with alreadyUsed=true
     public abstract ToolCard setAlreadyUsed();
 
+    public List<String> getPlayerRequests() {
+        return playerRequests;
+    }
+
+    public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 
 }
