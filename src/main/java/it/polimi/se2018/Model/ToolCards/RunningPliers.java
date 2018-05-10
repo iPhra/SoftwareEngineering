@@ -16,10 +16,10 @@ public class RunningPliers extends ToolCard {
         if (!board.getRound().isFirstRotation()) {
             throw new ToolCardException("Non è il primo turno, non puoi usare questa Toolcard!");
         }
-        if (toolCardMessage.getPlayer().hasDieInHand() || !board.getRound().hasDraftedDie()){
+        if (toolCardMessage.getPlayer().hasDieInHand() || !toolCardMessage.getPlayer().hasDraftedDie()){
             throw new ToolCardException("Non hai un dado in mano!");
         }
-        board.getRound().setHasDraftedDie(false);
+        toolCardMessage.getPlayer().setHasDraftedDie(false);
         board.getRound().denyNextTurn();
     }
 

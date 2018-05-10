@@ -4,7 +4,7 @@ import it.polimi.se2018.Network.Messages.Coordinate;
 import it.polimi.se2018.Model.Player;
 
 /**
- * This class represents a message from a player whishing to place his drafted die on his scheme
+ * This class represents a message from a player wishing to place his drafted die on his scheme
  * @Author Francesco Lorenzo
  */
 public class PlaceMessage extends Message {

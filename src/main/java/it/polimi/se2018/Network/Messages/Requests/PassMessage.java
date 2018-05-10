@@ -3,7 +3,7 @@ package it.polimi.se2018.Network.Messages.Requests;
 import it.polimi.se2018.Model.Player;
 
 /**
- * This class represents a message from a player whishing to end his turn
+ * This class represents a message from a player wishing to end his turn
  * @Author Francesco Lorenzo
  */
 public class PassMessage extends Message {

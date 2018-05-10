@@ -18,7 +18,7 @@ public class TestDie {
     @Before
     public void init() {
         Random random = new Random();
-        color= Color.values()[random.nextInt(6)+1];
+        color= Color.values()[random.nextInt(6)];
         value= random.nextInt(6)+1;
         die = new Die(value,color);
     }
@@ -38,16 +38,17 @@ public class TestDie {
         else Assert.assertNotEquals(Color.values()[Color.fromColor(color)-1],die.getColor());
     }
 
-    //can't test this!
     @Test
     public void testRollDie() {
         die.rollDie();
+        Assert.assertTrue(die.getValue()>=1 && die.getValue()<=6);
     }
 
     @Test
     public void testFlipDie() {
         die.flipDie();
         Assert.assertEquals(7-value,die.getValue());
+        Assert.assertTrue(die.getValue()>=1 && die.getValue()<=6);
     }
 
     @Test
@@ -87,6 +88,15 @@ public class TestDie {
 
     @Test
     public void testEquals() {
-        //Assert.assertEquals(die.hashCode(),new Die(value,color).hashCode());
+        Assert.assertEquals(die.hashCode(),new Die(value,color).hashCode());
+        Assert.assertTrue(die.equals(new Die(value,color)));
+        if (value<6) {
+            Assert.assertNotEquals(die.hashCode(),new Die(value+1,color));
+            Assert.assertTrue(!die.equals(new Die(value+1,color)));
+        }
+        else {
+            Assert.assertNotEquals(die.hashCode(), new Die(value-1,color));
+            Assert.assertTrue(!die.equals(new Die(value-1,color)));
+        }
     }
 }

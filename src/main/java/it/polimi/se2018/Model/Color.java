@@ -12,8 +12,9 @@ public enum Color {
 
     /**
      * Given a color returns its index as if the enumeration was an array
+     * An exception is not necessary in this method, returning a value outside of the right domain is enough for our use of this class
      * @param color is the given color
-     * @return the index of the given color
+     * @return the index of the given color if it exists, {@code -1} otherwise
      */
     public static int fromColor (Color color) {
         int index = 0;
