@@ -25,12 +25,12 @@ public class ServerView extends Observable<Message> implements Observer<Response
 
     //receives input from the network, notifies the controller
     @Override
-    public void handleNetworkInput(Message input) {
-        notify(input);
+    public void handleNetworkInput(Message message) {
+        notify(message);
     }
 
     @Override
-    public void handleNetworkInput(Response response) {
+    public void handleNetworkInput(Response response)  {
         //not implemented serverside
     }
 

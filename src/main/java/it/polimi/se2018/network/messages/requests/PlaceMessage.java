@@ -5,7 +5,7 @@ import it.polimi.se2018.model.Player;
 
 /**
  * This class represents a message from a player wishing to place his drafted die on his scheme
- * @Author Francesco Lorenzo
+ * @author Francesco Lorenzo
  */
 public class PlaceMessage extends Message {
     /**

@@ -4,8 +4,6 @@ import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.view.ServerView;
 
-import java.rmi.RemoteException;
-
 public class RMIClientConnection implements ClientConnection {
     private final ServerView server;
 

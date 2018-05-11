@@ -2,7 +2,7 @@ package it.polimi.se2018.network.messages.requests;
 
 /**
  * This is the interface implemented by the class who will perform the move associated to a message
- * @Author Francesco Lorenzo
+ * @author Francesco Lorenzo
  */
 public interface MessageHandler {
 

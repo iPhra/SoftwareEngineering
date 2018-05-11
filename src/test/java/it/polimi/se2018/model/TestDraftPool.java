@@ -1,7 +1,6 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.exceptions.NoDieException;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -4,7 +4,7 @@ import it.polimi.se2018.model.Player;
 
 /**
  * This class represents a message from a player wishing to draft a die
- * @Author Francesco Lorenzo
+ * @author Francesco Lorenzo
  */
 public class DraftMessage extends Message {
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * This class represents the Draft Pool containing all available dice in a turn
- * @Author Francesco Lorenzo
+ * @author Francesco Lorenzo
  */
 public class DraftPool {
     /**

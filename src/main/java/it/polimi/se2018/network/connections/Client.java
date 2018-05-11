@@ -21,7 +21,7 @@ public class Client {
 
     public void createRMIRegistry() throws RemoteException{
         Registry registry = LocateRegistry.getRegistry();
-        registry.rebind("client view", UnicastRemoteObject.exportObject(clientView,0));
+        registry.rebind("Client view", UnicastRemoteObject.exportObject(clientView,0));
     }
 
 }

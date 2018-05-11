@@ -1,6 +1,5 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.exceptions.NoDieException;
 import it.polimi.se2018.network.messages.responses.ModelViewResponse;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;

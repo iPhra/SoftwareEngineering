@@ -2,7 +2,7 @@ package it.polimi.se2018.model;
 
 /**
  * Enumeration for all the colors of {@link Die} and {@link Square}
- * @Author Francesco Lorenzo
+ * @author Francesco Lorenzo
  */
 public enum Color {
     BLUE,RED,GREEN,YELLOW,PURPLE,WHITE;

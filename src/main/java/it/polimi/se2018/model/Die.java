@@ -7,7 +7,7 @@ import java.util.Random;
 
 /**
  * This class represents a single Die, with its value and color
- * @Author Francesco Lorenzo
+ * @author Francesco Lorenzo
  */
 public class Die {
 
