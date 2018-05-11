@@ -76,7 +76,7 @@ public class Map implements Iterable<Square>{
             col=0;
         }
         public boolean hasNext() {
-            return !(row==matrix.length-1 && col==matrix[0].length-1);
+            return (row<=matrix.length-1 && col<=matrix[0].length-1);
         }
 
         public Square next() {

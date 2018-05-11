@@ -1,9 +1,15 @@
 package it.polimi.se2018.model.objectives.privateobjectives;
 
 import it.polimi.se2018.model.Color;
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.Square;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.StreamSupport;
+
+import static java.util.stream.Collectors.toList;
 
 public class ShadesOfBlueObjective extends PrivateObjective {
     private static ShadesOfBlueObjective instance = null;
@@ -25,7 +31,10 @@ public class ShadesOfBlueObjective extends PrivateObjective {
     @Override
     public int evalPoints(Player player){
         return (int) StreamSupport.stream(player.getMap().spliterator(),false)
-                .filter(square -> square.getDie().getColor()==color)
+                .map(Square::getDie)
+                .filter(Objects::nonNull)
+                .filter(die -> die.getColor()==color)
                 .count();
     }
+
 }

@@ -38,7 +38,7 @@ public class Square {
     }
 
     public boolean sameValue(Die die) {
-        return die.getValue()==value;
+        return value==0 || die.getValue()==value;
     }
 
     public Square modelViewCopy() {
