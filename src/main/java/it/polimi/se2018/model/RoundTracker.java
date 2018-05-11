@@ -24,10 +24,9 @@ public class RoundTracker implements Iterable<Die>{
     }
 
     public void removeFromRoundTracker(Die die) {
-        for(List<Die> currentList : dice) {
-            for (Die currentDie : currentList) {
-                if (currentDie.equals(die)) currentList.remove(die);
-            }
+        for (List<Die> currentList : dice) {
+            for (int j = 0; j < currentList.size(); j++)
+                if (currentList.get(j).equals(die)) currentList.remove(die);
         }
     }
 

@@ -78,7 +78,7 @@ public class Controller implements Observer<Message>, MessageHandler {
                 else {
                     placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getMap()));
                 }
-                player.setDieInHand(null);
+                player.dropDieInHand();
                 model.notify(new ModelViewResponse(model));
             }
             catch(InvalidPlacementException e) {model.notify(new TextResponse(player,"You can't place the die there"));}
@@ -156,7 +156,7 @@ public class Controller implements Observer<Message>, MessageHandler {
         model.setToolCard(toolCard.setAlreadyUsed(),toolCardMessage.getToolCardNumber());
         player.setFavorPoints(player.getFavorPoints()-(toolCard.isAlreadyUsed()? 2:1));
         player.setHasUsedCard(true);
-        player.setCardInUse(null);
+        player.dropCardInUse();
     }
 
     private void draft(DraftMessage draftMessage) throws NoDieException {
@@ -172,7 +172,7 @@ public class Controller implements Observer<Message>, MessageHandler {
         player.setHasDraftedDie(false);
         if (player.hasDieInHand()) {
             Die die = player.getDieInHand();
-            player.setDieInHand(null);
+            player.dropDieInHand();
             model.getDraftPool().addToDraftPool(die);
         }
     }

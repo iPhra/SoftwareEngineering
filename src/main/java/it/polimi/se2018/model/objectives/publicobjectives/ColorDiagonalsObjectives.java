@@ -16,9 +16,9 @@ public class ColorDiagonalsObjectives extends PublicObjective {
     private ColorDiagonalsObjectives(String imagePath, String title){
         super(imagePath,title);
         alreadyCounted = new boolean[4][5];
-        for (boolean[] row : alreadyCounted) {
-            for (boolean cell : row) {
-                cell=false;
+        for (int row=0; row<4; row++) {
+            for (int col=0; col<5; col++) {
+                alreadyCounted[row][col]=false;
             }
         }
     }

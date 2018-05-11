@@ -4,15 +4,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestRoundTracker {
     private RoundTracker roundTracker;
-    private ArrayList<Die> dice1;
-    private ArrayList<Die> dice2;
+    private List<Die> dice1;
+    private List<Die> dice2;
 
     //non puoi estrarre a caso un valore e fare il roundtracker grande quanto quel valore, perché tu poi lo riempi dando
     //per scontato che sia grande almeno 2 posizioni l'array, mentre potresti estrarre meno di 2
@@ -70,5 +70,11 @@ public class TestRoundTracker {
         Die die = new Die(3,Color.RED);
         roundTracker.addToRoundTracker(1,die);
         assertEquals(die,roundTracker.getDie(1,4));
+    }
+
+    @Test
+    public void testModelViewCopy() {
+        assertTrue(dice1.containsAll(roundTracker.modelViewCopy()[0]) && roundTracker.modelViewCopy()[0].containsAll(dice1));
+        assertTrue(dice2.containsAll(roundTracker.modelViewCopy()[1]) && roundTracker.modelViewCopy()[1].containsAll(dice2));
     }
 }

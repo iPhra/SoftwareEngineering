@@ -76,6 +76,8 @@ public class Player {
         this.dieInHand = draftedDie;
     }
 
+    public void dropDieInHand() {dieInHand = null;}
+
     public boolean hasDieInHand() {
         return dieInHand != null;
     }
@@ -104,4 +106,6 @@ public class Player {
     public void setCardInUse(ToolCard cardInUse) {
         this.cardInUse = cardInUse;
     }
+
+    public void dropCardInUse() {cardInUse = null;}
 }
