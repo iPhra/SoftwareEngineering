@@ -26,22 +26,22 @@ public class ToolCardMessage extends Message {
     /**
      * This contains all the positions you want to move a die from, each value in the Array List is associated to a die to move
      */
-    private ArrayList<Coordinate> startingPosition;
+    private List<Coordinate> startingPosition;
 
     /**
      * This contains all the positions you want to move a die to, each value in the Array List is associated to a die to move
      */
-    private ArrayList<Coordinate> finalPosition;
+    private List<Coordinate> finalPosition;
 
     /**
      * This contains all the positions on the Draft Pool of a Die you want to select, each value is associated to a die to select
      */
-    private ArrayList<Integer> draftPoolPosition;
+    private int draftPoolPosition;
 
     /**
      * This contains all the positions on the Round Tracker of a Die you want to select, each value is associated to a die to select
      */
-    private ArrayList<Coordinate> roundTrackerPosition; //x is the Turn, y is the position
+    private Coordinate roundTrackerPosition; //x is the Turn, y is the position
 
     public ToolCardMessage(Player player, int value, int toolCardNumber) {
         super(player);
@@ -49,8 +49,6 @@ public class ToolCardMessage extends Message {
         startingPosition = new ArrayList<>();
         this.toolCardNumber=toolCardNumber;
         finalPosition = new ArrayList<>();
-        draftPoolPosition = new ArrayList<>();
-        roundTrackerPosition = new ArrayList<>();
     }
 
     /**
@@ -70,14 +68,14 @@ public class ToolCardMessage extends Message {
     /**
      * @return the position on the Draft Pool of the dice you want to select
      */
-    public List<Integer> getDraftPoolPosition() {
+    public int getDraftPoolPosition() {
         return draftPoolPosition;
     }
 
     /**
      * @return the position on the Round Trucker of the dice you want to select
      */
-    public List<Coordinate> getRoundTrackerPosition() {
+    public Coordinate getRoundTrackerPosition() {
         return roundTrackerPosition;
     }
 
@@ -99,14 +97,14 @@ public class ToolCardMessage extends Message {
      * @param coordinate is the coordinate of the die on the Draft Pool you want to add to the list
      */
     public void addDraftPoolPosition(int coordinate) {
-        draftPoolPosition.add(coordinate);
+        draftPoolPosition=coordinate;
     }
 
     /**
      * @param coordinate is the coordinate of the die on the Round Tracker you want to add to the list
      */
     public void addRoundTrackerPosition(Coordinate coordinate) {
-        roundTrackerPosition.add(coordinate);
+        roundTrackerPosition= coordinate;
     }
 
     /**

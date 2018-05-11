@@ -1,41 +1,28 @@
 package it.polimi.se2018.network.messages.requests;
 
-import it.polimi.se2018.network.messages.Coordinate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Random;
-
 import static junit.framework.TestCase.fail;
 
-public class TestPlaceMessage {
-    PlaceMessage placeMessage;
-    Coordinate coordinate;
-    Random random;
+public class TestToolCardRequestMessage {
+
+    ToolCardRequestMessage toolCardRequestMessage;
 
     @Before
     public void init() {
-        random = new Random();
-        coordinate = new Coordinate(random.nextInt(),random.nextInt());
-        placeMessage = new PlaceMessage(null, coordinate);
+        toolCardRequestMessage = new ToolCardRequestMessage(null,6);
     }
 
     @Test
-    public void testGetFinalPosition() {
-        Assert.assertEquals(coordinate,placeMessage.getFinalPosition());
-    }
-
-    @Test
-    public void testSetFinalPosition() {
-        Coordinate coordinate = new Coordinate(random.nextInt(),random.nextInt());
-        placeMessage.setFinalPosition(coordinate);
-        Assert.assertEquals(coordinate,placeMessage.getFinalPosition());
+    public void testGetToolCardNumber() {
+        Assert.assertEquals(6,toolCardRequestMessage.getToolCardNumber());
     }
 
     @Test
     public void testHandle() {
-        placeMessage.handle(new MessageHandler() {
+        toolCardRequestMessage.handle(new MessageHandler() {
             @Override
             public void performMove(ToolCardMessage toolCardMessage) {
                 fail();
@@ -48,6 +35,7 @@ public class TestPlaceMessage {
 
             @Override
             public void performMove(PlaceMessage placeMessage) {
+                fail();
 
             }
 
@@ -58,9 +46,7 @@ public class TestPlaceMessage {
 
             @Override
             public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
-                fail();
             }
         });
     }
-    
 }

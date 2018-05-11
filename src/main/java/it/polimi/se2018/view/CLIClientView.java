@@ -1,6 +1,6 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.client.ModelView;
+import it.polimi.se2018.model.ModelView;
 import it.polimi.se2018.network.connections.ClientConnection;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.network.messages.requests.DraftMessage;
@@ -59,6 +59,7 @@ public class CLIClientView implements ResponseHandler, ClientView {
     public void handleResponse(ToolCardResponse toolCardResponse) {
     }
 
+    /*
     public void chooseAction () throws RemoteException{
         //Choose the action to do DraftDie, UseToolcard, PlaceDie, PassTurn
         int choice = -1;
@@ -113,4 +114,5 @@ public class CLIClientView implements ResponseHandler, ClientView {
     public void useToolcard (){}
 
     public void placeDie (){}
+    */
 }

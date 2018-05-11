@@ -4,7 +4,7 @@ import it.polimi.se2018.model.Player;
 
 /**
  * This is the abstract class representing a request from the client to the server
- * For more details, check Command pattern
+ * For more details, check Visitor pattern
  * @author Francesco Lorenzo
  */
 public abstract class Message {

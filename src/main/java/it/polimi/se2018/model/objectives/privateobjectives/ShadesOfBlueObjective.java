@@ -1,15 +1,11 @@
 package it.polimi.se2018.model.objectives.privateobjectives;
 
 import it.polimi.se2018.model.Color;
-import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.Square;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.StreamSupport;
-
-import static java.util.stream.Collectors.toList;
 
 public class ShadesOfBlueObjective extends PrivateObjective {
     private static ShadesOfBlueObjective instance = null;
@@ -18,6 +14,7 @@ public class ShadesOfBlueObjective extends PrivateObjective {
     private ShadesOfBlueObjective(String imagePath, String title){
         super(imagePath,title);
     }
+
     private static synchronized ShadesOfBlueObjective createInstance(String imagePath, String title){
         if (instance==null) instance = new ShadesOfBlueObjective(imagePath, title);
         return instance;

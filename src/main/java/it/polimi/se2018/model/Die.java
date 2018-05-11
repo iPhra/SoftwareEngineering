@@ -1,6 +1,6 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.exceptions.DieException;
+import it.polimi.se2018.utils.exceptions.DieException;
 
 import java.util.Objects;
 import java.util.Random;

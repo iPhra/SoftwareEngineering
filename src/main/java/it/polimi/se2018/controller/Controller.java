@@ -1,8 +1,8 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.exceptions.InvalidPlacementException;
-import it.polimi.se2018.exceptions.NoDieException;
-import it.polimi.se2018.exceptions.ToolCardException;
+import it.polimi.se2018.utils.exceptions.InvalidPlacementException;
+import it.polimi.se2018.utils.exceptions.NoDieException;
+import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.network.messages.requests.*;
@@ -11,9 +11,9 @@ import it.polimi.se2018.network.messages.responses.TextResponse;
 import it.polimi.se2018.network.messages.responses.ToolCardResponse;
 import it.polimi.se2018.network.messages.responses.TurnStartResponse;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
-import it.polimi.se2018.model.placementlogic.DiePlacer;
-import it.polimi.se2018.model.placementlogic.DiePlacerFirst;
-import it.polimi.se2018.model.placementlogic.DiePlacerNormal;
+import it.polimi.se2018.controller.placementlogic.DiePlacer;
+import it.polimi.se2018.controller.placementlogic.DiePlacerFirst;
+import it.polimi.se2018.controller.placementlogic.DiePlacerNormal;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.utils.Observer;
@@ -43,7 +43,7 @@ public class Controller implements Observer<Message>, MessageHandler {
             ToolCard toolCard = player.getCardInUse();
             toolCard.handle(toolCardController,toolCardMessage);
             updateToolCard(toolCard,toolCardMessage);
-            model.notify(new ModelViewResponse(model));
+            model.notify(new ModelViewResponse(model.modelViewCopy()));
         }
         catch (ToolCardException e) {model.notify(new TextResponse(player,e.getMessage()));}
     }
@@ -79,7 +79,7 @@ public class Controller implements Observer<Message>, MessageHandler {
                     placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getMap()));
                 }
                 player.dropDieInHand();
-                model.notify(new ModelViewResponse(model));
+                model.notify(new ModelViewResponse(model.modelViewCopy()));
             }
             catch(InvalidPlacementException e) {model.notify(new TextResponse(player,"You can't place the die there"));}
         }
@@ -93,7 +93,7 @@ public class Controller implements Observer<Message>, MessageHandler {
         else {
             try {
                 draft(draftMessage);
-                model.notify(new ModelViewResponse(model));
+                model.notify(new ModelViewResponse(model.modelViewCopy()));
             } catch (NoDieException e) {
                 model.notify(new TextResponse(player,"The die you want to draft does not exit"));
             }
@@ -111,7 +111,7 @@ public class Controller implements Observer<Message>, MessageHandler {
             pass(player);
             Player nextPlayer = model.getPlayerByIndex(model.getRound().getCurrentPlayerIndex());
             model.notify(new TurnStartResponse(nextPlayer));
-            model.notify(new ModelViewResponse(model));
+            model.notify(new ModelViewResponse(model.modelViewCopy()));
         }
     }
 
@@ -123,7 +123,7 @@ public class Controller implements Observer<Message>, MessageHandler {
             startRound();
             Player nextPlayer = model.getPlayerByIndex(model.getRound().getCurrentPlayerIndex());
             model.notify(new TurnStartResponse(nextPlayer));
-            model.notify(new ModelViewResponse(model));
+            model.notify(new ModelViewResponse(model.modelViewCopy()));
         }
     }
 
@@ -147,7 +147,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     }
 
     private void endMatch() {
-        model.notify(new ModelViewResponse(model));
+        model.notify(new ModelViewResponse(model.modelViewCopy()));
         evaluatePoints();
     }
 

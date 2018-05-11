@@ -1,6 +1,6 @@
-package it.polimi.se2018.model.placementlogic;
+package it.polimi.se2018.controller.placementlogic;
 
-import it.polimi.se2018.exceptions.InvalidPlacementException;
+import it.polimi.se2018.utils.exceptions.InvalidPlacementException;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Map;
 import it.polimi.se2018.network.messages.Coordinate;

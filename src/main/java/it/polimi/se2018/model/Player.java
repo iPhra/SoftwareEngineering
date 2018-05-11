@@ -1,6 +1,6 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.exceptions.ToolCardException;
+import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 

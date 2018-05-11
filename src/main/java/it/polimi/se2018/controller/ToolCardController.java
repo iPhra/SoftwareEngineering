@@ -1,14 +1,14 @@
 package it.polimi.se2018.controller;
 
-import it.polimi.se2018.exceptions.DieException;
-import it.polimi.se2018.exceptions.InvalidPlacementException;
-import it.polimi.se2018.exceptions.NoDieException;
-import it.polimi.se2018.exceptions.ToolCardException;
+import it.polimi.se2018.utils.exceptions.DieException;
+import it.polimi.se2018.utils.exceptions.InvalidPlacementException;
+import it.polimi.se2018.utils.exceptions.NoDieException;
+import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.placementlogic.DiePlacerAlone;
-import it.polimi.se2018.model.placementlogic.DiePlacerNoColor;
-import it.polimi.se2018.model.placementlogic.DiePlacerNoValue;
+import it.polimi.se2018.controller.placementlogic.DiePlacerAlone;
+import it.polimi.se2018.controller.placementlogic.DiePlacerNoColor;
+import it.polimi.se2018.controller.placementlogic.DiePlacerNoValue;
 import it.polimi.se2018.model.Square;
 import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.Coordinate;
@@ -186,9 +186,9 @@ public class ToolCardController implements ToolCardHandler{
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
         Die dieDrafted = toolCardMessage.getPlayer().getDieInHand();
-        Die dieFromRoundTrack = board.getRoundTracker().getDie(toolCardMessage.getRoundTrackerPosition().get(0).getRow(), toolCardMessage.getRoundTrackerPosition().get(0).getCol());
+        Die dieFromRoundTrack = board.getRoundTracker().getDie(toolCardMessage.getRoundTrackerPosition().getRow(), toolCardMessage.getRoundTrackerPosition().getCol());
         toolCardMessage.getPlayer().setDieInHand(dieFromRoundTrack);
-        board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().get(0).getRow(), dieDrafted);
+        board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().getRow(), dieDrafted);
     }
 
     @Override
@@ -210,7 +210,7 @@ public class ToolCardController implements ToolCardHandler{
         Square squareTwo = toolCardMessage.getPlayer().getMap().getSquare(toolCardMessage.getStartingPosition().get(1));
         Die dieOne = squareOne.getDie();
         Die dieTwo = squareTwo.getDie();
-        Coordinate indexRoundTracker = toolCardMessage.getRoundTrackerPosition().get(0);
+        Coordinate indexRoundTracker = toolCardMessage.getRoundTrackerPosition();
         Die dieRoundTracker = board.getRoundTracker().getDie(indexRoundTracker.getRow(), indexRoundTracker.getCol());
         if (dieOne.getColor() != dieTwo.getColor()) {
             throw new ToolCardException("I due dadi non sono dello stesso colore!");

@@ -1,4 +1,4 @@
-package it.polimi.se2018.exceptions;
+package it.polimi.se2018.utils.exceptions;
 
 //Momentaneamente l'unico modo di chiamare questa eccezione è
 //cercare di imporre un valore fuori dal range (1, 6) ad un dado

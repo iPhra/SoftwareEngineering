@@ -1,11 +1,11 @@
-package it.polimi.se2018.model.objectives;
+package it.polimi.se2018;
 
 import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Square;
 import it.polimi.se2018.network.messages.Coordinate;
 
-public class DataBase {
+public class Database {
     private Square[][] matrix;
 
 

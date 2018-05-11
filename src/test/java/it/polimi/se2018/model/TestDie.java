@@ -1,6 +1,6 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.exceptions.DieException;
+import it.polimi.se2018.utils.exceptions.DieException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

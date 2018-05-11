@@ -1,6 +1,5 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.network.messages.responses.ModelViewResponse;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
@@ -92,8 +91,8 @@ public class Board extends Observable<Response> {
         throw new InvalidParameterException();
     }
 
-    public ModelViewResponse modelViewCopy() {
-        return new ModelViewResponse(this);
+    public ModelView modelViewCopy() {
+        return new ModelView(this);
     }
 
     public void setToolCard(ToolCard toolCard, int index) {

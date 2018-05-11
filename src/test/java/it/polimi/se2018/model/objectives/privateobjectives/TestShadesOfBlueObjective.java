@@ -4,7 +4,7 @@ import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.Map;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.Square;
-import it.polimi.se2018.model.objectives.DataBase;
+import it.polimi.se2018.Database;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,13 +12,13 @@ import static org.junit.Assert.assertEquals;
 
 public class TestShadesOfBlueObjective {
     private Square[][] matrix;
-    private DataBase database;
+    private Database database;
     private ShadesOfBlueObjective shadesOfBlueObjective;
     private Player player;
 
     @Before
     public void init(){
-        database = new DataBase();
+        database = new Database();
         database.initBasicMatrix();
         matrix = database.getMatrix();
         shadesOfBlueObjective=ShadesOfBlueObjective.instance("imagePath","title");

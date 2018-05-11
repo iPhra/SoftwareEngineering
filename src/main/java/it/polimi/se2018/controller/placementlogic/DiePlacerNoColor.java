@@ -1,4 +1,4 @@
-package it.polimi.se2018.model.placementlogic;
+package it.polimi.se2018.controller.placementlogic;
 
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Map;

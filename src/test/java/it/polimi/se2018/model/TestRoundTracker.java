@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,6 +69,11 @@ public class TestRoundTracker {
         Die die = new Die(3,Color.RED);
         roundTracker.addToRoundTracker(1,die);
         assertEquals(die,roundTracker.getDie(1,4));
+    }
+
+    @Test
+    public void testGetTurn() {
+        Assert.assertEquals(2,roundTracker.getTurn());
     }
 
     @Test
