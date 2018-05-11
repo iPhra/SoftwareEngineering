@@ -14,8 +14,6 @@ public class TestRoundTracker {
     private List<Die> dice1;
     private List<Die> dice2;
 
-    //non puoi estrarre a caso un valore e fare il roundtracker grande quanto quel valore, perché tu poi lo riempi dando
-    //per scontato che sia grande almeno 2 posizioni l'array, mentre potresti estrarre meno di 2
     @Before
     public void init(){
         roundTracker = new RoundTracker(2);

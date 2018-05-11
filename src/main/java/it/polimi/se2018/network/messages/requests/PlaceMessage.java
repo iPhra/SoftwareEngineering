@@ -13,7 +13,7 @@ public class PlaceMessage extends Message {
      */
     private Coordinate finalPosition;
 
-    public PlaceMessage(Coordinate finalPosition, Player player) {
+    public PlaceMessage(Player player, Coordinate finalPosition) {
         super(player);
         this.finalPosition = finalPosition;
     }

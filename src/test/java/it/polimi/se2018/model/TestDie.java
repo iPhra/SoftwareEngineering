@@ -97,5 +97,6 @@ public class TestDie {
             Assert.assertNotEquals(die.hashCode(), new Die(value-1,color));
             Assert.assertTrue(!die.equals(new Die(value-1,color)));
         }
+        Assert.assertNotEquals(die,new Object());
     }
 }

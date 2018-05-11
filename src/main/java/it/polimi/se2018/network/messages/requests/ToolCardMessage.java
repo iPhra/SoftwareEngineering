@@ -36,12 +36,12 @@ public class ToolCardMessage extends Message {
     /**
      * This contains all the positions on the Draft Pool of a Die you want to select, each value is associated to a die to select
      */
-    private ArrayList draftPoolPosition;
+    private ArrayList<Integer> draftPoolPosition;
 
     /**
      * This contains all the positions on the Round Tracker of a Die you want to select, each value is associated to a die to select
      */
-    private ArrayList roundTrackerPosition; //x is the Turn, y is the position
+    private ArrayList<Coordinate> roundTrackerPosition; //x is the Turn, y is the position
 
     public ToolCardMessage(Player player, int value, int toolCardNumber) {
         super(player);
