@@ -24,17 +24,12 @@ public class ToolCardController implements ToolCardHandler{
     }
 
     private boolean nearPosition (Coordinate firstPosition, Coordinate secondPosition) {
-        if (firstPosition.getCol() == secondPosition.getCol()) {
-            if (firstPosition.getRow() == secondPosition.getRow() + 1 || firstPosition.getRow() == secondPosition.getRow() - 1) {
-                return true;
-            }
-        }
-        if (firstPosition.getRow() == secondPosition.getRow()) {
-            if (firstPosition.getCol() == secondPosition.getCol() + 1 || firstPosition.getCol() == secondPosition.getCol() - 1) {
-                return true;
-            }
-        }
-        return false;
+        return firstPosition.getCol() == secondPosition.getCol() &&
+                (firstPosition.getRow() == secondPosition.getRow() + 1 ||
+                        firstPosition.getRow() == secondPosition.getRow() - 1) ||
+                (firstPosition.getRow() == secondPosition.getRow() &&
+                        (firstPosition.getCol() == secondPosition.getCol() + 1 ||
+                                firstPosition.getCol() == secondPosition.getCol() - 1));
     }
 
     @Override

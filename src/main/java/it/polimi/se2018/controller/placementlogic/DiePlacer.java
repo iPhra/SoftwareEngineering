@@ -52,13 +52,13 @@ public abstract class DiePlacer {
 
     //all dice in diagonal and adjacent to a given die
     protected boolean hasSurroundingDice() {
-        List<Die> surrounding = map.adjacentDice(new Coordinate(square.getRow(),square.getCol()));
+        List<Die> surrounding = map.adjacentDice(new Coordinate(square.getRow(), square.getCol()));
         if (!surrounding.isEmpty()) return true;
-        if (square.getRow() > 0 && square.getCol() > 0 && !map.getSquare(new Coordinate(square.getRow()-1,square.getCol()-1)).isEmpty()) return true;
-        if (square.getRow() > 0 && square.getCol() < map.getCols() && !map.getSquare(new Coordinate(square.getRow()-1,square.getCol()+1)).isEmpty()) return true;
-        if (square.getRow() < map.getRows() && square.getCol() > 0 && !map.getSquare(new Coordinate(square.getRow()+1,square.getCol()-1)).isEmpty()) return true;
-        if (square.getRow() < map.getRows() && square.getCol() < map.getCols() && !map.getSquare(new Coordinate(square.getRow()+1,square.getCol()+1)).isEmpty()) return true;
-        return false;
+        if (square.getRow() > 0 && square.getCol() > 0 && !map.getSquare(new Coordinate(square.getRow() - 1, square.getCol() - 1)).isEmpty())
+            return true;
+        if (square.getRow() > 0 && square.getCol() < map.getCols() && !map.getSquare(new Coordinate(square.getRow() - 1, square.getCol() + 1)).isEmpty())
+            return true;
+        return square.getRow() < map.getRows() && square.getCol() > 0 && !map.getSquare(new Coordinate(square.getRow() + 1, square.getCol() - 1)).isEmpty() || square.getRow() < map.getRows() && square.getCol() < map.getCols() && !map.getSquare(new Coordinate(square.getRow() + 1, square.getCol() + 1)).isEmpty();
     }
 
 }

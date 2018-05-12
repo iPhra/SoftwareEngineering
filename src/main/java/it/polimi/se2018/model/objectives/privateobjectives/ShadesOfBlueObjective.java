@@ -28,7 +28,7 @@ public class ShadesOfBlueObjective extends PrivateObjective {
 
     @Override
     public int evalPoints(Player player){
-        return (int) StreamSupport.stream(player.getMap().spliterator(),false)
+        return StreamSupport.stream(player.getMap().spliterator(),false)
                 .map(Square::getDie)
                 .filter(Objects::nonNull)
                 .filter(die -> die.getColor()==color)

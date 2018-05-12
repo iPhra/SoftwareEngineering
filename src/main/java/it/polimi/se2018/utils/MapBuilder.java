@@ -20,6 +20,9 @@ import java.util.List;
 
 public class MapBuilder {
 
+    private MapBuilder() {
+    }
+
     public static List<Pair<Map,Map>> create() {
         JSONParser parser = new JSONParser();
         List<Pair<Map,Map>> maps = new ArrayList<>();
@@ -47,8 +50,7 @@ public class MapBuilder {
             }
             return maps;
         } catch (IOException | ParseException e){
-            e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 

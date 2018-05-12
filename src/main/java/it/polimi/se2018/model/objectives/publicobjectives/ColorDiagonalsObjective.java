@@ -43,11 +43,9 @@ public class ColorDiagonalsObjective extends PublicObjective {
         if (row < player.getMap().getRows()-1){
             if (col > 0 && !player.getMap().getSquare(new Coordinate(row+1,col-1)).isEmpty() && !alreadyCounted[row+1][col-1]){
                 belowDiagonals.add(player.getMap().getSquare(new Coordinate(row+1,col-1)));
-                //alreadyCounted[row+1][col-1] = true;
             }
             if (col < player.getMap().getCols()-1 && !player.getMap().getSquare(new Coordinate(row+1,col+1)).isEmpty() && !alreadyCounted[row+1][col+1]){
                 belowDiagonals.add(player.getMap().getSquare(new Coordinate(row+1,col+1)));
-                //alreadyCounted[row+1][col+1] = true;
             }
         }
         return belowDiagonals;
