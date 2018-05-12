@@ -18,6 +18,6 @@ public class CorkBackedStraightedge extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new CorkBackedStraightedge(imagePath, title, board, true);
     }
 }

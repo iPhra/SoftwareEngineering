@@ -18,6 +18,6 @@ public class LensCutter extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new LensCutter(imagePath, title, board, true);
     }
 }

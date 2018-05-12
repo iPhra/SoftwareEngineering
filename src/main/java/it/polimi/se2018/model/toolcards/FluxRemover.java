@@ -18,6 +18,6 @@ public class FluxRemover extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new FluxRemover(imagePath, title, board, true);
     }
 }

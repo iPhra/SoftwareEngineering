@@ -18,7 +18,7 @@ public class FluxBrush extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new FluxBrush(imagePath, title, board, true);
     }
 }
 

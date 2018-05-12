@@ -18,7 +18,7 @@ public class GrindingStone extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new GrindingStone(imagePath, title, board, true);
     }
 }
 

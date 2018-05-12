@@ -18,7 +18,7 @@ public class CopperFoilBurnisher extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new CopperFoilBurnisher(imagePath, title, board, true);
     }
 }
 

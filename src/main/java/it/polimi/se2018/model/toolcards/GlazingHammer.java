@@ -17,6 +17,6 @@ public class GlazingHammer extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new GlazingHammer(imagePath, title, board, true);
     }
 }

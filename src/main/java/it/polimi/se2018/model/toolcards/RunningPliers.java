@@ -18,7 +18,7 @@ public class RunningPliers extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new RunningPliers(imagePath, title, board, true);
     }
 }
 

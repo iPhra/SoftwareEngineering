@@ -18,6 +18,6 @@ public class EglomiseBrush extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new EglomiseBrush(imagePath, title, board, true);
     }
 }

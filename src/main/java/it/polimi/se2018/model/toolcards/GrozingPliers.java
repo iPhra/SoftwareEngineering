@@ -18,7 +18,7 @@ public class GrozingPliers extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new GrozingPliers(imagePath, title, board, true);
     }
 
 }

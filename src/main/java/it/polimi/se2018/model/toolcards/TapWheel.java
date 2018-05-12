@@ -20,7 +20,7 @@ public class TapWheel extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new TapWheel(imagePath, title, board, true);
     }
 }
 

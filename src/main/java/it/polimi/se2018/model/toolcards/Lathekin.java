@@ -19,6 +19,6 @@ public class Lathekin extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return null;
+        return new Lathekin(imagePath, title, board, true);
     }
 }
