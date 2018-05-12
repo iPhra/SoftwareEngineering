@@ -1,5 +1,6 @@
 package it.polimi.se2018;
 
+/*
 import it.polimi.se2018.model.Map;
 import it.polimi.se2018.model.Square;
 import javafx.util.Pair;
@@ -13,14 +14,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+/*
 
+ */
 public class MapBuilder {
 
     /*public static void create() {
         JSONParser parser = new JSONParser();
         ArrayList<Pair<Map,Map>> maps;
         try {
-            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(""));
+            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("/maps.json"));
             JSONArray jsonMaps = (JSONArray) jsonObject.get("maps");
             Iterator iterator = jsonMaps.iterator();
             while(iterator.hasNext()) {

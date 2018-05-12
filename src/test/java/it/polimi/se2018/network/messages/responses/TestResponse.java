@@ -1,4 +1,4 @@
-package it.polimi.se2018.network.messages.requests;
+package it.polimi.se2018.network.messages.responses;
 
 import it.polimi.se2018.Database;
 import it.polimi.se2018.model.Map;
@@ -8,16 +8,16 @@ import org.junit.Test;
 
 import java.util.Random;
 
-public class TestMessage {
+public class TestResponse {
 
     @Test
-    public void testGetPlayer() {
+    public void test() {
         Player player = new Player("test",3, new Map("test",new Random().nextInt(),null, new Database().getMatrix()),null);
-        Message message = new Message(player) {
+        Response response = new Response(player) {
             @Override
-            public void handle(MessageHandler handler) {
+            public void handle(ResponseHandler handler) {
             }
         };
-        Assert.assertEquals(player,message.getPlayer());
+        Assert.assertEquals(player,response.getPlayer());
     }
 }
