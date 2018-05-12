@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class TestSquare {
@@ -104,5 +105,4 @@ public class TestSquare {
         square.setDie(die);
         Assert.assertFalse(square.isEmpty());
     }
-
 }

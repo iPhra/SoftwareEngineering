@@ -82,4 +82,28 @@ public class TestMap {
         Assert.assertNotEquals(dieTwo, map.getDie(coordinate));
     }
 
+    @Test
+    public void testModelViewCopy() {
+        for (int i = 0; i < map.getRows(); i++) {
+            for (int j = 0; j < map.getCols(); j++) {
+                Assert.assertEquals(map.modelViewCopy()[i][j], map.getSquare(new Coordinate(i, j)));
+            }
+        }
+        Assert.assertNotEquals(map.modelViewCopy()[1][2], map.getSquare(new Coordinate(2, 3)));
+    }
+
+    @Test
+    public void testCountEmptySlots() {
+        int count = 0;
+        for (int i = 0; i < map.getRows(); i++) {
+            for (int j = 0; j < map.getCols(); j++) {
+                if (map.getSquare(new Coordinate(i, j)).isEmpty()) {
+                    count++;
+                }
+            }
+        }
+        Assert.assertEquals(count, map.countEmptySlots());
+        Assert.assertNotEquals(count + 1, map.countEmptySlots());
+    }
+
 }

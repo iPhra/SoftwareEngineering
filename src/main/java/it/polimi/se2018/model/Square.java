@@ -2,6 +2,8 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.network.messages.Coordinate;
 
+import java.util.Objects;
+
 public class Square {
     private final Color color;
     private final int value;
@@ -43,8 +45,25 @@ public class Square {
 
     public Square modelViewCopy() {
         Square result = new Square(color,value,new Coordinate(row,col));
-        result.setDie(die.modelViewCopy());
+        result.setDie(die == null ? null:die.modelViewCopy());
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Square square = (Square) o;
+        return value == square.value &&
+                row == square.getRow() &&
+                col == square.getCol() &&
+                color == square.color &&
+                Objects.equals(die, square.getDie());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(color, value, die, row, col);
+    }
 }

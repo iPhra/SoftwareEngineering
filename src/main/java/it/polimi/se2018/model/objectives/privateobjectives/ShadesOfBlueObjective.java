@@ -1,6 +1,7 @@
 package it.polimi.se2018.model.objectives.privateobjectives;
 
 import it.polimi.se2018.model.Color;
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.Square;
 
@@ -31,7 +32,9 @@ public class ShadesOfBlueObjective extends PrivateObjective {
                 .map(Square::getDie)
                 .filter(Objects::nonNull)
                 .filter(die -> die.getColor()==color)
-                .count();
+                .map(Die::getValue)
+                .mapToInt(value -> value)
+                .sum();
     }
 
 }
