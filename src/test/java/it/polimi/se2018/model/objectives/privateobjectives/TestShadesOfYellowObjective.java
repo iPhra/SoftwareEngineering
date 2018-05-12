@@ -33,6 +33,6 @@ public class TestShadesOfYellowObjective {
         matrix = database.getMatrix();
         Map map = new Map("sixSameColoredDiceMap",0,matrix);
         player = new Player("name",1,map, shadesOfYellowObjective);
-        assertEquals(6, shadesOfYellowObjective.evalPoints(player));
+        assertEquals(21, shadesOfYellowObjective.evalPoints(player));
     }
 }
