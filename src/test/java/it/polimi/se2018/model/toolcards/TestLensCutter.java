@@ -1,8 +1,7 @@
-package it.polimi.se2018.model.TestToolcard;
+package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
@@ -10,26 +9,26 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 
-public class TestGrozingPliers {
+public class TestLensCutter {
     public String title = "Title";
     public String imagePath = "Image path";
     public Board board;
-    public GrozingPliers grozingPliers;
+    public LensCutter lensCutter;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        grozingPliers = new GrozingPliers(imagePath, title, board, false);
+        lensCutter = new LensCutter(imagePath, title, board, false);
     }
 
     @Test
     public void testSetAlreadyUsed() {
-        grozingPliers = (GrozingPliers) grozingPliers.setAlreadyUsed();
+        lensCutter = (LensCutter) lensCutter.setAlreadyUsed();
     }
 
     @Test
     public void testHandle() throws ToolCardException {
-        grozingPliers.handle(new ToolCardHandler() {
+        lensCutter.handle(new ToolCardHandler() {
             @Override
             public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
                 fail();
@@ -67,6 +66,7 @@ public class TestGrozingPliers {
 
             @Override
             public void useCard(GrozingPliers toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+                fail();
             }
 
             @Override
@@ -76,7 +76,6 @@ public class TestGrozingPliers {
 
             @Override
             public void useCard(LensCutter toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-                fail();
             }
 
             @Override

@@ -1,8 +1,7 @@
-package it.polimi.se2018.model.TestToolcard;
+package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
@@ -10,26 +9,26 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 
-public class TestGrindingStone {
+public class TestEglomiseBrush {
     public String title = "Title";
     public String imagePath = "Image path";
     public Board board;
-    public GrindingStone grindingStone;
+    public EglomiseBrush eglomiseBrush;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        grindingStone = new GrindingStone(imagePath, title, board, false);
+        eglomiseBrush = new EglomiseBrush(imagePath, title, board, false);
     }
 
     @Test
     public void testSetAlreadyUsed() {
-        grindingStone = (GrindingStone) grindingStone.setAlreadyUsed();
+        eglomiseBrush = (EglomiseBrush) eglomiseBrush.setAlreadyUsed();
     }
 
     @Test
     public void testHandle() throws ToolCardException {
-        grindingStone.handle(new ToolCardHandler() {
+        eglomiseBrush.handle(new ToolCardHandler() {
             @Override
             public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
                 fail();
@@ -42,7 +41,6 @@ public class TestGrindingStone {
 
             @Override
             public void useCard(EglomiseBrush toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-                fail();
             }
 
             @Override
@@ -62,6 +60,7 @@ public class TestGrindingStone {
 
             @Override
             public void useCard(GrindingStone toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+                fail();
             }
 
             @Override

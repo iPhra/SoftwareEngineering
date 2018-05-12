@@ -35,7 +35,7 @@ public class Controller implements Observer<Message>, MessageHandler {
         else message.handle(this);
     }
 
-    //use a toolcard
+    //use a toolcards
     @Override
     public void performMove(ToolCardMessage toolCardMessage) {
         Player player = toolCardMessage.getPlayer();

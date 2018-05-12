@@ -12,7 +12,7 @@ import java.util.List;
 public class ModelView {
     private final List<Die> draftPool; //draft pool
     private final List<Die>[] roundTracker; //ha il riferimento al roundTracker
-    private final List<Boolean> usedToolCards; //true if toolcard[i] has already been used
+    private final List<Boolean> usedToolCards; //true if toolcards[i] has already been used
     private final List<Square[][]> maps;
     private final List<Integer> favorPoints;
     private final List<Integer> scores;

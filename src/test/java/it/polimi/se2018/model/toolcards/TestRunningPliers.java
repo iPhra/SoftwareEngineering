@@ -1,8 +1,7 @@
-package it.polimi.se2018.model.TestToolcard;
+package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
@@ -10,26 +9,26 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 
-public class TestLathekin {
+public class TestRunningPliers {
         public String title = "Title";
         public String imagePath = "Image path";
         public Board board;
-        public Lathekin lathekin;
+        public RunningPliers runningPliers;
         ToolCardMessage toolCardMessage;
 
         @Before
         public void init() {
-            lathekin = new Lathekin(imagePath, title, board, false);
+            runningPliers = new RunningPliers(imagePath, title, board, false);
         }
 
         @Test
         public void testSetAlreadyUsed() {
-            lathekin = (Lathekin) lathekin.setAlreadyUsed();
+            runningPliers = (RunningPliers) runningPliers.setAlreadyUsed();
         }
 
         @Test
         public void testHandle() throws ToolCardException {
-            lathekin.handle(new ToolCardHandler() {
+            runningPliers.handle(new ToolCardHandler() {
                 @Override
                 public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
                     fail();
@@ -72,6 +71,7 @@ public class TestLathekin {
 
                 @Override
                 public void useCard(Lathekin toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+                    fail();
                 }
 
                 @Override
@@ -81,7 +81,6 @@ public class TestLathekin {
 
                 @Override
                 public void useCard(RunningPliers toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-                    fail();
                 }
 
                 @Override

@@ -1,8 +1,7 @@
-package it.polimi.se2018.model.TestToolcard;
+package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
@@ -10,26 +9,26 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 
-public class TestGlazingHammer {
+public class TestGrozingPliers {
     public String title = "Title";
     public String imagePath = "Image path";
     public Board board;
-    public GlazingHammer glazingHammer;
+    public GrozingPliers grozingPliers;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        glazingHammer = new GlazingHammer(imagePath, title, board, false);
+        grozingPliers = new GrozingPliers(imagePath, title, board, false);
     }
 
     @Test
     public void testSetAlreadyUsed() {
-        glazingHammer = (GlazingHammer) glazingHammer.setAlreadyUsed();
+        grozingPliers = (GrozingPliers) grozingPliers.setAlreadyUsed();
     }
 
     @Test
     public void testHandle() throws ToolCardException {
-        glazingHammer.handle(new ToolCardHandler() {
+        grozingPliers.handle(new ToolCardHandler() {
             @Override
             public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
                 fail();
@@ -57,6 +56,7 @@ public class TestGlazingHammer {
 
             @Override
             public void useCard(GlazingHammer toolCard, ToolCardMessage toolCardMessage) {
+                fail();
             }
 
             @Override
@@ -66,7 +66,6 @@ public class TestGlazingHammer {
 
             @Override
             public void useCard(GrozingPliers toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-                fail();
             }
 
             @Override

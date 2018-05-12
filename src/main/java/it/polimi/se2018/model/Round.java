@@ -44,7 +44,7 @@ public class Round {
     //called when a player ended his turn and you need to change player with the following player
     public void changeTurn() {
         changePlayer();
-        missingPlayers--; //when i use the toolcard i check if it's <= 0
+        missingPlayers--; //when i use the toolcards i check if it's <= 0
     }
     //changeRound() build the next array player order
     //and give it to the costructor of the next round with the new roundNumber
@@ -61,10 +61,10 @@ public class Round {
         return new Round(newPlayersOrder,roundNumber + 1);
     }
 
-    // used by the toolcard that allows you to place the die twice and skip your second turn
+    // used by the toolcards that allows you to place the die twice and skip your second turn
     //this method, specifically, let the player skip his second turn (deleting the player from the second half of the array)
-    //toolcard MUST set hasPlacedDie and hasUsedCard
-    //requires being in the first half of the array. if not, toolcard throws an exception
+    //toolcards MUST set hasPlacedDie and hasUsedCard
+    //requires being in the first half of the array. if not, toolcards throws an exception
     public void denyNextTurn() {
         playersOrder.remove(playersOrder.size()- currentPlayerIndex -1);
     }

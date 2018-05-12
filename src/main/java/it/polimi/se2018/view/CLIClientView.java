@@ -71,7 +71,7 @@ public class CLIClientView implements ResponseHandler, ClientView {
                         System.out.print("1: Draft a die");
                     }
                     if (i == 1 && !player.hasUsedCard()) {
-                        System.out.print("2: Use a toolcard");
+                        System.out.print("2: Use a toolcards");
                     }
                     if (i == 2 && player.hasDieInHand()) {
                         System.out.print("3: Place the drafted die");

@@ -138,7 +138,7 @@ public class ToolCardController implements ToolCardHandler{
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
         if (toolCardMessage.getValue() != 1 || toolCardMessage.getValue() != -1) {
-            //This toolcard change the value of the die by +1 or -1, other value are not allowed
+            //This toolcards change the value of the die by +1 or -1, other value are not allowed
             throw  new ToolCardException("Non puoi modificare nel modo indicato il dado! Puoi scegliere solo +1 o -1");
         }
         try {

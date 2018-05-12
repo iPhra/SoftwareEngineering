@@ -1,8 +1,7 @@
-package it.polimi.se2018.model.TestToolcard;
+package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
@@ -10,26 +9,26 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 
-public class TestLensCutter {
+public class TestFluxRemover {
     public String title = "Title";
     public String imagePath = "Image path";
     public Board board;
-    public LensCutter lensCutter;
+    public FluxRemover fluxRemover;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        lensCutter = new LensCutter(imagePath, title, board, false);
+        fluxRemover = new FluxRemover(imagePath, title, board, false);
     }
 
     @Test
     public void testSetAlreadyUsed() {
-        lensCutter = (LensCutter) lensCutter.setAlreadyUsed();
+        fluxRemover = (FluxRemover) fluxRemover.setAlreadyUsed();
     }
 
     @Test
     public void testHandle() throws ToolCardException {
-        lensCutter.handle(new ToolCardHandler() {
+        fluxRemover.handle(new ToolCardHandler() {
             @Override
             public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
                 fail();
@@ -52,7 +51,6 @@ public class TestLensCutter {
 
             @Override
             public void useCard(FluxRemover toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-                fail();
             }
 
             @Override
@@ -77,6 +75,7 @@ public class TestLensCutter {
 
             @Override
             public void useCard(LensCutter toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+                fail();
             }
 
             @Override

@@ -1,8 +1,7 @@
-package it.polimi.se2018.model.TestToolcard;
+package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
@@ -10,33 +9,34 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 
-public class TestCorkBackedStraightedge {
+public class TestCopperFoilBurnisher {
     public String title = "Title";
     public String imagePath = "Image path";
     public Board board;
-    public CorkBackedStraightedge corkBackedStraightedge;
+    public CopperFoilBurnisher copperFoilBurnisher;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        corkBackedStraightedge = new CorkBackedStraightedge(imagePath, title, board, false);
+        copperFoilBurnisher = new CopperFoilBurnisher(imagePath, title, board, false);
     }
 
     @Test
     public void testSetAlreadyUsed() {
-        corkBackedStraightedge = (CorkBackedStraightedge) corkBackedStraightedge.setAlreadyUsed();
+        copperFoilBurnisher = (CopperFoilBurnisher) copperFoilBurnisher.setAlreadyUsed();
     }
 
     @Test
     public void testHandle() throws ToolCardException {
-        corkBackedStraightedge.handle(new ToolCardHandler() {
+        copperFoilBurnisher.handle(new ToolCardHandler() {
             @Override
             public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-                fail();
+
             }
 
             @Override
             public void useCard(CorkBackedStraightedge toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+                fail();
             }
 
             @Override

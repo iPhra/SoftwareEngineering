@@ -1,8 +1,7 @@
-package it.polimi.se2018.model.TestToolcard;
+package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
@@ -10,26 +9,26 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.fail;
 
-public class TestTapWheel {
+public class TestCorkBackedStraightedge {
     public String title = "Title";
     public String imagePath = "Image path";
     public Board board;
-    public TapWheel tapWheel;
+    public CorkBackedStraightedge corkBackedStraightedge;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        tapWheel = new TapWheel(imagePath, title, board, false);
+        corkBackedStraightedge = new CorkBackedStraightedge(imagePath, title, board, false);
     }
 
     @Test
     public void testSetAlreadyUsed() {
-        tapWheel = (TapWheel) tapWheel.setAlreadyUsed();
+        corkBackedStraightedge = (CorkBackedStraightedge) corkBackedStraightedge.setAlreadyUsed();
     }
 
     @Test
     public void testHandle() throws ToolCardException {
-        tapWheel.handle(new ToolCardHandler() {
+        corkBackedStraightedge.handle(new ToolCardHandler() {
             @Override
             public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
                 fail();
@@ -37,7 +36,6 @@ public class TestTapWheel {
 
             @Override
             public void useCard(CorkBackedStraightedge toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-                fail();
             }
 
             @Override
@@ -87,6 +85,7 @@ public class TestTapWheel {
 
             @Override
             public void useCard(TapWheel toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+                fail();
             }
         }, toolCardMessage);
     }
