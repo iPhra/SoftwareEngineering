@@ -7,9 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 
 public class TestDraftPool {
@@ -35,6 +33,7 @@ public class TestDraftPool {
     public void testGetDie() throws NoDieException{
         for(int i=0; i<dice.size(); i++) {
             assertEquals(dice.get(i),draftPool.getDie(i));
+            assertNotEquals(null,draftPool.getDie(i));
         }
     }
 

@@ -30,13 +30,21 @@ public class TestToolCardMessage {
     @Test
     public void testGetters() {
         Assert.assertEquals(7,toolCardMessage.getDraftPoolPosition());
+        Assert.assertNotEquals(-5,toolCardMessage.getDraftPoolPosition());
         Assert.assertEquals(toolCardNumber,toolCardMessage.getToolCardNumber());
+        Assert.assertNotEquals(toolCardNumber/2,toolCardMessage.getToolCardNumber());
         Assert.assertEquals(325,toolCardMessage.getValue());
+        Assert.assertNotEquals(342454353,toolCardMessage.getValue());
         Assert.assertEquals(new Coordinate(5,-235),toolCardMessage.getFinalPosition().get(0));
+        Assert.assertNotEquals(new Coordinate(5,-233),toolCardMessage.getFinalPosition().get(0));
         Assert.assertEquals(new Coordinate(12,-32),toolCardMessage.getFinalPosition().get(1));
+        Assert.assertNotEquals(new Coordinate(11,-32),toolCardMessage.getFinalPosition().get(1));
         Assert.assertEquals(new Coordinate(3,1245),toolCardMessage.getRoundTrackerPosition());
+        Assert.assertNotEquals(new Coordinate(3,12433335),toolCardMessage.getRoundTrackerPosition());
         Assert.assertEquals(new Coordinate(-23532,3244444),toolCardMessage.getStartingPosition().get(0));
+        Assert.assertNotEquals(new Coordinate(-23532,3),toolCardMessage.getStartingPosition().get(0));
         Assert.assertEquals(new Coordinate(-22,0),toolCardMessage.getStartingPosition().get(1));
+        Assert.assertNotEquals(new Coordinate(+22,1),toolCardMessage.getStartingPosition().get(1));
     }
 
     @Test
@@ -54,7 +62,6 @@ public class TestToolCardMessage {
             @Override
             public void performMove(PlaceMessage placeMessage) {
                 fail();
-
             }
 
             @Override

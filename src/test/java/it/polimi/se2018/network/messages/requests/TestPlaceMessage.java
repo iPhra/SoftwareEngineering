@@ -24,6 +24,7 @@ public class TestPlaceMessage {
     @Test
     public void testGetFinalPosition() {
         Assert.assertEquals(coordinate,placeMessage.getFinalPosition());
+        Assert.assertNotEquals(new Coordinate(coordinate.getRow()+1,coordinate.getCol()-1),placeMessage.getFinalPosition());
     }
 
     @Test
@@ -48,7 +49,6 @@ public class TestPlaceMessage {
 
             @Override
             public void performMove(PlaceMessage placeMessage) {
-
             }
 
             @Override

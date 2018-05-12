@@ -12,12 +12,13 @@ public class TestResponse {
 
     @Test
     public void test() {
-        Player player = new Player("test",3, new Map("test",new Random().nextInt(),null, new Database().getMatrix()),null);
+        Player player = new Player("test",new Random().nextInt(),new Database().getDefaultMaps().get(0).getKey(),null);
         Response response = new Response(player) {
             @Override
             public void handle(ResponseHandler handler) {
             }
         };
         Assert.assertEquals(player,response.getPlayer());
+        Assert.assertNotEquals(null,response.getPlayer());
     }
 }

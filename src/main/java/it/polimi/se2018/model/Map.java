@@ -11,13 +11,11 @@ public class Map implements Iterable<Square>{
 
     private final String title;
     private final int level; //it's the level of difficulty
-    private final String imagePath;
     private final Square[][] matrix;
 
-    public Map(String title, int level, String imagePath, Square[][] matrix) {
+    public Map(String title, int level, Square[][] matrix) {
         this.title = title;
         this.level = level;
-        this.imagePath = imagePath;
         this.matrix = matrix;
     }
 
@@ -27,10 +25,6 @@ public class Map implements Iterable<Square>{
 
     public int getLevel() {
         return level;
-    }
-
-    public String getImagePath() {
-        return imagePath;
     }
 
     public Square getSquare(Coordinate coordinate) { return matrix[coordinate.getRow()][coordinate.getCol()]; }

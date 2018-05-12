@@ -11,14 +11,12 @@ import java.util.Random;
 public class TestMap {
     private String title;
     private int level;
-    private String imagePath;
     private Square[][] matrix = new Square[4][5];
     private Map map;
 
     @Before
     public void init() {
         title = "Title";
-        imagePath = "Image path";
         Random random = new Random();
         level = random.nextInt(7);
         for (int i = 0; i<4; i++) {
@@ -30,7 +28,7 @@ public class TestMap {
                 matrix[i][j] = square;
             }
         }
-        map = new Map(title, level, imagePath, matrix);
+        map = new Map(title, level, matrix);
     }
 
     @Test
@@ -43,12 +41,6 @@ public class TestMap {
     public void testGetLevel() {
         Assert.assertEquals(level, map.getLevel());
         Assert.assertNotEquals(level + 1, map.getLevel());
-    }
-
-    @Test
-    public void testGetImagePath() {
-        Assert.assertEquals(imagePath, map.getImagePath());
-        Assert.assertNotEquals("Not image path", map.getImagePath());
     }
 
     @Test

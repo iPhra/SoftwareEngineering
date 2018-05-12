@@ -4,27 +4,30 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.fail;
 
-public class TestTextResponse {
-    TextResponse textResponse;
-    String message;
+public class TestToolCardResponse {
+    List<String> playerRequests;
+    ToolCardResponse toolCardResponse;
 
     @Before
     public void init() {
-        message="test";
-        textResponse = new TextResponse(null,message);
+        playerRequests= Arrays.asList("pradella","is","my","king");
+        toolCardResponse= new ToolCardResponse(null,playerRequests);
     }
 
     @Test
-    public void testGetMessage() {
-        Assert.assertEquals(message,textResponse.getMessage());
-        Assert.assertNotEquals("testo",textResponse.getMessage());
+    public void testGetPlayerRequests() {
+        Assert.assertEquals(playerRequests,toolCardResponse.getPlayerRequests());
+        Assert.assertNotEquals(Arrays.asList("gentiloni","premier"),toolCardResponse.getPlayerRequests());
     }
 
     @Test
     public void testHandle() {
-        textResponse.handle(new ResponseHandler() {
+        toolCardResponse.handle(new ResponseHandler() {
             @Override
             public void handleResponse(ModelViewResponse modelViewResponse) {
                 fail();
@@ -32,16 +35,17 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(TextResponse textResponse) {
+                fail();
             }
 
             @Override
             public void handleResponse(TurnStartResponse turnStartResponse) {
                 fail();
+
             }
 
             @Override
             public void handleResponse(ToolCardResponse toolCardResponse) {
-                fail();
             }
         });
     }

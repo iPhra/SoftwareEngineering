@@ -21,6 +21,7 @@ public class TestDraftMessage {
 
     @Test
     public void testGetDraftPoolPosition() {
+        Assert.assertNotEquals(position-1, draftMessage.getDraftPoolPosition());
         Assert.assertEquals(position, draftMessage.getDraftPoolPosition());
     }
 
@@ -29,6 +30,7 @@ public class TestDraftMessage {
         int newpos = new Random().nextInt();
         draftMessage.setDraftPoolPosition(newpos);
         Assert.assertEquals(newpos, draftMessage.getDraftPoolPosition());
+        Assert.assertNotEquals(newpos-1, draftMessage.getDraftPoolPosition());
     }
 
     @Test
@@ -47,18 +49,15 @@ public class TestDraftMessage {
             @Override
             public void performMove(PlaceMessage placeMessage) {
                 fail();
-
             }
 
             @Override
             public void performMove(DraftMessage draftMessage) {
-
             }
 
             @Override
             public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
                 fail();
-
             }
         });
     }

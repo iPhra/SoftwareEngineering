@@ -19,10 +19,10 @@ public class TestShadesOfGreenObjective {
     @Before
     public void init(){
         database = new Database();
-        database.initBasicMatrix();
+        database.standardWhiteMatrix();
         matrix = database.getMatrix();
         shadesOfGreenObjective=ShadesOfGreenObjective.instance("imagePath","title");
-        Map map = new Map("BasicMap",0,"imagePath",matrix);
+        Map map = new Map("BasicMap",0,matrix);
         player = new Player("name",1,map,shadesOfGreenObjective);
     }
 
@@ -31,7 +31,7 @@ public class TestShadesOfGreenObjective {
         assertEquals(0,shadesOfGreenObjective.evalPoints(player));
         database.sixSameColoredDice(Color.GREEN);
         matrix = database.getMatrix();
-        Map map = new Map("sixSameColoredDiceMap",0,"imagePath",matrix);
+        Map map = new Map("sixSameColoredDiceMap",0,matrix);
         player = new Player("name",1,map,shadesOfGreenObjective);
         assertEquals(6,shadesOfGreenObjective.evalPoints(player));
     }

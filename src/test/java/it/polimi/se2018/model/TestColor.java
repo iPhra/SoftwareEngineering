@@ -15,4 +15,15 @@ public class TestColor {
         Assert.assertEquals(5,Color.fromColor(Color.WHITE));
         Assert.assertEquals(-1,Color.fromColor(null));
     }
+
+    @Test
+    public void testFromAbbreviation() {
+        Assert.assertEquals(Color.RED,Color.fromAbbreviation("R"));
+        Assert.assertEquals(Color.GREEN,Color.fromAbbreviation("G"));
+        Assert.assertEquals(Color.PURPLE,Color.fromAbbreviation("P"));
+        Assert.assertEquals(Color.YELLOW,Color.fromAbbreviation("Y"));
+        Assert.assertEquals(Color.BLUE,Color.fromAbbreviation("B"));
+        Assert.assertEquals(Color.WHITE,Color.fromAbbreviation("W"));
+        Assert.assertEquals(null,Color.fromAbbreviation("Z"));
+    }
 }

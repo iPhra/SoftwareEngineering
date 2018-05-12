@@ -25,4 +25,21 @@ public enum Color {
         return -1;
     }
 
+    /**
+     * Given an abbreviation of the color returns the actual color corresponding to that abbreviation
+     * @param string is the abbreviation
+     * @return a color
+     */
+    public static Color fromAbbreviation(String string) {
+        switch (string) {
+            case "W" : return Color.WHITE;
+            case "B" : return Color.BLUE;
+            case "R" : return Color.RED;
+            case "G" : return Color.GREEN;
+            case "Y" : return Color.YELLOW;
+            case "P" : return Color.PURPLE;
+            default : return null;
+        }
+    }
+
 }

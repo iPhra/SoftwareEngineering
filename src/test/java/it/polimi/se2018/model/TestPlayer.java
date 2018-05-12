@@ -29,7 +29,7 @@ public class TestPlayer {
         Square[][] matrix = new Square[1][1];
         matrix[0][0] = new Square(Color.BLUE, 5, new Coordinate(2, 3));
         mapLevel = random.nextInt(3) + 1;
-        map = new Map("title", mapLevel, "imagePath", matrix);
+        map = new Map("title", mapLevel, matrix);
         privateObjective = ShadesOfGreenObjective.instance("imagePath", "title");
         player = new Player(name, id, map, privateObjective);
     }

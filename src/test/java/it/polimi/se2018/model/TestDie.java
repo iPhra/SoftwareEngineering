@@ -83,6 +83,7 @@ public class TestDie {
     public void testModelViewCopy() {
         Die newDie = die.modelViewCopy();
         Assert.assertEquals(newDie,die);
+        Assert.assertNotEquals(null,die);
     }
 
     @Test

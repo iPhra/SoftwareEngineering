@@ -27,13 +27,11 @@ public class TestPassMessage {
             @Override
             public void performMove(DraftMessage draftMessage) {
                 fail();
-
             }
 
             @Override
             public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
                 fail();
-
             }
         });
     }
