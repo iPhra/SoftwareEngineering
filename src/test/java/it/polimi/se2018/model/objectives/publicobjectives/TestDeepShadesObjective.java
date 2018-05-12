@@ -36,11 +36,12 @@ public class TestDeepShadesObjective {
         matrix = database.getMatrix();
         Map map1 = new Map("sixSameColoredDiceMap",0, matrix);
         player = new Player("name",1,map1,shadesOfGreenObjective);
-        assertEquals(4, deepShadesObjective.evalPoints(player));
+        assertEquals(0, deepShadesObjective.evalPoints(player));
         database.initMatrixFullOfDice();
         matrix = database.getMatrix();
         Map map2 = new Map("FullOfDiceMap",0, matrix);
         player = new Player("name",1,map2,shadesOfGreenObjective);
-        assertEquals(12, deepShadesObjective.evalPoints(player));
+        //era 12
+        assertEquals(6, deepShadesObjective.evalPoints(player));
     }
 }

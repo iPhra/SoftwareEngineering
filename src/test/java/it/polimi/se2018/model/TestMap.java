@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Random;
 
 public class TestMap {
@@ -95,6 +96,15 @@ public class TestMap {
     @Test
     public void testCountEmptySlots() {
         int count = 0;
+        Random random = new Random();
+        for (int i = 0; i < map.getRows(); i++) {
+            for (int j = 0; j < map.getCols(); j++) {
+                if (random.nextInt(4) < 3) {
+                    Die die = new Die(random.nextInt(6) + 1, Color.values()[random.nextInt(6)]);
+                    map.getSquare(new Coordinate(i, j)).setDie(die);
+                }
+            }
+        }
         for (int i = 0; i < map.getRows(); i++) {
             for (int j = 0; j < map.getCols(); j++) {
                 if (map.getSquare(new Coordinate(i, j)).isEmpty()) {
@@ -106,4 +116,20 @@ public class TestMap {
         Assert.assertNotEquals(count + 1, map.countEmptySlots());
     }
 
+    @Test
+    public void testAdjacentDie() {
+        List<Die> result;
+        Random random = new Random();
+        for (int i = 0; i < map.getRows(); i++) {
+            for (int j = 0; j < map.getCols(); j++) {
+                if (random.nextInt(4) < 3) {
+                    Die die = new Die(random.nextInt(6) + 1, Color.values()[random.nextInt(6)]);
+                    map.getSquare(new Coordinate(i, j)).setDie(die);
+                }
+            }
+        }
+        result = map.adjacentDice(new Coordinate(2, 3));
+        result = map.adjacentDice(new Coordinate(0, 0));
+        result = map.adjacentDice(new Coordinate(map.getRows() - 1, map.getCols() - 1));
+    }
 }

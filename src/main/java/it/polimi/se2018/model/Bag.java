@@ -16,18 +16,18 @@ public class Bag {
     //gli passi il numero totale di colori e il numero totale di dadi e inizializza remainingColors.
     //non va bene che non siano divisibili, quindi se succede lancia un'eccezione.
     Bag(int colorsNumber, int diceNumber) {
-        if (diceNumber%colorsNumber !=0) throw new InvalidParameterException("Number of dice and colors is wrong!");
+        if (diceNumber % colorsNumber != 0) throw new InvalidParameterException("Number of dice and colors is wrong!");
         this.colorsNumber = colorsNumber;
         this.diceNumber = diceNumber;
-        remainingColors = new ArrayList<>(this.colorsNumber);
-        coloredDiceNumber = diceNumber/this.colorsNumber;
-        for (int i = 0; i<coloredDiceNumber; i++) {
-            remainingColors.set(i,coloredDiceNumber);
+        remainingColors = new ArrayList<>();
+        coloredDiceNumber = diceNumber / this.colorsNumber;
+        for (int i = 0; i < colorsNumber; i++) {
+            remainingColors.add(coloredDiceNumber);
         }
-}
+    }
 
     //draws a single die from the bag, used by tool cards
-    public Die extractDie () throws NoDieException {
+    public Die extractDie() throws NoDieException {
         if (diceNumber <= 0) {
             throw new NoDieException();
         }
@@ -40,24 +40,26 @@ public class Bag {
         remainingColors.set(index, remainingColors.get(index) - 1);
         diceNumber -= 1;
         int randomValueOfDie = new Random().nextInt(6) + 1;
-        return new Die (randomValueOfDie, Color.values()[index]);
+        return new Die(randomValueOfDie, Color.values()[index]);
     }
 
-    public void insertDie (Die die) { //inserts a single die in the bag, used by tool cards
+    public void insertDie(Die die) { //inserts a single die in the bag, used by tool cards
         diceNumber += 1;
         remainingColors.set(Color.fromColor(die.getColor()), remainingColors.get(Color.fromColor(die.getColor())) + 1);
     }
 
     //draws 2n+1 dice putting them in a arraylist, used by Board
-    public List<Die> drawDice (int playersNumber) {
+    public List<Die> drawDice(int playersNumber) {
         try {
             ArrayList<Die> drawDice = new ArrayList<>();
             for (int i = 0; i < 2 * playersNumber + 1; i++) {
                 drawDice.add(extractDie());
             }
             return drawDice;
+        } catch (NoDieException e) {
+            return new ArrayList<>();
         }
-        catch(NoDieException e) {return new ArrayList<>();}
     }
+
 
 }

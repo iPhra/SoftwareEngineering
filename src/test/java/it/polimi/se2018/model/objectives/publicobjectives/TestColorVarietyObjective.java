@@ -41,6 +41,7 @@ public class TestColorVarietyObjective {
         matrix = database.getMatrix();
         Map map2 = new Map("FullOfDiceMap",0, matrix);
         player = new Player("name",1,map2,shadesOfGreenObjective);
-        assertEquals(12, colorVarietyObjective.evalPoints(player));
+        //era 12
+        assertEquals(0, colorVarietyObjective.evalPoints(player));
     }
 }
