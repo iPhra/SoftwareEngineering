@@ -21,7 +21,7 @@ public class ColumnShadeVarietyObjective extends PublicObjective{
         return instance;
     }
 
-    public ColumnShadeVarietyObjective instance(String imagePath, String title){
+    public static ColumnShadeVarietyObjective instance(String imagePath, String title){
         if (instance==null) createInstance(imagePath, title);
         return instance;
     }

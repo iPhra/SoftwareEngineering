@@ -29,6 +29,32 @@ public class Database {
 
     }
 
+    public void initMatrixFullOfDice(){
+        initBasicMatrix();
+        matrix[0][0].setDie(new Die(1, Color.YELLOW));
+        matrix[0][1].setDie(new Die(2, Color.RED));
+        matrix[0][2].setDie(new Die(3, Color.PURPLE));
+        matrix[0][3].setDie(new Die(4, Color.GREEN));
+        matrix[0][4].setDie(new Die(5, Color.BLUE));
+        matrix[1][0].setDie(new Die(6, Color.BLUE));
+        matrix[1][1].setDie(new Die(1, Color.PURPLE));
+        matrix[1][2].setDie(new Die(2, Color.GREEN));
+        matrix[1][3].setDie(new Die(3, Color.BLUE));
+        matrix[1][4].setDie(new Die(4, Color.YELLOW));
+        matrix[2][0].setDie(new Die(5, Color.RED));
+        matrix[2][1].setDie(new Die(6, Color.YELLOW));
+        matrix[2][2].setDie(new Die(1, Color.RED));
+        matrix[2][3].setDie(new Die(2, Color.YELLOW));
+        matrix[2][4].setDie(new Die(3, Color.BLUE));
+        matrix[3][0].setDie(new Die(4, Color.GREEN));
+        matrix[3][1].setDie(new Die(5, Color.RED));
+        matrix[3][2].setDie(new Die(6, Color.PURPLE));
+        matrix[3][3].setDie(new Die(1, Color.BLUE));
+        matrix[3][4].setDie(new Die(2, Color.GREEN));
+
+
+    }
+
     public Square[][] getMatrix() {
         return matrix;
     }
