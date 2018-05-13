@@ -47,7 +47,7 @@ public class TestBag {
     @Test
     public void testInsertDie() {
         Random random = new Random();
-        Die die = new Die (random.nextInt(6) + 1, Color.values()[random.nextInt(6)]);
+        Die die = new Die (random.nextInt(6) + 1, Color.values()[random.nextInt(5)]);
         bag.insertDie(die);
     }
 

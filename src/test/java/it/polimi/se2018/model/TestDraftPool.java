@@ -98,7 +98,8 @@ public class TestDraftPool {
 
     @Test
     public void testModelViewCopy() {
-        assertTrue(dice.containsAll(draftPool.modelViewCopy()) && draftPool.modelViewCopy().containsAll(dice));
+        assertTrue(draftPool.modelViewCopy().containsAll(draftPool.getAllDice()) && draftPool.getAllDice().containsAll(draftPool.modelViewCopy()));
+        draftPool=new DraftPool();
+        assertTrue(draftPool.modelViewCopy().containsAll(draftPool.getAllDice()) && draftPool.getAllDice().containsAll(draftPool.modelViewCopy()));
     }
-
 }

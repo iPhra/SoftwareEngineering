@@ -122,8 +122,8 @@ public class Controller implements Observer<Message>, MessageHandler {
         else {
             startRound();
             Player nextPlayer = model.getPlayerByIndex(model.getRound().getCurrentPlayerIndex());
-            model.notify(new TurnStartResponse(nextPlayer));
             model.notify(new ModelViewResponse(model.modelViewCopy()));
+            model.notify(new TurnStartResponse(nextPlayer));
         }
     }
 

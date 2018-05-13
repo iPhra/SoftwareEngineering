@@ -18,6 +18,10 @@ public class DraftPool {
      */
     private List<Die> dice;
 
+    public DraftPool() {
+        dice=new ArrayList<>();
+    }
+
     /**
      * Checks if a given die is present in the Draft Pool
      * @param die represents the die you want to check if it's present
@@ -83,7 +87,7 @@ public class DraftPool {
     public List<Die> modelViewCopy() {
         ArrayList<Die> result = new ArrayList<>();
         for(Die die: dice) {
-            result.add(die.modelViewCopy());
+        result.add(die.modelViewCopy());
         }
         return result;
     }
@@ -93,12 +97,11 @@ public class DraftPool {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DraftPool draftPool = (DraftPool) o;
-        return Objects.equals(dice, draftPool.dice);
+        return (dice.containsAll(draftPool.dice) && draftPool.dice.containsAll(dice));
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(dice);
     }
 }

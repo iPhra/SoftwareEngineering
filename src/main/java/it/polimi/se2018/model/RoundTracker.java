@@ -12,6 +12,9 @@ public class RoundTracker {
 
     RoundTracker(int roundsNumber) {
         this.dice = new ArrayList[roundsNumber];
+        for(int i=0; i<roundsNumber; i++) {
+            dice[i]=new ArrayList<>();
+        }
         turn = 0; //this variable matches the actual turns -1
     }
 
@@ -66,7 +69,6 @@ public class RoundTracker {
 
     @Override
     public int hashCode() {
-
         int result = Objects.hash(turn);
         result = 31 * result + Arrays.hashCode(dice);
         return result;
