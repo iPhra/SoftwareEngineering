@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestCopperFoilBurnisher {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public CopperFoilBurnisher copperFoilBurnisher;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        copperFoilBurnisher = new CopperFoilBurnisher(imagePath, title, board, false);
+        copperFoilBurnisher = new CopperFoilBurnisher(imagePath, title,false);
     }
 
     @Test

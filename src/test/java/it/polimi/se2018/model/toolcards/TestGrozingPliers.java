@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestGrozingPliers {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public GrozingPliers grozingPliers;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        grozingPliers = new GrozingPliers(imagePath, title, board, false);
+        grozingPliers = new GrozingPliers(imagePath, title,false);
     }
 
     @Test

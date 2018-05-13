@@ -41,7 +41,6 @@ public class TestLightShadesObjective {
         matrix = database.getMatrix();
         Map map2 = new Map("FullOfDiceMap",0, matrix);
         player = new Player("name",1,map2,shadesOfGreenObjective);
-        //era 16
         assertEquals(8, lightShadesObjective.evalPoints(player));
     }
 }

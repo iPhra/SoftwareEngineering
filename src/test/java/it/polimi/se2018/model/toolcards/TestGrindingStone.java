@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestGrindingStone {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public GrindingStone grindingStone;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        grindingStone = new GrindingStone(imagePath, title, board, false);
+        grindingStone = new GrindingStone(imagePath, title,false);
     }
 
     @Test

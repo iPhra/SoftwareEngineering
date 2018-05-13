@@ -61,8 +61,7 @@ public class ColorDiagonalsObjective extends PublicObjective {
                 for (Square belowSquare : belowDiagonalsSquares) {
                     if (belowSquare.getDie().getColor() == square.getDie().getColor()) {
                         points++;
-                        if (!alreadyCounted[belowSquare.getRow()][belowSquare.getCol()])
-                            alreadyCounted[belowSquare.getRow()][belowSquare.getCol()] = true;
+                        alreadyCounted[belowSquare.getRow()][belowSquare.getCol()] = true;
                         if (!alreadyCounted[square.getRow()][square.getCol()]){
                             points++;
                             alreadyCounted[square.getRow()][square.getCol()] = true;

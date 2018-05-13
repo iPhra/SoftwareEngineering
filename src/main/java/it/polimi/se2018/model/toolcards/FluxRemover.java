@@ -7,8 +7,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class FluxRemover extends ToolCard {
 
-    public FluxRemover(String imagePath, String title, Board board, boolean alreadyUsed) {
-        super(imagePath, title, board, alreadyUsed);
+    public FluxRemover(String imagePath, String title, boolean alreadyUsed) {
+        super(imagePath, title, alreadyUsed);
     }
 
     @Override
@@ -18,6 +18,6 @@ public class FluxRemover extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return new FluxRemover(imagePath, title, board, true);
+        return new FluxRemover(imagePath, title,true);
     }
 }

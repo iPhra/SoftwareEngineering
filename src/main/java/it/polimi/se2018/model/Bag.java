@@ -5,6 +5,7 @@ import it.polimi.se2018.utils.exceptions.NoDieException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Bag {
@@ -61,5 +62,20 @@ public class Bag {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bag bag = (Bag) o;
+        return colorsNumber == bag.colorsNumber &&
+                diceNumber == bag.diceNumber &&
+                coloredDiceNumber == bag.coloredDiceNumber &&
+                Objects.equals(remainingColors, bag.remainingColors);
+    }
 
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(remainingColors, colorsNumber, diceNumber, coloredDiceNumber);
+    }
 }

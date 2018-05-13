@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestLensCutter {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public LensCutter lensCutter;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        lensCutter = new LensCutter(imagePath, title, board, false);
+        lensCutter = new LensCutter(imagePath, title,false);
     }
 
     @Test

@@ -32,7 +32,7 @@ public class RowColorVarietyObjective extends PublicObjective {
 
     @Override
     public int evalPoints(Player player) {
-        return ( (int)Stream.of(1,2,3,4) //the 4 rows
+        return ( (int)Stream.of(0,1,2,3) //the 4 rows
                 .map(row ->
                         StreamSupport.stream(player.getMap().spliterator(), false)
                                 .filter(filterRow(row))

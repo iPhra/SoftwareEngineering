@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestGlazingHammer {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public GlazingHammer glazingHammer;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        glazingHammer = new GlazingHammer(imagePath, title, board, false);
+        glazingHammer = new GlazingHammer(imagePath, title,false);
     }
 
     @Test

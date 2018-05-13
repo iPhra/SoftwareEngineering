@@ -32,7 +32,7 @@ public class ColumnColorVarietyObjective extends PublicObjective {
 
     @Override
     public int evalPoints(Player player) {
-        return ( (int)Stream.of(1,2,3,4,5) //the 5 columns
+        return ( (int)Stream.of(0,1,2,3,4) //the 5 columns
                 .map(column ->
                         StreamSupport.stream(player.getMap().spliterator(), false)
                                 .filter(filterCol(column))

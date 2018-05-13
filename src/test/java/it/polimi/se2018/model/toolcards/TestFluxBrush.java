@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestFluxBrush {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public FluxBrush fluxBrush;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        fluxBrush = new FluxBrush(imagePath, title, board, false);
+        fluxBrush = new FluxBrush(imagePath, title,false);
     }
 
     @Test

@@ -2,6 +2,7 @@ package it.polimi.se2018.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Round {
     private List<Integer> playersOrder; //arraylist of player's IDs. example: ABCDDCBA
@@ -69,4 +70,21 @@ public class Round {
         playersOrder.remove(playersOrder.size()- currentPlayerIndex -1);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Round round = (Round) o;
+        return missingPlayers == round.missingPlayers &&
+                currentPlayer == round.currentPlayer &&
+                currentPlayerIndex == round.currentPlayerIndex &&
+                roundNumber == round.roundNumber &&
+                Objects.equals(playersOrder, round.playersOrder);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(playersOrder, missingPlayers, currentPlayer, currentPlayerIndex, roundNumber);
+    }
 }

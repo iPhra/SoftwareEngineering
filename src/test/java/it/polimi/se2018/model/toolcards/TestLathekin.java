@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestLathekin {
         public String title = "Title";
         public String imagePath = "Image path";
-        public Board board;
         public Lathekin lathekin;
         ToolCardMessage toolCardMessage;
 
         @Before
         public void init() {
-            lathekin = new Lathekin(imagePath, title, board, false);
+            lathekin = new Lathekin(imagePath, title,false);
         }
 
         @Test

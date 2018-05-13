@@ -11,13 +11,11 @@ public abstract class ToolCard {
     protected final boolean alreadyUsed; //true if this tool card has already been used once
     protected final String imagePath;
     protected final String title;
-    protected final Board board;
     protected List<String> playerRequests;
-    protected ToolCard(String imagePath, String title, Board board, boolean alreadyUsed) {
+    protected ToolCard(String imagePath, String title, boolean alreadyUsed) {
         this.imagePath=imagePath;
         this.title=title;
         this.alreadyUsed = alreadyUsed;
-        this.board=board;
     }
 
     public boolean isAlreadyUsed() {return alreadyUsed;}

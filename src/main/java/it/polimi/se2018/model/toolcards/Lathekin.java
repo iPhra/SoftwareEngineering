@@ -8,8 +8,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class Lathekin extends ToolCard {
 
-    public Lathekin(String imagePath, String title, Board board, boolean alreadyUsed) {
-        super(imagePath, title, board, alreadyUsed);
+    public Lathekin(String imagePath, String title, boolean alreadyUsed) {
+        super(imagePath, title, alreadyUsed);
     }
 
     @Override
@@ -19,6 +19,6 @@ public class Lathekin extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return new Lathekin(imagePath, title, board, true);
+        return new Lathekin(imagePath, title, true);
     }
 }

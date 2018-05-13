@@ -7,8 +7,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class CopperFoilBurnisher extends ToolCard {
 
-    public CopperFoilBurnisher(String imagePath, String title, Board board, boolean alreadyUsed) {
-        super(imagePath, title, board,alreadyUsed);
+    public CopperFoilBurnisher(String imagePath, String title, boolean alreadyUsed) {
+        super(imagePath, title, alreadyUsed);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class CopperFoilBurnisher extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return new CopperFoilBurnisher(imagePath, title, board, true);
+        return new CopperFoilBurnisher(imagePath, title,true);
     }
 }
 

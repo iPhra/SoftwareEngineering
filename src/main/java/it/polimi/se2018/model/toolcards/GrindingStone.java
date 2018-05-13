@@ -7,8 +7,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class GrindingStone extends ToolCard {
 
-    public GrindingStone(String imagePath, String title, Board board, boolean alreadyUsed) {
-        super(imagePath, title, board, alreadyUsed);
+    public GrindingStone(String imagePath, String title, boolean alreadyUsed) {
+        super(imagePath, title, alreadyUsed);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class GrindingStone extends ToolCard {
 
     @Override
     public ToolCard setAlreadyUsed() {
-        return new GrindingStone(imagePath, title, board, true);
+        return new GrindingStone(imagePath, title,true);
     }
 }
 

@@ -41,7 +41,6 @@ public class TestRowShadeVarietyObjective {
         matrix = database.getMatrix();
         Map map2 = new Map("FullOfDiceMap",0, matrix);
         player = new Player("name",1,map2,shadesOfGreenObjective);
-        //era 20
-        assertEquals(0, rowShadeVarietyObjective.evalPoints(player));
+        assertEquals(20, rowShadeVarietyObjective.evalPoints(player));
     }
 }

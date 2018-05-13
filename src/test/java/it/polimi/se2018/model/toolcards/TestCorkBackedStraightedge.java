@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestCorkBackedStraightedge {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public CorkBackedStraightedge corkBackedStraightedge;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        corkBackedStraightedge = new CorkBackedStraightedge(imagePath, title, board, false);
+        corkBackedStraightedge = new CorkBackedStraightedge(imagePath, title,false);
     }
 
     @Test

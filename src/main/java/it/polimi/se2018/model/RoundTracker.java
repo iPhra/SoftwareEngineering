@@ -1,7 +1,9 @@
 package it.polimi.se2018.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class RoundTracker {
@@ -53,4 +55,20 @@ public class RoundTracker {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoundTracker that = (RoundTracker) o;
+        return turn == that.turn &&
+                Arrays.equals(dice, that.dice);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(turn);
+        result = 31 * result + Arrays.hashCode(dice);
+        return result;
+    }
 }

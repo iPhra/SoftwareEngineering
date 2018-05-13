@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestFluxRemover {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public FluxRemover fluxRemover;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        fluxRemover = new FluxRemover(imagePath, title, board, false);
+        fluxRemover = new FluxRemover(imagePath, title,false);
     }
 
     @Test

@@ -5,6 +5,7 @@ import it.polimi.se2018.utils.exceptions.NoDieException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -87,5 +88,18 @@ public class DraftPool {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DraftPool draftPool = (DraftPool) o;
+        return Objects.equals(dice, draftPool.dice);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(dice);
+    }
 }
 

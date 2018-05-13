@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestTapWheel {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public TapWheel tapWheel;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        tapWheel = new TapWheel(imagePath, title, board, false);
+        tapWheel = new TapWheel(imagePath, title,false);
     }
 
     @Test

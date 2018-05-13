@@ -12,13 +12,12 @@ import static junit.framework.TestCase.fail;
 public class TestEglomiseBrush {
     public String title = "Title";
     public String imagePath = "Image path";
-    public Board board;
     public EglomiseBrush eglomiseBrush;
     ToolCardMessage toolCardMessage;
 
     @Before
     public void init() {
-        eglomiseBrush = new EglomiseBrush(imagePath, title, board, false);
+        eglomiseBrush = new EglomiseBrush(imagePath, title,false);
     }
 
     @Test
