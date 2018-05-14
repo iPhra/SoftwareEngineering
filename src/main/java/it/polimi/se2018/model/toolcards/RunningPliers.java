@@ -6,7 +6,7 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class RunningPliers extends ToolCard {
 
-    public RunningPliers(String imagePath, String title, boolean alreadyUsed) {
+    public RunningPliers(String imagePath, String title) {
         super(imagePath, title);
     }
 

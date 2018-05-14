@@ -17,7 +17,7 @@ public class TestCorkBackedStraightedge {
 
     @Before
     public void init() {
-        corkBackedStraightedge = new CorkBackedStraightedge(imagePath, title,false);
+        corkBackedStraightedge = new CorkBackedStraightedge(imagePath, title);
     }
 
     @Test

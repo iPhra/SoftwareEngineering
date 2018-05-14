@@ -17,7 +17,7 @@ public class TestCopperFoilBurnisher {
 
     @Before
     public void init() {
-        copperFoilBurnisher = new CopperFoilBurnisher(imagePath, title,false);
+        copperFoilBurnisher = new CopperFoilBurnisher(imagePath, title);
     }
 
     @Test

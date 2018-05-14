@@ -5,7 +5,7 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class GlazingHammer extends ToolCard {
 
-    public GlazingHammer(String imagePath, String title, boolean alreadyUsed) {
+    public GlazingHammer(String imagePath, String title) {
         super(imagePath, title);
     }
 

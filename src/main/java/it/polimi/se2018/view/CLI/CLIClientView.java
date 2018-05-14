@@ -111,13 +111,13 @@ public class CLIClientView implements ResponseHandler, ClientView {
     }
 
     public void passTurn () throws RemoteException{
-        clientConnection.sendMessage(new PassMessage(player));
+        clientConnection.sendMessage(new PassMessage(player.getId()));
     }
 
     public void draftDie () throws RemoteException {
         System.out.print("Choose the die to draft.");
         int index = this.getPositionDraftPool();
-        clientConnection.sendMessage(new DraftMessage(player, index));
+        clientConnection.sendMessage(new DraftMessage(player.getId(), index));
     }
 
     public void useToolcard() throws RemoteException {
@@ -127,7 +127,7 @@ public class CLIClientView implements ResponseHandler, ClientView {
     public void placeDie() throws RemoteException {
         System.out.print("Choose the position where put the drafted die");
         Coordinate coordinate = this.getCoordinate();
-        clientConnection.sendMessage(new PlaceMessage(player, coordinate));
+        clientConnection.sendMessage(new PlaceMessage(player.getId(), coordinate));
     }
 
     public Coordinate getCoordinate() {

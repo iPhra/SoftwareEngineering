@@ -17,7 +17,7 @@ public class TestGrozingPliers {
 
     @Before
     public void init() {
-        grozingPliers = new GrozingPliers(imagePath, title,false);
+        grozingPliers = new GrozingPliers(imagePath, title);
     }
 
     @Test

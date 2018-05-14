@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ModelView implements Serializable{
     private final List<Die> draftPool; //draft pool
-    private final List<Die>[] roundTracker; //ha il riferimento al roundTracker
+    private final transient List<Die>[] roundTracker; //ha il riferimento al roundTracker
     private final List<Boolean> usedToolCards; //true if toolcards[i] has already been used
     private final List<Square[][]> maps;
     private final List<Integer> favorPoints;

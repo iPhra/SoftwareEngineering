@@ -17,7 +17,7 @@ public class TestGlazingHammer {
 
     @Before
     public void init() {
-        glazingHammer = new GlazingHammer(imagePath, title,false);
+        glazingHammer = new GlazingHammer(imagePath, title);
     }
 
     @Test

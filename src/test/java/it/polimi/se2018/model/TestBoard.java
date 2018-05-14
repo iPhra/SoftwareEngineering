@@ -40,9 +40,9 @@ public class TestBoard {
         players.add(player1);
         players.add(player2);
         toolCards = new ToolCard[3];
-        toolCards[0] = new EglomiseBrush("imagePath1","title1",false);
-        toolCards[1] = new FluxBrush("imagePath2","title2",false);
-        toolCards[2] = new TapWheel("imagePath3","title3",false);
+        toolCards[0] = new EglomiseBrush("imagePath1","title1");
+        toolCards[1] = new FluxBrush("imagePath2","title2");
+        toolCards[2] = new TapWheel("imagePath3","title3");
         publicObjectives = new PublicObjective[2];
         publicObjectives[0] = DeepShadesObjective.instance("imagePath1","title1");
         publicObjectives[1] = RowColorVarietyObjective.instance("imagePath2","title2");

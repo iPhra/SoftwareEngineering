@@ -17,7 +17,7 @@ public class TestFluxBrush {
 
     @Before
     public void init() {
-        fluxBrush = new FluxBrush(imagePath, title,false);
+        fluxBrush = new FluxBrush(imagePath, title);
     }
 
     @Test

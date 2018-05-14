@@ -8,7 +8,7 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class TapWheel extends ToolCard {
 
-    public TapWheel(String imagePath, String title, boolean alreadyUsed) {
+    public TapWheel(String imagePath, String title) {
         super(imagePath, title);
     }
 

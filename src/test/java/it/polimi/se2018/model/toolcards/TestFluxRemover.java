@@ -17,7 +17,7 @@ public class TestFluxRemover {
 
     @Before
     public void init() {
-        fluxRemover = new FluxRemover(imagePath, title,false);
+        fluxRemover = new FluxRemover(imagePath, title);
     }
 
     @Test

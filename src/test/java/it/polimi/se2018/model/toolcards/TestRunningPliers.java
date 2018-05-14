@@ -17,7 +17,7 @@ public class TestRunningPliers {
 
         @Before
         public void init() {
-            runningPliers = new RunningPliers(imagePath, title,false);
+            runningPliers = new RunningPliers(imagePath, title);
         }
 
         @Test
