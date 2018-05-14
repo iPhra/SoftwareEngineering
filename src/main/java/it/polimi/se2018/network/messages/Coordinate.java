@@ -3,7 +3,7 @@ package it.polimi.se2018.network.messages;
 import java.util.Objects;
 
 public class Coordinate {
-    private final int row; //This is x
+    private final int row; //This is x, turn for RoundTracker
     private final int col; //This is y
 
     public Coordinate(int row, int col) {

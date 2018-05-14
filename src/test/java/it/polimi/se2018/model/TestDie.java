@@ -17,7 +17,7 @@ public class TestDie {
     @Before
     public void init() {
         Random random = new Random();
-        color = Color.values()[random.nextInt(6)];
+        color = Color.values()[random.nextInt(5)];
         value = random.nextInt(6)+1;
         die = new Die(value,color);
     }
