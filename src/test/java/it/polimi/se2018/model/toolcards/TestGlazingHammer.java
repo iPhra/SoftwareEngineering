@@ -21,11 +21,6 @@ public class TestGlazingHammer {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        glazingHammer = (GlazingHammer) glazingHammer.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         glazingHammer.handle(new ToolCardHandler() {
             @Override

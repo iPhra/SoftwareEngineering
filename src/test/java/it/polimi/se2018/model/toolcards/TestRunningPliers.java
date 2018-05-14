@@ -21,11 +21,6 @@ public class TestRunningPliers {
         }
 
         @Test
-        public void testSetAlreadyUsed() {
-            runningPliers = (RunningPliers) runningPliers.setAlreadyUsed();
-        }
-
-        @Test
         public void testHandle() throws ToolCardException {
             runningPliers.handle(new ToolCardHandler() {
                 @Override

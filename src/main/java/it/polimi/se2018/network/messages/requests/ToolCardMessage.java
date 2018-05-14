@@ -1,7 +1,6 @@
 package it.polimi.se2018.network.messages.requests;
 
 import it.polimi.se2018.network.messages.Coordinate;
-import it.polimi.se2018.model.Player;
 
 
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class ToolCardMessage extends Message {
      */
     private Coordinate roundTrackerPosition; //x is the Turn, y is the position
 
-    public ToolCardMessage(Player player, int value, int toolCardNumber) {
+    public ToolCardMessage(int player, int value, int toolCardNumber) {
         super(player);
         this.value = value;
         startingPosition = new ArrayList<>();

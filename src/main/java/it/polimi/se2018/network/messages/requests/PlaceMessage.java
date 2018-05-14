@@ -1,7 +1,6 @@
 package it.polimi.se2018.network.messages.requests;
 
 import it.polimi.se2018.network.messages.Coordinate;
-import it.polimi.se2018.model.Player;
 
 /**
  * This class represents a message from a player wishing to place his drafted die on his scheme
@@ -13,7 +12,7 @@ public class PlaceMessage extends Message {
      */
     private Coordinate finalPosition;
 
-    public PlaceMessage(Player player, Coordinate finalPosition) {
+    public PlaceMessage(int player, Coordinate finalPosition) {
         super(player);
         this.finalPosition = finalPosition;
     }
@@ -41,5 +40,4 @@ public class PlaceMessage extends Message {
     public void handle(MessageHandler handler) {
         handler.performMove(this);
     }
-
 }

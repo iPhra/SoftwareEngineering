@@ -16,7 +16,7 @@ public class TestDraftMessage {
     @Before
     public void init() {
         position=new Random().nextInt();
-        draftMessage = new DraftMessage(null,position);
+        draftMessage = new DraftMessage(0,position);
     }
 
     @Test

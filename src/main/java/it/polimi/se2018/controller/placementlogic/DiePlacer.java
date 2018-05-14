@@ -8,6 +8,7 @@ import it.polimi.se2018.model.Square;
 
 import java.util.List;
 
+@SuppressWarnings("SimplifiableIfStatement")
 public abstract class DiePlacer {
     protected Die die;
     protected Coordinate coordinate;

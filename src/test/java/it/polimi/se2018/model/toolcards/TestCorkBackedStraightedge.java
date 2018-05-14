@@ -21,11 +21,6 @@ public class TestCorkBackedStraightedge {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        corkBackedStraightedge = (CorkBackedStraightedge) corkBackedStraightedge.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         corkBackedStraightedge.handle(new ToolCardHandler() {
             @Override

@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class Map implements Iterable<Square>{
+public class Map implements Iterable<Square> {
 
     private final String title;
     private final int level; //it's the level of difficulty

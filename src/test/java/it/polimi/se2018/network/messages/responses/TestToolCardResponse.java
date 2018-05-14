@@ -16,13 +16,7 @@ public class TestToolCardResponse {
     @Before
     public void init() {
         playerRequests= Arrays.asList("pradella","is","my","king");
-        toolCardResponse= new ToolCardResponse(null,playerRequests);
-    }
-
-    @Test
-    public void testGetPlayerRequests() {
-        Assert.assertEquals(playerRequests,toolCardResponse.getPlayerRequests());
-        Assert.assertNotEquals(Arrays.asList("gentiloni","premier"),toolCardResponse.getPlayerRequests());
+        toolCardResponse= new ToolCardResponse(0);
     }
 
     @Test

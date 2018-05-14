@@ -2,9 +2,10 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.network.messages.Coordinate;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Square {
+public class Square implements Serializable{
     private final Color color;
     private final int value;
     private Die die;

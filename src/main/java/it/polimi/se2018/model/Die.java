@@ -2,6 +2,7 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.utils.exceptions.DieException;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
@@ -9,7 +10,7 @@ import java.util.Random;
  * This class represents a single Die, with its value and color
  * @author Francesco Lorenzo
  */
-public class Die {
+public class Die implements Serializable {
 
     /**
      * This is the value of the die

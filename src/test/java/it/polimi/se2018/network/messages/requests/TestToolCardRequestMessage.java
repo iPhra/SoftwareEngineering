@@ -12,7 +12,7 @@ public class TestToolCardRequestMessage {
 
     @Before
     public void init() {
-        toolCardRequestMessage = new ToolCardRequestMessage(null,6);
+        toolCardRequestMessage = new ToolCardRequestMessage(0,6);
     }
 
     @Test

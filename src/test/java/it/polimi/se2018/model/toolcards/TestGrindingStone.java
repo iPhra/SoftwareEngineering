@@ -21,11 +21,6 @@ public class TestGrindingStone {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        grindingStone = (GrindingStone) grindingStone.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         grindingStone.handle(new ToolCardHandler() {
             @Override

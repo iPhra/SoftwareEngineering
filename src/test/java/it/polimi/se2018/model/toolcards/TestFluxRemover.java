@@ -21,11 +21,6 @@ public class TestFluxRemover {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        fluxRemover = (FluxRemover) fluxRemover.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         fluxRemover.handle(new ToolCardHandler() {
             @Override

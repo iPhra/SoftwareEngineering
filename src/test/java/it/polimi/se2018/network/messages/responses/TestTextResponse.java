@@ -13,7 +13,7 @@ public class TestTextResponse {
     @Before
     public void init() {
         message="test";
-        textResponse = new TextResponse(null,message);
+        textResponse = new TextResponse(0,message);
     }
 
     @Test

@@ -21,11 +21,6 @@ public class TestTapWheel {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        tapWheel = (TapWheel) tapWheel.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         tapWheel.handle(new ToolCardHandler() {
             @Override

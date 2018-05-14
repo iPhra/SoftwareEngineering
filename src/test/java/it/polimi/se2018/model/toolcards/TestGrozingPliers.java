@@ -21,11 +21,6 @@ public class TestGrozingPliers {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        grozingPliers = (GrozingPliers) grozingPliers.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         grozingPliers.handle(new ToolCardHandler() {
             @Override

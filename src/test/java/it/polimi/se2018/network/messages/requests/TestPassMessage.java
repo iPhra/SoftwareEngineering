@@ -8,7 +8,7 @@ public class TestPassMessage {
 
     @Test
     public void testHandle() {
-        PassMessage passMessage = new PassMessage(null);
+        PassMessage passMessage = new PassMessage(0);
         passMessage.handle(new MessageHandler() {
             @Override
             public void performMove(ToolCardMessage toolCardMessage) {

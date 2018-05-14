@@ -1,28 +1,28 @@
 package it.polimi.se2018.network.messages.requests;
 
-import it.polimi.se2018.model.Player;
+import java.io.Serializable;
 
 /**
  * This is the abstract class representing a request from the client to the server
  * For more details, check Visitor pattern
  * @author Francesco Lorenzo
  */
-public abstract class Message {
+public abstract class Message implements Serializable {
     /**
-     * This is the player making a request
+     * This is the id of the player making a request
      */
-    private final Player player;
+    private final int playerID;
 
-    protected Message(Player player) {
-        this.player = player;
+    protected Message(int playerID) {
+        this.playerID = playerID;
     }
 
     /**
-     * Gets the player associated to the message
-     * @return the player making the request
+     * Gets the id of the player associated to the message
+     * @return the id of the player making the request
      */
-    public Player getPlayer() {
-        return player;
+    public int getPlayerID() {
+        return playerID;
     }
 
     /**

@@ -1,7 +1,5 @@
 package it.polimi.se2018.network.messages.requests;
 
-import it.polimi.se2018.model.Player;
-
 /**
  * This class represents a message from a player wishing to select a Tool Card
  * @author Francesco Lorenzo
@@ -12,10 +10,9 @@ public class ToolCardRequestMessage extends Message {
      */
     private final int toolCardNumber;
 
-    public ToolCardRequestMessage(Player player, int toolCardNumber) {
+    public ToolCardRequestMessage(int player, int toolCardNumber) {
         super(player);
         this.toolCardNumber=toolCardNumber;
-
     }
 
     /**

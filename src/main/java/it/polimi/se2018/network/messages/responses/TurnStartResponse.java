@@ -1,10 +1,8 @@
 package it.polimi.se2018.network.messages.responses;
 
-import it.polimi.se2018.model.Player;
-
 public class TurnStartResponse extends Response {
 
-    public TurnStartResponse(Player player) {
+    public TurnStartResponse(int player) {
         super(player);
     }
 

@@ -12,7 +12,7 @@ import it.polimi.se2018.utils.Observer;
 import java.rmi.RemoteException;
 import java.util.Map;
 
-public class ServerView extends Observable<Message> implements Observer<Response>, RemoteView {
+public class ServerView extends Observable<Message> implements Observer<Response>, RemoteView{
     private Map<Player,ServerConnection> playerConnections;
 
     public ServerView(Map<Player,ServerConnection> playerConnections) {

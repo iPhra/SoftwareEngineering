@@ -21,11 +21,6 @@ public class TestCopperFoilBurnisher {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        copperFoilBurnisher = (CopperFoilBurnisher) copperFoilBurnisher.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         copperFoilBurnisher.handle(new ToolCardHandler() {
             @Override

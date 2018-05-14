@@ -12,13 +12,13 @@ public class TestMessage {
 
     @Test
     public void testGetPlayer() {
-        Player player = new Player("test",new Random().nextInt(),new Database().getDefaultMaps().get(0).getKey(),null);
-        Message message = new Message(player) {
+        int value = new Random().nextInt();
+        Message message = new Message(value) {
             @Override
             public void handle(MessageHandler handler) {
             }
         };
-        Assert.assertEquals(player,message.getPlayer());
-        Assert.assertNotEquals(null,message.getPlayer());
+        Assert.assertEquals(value,message.getPlayerID());
+        Assert.assertNotEquals(null,message.getPlayerID());
     }
 }

@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.tools.Tool;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -162,12 +161,5 @@ public class TestBoard {
 
         }
 
-    }
-
-    @Test
-    public void testSetToolCard(){
-        ToolCard toolCard = new GrozingPliers("imagePath","title",false);
-        board.setToolCard(toolCard,1);
-        assertEquals(toolCard,board.getToolCards()[1]);
     }
 }

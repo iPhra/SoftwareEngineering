@@ -8,7 +8,7 @@ public class ModelViewResponse extends Response {
     private final ModelView modelView;
 
     public ModelViewResponse(ModelView modelView) {
-        super(null);
+        super(0);
         this.modelView = modelView;
     }
 

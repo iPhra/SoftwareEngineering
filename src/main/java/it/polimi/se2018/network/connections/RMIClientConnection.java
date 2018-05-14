@@ -2,21 +2,22 @@ package it.polimi.se2018.network.connections;
 
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
-import it.polimi.se2018.view.ServerView;
+
+import java.rmi.RemoteException;
 
 public class RMIClientConnection implements ClientConnection {
-    private final ServerView server;
+    private final RemoteView server;
 
-    RMIClientConnection(ServerView server) {
+    RMIClientConnection(RemoteView server) {
         this.server=server;
     }
 
-    public ServerView getServer() {
+    public RemoteView getServer() {
         return server;
     }
 
     @Override
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message) throws RemoteException{
         server.handleNetworkInput(message);
     }
 

@@ -21,11 +21,6 @@ public class TestLathekin {
         }
 
         @Test
-        public void testSetAlreadyUsed() {
-            lathekin = (Lathekin) lathekin.setAlreadyUsed();
-        }
-
-        @Test
         public void testHandle() throws ToolCardException {
             lathekin.handle(new ToolCardHandler() {
                 @Override

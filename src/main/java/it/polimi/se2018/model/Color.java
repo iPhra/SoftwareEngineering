@@ -1,14 +1,13 @@
 package it.polimi.se2018.model;
 
+import java.io.Serializable;
+
 /**
  * Enumeration for all the colors of {@link Die} and {@link Square}
  * @author Francesco Lorenzo
  */
-public enum Color {
+public enum Color implements Serializable {
     BLUE,RED,GREEN,YELLOW,PURPLE,WHITE;
-
-    Color() {
-    }
 
     /**
      * Given a color returns its index as if the enumeration was an array

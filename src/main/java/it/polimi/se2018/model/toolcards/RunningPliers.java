@@ -7,17 +7,12 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 public class RunningPliers extends ToolCard {
 
     public RunningPliers(String imagePath, String title, boolean alreadyUsed) {
-        super(imagePath, title, alreadyUsed);
+        super(imagePath, title);
     }
 
     @Override
     public void handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
         handler.useCard(this, message);
-    }
-
-    @Override
-    public ToolCard setAlreadyUsed() {
-        return new RunningPliers(imagePath, title,true);
     }
 }
 

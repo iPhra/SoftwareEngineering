@@ -1,14 +1,12 @@
 package it.polimi.se2018.network.messages.requests;
 
-import it.polimi.se2018.model.Player;
-
 /**
  * This class represents a message from a player wishing to end his turn
  * @author Francesco Lorenzo
  */
 public class PassMessage extends Message {
 
-    public PassMessage(Player player) {
+    public PassMessage(int player) {
         super(player);
     }
 
@@ -20,5 +18,4 @@ public class PassMessage extends Message {
     public void handle(MessageHandler handler) {
         handler.performMove(this);
     }
-
 }

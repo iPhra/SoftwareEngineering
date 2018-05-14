@@ -8,7 +8,7 @@ public class TestTurnStartResponse {
 
     @Test
     public void testHandle() {
-        TurnStartResponse message = new TurnStartResponse(null);
+        TurnStartResponse message = new TurnStartResponse(0);
         message.handle(new ResponseHandler() {
             @Override
             public void handleResponse(ModelViewResponse modelViewResponse) {

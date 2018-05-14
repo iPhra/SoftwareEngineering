@@ -18,7 +18,7 @@ public class TestPlaceMessage {
     public void init() {
         random = new Random();
         coordinate = new Coordinate(random.nextInt(),random.nextInt());
-        placeMessage = new PlaceMessage(null, coordinate);
+        placeMessage = new PlaceMessage(0, coordinate);
     }
 
     @Test

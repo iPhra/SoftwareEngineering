@@ -1,7 +1,5 @@
 package it.polimi.se2018.network.messages.requests;
 
-import it.polimi.se2018.model.Player;
-
 /**
  * This class represents a message from a player wishing to draft a die
  * @author Francesco Lorenzo
@@ -13,7 +11,7 @@ public class DraftMessage extends Message {
      */
     private int draftPoolPosition;
 
-    public DraftMessage(Player player, int draftPoolPosition) {
+    public DraftMessage(int player, int draftPoolPosition) {
         super(player);
         this.draftPoolPosition = draftPoolPosition;
     }
@@ -42,5 +40,4 @@ public class DraftMessage extends Message {
     public void handle(MessageHandler handler) {
         handler.performMove(this);
     }
-
 }

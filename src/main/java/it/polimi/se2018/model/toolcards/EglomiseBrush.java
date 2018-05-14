@@ -7,16 +7,11 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 public class EglomiseBrush extends ToolCard {
 
     public EglomiseBrush(String imagePath, String title, boolean alreadyUsed) {
-        super(imagePath, title, alreadyUsed);
+        super(imagePath, title);
     }
 
     @Override
     public void handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
         handler.useCard(this, message);
-    }
-
-    @Override
-    public ToolCard setAlreadyUsed() {
-        return new EglomiseBrush(imagePath, title,true);
     }
 }

@@ -1,15 +1,10 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.Player;
-import it.polimi.se2018.model.Square;
-import it.polimi.se2018.model.toolcards.ToolCard;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelView {
+public class ModelView implements Serializable{
     private final List<Die> draftPool; //draft pool
     private final List<Die>[] roundTracker; //ha il riferimento al roundTracker
     private final List<Boolean> usedToolCards; //true if toolcards[i] has already been used
@@ -25,8 +20,8 @@ public class ModelView {
         favorPoints = new ArrayList<>();
         scores = new ArrayList<>();
         diceInHand = new ArrayList<>();
-        for (ToolCard toolCard : board.getToolCards()) {
-            usedToolCards.add(toolCard.isAlreadyUsed());
+        for (boolean b : board.getToolCardsUsage()) {
+            usedToolCards.add(b);
         }
         for (Player player : board.getPlayers()) {
             maps.add(player.getMap().modelViewCopy());

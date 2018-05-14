@@ -21,11 +21,6 @@ public class TestEglomiseBrush {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        eglomiseBrush = (EglomiseBrush) eglomiseBrush.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         eglomiseBrush.handle(new ToolCardHandler() {
             @Override

@@ -21,11 +21,6 @@ public class TestLensCutter {
     }
 
     @Test
-    public void testSetAlreadyUsed() {
-        lensCutter = (LensCutter) lensCutter.setAlreadyUsed();
-    }
-
-    @Test
     public void testHandle() throws ToolCardException {
         lensCutter.handle(new ToolCardHandler() {
             @Override

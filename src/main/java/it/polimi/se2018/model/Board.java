@@ -13,13 +13,15 @@ public class Board extends Observable<Response> {
     public static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
     public static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
     public static final int ROUNDSNUMBER = 10; //number of rounds in one game
+    public static final int TOOLCARDSNUMBER = 3;
     private final int id;
     private Round round;
     private final String imagePath;
     private final int playersNumber;
     private final List<Player> players; //contiene la mappa di ciascun giocatore
     private final DraftPool draftPool; //draft pool
-    private final ToolCard[] toolCards; // sono le toolcards sulla board (il gioco prevede da regolamento che siano 3, ma noi lo facciamo parametrico e quindi estendibile)
+    private boolean[] toolCardsIndex;
+    private final ToolCard[] toolCards;
     private final PublicObjective[] publicObjectives; //array che contiene le carte degli obbiettivi pubblici
     private final Bag bag; //ha il riferimento al sacchetto dei dadi
     private final RoundTracker roundTracker; //ha il riferimento al roundTracker
@@ -34,7 +36,11 @@ public class Board extends Observable<Response> {
             playersId.add(player.getId());
         }
         round = new Round(playersId, 1);
-        this.toolCards = toolCards;
+        toolCardsIndex = new boolean[TOOLCARDSNUMBER];
+        for(int i=0; i<TOOLCARDSNUMBER; i++) {
+            toolCardsIndex[i]=false;
+        }
+        this.toolCards=toolCards;
         this.publicObjectives = publicObjectives;
         bag = new Bag(COLORSNUMBER, DICENUMBER);
         roundTracker = new RoundTracker(ROUNDSNUMBER);
@@ -95,8 +101,12 @@ public class Board extends Observable<Response> {
         return new ModelView(this);
     }
 
-    public void setToolCard(ToolCard toolCard, int index) {
-        toolCards[index]=toolCard;
+    public boolean[] getToolCardsUsage() {
+        return toolCardsIndex;
+    }
+
+    public void setAlreadyUsed(int index) {
+        toolCardsIndex[index]=true;
     }
 
 }

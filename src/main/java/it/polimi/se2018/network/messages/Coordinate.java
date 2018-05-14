@@ -1,9 +1,10 @@
 package it.polimi.se2018.network.messages;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Coordinate {
-    private final int row; //This is x, turn for RoundTracker
+public class Coordinate implements Serializable{
+    private final int row; //This is x
     private final int col; //This is y
 
     public Coordinate(int row, int col) {
