@@ -1,13 +1,13 @@
 package it.polimi.se2018.view.CLI;
 
+import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.ModelView;
+import it.polimi.se2018.model.Square;
+import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ClientConnection;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.network.messages.Coordinate;
-import it.polimi.se2018.network.messages.requests.DraftMessage;
-import it.polimi.se2018.network.messages.requests.Message;
-import it.polimi.se2018.network.messages.requests.PassMessage;
-import it.polimi.se2018.network.messages.requests.PlaceMessage;
+import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.view.ClientView;
 
@@ -21,6 +21,8 @@ public class CLIClientView implements ResponseHandler, ClientView {
     private ModelView board;
     private Scanner scanner = new Scanner(System.in);
     private final OutputStream output;
+    private ArrayList<String> playerName;
+    private ArrayList<ToolCard> toolCards;
 
     public CLIClientView(Player player, ClientConnection clientConnection, ModelView board, OutputStream output) {
         this.player = player;
@@ -48,17 +50,25 @@ public class CLIClientView implements ResponseHandler, ClientView {
     @Override
     //aggiorno il modelview e stampo a schermo la tua e il roundtracker
     public void handleResponse(ModelViewResponse modelViewResponse) {
+        this.board = modelViewResponse.getModelView();
+        printRoundTracker();
     }
 
     //prints the text message
     @Override
     //eccezioni da printare
     public void handleResponse(TextResponse textResponse) {
+        System.out.println(textResponse.getMessage());
     }
 
     @Override
     //chamo inizio turno
     public void handleResponse(TurnStartResponse turnStartResponse) {
+        try {
+            chooseAction();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -66,33 +76,35 @@ public class CLIClientView implements ResponseHandler, ClientView {
     }
 
 
-    public void chooseAction () throws RemoteException{
+    public void chooseAction() throws RemoteException{
         //Choose the action to do DraftDie, UseToolcard, PlaceDie, PassTurn
         int choice = -1;
         Set<Integer> choosable = new HashSet<>();
         choosable.add(4);
+        choosable.add(5);
         if (!player.hasDraftedDie()) {
             choosable.add(1);
         }
         if (!player.hasUsedCard()) {
-            choosable.add(2);
+            choosable.add(3);
         }
         if (player.hasDieInHand()) {
-            choosable.add(3);
+            choosable.add(2);
         }
         System.out.print("It's your turn, choose your action");
         while (!choosable.contains(choice)) {
-            for (int i = 1; i < 4; i++) {
+            for (int i = 1; i < 6; i++) {
                 if (i == 1 && choosable.contains(i)) {
                     System.out.print("1: Draft a die");
                 }
                 if (i == 2 && choosable.contains(i)) {
-                    System.out.print("2: Use a toolcards");
+                    System.out.print("2: Place the drafted die");
                 }
                 if (i == 3 && choosable.contains(i)) {
-                    System.out.print("3: Place the drafted die");
+                    System.out.print("3: Select a toolcard");
                 }
                 System.out.print("4: Pass turn");
+                System.out.println("5: Ask for information of the game");
             }
             choice = scanner.nextInt();
         }
@@ -100,28 +112,37 @@ public class CLIClientView implements ResponseHandler, ClientView {
             draftDie();
         }
         if (choice == 2) {
-            useToolcard();
+            placeDie();
         }
         if (choice == 3) {
-            placeDie();
+            selectToolcard();
         }
         if (choice == 4) {
             passTurn();
         }
+        if (choice == 5) {
+            askInformation();
+        }
     }
 
-    public void passTurn () throws RemoteException{
+    public void passTurn() throws RemoteException{
         clientConnection.sendMessage(new PassMessage(player.getId()));
     }
 
-    public void draftDie () throws RemoteException {
+    public void draftDie() throws RemoteException {
         System.out.print("Choose the die to draft.");
         int index = this.getPositionDraftPool();
         clientConnection.sendMessage(new DraftMessage(player.getId(), index));
     }
 
-    public void useToolcard() throws RemoteException {
-        int choice;
+    public void selectToolcard() throws RemoteException {
+        int toolCard = getToolCard();
+        clientConnection.sendMessage(new ToolCardRequestMessage(player.getId(), toolCard));
+    }
+
+    public void useToolcard(int indexOfToolCard) throws RemoteException {
+        ToolCardMessage toolCardMessage = toolCards.get(indexOfToolCard).getPlayerRequests();
+        clientConnection.sendMessage(toolCardMessage);
     }
 
     public void placeDie() throws RemoteException {
@@ -130,9 +151,43 @@ public class CLIClientView implements ResponseHandler, ClientView {
         clientConnection.sendMessage(new PlaceMessage(player.getId(), coordinate));
     }
 
+    public void askInformation() {
+        int choice = -1;
+        System.out.println("Choose the information you need.");
+        while (choice < 1 || choice > 9) {
+            System.out.println("1: Print your map");
+            System.out.println("2: Print map of a player");
+            System.out.println("3: Print draft pool");
+            System.out.println("4: Print Round Tracker");
+            System.out.println("5: Print toolcard");
+            System.out.println("6: Print public objective");
+            System.out.println("7: Print your private objecgive");
+            System.out.println("8: Print your favor points");
+            choice = scanner.nextInt();
+        }
+        switch (choice) {
+            case 1: printYourMap();
+                    break;
+            case 2: printPlayerMap();
+                    break;
+            case 3: printDraftPool();
+                    break;
+            case 4: printRoundTracker();
+                    break;
+            case 5: printToolcard();
+                    break;
+            case 6: printPublicObjective();
+                    break;
+            case 7: printPrivateObjective();
+                    break;
+            case 8: printYourFavorPoint();
+                    break;
+        }
+    }
+
     public Coordinate getCoordinate() {
         int row = -1, col = -1;
-        //printMap(player);
+        printYourMap();
         while (row < 0 || row > 3) {
             System.out.print("Choose the row");
             row = scanner.nextInt();
@@ -146,7 +201,7 @@ public class CLIClientView implements ResponseHandler, ClientView {
 
     public Coordinate getRoundTrackPosition() {
         int turn = -1, pos = -1;
-        //printRoundTrack();
+        printRoundTracker();
         while (turn < 1 || pos > 10) {
             System.out.print("Choose the turn.");
             turn = scanner.nextInt();
@@ -156,6 +211,16 @@ public class CLIClientView implements ResponseHandler, ClientView {
             pos = scanner.nextInt();
         }
         return new Coordinate(turn, pos);
+    }
+
+    public int getToolCard() {
+        int choice = -1;
+        while (choice < 0 || choice > toolCards.size()) {
+            printToolcard();
+            System.out.println("Select the toolcard");
+            choice = scanner.nextInt();
+        }
+        return  choice;
     }
 
     public int getValueDie() {
@@ -187,9 +252,66 @@ public class CLIClientView implements ResponseHandler, ClientView {
     }
 
     public void printDraftPool() {
-        System.out.print("Dice on Draftpool are:");
+        System.out.println("Dice on Draftpool are:");
         for (int i = 0; i < board.getDraftPool().size(); i++) {
             System.out.print(i + ": color: " + board.getDraftPool().get(i).getColor() + ", value: " + board.getDraftPool().get(i).getValue());
         }
     }
+    //da finire
+    public void printRoundTracker() {
+        int z = 0;
+        System.out.println("Dice on Round Tracker are:");
+        for (int i = 0; i < board.getRoundTracker().length; i++) {
+            for (int j = 0; i < board.getRoundTracker()[i].size(); j++) {
+
+            }
+        }
+    }
+
+    public void printYourMap() {
+        int you = 0; //da implementare
+        Square[][] map = board.getMaps().get(you);
+        for (Square[] row : map) {
+            for (Square square : row) {
+                printDie(square.getDie());
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public void printPlayerMap() {
+        System.out.print("Choose the player:");
+        int choicePlayer = -1;
+        while (choicePlayer < 0 || choicePlayer > playerName.size()) {
+            System.out.print(choicePlayer +  "\b" + playerName.get(choicePlayer));
+            choicePlayer = scanner.nextInt();
+        }
+        Square[][] map = board.getMaps().get(choicePlayer);
+        for (Square[] row : map) {
+            for (Square square : row) {
+                printDie(square.getDie());
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public void printDie(Die die) {
+    }
+
+    public void printToolcard() {
+        for (ToolCard toolcard : toolCards) {
+            System.out.print(toolcard.getTitle() + "\b" + toolcard.getTitle() + "\n");
+        }
+    }
+
+    public void printYourFavorPoint() {
+        System.out.println(player.getFavorPoints());
+    }
+
+    public void printPrivateObjective() {
+        System.out.println(player.getPrivateObjective().getTitle() + "\b" + player.getPrivateObjective().getDescription());
+    }
+
+    public void printPublicObjective() {}
+
 }

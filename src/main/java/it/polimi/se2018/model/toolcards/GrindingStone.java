@@ -6,8 +6,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class GrindingStone extends ToolCard {
 
-    public GrindingStone(String imagePath, String title) {
-        super(imagePath, title);
+    public GrindingStone(String imagePath, String title, String description) {
+        super(imagePath, title, description);
     }
 
     @Override
