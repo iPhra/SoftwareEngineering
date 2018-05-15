@@ -1,6 +1,6 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.network.connections.RemoteView;
+import it.polimi.se2018.network.connections.RMI.RemoteView;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.model.Player;
@@ -10,22 +10,28 @@ import it.polimi.se2018.utils.Observer;
 
 
 import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ServerView extends Observable<Message> implements Observer<Response>, RemoteView{
-    private Map<Player,ServerConnection> playerConnections;
+    private Map<Integer,ServerConnection> playerConnections;
 
-    public ServerView(Map<Player,ServerConnection> playerConnections) {
-        this.playerConnections = playerConnections;
+    public ServerView() {
+        playerConnections = new HashMap<>();
     }
 
-    public ServerConnection getPlayerConnection(Player player) {
-        return playerConnections.get(player);
+    public ServerConnection getPlayerConnection(Integer playerID) {
+        return playerConnections.get(playerID);
+    }
+
+    public void setServerConnection(Integer playerID, ServerConnection serverConnection) {
+        playerConnections.put(playerID, serverConnection);
     }
 
     //receives input from the network, notifies the controller
     @Override
     public void handleNetworkInput(Message message) {
+        System.out.println("ciao");
         notify(message);
     }
 

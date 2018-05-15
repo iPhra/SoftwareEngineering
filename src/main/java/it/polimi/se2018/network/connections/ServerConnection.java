@@ -8,5 +8,5 @@ import java.rmi.RemoteException;
 public interface ServerConnection {
 
     void sendResponse(Response response) throws RemoteException;
-    void receiveMessage(Message message);
+    void receiveMessage(Message message) throws RemoteException;
 }

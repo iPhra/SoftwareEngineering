@@ -101,6 +101,7 @@ public class Controller implements Observer<Message>, MessageHandler {
     //pass
     @Override
     public void performMove(PassMessage passMessage) {
+        System.out.println("ciao");
         Player player = model.getPlayerByIndex(passMessage.getPlayerID());
         if (model.getRound().isLastTurn()) {
             this.endRound();
