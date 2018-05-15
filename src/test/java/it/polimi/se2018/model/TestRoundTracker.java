@@ -78,10 +78,10 @@ public class TestRoundTracker {
 
     @Test
     public void testModelViewCopy() {
-        assertTrue(dice1.containsAll(roundTracker.modelViewCopy()[0]) && roundTracker.modelViewCopy()[0].containsAll(dice1));
-        assertTrue(dice2.containsAll(roundTracker.modelViewCopy()[1]) && roundTracker.modelViewCopy()[1].containsAll(dice2));
+        assertTrue(dice1.containsAll(roundTracker.modelViewCopy().get(0)) && roundTracker.modelViewCopy().get(0).containsAll(dice1));
+        assertTrue(dice2.containsAll(roundTracker.modelViewCopy().get(1)) && roundTracker.modelViewCopy().get(1).containsAll(dice2));
         roundTracker=new RoundTracker(10);
-        assertTrue(dice1.containsAll(roundTracker.modelViewCopy()[0]) && roundTracker.modelViewCopy()[0].containsAll(new ArrayList<>()));
+        assertTrue(dice1.containsAll(roundTracker.modelViewCopy().get(0)) && roundTracker.modelViewCopy().get(0).containsAll(new ArrayList<>()));
 
     }
 }

@@ -6,8 +6,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class GrozingPliers extends ToolCard {
 
-    public GrozingPliers(String imagePath, String title, String description) {
-        super(imagePath, title, description);
+    public GrozingPliers(String imagePath) {
+        super(imagePath, "Title", "description");
     }
 
     @Override

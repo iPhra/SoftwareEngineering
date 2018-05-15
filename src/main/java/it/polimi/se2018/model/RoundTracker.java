@@ -7,19 +7,19 @@ import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class RoundTracker {
-    private List<Die>[] dice; //array of arrayList, every position contains an arraylist of dice
+    private List<List<Die>> dice; //array of arrayList, every position contains an arraylist of dice
     private int turn;
 
     RoundTracker(int roundsNumber) {
-        this.dice = new ArrayList[roundsNumber];
+        dice = new ArrayList();
         for(int i=0; i<roundsNumber; i++) {
-            dice[i]=new ArrayList<>();
+            dice.add(new ArrayList<>());
         }
         turn = 0; //this variable matches the actual turns -1
     }
 
     public Die getDie(int turn, int index) {
-        return dice[turn].get(index);
+        return dice.get(turn).get(index);
     }
 
     public boolean contains(Die die) {
@@ -35,24 +35,24 @@ public class RoundTracker {
     }
 
     public void addToRoundTracker(int index, Die die) { //used by toolcards
-        dice[index].add(die);
+        dice.get(index).add(die);
     }
 
     public void updateRoundTracker(List<Die> remainingDice) { //increments current turn, fills roundTracker with remaining dice from draftPool
-        dice[turn] = remainingDice;
-        turn++;
+        dice.set(this.turn,  remainingDice);
+        this.turn++;
     }
 
     public int getTurn() {
         return turn;
     }
 
-    public List<Die>[] modelViewCopy() {
-        List<Die>[] result = new ArrayList[dice.length];
-        for (int i = 0; i < dice.length; i++) {
-            result[i]=new ArrayList<>();
-            for (Die die : dice[i]) {
-                result[i].add((die.modelViewCopy()));
+    public List<List<Die>> modelViewCopy() {
+        List<List<Die>> result = new ArrayList<>();
+        for (int i = 0; i < dice.size(); i++) {
+            result.add(new ArrayList<>());
+            for (Die die : dice.get(i)) {
+                result.get(i).add((die.modelViewCopy()));
             }
         }
         return result;
@@ -64,13 +64,12 @@ public class RoundTracker {
         if (o == null || getClass() != o.getClass()) return false;
         RoundTracker that = (RoundTracker) o;
         return turn == that.turn &&
-                Arrays.equals(dice, that.dice);
+                Objects.equals(dice, that.dice);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(turn);
-        result = 31 * result + Arrays.hashCode(dice);
-        return result;
+
+        return Objects.hash(dice, turn);
     }
 }

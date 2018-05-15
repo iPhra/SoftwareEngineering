@@ -17,7 +17,7 @@ public class TestTapWheel {
 
     @Before
     public void init() {
-        tapWheel = new TapWheel(imagePath, title);
+        tapWheel = new TapWheel(imagePath);
     }
 
     @Test

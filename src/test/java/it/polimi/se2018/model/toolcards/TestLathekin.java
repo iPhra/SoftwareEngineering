@@ -17,7 +17,7 @@ public class TestLathekin {
 
         @Before
         public void init() {
-            lathekin = new Lathekin(imagePath, title);
+            lathekin = new Lathekin(imagePath);
         }
 
         @Test

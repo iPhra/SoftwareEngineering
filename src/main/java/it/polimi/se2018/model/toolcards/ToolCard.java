@@ -14,7 +14,7 @@ public abstract class ToolCard {
 
     protected ToolCard(String imagePath, String title, String description) {
         this.imagePath=imagePath;
-        this.title=title;
+        this.title = title;
         this.description = description;
     }
     public String getTitle() { return title; }

@@ -7,8 +7,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class Lathekin extends ToolCard {
 
-    public Lathekin(String imagePath, String title, String description) {
-        super(imagePath, title, description);
+    public Lathekin(String imagePath) {
+        super(imagePath, "Title", "description");
     }
 
     @Override

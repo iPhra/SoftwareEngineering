@@ -40,9 +40,9 @@ public class TestBoard {
         players.add(player1);
         players.add(player2);
         toolCards = new ToolCard[3];
-        toolCards[0] = new EglomiseBrush("imagePath1","title1");
-        toolCards[1] = new FluxBrush("imagePath2","title2");
-        toolCards[2] = new TapWheel("imagePath3","title3");
+        toolCards[0] = new EglomiseBrush("imagePath1");
+        toolCards[1] = new FluxBrush("imagePath2");
+        toolCards[2] = new TapWheel("imagePath3");
         publicObjectives = new PublicObjective[2];
         publicObjectives[0] = DeepShadesObjective.instance("imagePath1","title1");
         publicObjectives[1] = RowColorVarietyObjective.instance("imagePath2","title2");
@@ -142,21 +142,17 @@ public class TestBoard {
     @Test
     public void testModelViewCopy(){
         ModelView modelView = new ModelView(board);
-        Assert.assertTrue(modelView.getDiceInHand().containsAll(board.modelViewCopy().getDiceInHand()) &&
-                board.modelViewCopy().getDiceInHand().containsAll(modelView.getDiceInHand()));
         Assert.assertTrue(modelView.getDraftPool().containsAll(board.modelViewCopy().getDraftPool()) &&
                 board.modelViewCopy().getDraftPool().containsAll(modelView.getDraftPool()));
-        Assert.assertTrue(modelView.getFavorPoints().containsAll(board.modelViewCopy().getFavorPoints()) &&
-                board.modelViewCopy().getFavorPoints().containsAll(modelView.getFavorPoints()));
-        Assert.assertTrue(Arrays.equals(modelView.getRoundTracker(),board.modelViewCopy().getRoundTracker()));
-        Assert.assertTrue(modelView.getScores().containsAll(board.modelViewCopy().getScores()) &&
-                board.modelViewCopy().getScores().containsAll(modelView.getScores()));
+        Assert.assertTrue(modelView.getPlayerFavorPoint().containsAll(board.modelViewCopy().getPlayerFavorPoint()) &&
+                board.modelViewCopy().getPlayerFavorPoint().containsAll(modelView.getPlayerFavorPoint()));
+        Assert.assertTrue((modelView.getRoundTracker().containsAll(board.modelViewCopy().getRoundTracker()))&& board.modelViewCopy().getRoundTracker().containsAll(modelView.getRoundTracker()));
         Assert.assertTrue(modelView.getUsedToolCards().containsAll(board.modelViewCopy().getUsedToolCards()) &&
                 board.modelViewCopy().getUsedToolCards().containsAll(modelView.getUsedToolCards()));
         Assert.assertEquals(modelView.getTurn(),board.modelViewCopy().getTurn());
-        for(int i=0; i<modelView.getMaps().size(); i++) {
-            for(int j=0; j<modelView.getMaps().get(i).length; j++) {
-                Assert.assertTrue(Arrays.equals(modelView.getMaps().get(i)[j],board.modelViewCopy().getMaps().get(i)[j]));
+        for(int i=0; i<modelView.getPlayerMap().size(); i++) {
+            for(int j=0; j<modelView.getPlayerMap().get(i).length; j++) {
+                Assert.assertTrue(Arrays.equals(modelView.getPlayerMap().get(i)[j],board.modelViewCopy().getPlayerMap().get(i)[j]));
             }
 
         }

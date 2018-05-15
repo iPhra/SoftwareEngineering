@@ -6,8 +6,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class CopperFoilBurnisher extends ToolCard {
 
-    public CopperFoilBurnisher(String imagePath, String title, String description) {
-        super(imagePath, title, description);
+    public CopperFoilBurnisher(String imagePath) {
+        super(imagePath, "Title", "description");
     }
 
     @Override

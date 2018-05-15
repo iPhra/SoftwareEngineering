@@ -6,8 +6,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class CorkBackedStraightedge extends ToolCard {
 
-    public CorkBackedStraightedge(String imagePath, String title, String description) {
-        super(imagePath, title, description);
+    public CorkBackedStraightedge(String imagePath) {
+        super(imagePath, "Title", "description");
     }
 
     @Override

@@ -6,8 +6,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class LensCutter extends ToolCard {
 
-    public LensCutter(String imagePath, String title, String description) {
-        super(imagePath, title, description);
+    public LensCutter(String imagePath) {
+        super(imagePath, "Title", "description");
     }
 
     @Override

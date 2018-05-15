@@ -17,7 +17,7 @@ public class TestLensCutter {
 
     @Before
     public void init() {
-        lensCutter = new LensCutter(imagePath, title);
+        lensCutter = new LensCutter(imagePath);
     }
 
     @Test

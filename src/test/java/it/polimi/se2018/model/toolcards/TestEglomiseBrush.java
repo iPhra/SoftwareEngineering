@@ -17,7 +17,7 @@ public class TestEglomiseBrush {
 
     @Before
     public void init() {
-        eglomiseBrush = new EglomiseBrush(imagePath, title);
+        eglomiseBrush = new EglomiseBrush(imagePath);
     }
 
     @Test

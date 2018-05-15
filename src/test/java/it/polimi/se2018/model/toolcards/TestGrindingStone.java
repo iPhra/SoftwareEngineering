@@ -17,7 +17,7 @@ public class TestGrindingStone {
 
     @Before
     public void init() {
-        grindingStone = new GrindingStone(imagePath, title);
+        grindingStone = new GrindingStone(imagePath);
     }
 
     @Test
