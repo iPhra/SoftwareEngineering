@@ -23,8 +23,4 @@ public class RMIServerConnection implements ServerConnection {
         client.handleNetworkInput(response);
     }
 
-    @Override
-    public void receiveMessage(Message message) {
-        //RMI doesn't need to receive a message
-    }
 }
