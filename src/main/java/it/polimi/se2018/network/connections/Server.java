@@ -5,6 +5,7 @@ import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.network.connections.rmi.RemoteView;
 import it.polimi.se2018.view.ServerView;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -67,10 +68,31 @@ public class Server {
         registry.rebind("RemoteView", UnicastRemoteObject.exportObject(remoteView,0));
     }
 
+    private void startSocketConnection(int port){
+        try{
+            serverSocket = new ServerSocket(port);
+            SocketHandler socketHandler = new SocketHandler(this,serverSocket,serverView);
+            socketHandler.run();
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void closeSocketConnection(){
+        try{
+            serverSocket.close();
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+    }
+
+    //metodi per creare Tool Cards, Private Objectives, Public Objectives (classe deck?)
+
     //metodo randevouz
 
     public static void main(String[] args) throws RemoteException {
         Server server = new Server();
-        server.createRMIRegistry();
+        server.startSocketConnection(1234);
+        //server.createRMIRegistry();
     }
 }

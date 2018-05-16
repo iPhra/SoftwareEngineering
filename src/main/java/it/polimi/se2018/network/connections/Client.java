@@ -7,6 +7,9 @@ import it.polimi.se2018.view.ClientView;
 import it.polimi.se2018.view.cli.CLIClientView;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.Socket;
@@ -46,10 +49,25 @@ public class Client {
 
     private void createSocketConnection(String host, int port){
         try{
-            socket = new Socket(host,port);
+            socket = new Socket(host, port);
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            try {
+                playerID = (int) in.readObject();
+                while (setup) {
+                    output.println("Choose your nickname");
+                    playerName = input.nextLine();
+                    out.writeObject(playerName);
+                    setup = !(boolean) in.readObject();
+                    output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
+                }
+            }catch (ClassNotFoundException e) {
+                System.err.println(e.getMessage());
+            }
             SocketClientConnection socketClientConnection = new SocketClientConnection(socket, (ClientView) clientView);
             socketClientConnection.run();
         } catch(IOException e){
+            System.err.println(e.getMessage());
         }
     }
 
@@ -59,6 +77,7 @@ public class Client {
 
     public static void main(String[] args) {
         Client client = new Client();
+        client.createSocketConnection("127.0.0.1",1234);
         //client.createRMIConnection();
         //client.createSocketConnection("127.0.0.1",1234);
     }
