@@ -1,22 +1,24 @@
 package it.polimi.se2018.network.connections;
 
-import it.polimi.se2018.network.connections.RMI.RMIManager;
-import it.polimi.se2018.network.connections.RMI.RemoteManager;
-import it.polimi.se2018.network.connections.RMI.RemoteView;
+import it.polimi.se2018.network.connections.rmi.RMIManager;
+import it.polimi.se2018.network.connections.rmi.RemoteManager;
+import it.polimi.se2018.network.connections.rmi.RemoteView;
 import it.polimi.se2018.view.ServerView;
 
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Server {
-    private static RemoteManager remoteManager;
-    private static RemoteView remoteView;
+    private RemoteManager remoteManager;
+    private RemoteView remoteView;
+    private static int uniqueID;
+    private Map<Integer, ServerConnection> serverConnections;
     ServerView serverView = new ServerView();
     private ServerSocket serverSocket;
     private ExecutorService pool;
@@ -24,8 +26,17 @@ public class Server {
 
     private Server() {
         remoteView = new ServerView();
-        remoteManager = new RMIManager((ServerView) remoteView);
+        remoteManager = new RMIManager(this, (ServerView) remoteView);
+        serverConnections = new HashMap<>();
     }
+
+    public void setServerConnections(int playerID, ServerConnection serverConnection) {
+        serverConnections.put(playerID,serverConnection);
+    }
+
+    public static int getUniqueID() {return uniqueID;}
+
+    public static void incrementUniqueID() {uniqueID++;}
 
     private void createRMIRegistry () throws RemoteException{
         Registry registry = LocateRegistry.createRegistry(1099);
@@ -33,32 +44,12 @@ public class Server {
         registry.rebind("RemoteView", UnicastRemoteObject.exportObject(remoteView,0));
     }
 
-    public void startSocketServerConnection(int port){
-        try{
-            serverSocket = new ServerSocket(port);
-            pool = Executors.newCachedThreadPool();
-            SocketHandler socketHandler = new SocketHandler(this,serverSocket, pool, serverView);
-            socketHandler.run();
+    //metodi per creare Tool Cards, Private Objectives, Public Objectives (classe deck?)
 
-        }catch(IOException e){
-            System.err.println(e.getMessage());
-        }
-    }
-
-    public void closeSocketServerConnection(){
-        try{
-            serverSocket.close();
-        }catch(IOException e){
-            System.err.println(e.getMessage());
-        }
-        pool.shutdown();
-    }
+    //metodo randevouz
 
     public static void main(String[] args) throws RemoteException {
         Server server = new Server();
-        //server.createRMIRegistry();
-        boolean ciao = true;
-        server.startSocketServerConnection(1234);
-
+        server.createRMIRegistry();
     }
 }

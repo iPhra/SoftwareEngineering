@@ -1,17 +1,15 @@
 package it.polimi.se2018.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@SuppressWarnings("unchecked")
 public class RoundTracker {
     private List<List<Die>> dice; //array of arrayList, every position contains an arraylist of dice
     private int turn;
 
     RoundTracker(int roundsNumber) {
-        dice = new ArrayList();
+        dice = new ArrayList<>();
         for(int i=0; i<roundsNumber; i++) {
             dice.add(new ArrayList<>());
         }
@@ -69,7 +67,6 @@ public class RoundTracker {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(dice, turn);
     }
 }

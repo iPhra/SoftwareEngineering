@@ -31,7 +31,7 @@ public class ModelView implements Serializable{
             this.usedToolCard.add(b);
         }
         int index = -1;
-        Player currentPlayer = null;
+        Player currentPlayer = board.getPlayerByIndex(board.getRound().getCurrentPlayerIndex());
         for (Player player : board.getPlayers()) {
             playerMap.add(player.getMap().modelViewCopy());
             playerFavorPoint.add(player.getFavorPoints());

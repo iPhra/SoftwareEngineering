@@ -1,9 +1,8 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.network.connections.RMI.RemoteView;
+import it.polimi.se2018.network.connections.rmi.RemoteView;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
-import it.polimi.se2018.model.Player;
 import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.Observer;
@@ -31,7 +30,6 @@ public class ServerView extends Observable<Message> implements Observer<Response
     //receives input from the network, notifies the controller
     @Override
     public void handleNetworkInput(Message message) {
-        System.out.println("ciao");
         notify(message);
     }
 

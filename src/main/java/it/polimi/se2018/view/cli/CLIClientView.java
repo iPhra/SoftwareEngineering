@@ -1,34 +1,37 @@
-package it.polimi.se2018.view.CLI;
+package it.polimi.se2018.view.cli;
 
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.ModelView;
 import it.polimi.se2018.model.Square;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
+import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ClientConnection;
-import it.polimi.se2018.model.Player;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.view.ClientView;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.rmi.RemoteException;
 import java.util.*;
 
 public class CLIClientView implements ResponseHandler, ClientView {
-    private final int playerID;
-    private ClientConnection clientConnection;
-    private ModelView board;
-    private final Scanner scanner;
-    private ArrayList<String> playerName;
-    private ArrayList<ToolCard> toolCards;
-    private PrivateObjective privateObjective;
+    private transient final int playerID;
+    private transient List<String> playersName;
+    private transient ClientConnection clientConnection;
+    private transient ModelView board;
+    private transient final Scanner scanner;
+    private transient final Writer writer;
+    private transient List<ToolCard> toolCards;
+    private transient PrivateObjective privateObjective;
+    private transient List<PublicObjective> publicObjectives;
 
     public CLIClientView(int playerID) {
         this.playerID = playerID;
         scanner = new Scanner(System.in);
+        writer = new PrintWriter(System.out);
     }
 
     public void setClientConnection(ClientConnection clientConnection) {
@@ -186,6 +189,7 @@ public class CLIClientView implements ResponseHandler, ClientView {
                     break;
             case 8: printYourFavorPoint();
                     break;
+            default: break;
         }
     }
 
@@ -195,7 +199,8 @@ public class CLIClientView implements ResponseHandler, ClientView {
     }
 
     public Coordinate getCoordinate() {
-        int row = -1, col = -1;
+        int row = -1;
+        int col = -1;
         printYourMap();
         while (row < 0 || row > 3) {
             System.out.print("Choose the row");
@@ -209,7 +214,8 @@ public class CLIClientView implements ResponseHandler, ClientView {
     }
 
     public Coordinate getRoundTrackPosition() {
-        int turn = -1, pos = -1;
+        int turn = -1;
+        int pos = -1;
         printRoundTracker();
         while (turn < 1 || pos > 10) {
             System.out.print("Choose the turn.");
@@ -268,7 +274,6 @@ public class CLIClientView implements ResponseHandler, ClientView {
     }
 
     public void printRoundTracker() {
-        int z = 0;
         System.out.println("Dice on Round Tracker are:");
         for (int i = 0; i < board.getRoundTracker().size(); i++) {
             for (int j = 0; i < board.getRoundTracker().get(i).size(); j++) {
@@ -291,8 +296,8 @@ public class CLIClientView implements ResponseHandler, ClientView {
     public void printPlayerMap() {
         System.out.print("Choose the player:");
         int choicePlayer = -1;
-        while (choicePlayer < 0 || choicePlayer > playerName.size()) {
-            System.out.print(choicePlayer +  "\b" + playerName.get(choicePlayer));
+        while (choicePlayer < 0 || choicePlayer > playersName.size()) {
+            System.out.print(choicePlayer +  "\b" + playersName.get(choicePlayer));
             choicePlayer = scanner.nextInt();
         }
         Square[][] map = board.getPlayerMap().get(choicePlayer);
@@ -319,6 +324,7 @@ public class CLIClientView implements ResponseHandler, ClientView {
     }
 
     public void printPrivateObjective() {
+
         System.out.println(privateObjective.getTitle() + "\b" + privateObjective.getDescription());
     }
 

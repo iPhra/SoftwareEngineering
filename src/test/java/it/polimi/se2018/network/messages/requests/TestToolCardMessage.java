@@ -17,7 +17,7 @@ public class TestToolCardMessage {
     public void init() {
         Random random = new Random();
         toolCardNumber = random.nextInt();
-        toolCardMessage = new ToolCardMessage(0,random.nextInt(),toolCardNumber);
+        toolCardMessage = new ToolCardMessage(0,toolCardNumber);
         toolCardMessage.addDraftPoolPosition(7);
         toolCardMessage.addFinalPosition(new Coordinate(5,-235));
         toolCardMessage.addFinalPosition(new Coordinate(12,-32));

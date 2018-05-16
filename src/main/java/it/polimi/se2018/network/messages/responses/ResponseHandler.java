@@ -1,8 +1,6 @@
 package it.polimi.se2018.network.messages.responses;
 
-import java.io.Serializable;
-
-public interface ResponseHandler extends Serializable{
+public interface ResponseHandler {
 
     void handleResponse(ModelViewResponse modelViewResponse);
 

@@ -1,4 +1,4 @@
-package it.polimi.se2018.network.connections.RMI;
+package it.polimi.se2018.network.connections.rmi;
 
 import it.polimi.se2018.network.connections.ClientConnection;
 import it.polimi.se2018.network.messages.requests.Message;
@@ -21,5 +21,4 @@ public class RMIClientConnection implements ClientConnection {
     public void sendMessage(Message message) throws RemoteException{
         server.handleNetworkInput(message);
     }
-
 }

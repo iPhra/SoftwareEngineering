@@ -27,7 +27,7 @@ public abstract class ToolCard {
 
     public ToolCardMessage getPlayerRequests() {
         return null;
-    };
+    }
 
     public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 }

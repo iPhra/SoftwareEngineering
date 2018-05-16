@@ -1,12 +1,11 @@
 package it.polimi.se2018.network.messages.requests;
 
-import java.io.Serializable;
 
 /**
  * This is the interface implemented by the class who will perform the move associated to a message
  * @author Francesco Lorenzo
  */
-public interface MessageHandler extends Serializable{
+public interface MessageHandler {
 
     /**
      * This method uses a Tool Card
