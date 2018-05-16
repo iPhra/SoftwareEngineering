@@ -1,7 +1,5 @@
 package it.polimi.se2018.utils;
 
-import com.sun.rowset.internal.Row;
-import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.objectives.privateobjectives.*;
 import it.polimi.se2018.model.objectives.publicobjectives.*;
 import it.polimi.se2018.model.toolcards.*;

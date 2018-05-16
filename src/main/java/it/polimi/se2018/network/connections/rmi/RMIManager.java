@@ -1,6 +1,7 @@
 package it.polimi.se2018.network.connections.rmi;
 
 import it.polimi.se2018.network.connections.Server;
+import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.view.ServerView;
 
 public class RMIManager implements RemoteManager {
@@ -13,14 +14,15 @@ public class RMIManager implements RemoteManager {
 
     }
 
-    public void addClient(int playerID, String playerName, RemoteView clientView) {
-        serverView.setServerConnection(playerID,new RMIServerConnection(clientView));
-        //setta la connessione al server
-        //dai playerName a qualcuno
+    public boolean addClient(int playerID, String playerName, RemoteView clientView) {
+        server.checkName(playerID,playerName);
+        ServerConnection connection = new RMIServerConnection(clientView);
+        serverView.setServerConnections(playerID,connection);
+        server.setPlayer(playerID,playerName,connection);
+        return false;
     }
 
     public int getID() {
-        Server.incrementUniqueID();
-        return Server.getUniqueID();
+        return Server.generateID();
     }
 }
