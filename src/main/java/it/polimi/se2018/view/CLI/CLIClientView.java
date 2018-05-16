@@ -189,6 +189,11 @@ public class CLIClientView implements ResponseHandler, ClientView {
         }
     }
 
+    public Coordinate getDieInMap() {
+        System.out.println("Choose the die in the map");
+        return getCoordinate();
+    }
+
     public Coordinate getCoordinate() {
         int row = -1, col = -1;
         printYourMap();
