@@ -24,13 +24,15 @@ public class Server {
     private Map<Integer,List<Integer>> matches; //maps id of the match to its playerNumber
     private Map<Integer,ServerConnection> serverConnections; //maps playerID to its connection
     private Map<Integer, String> playerNames; //maps playerID to its name
-    ServerView serverView = new ServerView();
+    private ServerView serverView = new ServerView();
     private ServerSocket serverSocket;
 
     private Server() {
         remoteView = new ServerView();
         remoteManager = new RMIManager(this, (ServerView) remoteView);
         matches = new HashMap<>();
+        playerNames = new HashMap<>();
+        serverConnections = new HashMap<>();
     }
 
     public void setPlayer(int playerID, String playerName, ServerConnection serverConnection) {
@@ -47,19 +49,18 @@ public class Server {
         return true;
     }
 
-    public static int getMatchID() {return matchID;}
+    private static void incrementMatchID() {matchID++;}
 
-    public static void incrementMatchID() {matchID++;}
+    private static void incrementPlayerID() {playerNumber++;}
 
-    public static int getPlayerNumber() {return playerNumber;}
+    private boolean isMatchFull() {
+        return matches.get(matchID)==null || matches.get(matchID).size()==4; //oppure timer è scaduto?
+    }
 
-    public static void incrementPlayerID() {
-        playerNumber++;}
-
-    public static int generateID() {
-        incrementMatchID();
+    public int generateID() {
+        if (isMatchFull()) incrementMatchID();
         incrementPlayerID();
-        return (Server.getMatchID()*1000)+Server.getPlayerNumber();
+        return (matchID*1000)+playerNumber;
     }
 
     private void createRMIRegistry () throws RemoteException{
@@ -93,6 +94,6 @@ public class Server {
     public static void main(String[] args) throws RemoteException {
         Server server = new Server();
         server.startSocketConnection(1234);
-        //server.createRMIRegistry();
+        server.createRMIRegistry();
     }
 }

@@ -9,5 +9,6 @@ import java.rmi.RemoteException;
 public interface RemoteView extends Remote{
 
     void handleNetworkInput(Message message) throws RemoteException;
+
     void handleNetworkInput(Response response) throws RemoteException;
 }

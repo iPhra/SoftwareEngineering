@@ -14,15 +14,17 @@ public class RMIManager implements RemoteManager {
 
     }
 
-    public boolean addClient(int playerID, String playerName, RemoteView clientView) {
-        server.checkName(playerID,playerName);
+    public boolean checkName(int playerID, String playerName) {
+        return server.checkName(playerID,playerName);
+    }
+
+    public void addClient(int playerID, String playerName, RemoteView clientView) {
         ServerConnection connection = new RMIServerConnection(clientView);
         serverView.setServerConnections(playerID,connection);
         server.setPlayer(playerID,playerName,connection);
-        return false;
     }
 
     public int getID() {
-        return Server.generateID();
+        return server.generateID();
     }
 }

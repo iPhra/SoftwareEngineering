@@ -43,7 +43,7 @@ public class SocketServerConnection implements Runnable, ServerConnection{
 
     private void setup() throws IOException, ClassNotFoundException{
         boolean setup = true;
-        int playerID = Server.generateID();
+        int playerID = server.generateID();
         out.writeObject(playerID);
         while (setup){
             playerName = (String) in.readObject();

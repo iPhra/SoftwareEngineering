@@ -5,6 +5,9 @@ import java.rmi.RemoteException;
 
 public interface RemoteManager extends Remote {
 
-    boolean addClient(int playerID, String playerName, RemoteView clientView) throws RemoteException;
+    void addClient(int playerID, String playerName, RemoteView clientView) throws RemoteException;
+
     int getID() throws RemoteException;
+
+    boolean checkName(int playerID, String playerName) throws RemoteException;
 }
