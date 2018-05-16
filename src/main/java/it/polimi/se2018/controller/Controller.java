@@ -56,7 +56,7 @@ public class Controller implements Observer<Message>, MessageHandler {
             if(player.getFavorPoints()<cost) model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"Not enough favor points"));
             else {
                 player.setCardInUse(toolCardRequestMessage.getToolCardNumber());
-                model.notify(new ToolCardResponse(toolCardRequestMessage.getPlayerID()));
+                model.notify(new ToolCardResponse(toolCardRequestMessage.getPlayerID(),toolCardRequestMessage.getToolCardNumber()));
             }
         }
     }

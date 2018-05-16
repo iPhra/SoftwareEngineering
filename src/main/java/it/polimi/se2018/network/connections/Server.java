@@ -10,16 +10,17 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 public class Server {
     private RemoteManager remoteManager;
     private RemoteView remoteView;
     private static int matchID = 0;
     private static int playerNumber = 0; //identifies just the player, without the matc
-    private Map<Integer,Integer> matches; //maps id of the match to its playerNumber
+    private Map<Integer,List<Integer>> matches; //maps id of the match to its playerNumber
     private Map<Integer,ServerConnection> serverConnections; //maps playerID to its connection
     private Map<Integer, String> playerNames; //maps playerID to its name
     ServerView serverView = new ServerView();
@@ -34,12 +35,15 @@ public class Server {
     public void setPlayer(int playerID, String playerName, ServerConnection serverConnection) {
         serverConnections.put(playerID,serverConnection);
         playerNames.put(playerID,playerName);
-        matches.put(playerID/1000,playerID%1000);
+        matches.computeIfAbsent(playerID/1000, k ->  new ArrayList<Integer>());
+        matches.get(playerID/1000).add(playerID%1000);
     }
 
-    //implementare
-    public boolean checkName(int playerID, String playername) {
-        return false;
+    public boolean checkName(int playerID, String playerName) {
+        for(Integer player : playerNames.keySet()) {
+            if (player/1000==playerID/1000 && playerName.equals(playerNames.get(player))) return false;
+        }
+        return true;
     }
 
     public static int getMatchID() {return matchID;}
