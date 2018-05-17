@@ -33,9 +33,9 @@ public class TestBoard {
         database.standardWhiteMatrix();
         Square[][] matrix = database.getMatrix();
         ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath","title");
-        Map map = new Map("BasicMap",0,matrix);
-        player1 = new Player("player1",1,map,shadesOfGreenObjective);
-        player2 = new Player("player2",2,map,shadesOfGreenObjective);
+        Window window = new Window("BasicMap",0,matrix);
+        player1 = new Player("player1",1, window,shadesOfGreenObjective);
+        player2 = new Player("player2",2, window,shadesOfGreenObjective);
         players = new ArrayList<>();
         players.add(player1);
         players.add(player2);

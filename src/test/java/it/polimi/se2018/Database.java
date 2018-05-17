@@ -2,23 +2,23 @@ package it.polimi.se2018;
 
 import it.polimi.se2018.model.Color;
 import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.Map;
+import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.Square;
 import it.polimi.se2018.network.messages.Coordinate;
-import it.polimi.se2018.utils.MapBuilder;
+import it.polimi.se2018.utils.WindowBuilder;
 import javafx.util.Pair;
 
 import java.util.List;
 
 public class Database {
     private Square[][] matrix;
-    private List<Pair<Map,Map>> defaultMaps;
+    private List<Pair<Window,Window>> defaultMaps;
 
     public Database() {
-        defaultMaps = MapBuilder.create();
+        defaultMaps = WindowBuilder.create();
     }
 
-    public List<Pair<Map,Map>> getDefaultMaps() {return defaultMaps;}
+    public List<Pair<Window,Window>> getDefaultMaps() {return defaultMaps;}
 
     public Square[][] getMatrix() {
         return matrix;

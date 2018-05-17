@@ -35,7 +35,7 @@ public class ColorVarietyObjective extends PublicObjective {
     @Override
     public int evalPoints(Player player) {
         Optional<Integer> min = (Stream.of(Color.BLUE,Color.GREEN,Color.RED,Color.PURPLE,Color.YELLOW)
-                .map(color -> ( (int)StreamSupport.stream(player.getMap().spliterator(), false)
+                .map(color -> ( (int)StreamSupport.stream(player.getWindow().spliterator(), false)
                         .filter(checkIfContainsColor(color))
                         .count()))
                 .reduce(Integer::min));

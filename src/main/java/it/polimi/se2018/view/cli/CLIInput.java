@@ -55,7 +55,7 @@ public class CLIInput {
 
 
     public Coordinate getDieInMap() {
-        printStream.println("Choose the die in the map");
+        printStream.println("Choose the die in the window");
         return getCoordinate();
     }
 

@@ -32,7 +32,7 @@ public class DeepShadesObjective extends PublicObjective {
     @Override
     public int evalPoints(Player player) {
         Optional<Integer> min = (Stream.of(5,6)
-                .map(value -> ( (int)StreamSupport.stream(player.getMap().spliterator(), false)
+                .map(value -> ( (int)StreamSupport.stream(player.getWindow().spliterator(), false)
                         .filter(checkIfContainsValue(value))
                         .count()))
                 .reduce(Integer::min));

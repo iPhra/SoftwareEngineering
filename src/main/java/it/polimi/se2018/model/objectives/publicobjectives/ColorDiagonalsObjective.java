@@ -1,6 +1,6 @@
 package it.polimi.se2018.model.objectives.publicobjectives;
 
-import it.polimi.se2018.model.Map;
+import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.Square;
 import it.polimi.se2018.network.messages.Coordinate;
@@ -40,12 +40,12 @@ public class ColorDiagonalsObjective extends PublicObjective {
     //returns dice placed in the 2 diagonals below given position
     private List<Square> belowDiagonalsSquares(Player player, int row, int col){
         ArrayList<Square> belowDiagonals = new ArrayList<>();
-        if (row < player.getMap().getRows()-1){
-            if (col > 0 && !player.getMap().getSquare(new Coordinate(row+1,col-1)).isEmpty() && !alreadyCounted[row+1][col-1]){
-                belowDiagonals.add(player.getMap().getSquare(new Coordinate(row+1,col-1)));
+        if (row < player.getWindow().getRows()-1){
+            if (col > 0 && !player.getWindow().getSquare(new Coordinate(row+1,col-1)).isEmpty() && !alreadyCounted[row+1][col-1]){
+                belowDiagonals.add(player.getWindow().getSquare(new Coordinate(row+1,col-1)));
             }
-            if (col < player.getMap().getCols()-1 && !player.getMap().getSquare(new Coordinate(row+1,col+1)).isEmpty() && !alreadyCounted[row+1][col+1]){
-                belowDiagonals.add(player.getMap().getSquare(new Coordinate(row+1,col+1)));
+            if (col < player.getWindow().getCols()-1 && !player.getWindow().getSquare(new Coordinate(row+1,col+1)).isEmpty() && !alreadyCounted[row+1][col+1]){
+                belowDiagonals.add(player.getWindow().getSquare(new Coordinate(row+1,col+1)));
             }
         }
         return belowDiagonals;
@@ -53,9 +53,9 @@ public class ColorDiagonalsObjective extends PublicObjective {
 
     @Override
     public int evalPoints(Player player){
-        Map map = player.getMap();
+        Window window = player.getWindow();
         int points = 0;
-        for (Square square : map) {
+        for (Square square : window) {
             if (square.getDie() != null) {
                 ArrayList<Square> belowDiagonalsSquares = (ArrayList<Square>)belowDiagonalsSquares(player,square.getRow(),square.getCol());
                 for (Square belowSquare : belowDiagonalsSquares) {

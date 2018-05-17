@@ -1,7 +1,7 @@
 package it.polimi.se2018.model.objectives.privateobjectives;
 
 import it.polimi.se2018.model.Color;
-import it.polimi.se2018.model.Map;
+import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.Square;
 import it.polimi.se2018.Database;
@@ -22,8 +22,8 @@ public class TestShadesOfBlueObjective {
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
         shadesOfBlueObjective=ShadesOfBlueObjective.instance("imagePath","title");
-        Map map = new Map("BasicMap",0,matrix);
-        player = new Player("name",1,map,shadesOfBlueObjective);
+        Window window = new Window("BasicMap",0,matrix);
+        player = new Player("name",1, window,shadesOfBlueObjective);
     }
 
     @Test
@@ -31,8 +31,8 @@ public class TestShadesOfBlueObjective {
         assertEquals(0,shadesOfBlueObjective.evalPoints(player));
         database.sixSameColoredDice(Color.BLUE);
         matrix = database.getMatrix();
-        Map map = new Map("sixSameColoredDiceMap",0,matrix);
-        player = new Player("name",1,map,shadesOfBlueObjective);
+        Window window = new Window("sixSameColoredDiceMap",0,matrix);
+        player = new Player("name",1, window,shadesOfBlueObjective);
         assertEquals(21,shadesOfBlueObjective.evalPoints(player));
     }
 }

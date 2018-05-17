@@ -9,4 +9,6 @@ public interface ResponseHandler {
     void handleResponse(TurnStartResponse turnStartResponse);
 
     void handleResponse(ToolCardResponse toolCardResponse);
+
+    void handleResponse(SetupResponse setupResponse);
 }

@@ -14,7 +14,6 @@ public class Board extends Observable<Response> {
     public static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
     public static final int ROUNDSNUMBER = 10; //number of rounds in one game
     public static final int TOOLCARDSNUMBER = 3;
-    private final int id;
     private Round round;
     private final String imagePath;
     private final int playersNumber;
@@ -26,10 +25,9 @@ public class Board extends Observable<Response> {
     private final Bag bag; //ha il riferimento al sacchetto dei dadi
     private final RoundTracker roundTracker; //ha il riferimento al roundTracker
 
-    public Board(int id, List<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
+    public Board(List<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
         this.players = players;
         this.imagePath = imagePath;
-        this.id=id;
         this.playersNumber=players.size();
         ArrayList<Integer> playersId = new ArrayList<>(playersNumber);
         for (Player player : players) {
@@ -78,10 +76,6 @@ public class Board extends Observable<Response> {
 
     public PublicObjective[] getPublicObjectives() {
         return publicObjectives;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public int getPlayersNumber() {return playersNumber;}

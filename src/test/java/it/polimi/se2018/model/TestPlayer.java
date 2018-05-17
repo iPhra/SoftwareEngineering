@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class TestPlayer {
     private String name;
     private int id;
-    private Map map;
+    private Window window;
     private int mapLevel;
     private PrivateObjective privateObjective;
     private Player player;
@@ -29,9 +29,9 @@ public class TestPlayer {
         Square[][] matrix = new Square[1][1];
         matrix[0][0] = new Square(Color.BLUE, 5, new Coordinate(2, 3));
         mapLevel = random.nextInt(3) + 1;
-        map = new Map("title", mapLevel, matrix);
+        window = new Window("title", mapLevel, matrix);
         privateObjective = ShadesOfGreenObjective.instance("imagePath", "title");
-        player = new Player(name, id, map, privateObjective);
+        player = new Player(name, id, window, privateObjective);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class TestPlayer {
 
     @Test
     public void testGetMap() {
-        assertEquals(map, player.getMap());
+        assertEquals(window, player.getWindow());
     }
 
     @Test

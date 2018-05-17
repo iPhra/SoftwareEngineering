@@ -32,7 +32,7 @@ public class MediumShadesObjective extends PublicObjective {
     @Override
     public int evalPoints(Player player) {
         Optional<Integer> min = (Stream.of(3,4)
-                .map(value -> ( (int)StreamSupport.stream(player.getMap().spliterator(), false)
+                .map(value -> ( (int)StreamSupport.stream(player.getWindow().spliterator(), false)
                         .filter(checkIfContainsValue(value))
                         .count()))
                 .reduce(Integer::min));

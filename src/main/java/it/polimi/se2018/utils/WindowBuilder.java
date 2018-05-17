@@ -2,8 +2,8 @@ package it.polimi.se2018.utils;
 
 
 import it.polimi.se2018.model.Color;
-import it.polimi.se2018.model.Map;
 import it.polimi.se2018.model.Square;
+import it.polimi.se2018.model.Window;
 import it.polimi.se2018.network.messages.Coordinate;
 import javafx.util.Pair;
 import org.json.simple.JSONArray;
@@ -14,25 +14,26 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 
-public class MapBuilder {
+public class WindowBuilder {
 
-    private MapBuilder() {
+    private WindowBuilder() {
     }
 
-    public static List<Pair<Map,Map>> create() {
+    public static List<Pair<Window,Window>> create() {
         JSONParser parser = new JSONParser();
-        List<Pair<Map,Map>> maps = new ArrayList<>();
+        List<Pair<Window,Window>> windows = new ArrayList<>();
         try {
             JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("resources/maps.json"));
             JSONArray jsonMaps = (JSONArray) jsonObject.get("maps");
             Iterator iterator = jsonMaps.iterator();
             while(iterator.hasNext()) {
                 JSONObject jsonMapObject = (JSONObject) iterator.next();
-                JSONArray jsonMapArray = (JSONArray) jsonMapObject.get("map");
+                JSONArray jsonMapArray = (JSONArray) jsonMapObject.get("window");
 
                 JSONObject jsonMap1 = (JSONObject) jsonMapArray.get(0);
                 JSONObject jsonMap2 = (JSONObject) jsonMapArray.get(1);
@@ -44,17 +45,18 @@ public class MapBuilder {
                 int level2 = (int) (long) jsonMap2.get("level");
                 String board2 = (String) jsonMap2.get("board");
 
-                Map map1 = createMap(title1,level1,board1);
-                Map map2 = createMap(title2,level2,board2);
-                maps.add(new Pair(map1,map2));
+                Window window1 = createMap(title1,level1,board1);
+                Window window2 = createMap(title2,level2,board2);
+                windows.add(new Pair(window1, window2));
             }
-            return maps;
+            Collections.shuffle(windows);
+            return windows;
         } catch (IOException | ParseException e){
             return new ArrayList<>();
         }
     }
 
-    private static Map createMap(String title, int level, String board) {
+    private static Window createMap(String title, int level, String board) {
         Square[][] squares = new Square[4][5];
         String[] tokens = board.split(",");
         int row =0;
@@ -73,7 +75,17 @@ public class MapBuilder {
             }
             else break;
         }
-        return new Map(title,level,squares);
+        return new Window(title,level,squares);
+    }
+
+    public static List<Window> extractWindows(int players) {
+        List<Pair<Window, Window>> pairedWindows = WindowBuilder.create();
+        List<Window> linearWindows = new ArrayList<>();
+        for (int i = 0; i < 2 * players; i++) {
+            linearWindows.add(pairedWindows.get(i).getKey());
+            linearWindows.add(pairedWindows.get(i).getValue());
+        }
+        return linearWindows;
     }
 }
 

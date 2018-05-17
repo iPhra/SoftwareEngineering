@@ -7,13 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class Map implements Iterable<Square> {
+public class Window implements Iterable<Square> {
 
     private final String title;
     private final int level; //it's the level of difficulty
     private final Square[][] matrix;
 
-    public Map(String title, int level, Square[][] matrix) {
+    public Window(String title, int level, Square[][] matrix) {
         this.title = title;
         this.level = level;
         this.matrix = matrix;
@@ -47,7 +47,7 @@ public class Map implements Iterable<Square> {
         return matrix[coordinate.getRow()][coordinate.getCol()].getDie();
     }
 
-    //return number of empty slot in a map
+    //return number of empty slot in a window
     public int countEmptySlots() {
         int countSlot = 0;
         for (Square[] squares : matrix) {

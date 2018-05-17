@@ -37,4 +37,6 @@ public interface MessageHandler {
      */
     void performMove(ToolCardRequestMessage toolCardRequestMessage);
 
+    void performMove(SetupMessage setupMessage);
+
 }
