@@ -4,8 +4,8 @@ import it.polimi.se2018.model.objectives.ObjectiveCard;
 
 public abstract class PublicObjective extends ObjectiveCard {
 
-    protected PublicObjective(String imagePath, String title) {
-        super(imagePath, title);
+    protected PublicObjective(String title) {
+        super(title);
     }
 
 }

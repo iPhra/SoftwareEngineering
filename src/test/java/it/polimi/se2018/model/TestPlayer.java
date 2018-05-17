@@ -30,7 +30,7 @@ public class TestPlayer {
         matrix[0][0] = new Square(Color.BLUE, 5, new Coordinate(2, 3));
         mapLevel = random.nextInt(3) + 1;
         window = new Window("title", mapLevel, matrix);
-        privateObjective = ShadesOfGreenObjective.instance("imagePath", "title");
+        privateObjective = ShadesOfGreenObjective.instance("title");
         player = new Player(name, id, window, privateObjective);
     }
 

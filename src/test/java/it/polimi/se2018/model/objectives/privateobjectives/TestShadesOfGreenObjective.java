@@ -21,7 +21,7 @@ public class TestShadesOfGreenObjective {
         database = new Database();
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
-        shadesOfGreenObjective=ShadesOfGreenObjective.instance("imagePath","title");
+        shadesOfGreenObjective=ShadesOfGreenObjective.instance("title");
         Window window = new Window("BasicMap",0,matrix);
         player = new Player("name",1, window,shadesOfGreenObjective);
     }

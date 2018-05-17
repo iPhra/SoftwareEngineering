@@ -6,13 +6,15 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class GlazingHammer extends ToolCard {
 
-    public GlazingHammer(String imagePath) {
-        super(imagePath, "Glazing Hammer", "Re-roll all dice in the Draft Pool");
+    public GlazingHammer() {
+        super("Glazing Hammer", "Re-roll all dice in the Draft Pool");
     }
+
     @Override
     public void handle(ToolCardHandler handler, ToolCardMessage message) {
         handler.useCard(this, message);
     }
+
     @Override
     public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) {
         return handler.getPlayerRequests(this, toolcardnumber);

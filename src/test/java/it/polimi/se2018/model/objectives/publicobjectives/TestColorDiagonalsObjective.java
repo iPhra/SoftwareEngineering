@@ -23,9 +23,9 @@ public class TestColorDiagonalsObjective {
         database = new Database();
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
-        colorDiagonalsObjective = ColorDiagonalsObjective.instance("imagePath","title");
+        colorDiagonalsObjective = ColorDiagonalsObjective.instance("title");
         Window window = new Window("BasicMap",0, matrix);
-        shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath","title");
+        shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 

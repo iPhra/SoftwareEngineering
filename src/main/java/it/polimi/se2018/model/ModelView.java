@@ -30,7 +30,7 @@ public class ModelView implements Serializable{
         for (boolean b : board.getToolCardsUsage()) {
             this.usedToolCard.add(b);
         }
-        int index = -1;
+        int index;
         Player currentPlayer = board.getPlayerByIndex(board.getRound().getCurrentPlayerIndex());
         for (Player player : board.getPlayers()) {
             playerMap.add(player.getWindow().modelViewCopy());

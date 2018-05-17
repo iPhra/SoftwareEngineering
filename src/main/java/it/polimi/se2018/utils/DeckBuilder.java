@@ -15,32 +15,32 @@ public class DeckBuilder {
     private List<PrivateObjective> privateObjectives;
 
     private DeckBuilder() {
-        toolCards.add(new CopperFoilBurnisher(null));
-        toolCards.add(new CorkBackedStraightedge(null));
-        toolCards.add(new EglomiseBrush(null));
-        toolCards.add(new FluxBrush(null));
-        toolCards.add(new FluxRemover(null));
-        toolCards.add(new GlazingHammer(null));
-        toolCards.add(new GrindingStone(null));
-        toolCards.add(new GrozingPliers(null));
-        toolCards.add(new Lathekin(null));
-        toolCards.add(new LensCutter(null));
-        toolCards.add(new RunningPliers(null));
-        toolCards.add(new TapWheel(null));
-        publicObjectives.add(ColorDiagonalsObjective.instance(null, "Color Diagonals"));
-        publicObjectives.add(ColorVarietyObjective.instance(null, "Color Variety"));
-        publicObjectives.add(ColumnColorVarietyObjective.instance(null, "Column Color Variety"));
-        publicObjectives.add(ColumnShadeVarietyObjective.instance(null, "Colum Shade Variety"));
-        publicObjectives.add(DeepShadesObjective.instance(null, "Deep Shades"));
-        publicObjectives.add(LightShadesObjective.instance(null,"Light Shades"));
-        publicObjectives.add(RowColorVarietyObjective.instance(null, "Row Color Variety"));
-        publicObjectives.add(RowShadeVarietyObjective.instance(null, "Row Shade Variety"));
-        publicObjectives.add(ShadeVarietyObjective.instance(null, "Shade Variety"));
-        privateObjectives.add(ShadesOfBlueObjective.instance(null, "Shades of Blue"));
-        privateObjectives.add(ShadesOfGreenObjective.instance(null, "Shades of Green"));
-        privateObjectives.add(ShadesOfPurpleObjective.instance(null, "Shades of Purple"));
-        privateObjectives.add(ShadesOfRedObjective.instance(null, "Shades of Red"));
-        privateObjectives.add(ShadesOfYellowObjective.instance(null, "Shades of Purple"));
+        toolCards.add(new CopperFoilBurnisher());
+        toolCards.add(new CorkBackedStraightedge());
+        toolCards.add(new EglomiseBrush());
+        toolCards.add(new FluxBrush());
+        toolCards.add(new FluxRemover());
+        toolCards.add(new GlazingHammer());
+        toolCards.add(new GrindingStone());
+        toolCards.add(new GrozingPliers());
+        toolCards.add(new Lathekin());
+        toolCards.add(new LensCutter());
+        toolCards.add(new RunningPliers());
+        toolCards.add(new TapWheel());
+        publicObjectives.add(ColorDiagonalsObjective.instance("Color Diagonals"));
+        publicObjectives.add(ColorVarietyObjective.instance("Color Variety"));
+        publicObjectives.add(ColumnColorVarietyObjective.instance("Column Color Variety"));
+        publicObjectives.add(ColumnShadeVarietyObjective.instance("Colum Shade Variety"));
+        publicObjectives.add(DeepShadesObjective.instance("Deep Shades"));
+        publicObjectives.add(LightShadesObjective.instance("Light Shades"));
+        publicObjectives.add(RowColorVarietyObjective.instance("Row Color Variety"));
+        publicObjectives.add(RowShadeVarietyObjective.instance("Row Shade Variety"));
+        publicObjectives.add(ShadeVarietyObjective.instance("Shade Variety"));
+        privateObjectives.add(ShadesOfBlueObjective.instance("Shades of Blue"));
+        privateObjectives.add(ShadesOfGreenObjective.instance("Shades of Green"));
+        privateObjectives.add(ShadesOfPurpleObjective.instance("Shades of Purple"));
+        privateObjectives.add(ShadesOfRedObjective.instance("Shades of Red"));
+        privateObjectives.add(ShadesOfYellowObjective.instance("Shades of Purple"));
     }
 
     private static synchronized DeckBuilder createInstance(){

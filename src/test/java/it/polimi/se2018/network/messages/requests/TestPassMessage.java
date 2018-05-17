@@ -33,6 +33,9 @@ public class TestPassMessage {
             public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
                 fail();
             }
+
+            @Override
+            public void performMove(SetupMessage setupMessage) {fail();}
         });
     }
 }

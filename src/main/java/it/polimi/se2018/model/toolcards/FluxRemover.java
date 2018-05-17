@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class FluxRemover extends ToolCard {
 
-    public FluxRemover(String imagePath) {
-        super(imagePath, "Flux Remover", "After drafting, return the die to the Dice Bag and pull 1 die from the bag");
+    public FluxRemover() {
+        super("Flux Remover", "After drafting, return the die to the Dice Bag and pull 1 die from the bag");
     }
 
     @Override

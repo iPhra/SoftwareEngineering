@@ -12,19 +12,19 @@ public class ColorDiagonalsObjective extends PublicObjective {
     private static ColorDiagonalsObjective instance = null;
     private boolean[][] alreadyCounted;  //needed in order not to count the same die twice while evaluating points
 
-    private ColorDiagonalsObjective(String imagePath, String title){
-        super(imagePath,title);
+    private ColorDiagonalsObjective(String title){
+        super(title);
         alreadyCounted = new boolean[4][5];
         resetAlreadyCounted();
     }
 
-    private static synchronized ColorDiagonalsObjective createInstance(String imagePath, String title){
-        if (instance==null) instance = new ColorDiagonalsObjective(imagePath, title);
+    private static synchronized ColorDiagonalsObjective createInstance(String title){
+        if (instance==null) instance = new ColorDiagonalsObjective(title);
         return instance;
     }
 
-    public static ColorDiagonalsObjective instance(String imagePath, String title){
-        if (instance==null) createInstance(imagePath, title);
+    public static ColorDiagonalsObjective instance(String title){
+        if (instance==null) createInstance(title);
         return instance;
     }
 

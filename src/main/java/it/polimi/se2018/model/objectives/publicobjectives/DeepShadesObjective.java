@@ -11,17 +11,17 @@ import java.util.stream.StreamSupport;
 public class DeepShadesObjective extends PublicObjective {
     private static DeepShadesObjective instance = null;
 
-    private DeepShadesObjective(String imagePath, String title) {
-        super(imagePath, title);
+    private DeepShadesObjective(String title) {
+        super(title);
     }
 
-    private static synchronized DeepShadesObjective createInstance(String imagePath, String title) {
-        if (instance == null) instance = new DeepShadesObjective(imagePath, title);
+    private static synchronized DeepShadesObjective createInstance(String title) {
+        if (instance == null) instance = new DeepShadesObjective(title);
         return instance;
     }
 
-    public static DeepShadesObjective instance(String imagePath, String title) {
-        if (instance == null) createInstance(imagePath, title);
+    public static DeepShadesObjective instance(String title) {
+        if (instance == null) createInstance(title);
         return instance;
     }
 

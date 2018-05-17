@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class CopperFoilBurnisher extends ToolCard {
 
-    public CopperFoilBurnisher(String imagePath) {
-        super(imagePath, "Copper Foil Burnisher", "Move any one die in your window ignoring value restrictions");
+    public CopperFoilBurnisher() {
+        super("Copper Foil Burnisher", "Move any one die in your window ignoring value restrictions");
     }
 
     @Override

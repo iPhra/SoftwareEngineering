@@ -23,9 +23,9 @@ public class TestColumnShadeVarietyObjective {
         database = new Database();
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
-        columnShadeVarietyObjective = ColumnShadeVarietyObjective.instance("imagePath","title");
+        columnShadeVarietyObjective = ColumnShadeVarietyObjective.instance("title");
         Window window = new Window("BasicMap",0, matrix);
-        shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath","title");
+        shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 

@@ -43,6 +43,9 @@ public class TestTextResponse {
             public void handleResponse(ToolCardResponse toolCardResponse) {
                 fail();
             }
+
+            @Override
+            public void handleResponse(SetupResponse setupResponse) {fail();}
         });
     }
 }

@@ -8,8 +8,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class Lathekin extends ToolCard {
 
-    public Lathekin(String imagePath) {
-        super(imagePath, "Lathekin", "Move exactly two dice, obeying all placement restrictions");
+    public Lathekin() {
+        super("Lathekin", "Move exactly two dice, obeying all placement restrictions");
     }
 
     @Override

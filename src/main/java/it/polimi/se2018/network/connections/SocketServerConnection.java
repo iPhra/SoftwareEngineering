@@ -18,9 +18,8 @@ public class SocketServerConnection implements Runnable, ServerConnection{
     private boolean isOpen;
     private ServerView serverView;
 
-    SocketServerConnection(Socket socket, ServerView serverView, Server server){
+    SocketServerConnection(Socket socket, Server server){
         this.socket = socket;
-        this.serverView = serverView;
         this.server = server;
         isOpen = true;
         try {
@@ -41,6 +40,11 @@ public class SocketServerConnection implements Runnable, ServerConnection{
         }
     }
 
+    @Override
+    public void setServerView(ServerView serverView) {
+        this.serverView = serverView;
+    }
+
     private void setup() throws IOException, ClassNotFoundException{
         boolean setup = true;
         int playerID = server.generateID();
@@ -51,7 +55,6 @@ public class SocketServerConnection implements Runnable, ServerConnection{
             out.writeObject(setup);
         }
         server.setPlayer(playerID,playerName,this);
-        serverView.setServerConnections(playerID, this);
     }
 
     @Override

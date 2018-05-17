@@ -1,6 +1,5 @@
 package it.polimi.se2018.view.cli;
 
-import it.polimi.se2018.model.Die;
 import it.polimi.se2018.model.ModelView;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
@@ -11,10 +10,11 @@ import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.view.ClientView;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class CLIClientView implements ResponseHandler, ClientView {
+public class CLIClientView implements ResponseHandler, ClientView, Serializable {
     private final transient int playerID;
     private transient List<String> playersName;
     private transient ClientConnection clientConnection;
@@ -80,6 +80,11 @@ public class CLIClientView implements ResponseHandler, ClientView {
         }
         catch (RemoteException ignored) {
         }
+    }
+
+    @Override
+    public void handleResponse(SetupResponse setupResponse) {
+        //implementare per far scegliere le mappe
     }
 
     private List<Integer> actionPossible() {

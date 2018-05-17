@@ -12,17 +12,17 @@ import java.util.stream.StreamSupport;
 public class ColorVarietyObjective extends PublicObjective {
     private static ColorVarietyObjective instance = null;
 
-    private ColorVarietyObjective(String imagePath, String title) {
-        super(imagePath, title);
+    private ColorVarietyObjective(String title) {
+        super(title);
     }
 
-    private static synchronized ColorVarietyObjective createInstance(String imagePath, String title) {
-        if (instance == null) instance = new ColorVarietyObjective(imagePath, title);
+    private static synchronized ColorVarietyObjective createInstance(String title) {
+        if (instance == null) instance = new ColorVarietyObjective(title);
         return instance;
     }
 
-    public static ColorVarietyObjective instance(String imagePath, String title) {
-        if (instance == null) createInstance(imagePath, title);
+    public static ColorVarietyObjective instance(String title) {
+        if (instance == null) createInstance(title);
         return instance;
     }
 

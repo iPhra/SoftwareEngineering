@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class LensCutter extends ToolCard {
 
-    public LensCutter(String imagePath) {
-        super(imagePath, "Lens Cutter", "After drafting, swap the drafted die with a die from the Round Track");
+    public LensCutter() {
+        super("Lens Cutter", "After drafting, swap the drafted die with a die from the Round Track");
     }
 
     @Override

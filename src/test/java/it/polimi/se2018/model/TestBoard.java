@@ -32,7 +32,7 @@ public class TestBoard {
         Database database = new Database();
         database.standardWhiteMatrix();
         Square[][] matrix = database.getMatrix();
-        ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath","title");
+        ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         Window window = new Window("BasicMap",0,matrix);
         player1 = new Player("player1",1, window,shadesOfGreenObjective);
         player2 = new Player("player2",2, window,shadesOfGreenObjective);
@@ -40,13 +40,13 @@ public class TestBoard {
         players.add(player1);
         players.add(player2);
         toolCards = new ToolCard[3];
-        toolCards[0] = new EglomiseBrush("imagePath1");
-        toolCards[1] = new FluxBrush("imagePath2");
-        toolCards[2] = new TapWheel("imagePath3");
+        toolCards[0] = new EglomiseBrush();
+        toolCards[1] = new FluxBrush();
+        toolCards[2] = new TapWheel();
         publicObjectives = new PublicObjective[2];
-        publicObjectives[0] = DeepShadesObjective.instance("imagePath1","title1");
-        publicObjectives[1] = RowColorVarietyObjective.instance("imagePath2","title2");
-        board = new Board(1, players,"boardImagePath", toolCards, publicObjectives);
+        publicObjectives[0] = DeepShadesObjective.instance("title1");
+        publicObjectives[1] = RowColorVarietyObjective.instance("title2");
+        board = new Board (players,"boardImagePath", toolCards, publicObjectives);
 
     }
 
@@ -104,11 +104,6 @@ public class TestBoard {
         assertEquals(publicObjectives.length,publicObjectivesGot.length);
         for(int i=0; i<publicObjectives.length; i++)
             assertEquals(publicObjectives[i],publicObjectivesGot[i]);
-    }
-
-    @Test
-    public void testGetId(){
-        assertEquals(1, board.getId());
     }
 
     @Test

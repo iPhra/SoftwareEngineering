@@ -11,17 +11,17 @@ import java.util.stream.StreamSupport;
 public class ShadeVarietyObjective extends PublicObjective {
     private static ShadeVarietyObjective instance = null;
 
-    private ShadeVarietyObjective(String imagePath, String title){
-        super(imagePath,title);
+    private ShadeVarietyObjective(String title){
+        super(title);
     }
 
-    private static synchronized ShadeVarietyObjective createInstance(String imagePath, String title){
-        if (instance==null) instance = new ShadeVarietyObjective(imagePath, title);
+    private static synchronized ShadeVarietyObjective createInstance(String title){
+        if (instance==null) instance = new ShadeVarietyObjective(title);
         return instance;
     }
 
-    public static ShadeVarietyObjective instance(String imagePath, String title){
-        if (instance==null) createInstance(imagePath, title);
+    public static ShadeVarietyObjective instance(String title){
+        if (instance==null) createInstance(title);
         return instance;
     }
 

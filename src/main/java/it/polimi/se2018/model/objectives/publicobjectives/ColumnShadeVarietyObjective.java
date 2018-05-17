@@ -12,17 +12,17 @@ import java.util.stream.StreamSupport;
 public class ColumnShadeVarietyObjective extends PublicObjective{
     private static ColumnShadeVarietyObjective instance = null;
 
-    private ColumnShadeVarietyObjective(String imagePath, String title){
-        super(imagePath,title);
+    private ColumnShadeVarietyObjective(String title){
+        super(title);
     }
 
-    private static synchronized ColumnShadeVarietyObjective createInstance(String imagePath, String title){
-        if (instance==null) instance = new ColumnShadeVarietyObjective(imagePath, title);
+    private static synchronized ColumnShadeVarietyObjective createInstance(String title){
+        if (instance==null) instance = new ColumnShadeVarietyObjective(title);
         return instance;
     }
 
-    public static ColumnShadeVarietyObjective instance(String imagePath, String title){
-        if (instance==null) createInstance(imagePath, title);
+    public static ColumnShadeVarietyObjective instance(String title){
+        if (instance==null) createInstance(title);
         return instance;
     }
 

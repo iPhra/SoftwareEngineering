@@ -9,8 +9,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class TapWheel extends ToolCard {
 
-    public TapWheel(String imagePath) {
-        super(imagePath, "Tap Wheel", "Move up to two dice of the same color that match the color of a die on the Round Track");
+    public TapWheel() {
+        super("Tap Wheel", "Move up to two dice of the same color that match the color of a die on the Round Track");
     }
 
     @Override

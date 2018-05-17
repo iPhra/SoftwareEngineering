@@ -8,14 +8,12 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 import java.util.List;
 
 public abstract class ToolCard {
-    protected final String imagePath;
     protected final String title;
     protected final String description;
     protected List<String> playerRequests;
     protected List<String> conditionRequests;
 
-    protected ToolCard(String imagePath, String title, String description) {
-        this.imagePath=imagePath;
+    protected ToolCard(String title, String description) {
         this.title = title;
         this.description = description;
     }
@@ -26,7 +24,6 @@ public abstract class ToolCard {
     public List<String> getPlayerRequests() {
         return playerRequests;
     }
-
 
     public List<String> getConditionRequests() {
         return conditionRequests;

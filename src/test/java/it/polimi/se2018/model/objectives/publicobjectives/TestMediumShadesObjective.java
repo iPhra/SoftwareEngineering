@@ -23,9 +23,9 @@ public class TestMediumShadesObjective {
         database = new Database();
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
-        mediumShadesObjective = MediumShadesObjective.instance("imagePath","title");
+        mediumShadesObjective = MediumShadesObjective.instance("title");
         Window window = new Window("BasicMap",0, matrix);
-        shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath","title");
+        shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 

@@ -11,17 +11,17 @@ import java.util.stream.StreamSupport;
 public class MediumShadesObjective extends PublicObjective {
     private static MediumShadesObjective instance = null;
 
-    private MediumShadesObjective(String imagePath, String title){
-        super(imagePath,title);
+    private MediumShadesObjective(String title){
+        super(title);
     }
 
-    private static synchronized MediumShadesObjective createInstance(String imagePath, String title){
-        if (instance==null) instance = new MediumShadesObjective(imagePath, title);
+    private static synchronized MediumShadesObjective createInstance(String title){
+        if (instance==null) instance = new MediumShadesObjective(title);
         return instance;
     }
 
-    public static MediumShadesObjective instance(String imagePath, String title){
-        if (instance==null) createInstance(imagePath, title);
+    public static MediumShadesObjective instance(String title){
+        if (instance==null) createInstance(title);
         return instance;
     }
 

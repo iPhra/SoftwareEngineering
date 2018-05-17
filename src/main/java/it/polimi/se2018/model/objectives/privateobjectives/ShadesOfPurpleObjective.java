@@ -12,16 +12,16 @@ public class ShadesOfPurpleObjective extends PrivateObjective {
     private static ShadesOfPurpleObjective instance = null;
     private static final Color color = Color.PURPLE;
 
-    private ShadesOfPurpleObjective(String imagePath, String title){
-        super(imagePath,title);
+    private ShadesOfPurpleObjective(String title){
+        super(title);
     }
-    private static synchronized ShadesOfPurpleObjective createInstance(String imagePath, String title){
-        if (instance==null) instance = new ShadesOfPurpleObjective(imagePath, title);
+    private static synchronized ShadesOfPurpleObjective createInstance(String title){
+        if (instance==null) instance = new ShadesOfPurpleObjective(title);
         return instance;
     }
 
-    public static ShadesOfPurpleObjective instance(String imagePath, String title){
-        if (instance==null) createInstance(imagePath, title);
+    public static ShadesOfPurpleObjective instance(String title){
+        if (instance==null) createInstance(title);
         return instance;
     }
 

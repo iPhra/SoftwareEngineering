@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class GrindingStone extends ToolCard {
 
-    public GrindingStone(String imagePath) {
-        super(imagePath, "Grinding Stone", "After drafting, flip the die to its opposite side");
+    public GrindingStone() {
+        super("Grinding Stone", "After drafting, flip the die to its opposite side");
     }
 
     @Override

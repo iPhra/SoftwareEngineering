@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class EglomiseBrush extends ToolCard {
 
-    public EglomiseBrush(String imagePath) {
-        super(imagePath, "Eglomise Brush", "Move any one die in your window ingoring color restrictions");
+    public EglomiseBrush() {
+        super("Eglomise Brush", "Move any one die in your window ingoring color restrictions");
     }
 
     @Override

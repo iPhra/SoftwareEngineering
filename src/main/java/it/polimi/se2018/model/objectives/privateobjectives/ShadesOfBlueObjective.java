@@ -12,17 +12,17 @@ public class ShadesOfBlueObjective extends PrivateObjective {
     private static ShadesOfBlueObjective instance = null;
     private static final Color color = Color.BLUE;
 
-    private ShadesOfBlueObjective(String imagePath, String title){
-        super(imagePath,title);
+    private ShadesOfBlueObjective(String title){
+        super(title);
     }
 
-    private static synchronized ShadesOfBlueObjective createInstance(String imagePath, String title){
-        if (instance==null) instance = new ShadesOfBlueObjective(imagePath, title);
+    private static synchronized ShadesOfBlueObjective createInstance(String title){
+        if (instance==null) instance = new ShadesOfBlueObjective(title);
         return instance;
     }
 
-    public static ShadesOfBlueObjective instance(String imagePath, String title){
-        if (instance==null) createInstance(imagePath, title);
+    public static ShadesOfBlueObjective instance(String title){
+        if (instance==null) createInstance(title);
         return instance;
     }
 

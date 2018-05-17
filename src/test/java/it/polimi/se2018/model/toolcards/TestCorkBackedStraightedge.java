@@ -1,7 +1,6 @@
 package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
-import it.polimi.se2018.model.Board;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
@@ -17,7 +16,7 @@ public class TestCorkBackedStraightedge {
 
     @Before
     public void init() {
-        corkBackedStraightedge = new CorkBackedStraightedge(imagePath);
+        corkBackedStraightedge = new CorkBackedStraightedge();
     }
 
     @Test

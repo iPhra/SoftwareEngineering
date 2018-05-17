@@ -26,7 +26,7 @@ public class GameManager implements Runnable,Observer<Message>{
     private List<Player> players;
     private List<PrivateObjective> privateObjectives;
 
-    GameManager(DeckBuilder deckBuilder){
+    public GameManager(DeckBuilder deckBuilder){
         this.deckBuilder = deckBuilder;
         this.playerIDs = new ArrayList<>();
         this.serverConnections = new HashMap<>();
@@ -70,15 +70,16 @@ public class GameManager implements Runnable,Observer<Message>{
         startGame();
     }
 
-    public void startGame(){
+    private void startGame(){
         controller = new Controller();
         controller.register(this);
         createPrivateObjectives();
-
-        createListOfPlayer();
+        //costruisce i pubblici
+        //costruisce le toolcard
+        //invia tutto
     }
 
-
+    //rinominalo generatePrivateObjectives();
     //assign privateObjective to every player
     private void createPrivateObjectives() {
         privateObjectives = new ArrayList<>();
@@ -99,7 +100,5 @@ public class GameManager implements Runnable,Observer<Message>{
     }
 
     public void update(Message message){
-
     }
-
 }

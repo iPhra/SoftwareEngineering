@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class CorkBackedStraightedge extends ToolCard {
 
-    public CorkBackedStraightedge(String imagePath) {
-        super(imagePath, "Cork Backed Straightedge", "After drafting, place the die in a spot that is not adjacent to another die");
+    public CorkBackedStraightedge() {
+        super("Cork Backed Straightedge", "After drafting, place the die in a spot that is not adjacent to another die");
     }
 
     @Override

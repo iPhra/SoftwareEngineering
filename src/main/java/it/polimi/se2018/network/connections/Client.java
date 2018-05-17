@@ -86,6 +86,6 @@ public class Client {
     public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException{
         Client client = new Client();
         //client.createSocketConnection("127.0.0.1",1234);
-        //client.createRMIConnection();
+        client.createRMIConnection();
     }
 }

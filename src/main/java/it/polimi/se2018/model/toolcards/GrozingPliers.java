@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class GrozingPliers extends ToolCard {
 
-    public GrozingPliers(String imagePath) {
-        super(imagePath, "Grozing Pliers", "After drafting, increase or decrease the value of the drafted die by 1");
+    public GrozingPliers() {
+        super("Grozing Pliers", "After drafting, increase or decrease the value of the drafted die by 1");
     }
 
     @Override

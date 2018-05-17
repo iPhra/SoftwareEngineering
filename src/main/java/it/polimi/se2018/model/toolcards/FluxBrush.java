@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class FluxBrush extends ToolCard {
 
-    public FluxBrush(String imagePath) {
-        super(imagePath, "Flux Brush", "After draftiong, re-roll the drafted die");
+    public FluxBrush() {
+        super("Flux Brush", "After draftiong, re-roll the drafted die");
     }
 
     @Override

@@ -7,8 +7,8 @@ import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class RunningPliers extends ToolCard {
 
-    public RunningPliers(String imagePath) {
-        super(imagePath, "Running Pliers", "After your first turn, immediately draft a die");
+    public RunningPliers() {
+        super("Running Pliers", "After your first turn, immediately draft a die");
     }
 
     @Override

@@ -11,17 +11,17 @@ import java.util.stream.StreamSupport;
 public class LightShadesObjective extends PublicObjective {
     private static LightShadesObjective instance = null;
 
-    private LightShadesObjective(String imagePath, String title){
-        super(imagePath,title);
+    private LightShadesObjective(String title){
+        super(title);
     }
 
-    private static synchronized LightShadesObjective createInstance(String imagePath, String title){
-        if (instance==null) instance = new LightShadesObjective(imagePath, title);
+    private static synchronized LightShadesObjective createInstance(String title){
+        if (instance==null) instance = new LightShadesObjective(title);
         return instance;
     }
 
-    public static LightShadesObjective instance(String imagePath, String title){
-        if (instance==null) createInstance(imagePath, title);
+    public static LightShadesObjective instance(String title){
+        if (instance==null) createInstance(title);
         return instance;
     }
 

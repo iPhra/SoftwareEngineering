@@ -47,6 +47,9 @@ public class TestToolCardRequestMessage {
             @Override
             public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
             }
+
+            @Override
+            public void performMove(SetupMessage setupMessage) {fail();}
         });
     }
 }
