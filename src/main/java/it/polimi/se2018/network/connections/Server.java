@@ -5,6 +5,7 @@ import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.network.connections.rmi.RemoteView;
 import it.polimi.se2018.view.ServerView;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,13 +24,15 @@ public class Server {
     private Map<Integer,List<Integer>> matches; //maps id of the match to its playerNumber
     private Map<Integer,ServerConnection> serverConnections; //maps playerID to its connection
     private Map<Integer, String> playerNames; //maps playerID to its name
-    ServerView serverView = new ServerView();
+    private ServerView serverView = new ServerView();
     private ServerSocket serverSocket;
 
     private Server() {
         remoteView = new ServerView();
         remoteManager = new RMIManager(this, (ServerView) remoteView);
         matches = new HashMap<>();
+        playerNames = new HashMap<>();
+        serverConnections = new HashMap<>();
     }
 
     public void setPlayer(int playerID, String playerName, ServerConnection serverConnection) {
@@ -46,19 +49,18 @@ public class Server {
         return true;
     }
 
-    public static int getMatchID() {return matchID;}
+    private static void incrementMatchID() {matchID++;}
 
-    public static void incrementMatchID() {matchID++;}
+    private static void incrementPlayerID() {playerNumber++;}
 
-    public static int getPlayerNumber() {return playerNumber;}
+    private boolean isMatchFull() {
+        return matches.get(matchID)==null || matches.get(matchID).size()==4; //oppure timer è scaduto?
+    }
 
-    public static void incrementPlayerID() {
-        playerNumber++;}
-
-    public static int generateID() {
-        incrementMatchID();
+    public int generateID() {
+        if (isMatchFull()) incrementMatchID();
         incrementPlayerID();
-        return (Server.getMatchID()*1000)+Server.getPlayerNumber();
+        return (matchID*1000)+playerNumber;
     }
 
     private void createRMIRegistry () throws RemoteException{
@@ -67,10 +69,31 @@ public class Server {
         registry.rebind("RemoteView", UnicastRemoteObject.exportObject(remoteView,0));
     }
 
+    private void startSocketConnection(int port){
+        try{
+            serverSocket = new ServerSocket(port);
+            SocketHandler socketHandler = new SocketHandler(this,serverSocket,serverView);
+            socketHandler.run();
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private void closeSocketConnection(){
+        try{
+            serverSocket.close();
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
+    }
+
+    //metodi per creare Tool Cards, Private Objectives, Public Objectives (classe deck?)
+
     //metodo randevouz
 
     public static void main(String[] args) throws RemoteException {
         Server server = new Server();
+        server.startSocketConnection(1234);
         server.createRMIRegistry();
     }
 }

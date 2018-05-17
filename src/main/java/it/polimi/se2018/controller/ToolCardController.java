@@ -45,12 +45,12 @@ public class ToolCardController implements ToolCardHandler{
     public void useCard (CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
         try {
-            Square squareStart = player.getMap().getSquare(toolCardMessage.getStartingPosition().get(0));
+            Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
             if (squareStart.isEmpty()) {
                 throw new NoDieException();
             }
             Die dieToMove = squareStart.getDie();
-            DiePlacerNoValue placer = new DiePlacerNoValue(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getMap());
+            DiePlacerNoValue placer = new DiePlacerNoValue(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
             squareStart.setDie(null);
             updateToolCard(toolCardMessage);
@@ -68,7 +68,7 @@ public class ToolCardController implements ToolCardHandler{
         Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
         try {
             Die dieToPlace = player.getDieInHand();
-            DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), player.getMap());
+            DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
             updateToolCard(toolCardMessage);
         }
@@ -81,12 +81,12 @@ public class ToolCardController implements ToolCardHandler{
     public void useCard (EglomiseBrush toolCard, ToolCardMessage toolCardMessage)  throws ToolCardException {
         Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
         try {
-            Square squareStart = player.getMap().getSquare(toolCardMessage.getStartingPosition().get(0));
+            Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
             if (squareStart.isEmpty()) {
                 throw new NoDieException();
             }
             Die dieToMove = squareStart.getDie();
-            DiePlacerNoColor placer = new DiePlacerNoColor(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getMap());
+            DiePlacerNoColor placer = new DiePlacerNoColor(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
             squareStart.setDie(null);
             updateToolCard(toolCardMessage);
@@ -174,8 +174,8 @@ public class ToolCardController implements ToolCardHandler{
         Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
         boolean twoDiceNotCompatible = false; //this check that the two die can be moved together
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
-        Square squareOne = player.getMap().getSquare(toolCardMessage.getStartingPosition().get(0));
-        Square squareTwo = player.getMap().getSquare((toolCardMessage.getStartingPosition().get(1)));
+        Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
+        Square squareTwo = player.getWindow().getSquare((toolCardMessage.getStartingPosition().get(1)));
         Die dieOne = squareOne.getDie();
         Die dieTwo = squareTwo.getDie();
         if (dieOne.getColor() == dieTwo.getColor() || dieOne.getValue() == dieTwo.getValue()) {
@@ -188,9 +188,9 @@ public class ToolCardController implements ToolCardHandler{
             throw new ToolCardException("I due dadi non possono essere spostati insieme");
         }
         try {
-            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), player.getMap());
+            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placerOne.placeDie();
-            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getMap());
+            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow());
             placerTwo.placeDie();
             squareOne.setDie(null);
             squareTwo.setDie(null);
@@ -232,8 +232,8 @@ public class ToolCardController implements ToolCardHandler{
     public void useCard(TapWheel toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
-        Square squareOne = player.getMap().getSquare(toolCardMessage.getStartingPosition().get(0));
-        Square squareTwo = player.getMap().getSquare(toolCardMessage.getStartingPosition().get(1));
+        Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
+        Square squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));
         Die dieOne = squareOne.getDie();
         Die dieTwo = squareTwo.getDie();
         Coordinate indexRoundTracker = toolCardMessage.getRoundTrackerPosition();
@@ -251,9 +251,9 @@ public class ToolCardController implements ToolCardHandler{
             throw new ToolCardException("I due dadi non possono essere spostati insieme");
         }
         try {
-            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), player.getMap());
+            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placerOne.placeDie();
-            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getMap());
+            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow());
             placerTwo.placeDie();
             squareOne.setDie(null);
             squareTwo.setDie(null);

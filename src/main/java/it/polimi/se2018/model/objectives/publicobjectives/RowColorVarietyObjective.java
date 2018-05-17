@@ -34,7 +34,7 @@ public class RowColorVarietyObjective extends PublicObjective {
     public int evalPoints(Player player) {
         return ( (int)Stream.of(0,1,2,3) //the 4 rows
                 .map(row ->
-                        StreamSupport.stream(player.getMap().spliterator(), false)
+                        StreamSupport.stream(player.getWindow().spliterator(), false)
                                 .filter(filterRow(row))
                                 .map(Square::getDie)
                                 .filter(Objects::nonNull)

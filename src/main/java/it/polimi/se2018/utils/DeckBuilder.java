@@ -48,7 +48,7 @@ public class DeckBuilder {
         return instance;
     }
 
-    public static DeckBuilder instance(String imagePath, String title){
+    public static DeckBuilder instance(){
         if (instance==null) createInstance();
         return instance;
     }

@@ -1,8 +1,5 @@
 package it.polimi.se2018.network.messages.responses;
 
-import it.polimi.se2018.Database;
-import it.polimi.se2018.model.Map;
-import it.polimi.se2018.model.Player;
 import org.junit.Assert;
 import org.junit.Test;
 

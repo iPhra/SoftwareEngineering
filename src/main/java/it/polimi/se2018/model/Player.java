@@ -6,7 +6,7 @@ import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 public class Player {
     private final String name;
     private final int id;
-    private final Map map;
+    private final Window window;
     private final PrivateObjective privateObjective;
     private int favorPoints;
     private int score;
@@ -16,11 +16,11 @@ public class Player {
     private boolean hasDraftedDie;
     private boolean hasUsedCard;
 
-    public Player(String name, int id, Map map, PrivateObjective privateObjective) {
+    public Player(String name, int id, Window window, PrivateObjective privateObjective) {
         this.name = name;
-        this.favorPoints = map.getLevel();
+        this.favorPoints = window.getLevel();
         this.id = id;
-        this.map = map;
+        this.window = window;
         this.privateObjective = privateObjective;
         isFirstMove = false;
         hasDraftedDie = false;
@@ -43,8 +43,8 @@ public class Player {
         return id;
     }
 
-    public Map getMap() {
-        return map;
+    public Window getWindow() {
+        return window;
     }
 
     public PrivateObjective getPrivateObjective() {

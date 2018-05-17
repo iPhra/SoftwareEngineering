@@ -2,7 +2,7 @@ package it.polimi.se2018.model.objectives.publicobjectives;
 
 import it.polimi.se2018.Database;
 import it.polimi.se2018.model.Color;
-import it.polimi.se2018.model.Map;
+import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.Square;
 import it.polimi.se2018.model.objectives.privateobjectives.ShadesOfGreenObjective;
@@ -24,9 +24,9 @@ public class TestColumnColorVarietyObjective {
         database.standardWhiteMatrix();;
         matrix = database.getMatrix();
         columnColorVarietyObjective = ColumnColorVarietyObjective.instance("imagePath","title");
-        Map map = new Map("BasicMap",0, matrix);
+        Window window = new Window("BasicMap",0, matrix);
         shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath","title");
-        player = new Player("name",1,map,shadesOfGreenObjective);
+        player = new Player("name",1, window,shadesOfGreenObjective);
     }
 
     @Test
@@ -34,13 +34,13 @@ public class TestColumnColorVarietyObjective {
         assertEquals(0, columnColorVarietyObjective.evalPoints(player));
         database.sixSameColoredDice(Color.GREEN);
         matrix = database.getMatrix();
-        Map map1 = new Map("sixSameColoredDiceMap",0, matrix);
-        player = new Player("name",1,map1,shadesOfGreenObjective);
+        Window window1 = new Window("sixSameColoredDiceMap",0, matrix);
+        player = new Player("name",1, window1,shadesOfGreenObjective);
         assertEquals(0, columnColorVarietyObjective.evalPoints(player));
         database.initMatrixFullOfDice();
         matrix = database.getMatrix();
-        Map map2 = new Map("FullOfDiceMap",0, matrix);
-        player = new Player("name",1,map2,shadesOfGreenObjective);
+        Window window2 = new Window("FullOfDiceMap",0, matrix);
+        player = new Player("name",1, window2,shadesOfGreenObjective);
         assertEquals(5, columnColorVarietyObjective.evalPoints(player));
     }
 }

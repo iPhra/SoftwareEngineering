@@ -16,7 +16,7 @@ public class TestToolCardResponse {
     @Before
     public void init() {
         playerRequests= Arrays.asList("pradella","is","my","king");
-        toolCardResponse= new ToolCardResponse(0);
+        toolCardResponse= new ToolCardResponse(0,0);
     }
 
     @Test

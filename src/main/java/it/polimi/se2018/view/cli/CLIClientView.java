@@ -168,8 +168,8 @@ public class CLIClientView implements ResponseHandler, ClientView {
         int choice = -1;
         cliInput.print("Choose the information you need.");
         while (choice < 1 || choice > 9) {
-            cliInput.print("1: Print your map");
-            cliInput.print("2: Print map of a player");
+            cliInput.print("1: Print your window");
+            cliInput.print("2: Print window of a player");
             cliInput.print("3: Print draft pool");
             cliInput.print("4: Print Round Tracker");
             cliInput.print("5: Print toolcard");

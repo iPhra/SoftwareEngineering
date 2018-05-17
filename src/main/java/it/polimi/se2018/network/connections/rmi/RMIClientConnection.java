@@ -13,10 +13,6 @@ public class RMIClientConnection implements ClientConnection {
         this.server=server;
     }
 
-    public RemoteView getServer() {
-        return server;
-    }
-
     @Override
     public void sendMessage(Message message) throws RemoteException{
         server.handleNetworkInput(message);

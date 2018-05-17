@@ -33,7 +33,7 @@ public class ModelView implements Serializable{
         int index = -1;
         Player currentPlayer = board.getPlayerByIndex(board.getRound().getCurrentPlayerIndex());
         for (Player player : board.getPlayers()) {
-            playerMap.add(player.getMap().modelViewCopy());
+            playerMap.add(player.getWindow().modelViewCopy());
             playerFavorPoint.add(player.getFavorPoints());
             playerName.add(player.getName());
             playerID.add(player.getId());

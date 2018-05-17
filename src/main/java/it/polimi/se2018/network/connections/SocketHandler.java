@@ -15,11 +15,11 @@ public class SocketHandler implements Runnable{
     private ServerView serverView;
     private boolean isOpen;
 
-    SocketHandler(Server server, ServerSocket serverSocket, ExecutorService pool, ServerView serverView) {
+    SocketHandler(Server server, ServerSocket serverSocket, ServerView serverView) {
         this.server = server;
         this.serverSocket = serverSocket;
-        this.pool = pool;
         this.serverView = serverView;
+        pool = Executors.newCachedThreadPool();
     }
 
     public void run(){
@@ -27,7 +27,8 @@ public class SocketHandler implements Runnable{
         while(isOpen){
             try {
                 Socket client = serverSocket.accept();
-                pool.submit(new SocketServerConnection(client, serverView));
+                ServerConnection socketServerConnection = new SocketServerConnection(client, serverView, server);
+                pool.submit((SocketServerConnection) socketServerConnection);
             }catch(IOException e){
                 System.err.println(e.getMessage());
             }

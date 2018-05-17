@@ -1,5 +1,6 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.exceptions.InvalidPlacementException;
 import it.polimi.se2018.utils.exceptions.NoDieException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
@@ -18,14 +19,17 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.utils.Observer;
 
-public class Controller implements Observer<Message>, MessageHandler {
-    private final Board model;
+public class Controller extends Observable<Message> implements Observer<Message>, MessageHandler {
+    private Board model;
     private final ToolCardController toolCardController;
 
-    public Controller(Board model) {
+    public Controller() {
         super();
-        this.model = model;
         toolCardController = new ToolCardController(model);
+    }
+
+    public void setModel(Board model) {
+        this.model = model;
     }
 
     //reads player, checks if it's his turn, call performMove
@@ -33,6 +37,11 @@ public class Controller implements Observer<Message>, MessageHandler {
         Player player = model.getPlayerByIndex(message.getPlayerID());
         if (!model.getRound().isYourTurn(player)) model.notify(new TextResponse(message.getPlayerID(),"It's not your turn"));
         else message.handle(this);
+    }
+
+    @Override
+    public void performMove(SetupMessage setupMessage){
+        notify(setupMessage);
     }
 
     //use a toolcards
@@ -70,11 +79,11 @@ public class Controller implements Observer<Message>, MessageHandler {
             try {
                 Die die = player.getDieInHand();
                 if(player.isFirstMove()) {
-                    placeDie(new DiePlacerFirst(die,placeMessage.getFinalPosition(),player.getMap()));
+                    placeDie(new DiePlacerFirst(die,placeMessage.getFinalPosition(),player.getWindow()));
                     player.setFirstMove(true);
                 }
                 else {
-                    placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getMap()));
+                    placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getWindow()));
                 }
                 player.dropDieInHand();
                 model.notify(new ModelViewResponse(model.modelViewCopy()));
@@ -133,7 +142,7 @@ public class Controller implements Observer<Message>, MessageHandler {
                 score+=pub.evalPoints(player);
             }
             score+=player.getFavorPoints();
-            score-=player.getMap().countEmptySlots();
+            score-=player.getWindow().countEmptySlots();
             player.setScore(score);
         }
     }

@@ -10,18 +10,22 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SocketServerConnection implements Runnable, ServerConnection{
+    private Server server;
     private Socket socket;
+    private String playerName;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private boolean isOpen;
     private ServerView serverView;
 
-    SocketServerConnection(Socket socket, ServerView serverView){
+    SocketServerConnection(Socket socket, ServerView serverView, Server server){
         this.socket = socket;
         this.serverView = serverView;
+        this.server = server;
         isOpen = true;
         try {
             this.out = new ObjectOutputStream(socket.getOutputStream());
+            out.flush();
             this.in = new ObjectInputStream(socket.getInputStream());
         }catch (IOException e) {
             System.err.println(e.getMessage());
@@ -37,15 +41,29 @@ public class SocketServerConnection implements Runnable, ServerConnection{
         }
     }
 
+    private void setup() throws IOException, ClassNotFoundException{
+        boolean setup = true;
+        int playerID = server.generateID();
+        out.writeObject(playerID);
+        while (setup){
+            playerName = (String) in.readObject();
+            setup = !server.checkName(playerID, playerName);
+            out.writeObject(setup);
+        }
+        server.setPlayer(playerID,playerName,this);
+        serverView.setServerConnections(playerID, this);
+    }
+
     @Override
     public void run(){
-        while(isOpen){
-            try{
+        try{
+            setup();
+            while(isOpen){
                 Message message = (Message) in.readObject();
                 if (message != null) serverView.handleNetworkInput(message);
-            }catch(ClassNotFoundException | IOException e){
-                System.err.println(e.getMessage());
             }
+        }catch(ClassNotFoundException | IOException e){
+            System.err.println(e.getMessage());
         }
         closeConnection();
     }
