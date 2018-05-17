@@ -2,7 +2,6 @@ package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-import it.polimi.se2018.view.cli.CLIClientView;
 import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class GlazingHammer extends ToolCard {

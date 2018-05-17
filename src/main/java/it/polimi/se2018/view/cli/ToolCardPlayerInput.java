@@ -38,8 +38,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(FluxBrush toolCard, int toolcardnumber) {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
-        return  toolCardMessage;
+        return new ToolCardMessage(playerID, toolcardnumber);
     }
 
     @Override
@@ -52,14 +51,12 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(GlazingHammer toolCard, int toolcardnumber) {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
-        return  toolCardMessage;
+        return new ToolCardMessage(playerID, toolcardnumber);
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(GrindingStone toolCard, int toolcardnumber) {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
-        return  toolCardMessage;
+        return new ToolCardMessage(playerID, toolcardnumber);
     }
 
     @Override
@@ -94,8 +91,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(RunningPliers toolCard, int toolcardnumber) {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
-        return  toolCardMessage;
+        return new ToolCardMessage(playerID, toolcardnumber);
     }
 
     @Override

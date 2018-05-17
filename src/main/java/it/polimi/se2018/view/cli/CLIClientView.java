@@ -15,11 +15,11 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 public class CLIClientView implements ResponseHandler, ClientView {
-    private transient final int playerID;
+    private final transient int playerID;
     private transient List<String> playersName;
     private transient ClientConnection clientConnection;
     private transient ModelView board;
-    private transient final Scanner scanner;
+    private final transient Scanner scanner;
     private transient List<ToolCard> toolCards;
     private transient PrivateObjective privateObjective;
     private transient List<PublicObjective> publicObjectives;
