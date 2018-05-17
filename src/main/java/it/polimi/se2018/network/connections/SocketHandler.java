@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SocketHandler implements Runnable{
+public class SocketHandler implements Runnable {
     private Server server;
     private ServerSocket serverSocket;
     private ExecutorService pool;

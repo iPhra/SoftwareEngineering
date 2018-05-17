@@ -34,13 +34,31 @@ public class Client {
         output = new PrintStream(System.out);
     }
 
+    private void chooseConnection() {
+        try {
+            output.println("What type of connection do you want to use?");
+            output.println("Type 1 and insert for Socket, 2 for RMI");
+            if (input.nextInt() == 1) {
+                input.nextLine();
+                createSocketConnection("127.0.0.1",1234);
+            }
+            else {
+                input.nextLine();
+                createRMIConnection();
+            }
+
+        }
+        catch(RemoteException | NotBoundException | MalformedURLException e) {
+        }
+    }
+
     private void createRMIConnection() throws RemoteException, NotBoundException, MalformedURLException{
         RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
         playerID = manager.getID();
         while(setup) {
             output.println("Choose your nickname");
-            playerName = input.next();
-            setup = !manager.checkName(playerID,playerName);
+            playerName = input.nextLine();
+            setup = manager.checkName(playerID,playerName);
             output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
         }
         clientView = new CLIClientView(playerID);
@@ -60,7 +78,7 @@ public class Client {
                     output.println("Choose your nickname");
                     playerName = input.nextLine();
                     out.writeObject(playerName);
-                    setup = !(boolean) in.readObject();
+                    setup = (boolean) in.readObject();
                     output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
                 }
             }catch (ClassNotFoundException e) {
@@ -83,9 +101,8 @@ public class Client {
         }
     }
 
-    public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException{
+    public static void main(String[] args) {
         Client client = new Client();
-        //client.createSocketConnection("127.0.0.1",1234);
-        client.createRMIConnection();
+        client.chooseConnection();
     }
 }

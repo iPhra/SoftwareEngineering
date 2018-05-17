@@ -7,6 +7,7 @@ import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.view.ServerView;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -17,12 +18,12 @@ import java.util.Map;
 
 public class Server {
     private static final int PORT = 1234;
-    private RemoteManager remoteManager;
+    private static RemoteManager remoteManager;
     private static int matchID = 0;
     private static int playerNumber = 0; //identifies just the player, without the match
     private Map<Integer, GameManager> matches;
     private ServerSocket serverSocket;
-    private Registry registry;
+    private static Registry registry;
     private DeckBuilder deckBuilder;
 
     private Server() {
@@ -44,7 +45,6 @@ public class Server {
             catch (RemoteException e) {
                 System.err.println(e.getMessage());
             }
-
         }
         else manager = matches.get(match);
         manager.addPlayerName(playerID,playerName);
@@ -55,7 +55,7 @@ public class Server {
     }
 
     public boolean checkName(int playerID, String playerName) {
-        return matches.get(playerID/1000).checkName(playerName);
+        return matches.get(playerID/1000)==null || matches.get(playerID/1000).checkName(playerName);
     }
 
     private static void incrementMatchID() {matchID++;}
@@ -81,7 +81,7 @@ public class Server {
         try{
             serverSocket = new ServerSocket(PORT);
             SocketHandler socketHandler = new SocketHandler(this,serverSocket);
-            socketHandler.run();
+            new Thread(socketHandler).start();
         }catch(IOException e){
             System.err.println(e.getMessage());
         }
@@ -95,10 +95,9 @@ public class Server {
         }
     }
 
-    //metodi per creare Tool Cards, Private Objectives, Public Objectives (classe deck?)
-
     public static void main(String[] args) throws RemoteException {
         Server server = new Server();
+        new PrintStream(System.out).println("Listening...");
         server.startSocketConnection();
         server.createRMIRegistry();
     }

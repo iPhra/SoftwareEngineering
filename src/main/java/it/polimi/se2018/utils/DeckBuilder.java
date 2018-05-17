@@ -15,6 +15,9 @@ public class DeckBuilder {
     private List<PrivateObjective> privateObjectives;
 
     private DeckBuilder() {
+        toolCards = new ArrayList<>();
+        publicObjectives = new ArrayList<>();
+        privateObjectives = new ArrayList<>();
         toolCards.add(new CopperFoilBurnisher());
         toolCards.add(new CorkBackedStraightedge());
         toolCards.add(new EglomiseBrush());
