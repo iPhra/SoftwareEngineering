@@ -2,11 +2,16 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
+import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
+import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
+import it.polimi.se2018.network.messages.responses.SetupResponse;
 import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.utils.Observer;
+import it.polimi.se2018.utils.WindowBuilder;
 import it.polimi.se2018.view.ServerView;
 
 
@@ -15,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameManager implements Runnable,Observer<Message>{
+public class GameManager implements Runnable, Observer<Message>{
     private DeckBuilder deckBuilder;
     private ServerView serverView;
     private Board board;
@@ -25,6 +30,9 @@ public class GameManager implements Runnable,Observer<Message>{
     private Map<Integer, String> playerNames; //maps playerID to its name
     private List<Player> players;
     private List<PrivateObjective> privateObjectives;
+    private List<PublicObjective> publicObjectives;
+    private List<ToolCard> toolCards;
+    private List<Window> windows;
 
     public GameManager(DeckBuilder deckBuilder){
         this.deckBuilder = deckBuilder;
@@ -68,23 +76,49 @@ public class GameManager implements Runnable,Observer<Message>{
 
     public void run(){
         startGame();
+        receiveWindows();
     }
 
     private void startGame(){
         controller = new Controller();
         controller.register(this);
         createPrivateObjectives();
-        //costruisce i pubblici
-        //costruisce le toolcard
-        //invia tutto
+        createPublicObjectives();
+        createToolCards();
+        createWindows();
+        for(int i=0;i<playerIDs.size();i++) {
+            List<Window> windowsToSend = new ArrayList<>();
+            for(int j=i*4;j<i*4+4;j++){
+                windowsToSend.add(windows.get(j));
+            }
+            serverView.update(new SetupResponse(
+                    playerIDs.get(i),windowsToSend,publicObjectives,privateObjectives.get(i),toolCards));
+        }
     }
 
-    //rinominalo generatePrivateObjectives();
-    //assign privateObjective to every player
+    //create a privateObjective for each player (does not assign them to the players)
     private void createPrivateObjectives() {
         privateObjectives = new ArrayList<>();
         privateObjectives = deckBuilder.extractPrivateObjectives(playerIDs.size());
+    }
 
+    //create the 3 public objectives of the game
+    private void createPublicObjectives(){
+        publicObjectives = new ArrayList<>();
+        publicObjectives = deckBuilder.extractPublicObjectives(3);
+    }
+
+    //create the 3 toolcards of the game
+    private void createToolCards(){
+        toolCards = new ArrayList<>();
+        toolCards = deckBuilder.extractToolCards(3);
+    }
+
+    //create 4 "faces" of window for each player (does not assign them to the players,
+    // note that players must choose their own window
+    private void createWindows(){
+        windows = new ArrayList<>();
+        windows = WindowBuilder.extractWindows(playerIDs.size());
     }
 
     //create the list of Player of the game
@@ -95,7 +129,7 @@ public class GameManager implements Runnable,Observer<Message>{
         }
     }
 
-    private void sendWindows(){
+    private void receiveWindows() {
 
     }
 

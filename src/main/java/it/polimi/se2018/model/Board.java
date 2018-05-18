@@ -15,7 +15,6 @@ public class Board extends Observable<Response> {
     public static final int ROUNDSNUMBER = 10; //number of rounds in one game
     public static final int TOOLCARDSNUMBER = 3;
     private Round round;
-    private final String imagePath;
     private final int playersNumber;
     private final List<Player> players; //contiene la mappa di ciascun giocatore
     private final DraftPool draftPool; //draft pool
@@ -25,9 +24,8 @@ public class Board extends Observable<Response> {
     private final Bag bag; //ha il riferimento al sacchetto dei dadi
     private final RoundTracker roundTracker; //ha il riferimento al roundTracker
 
-    public Board(List<Player> players, String imagePath, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
+    public Board(List<Player> players, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
         this.players = players;
-        this.imagePath = imagePath;
         this.playersNumber=players.size();
         ArrayList<Integer> playersId = new ArrayList<>(playersNumber);
         for (Player player : players) {
@@ -64,10 +62,6 @@ public class Board extends Observable<Response> {
 
     public List<Player> getPlayers() {
         return players;
-    }
-
-    public String getImagePath() {
-        return imagePath;
     }
 
     public ToolCard[] getToolCards() {
