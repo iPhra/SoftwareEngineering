@@ -8,6 +8,7 @@ import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
+import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.SetupResponse;
 import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.utils.Observer;
@@ -33,12 +34,15 @@ public class GameManager implements Runnable, Observer<Message>{
     private List<PublicObjective> publicObjectives;
     private List<ToolCard> toolCards;
     private List<Window> windows;
+    private int numberOfSetupsCompleted;
 
     public GameManager(DeckBuilder deckBuilder){
         this.deckBuilder = deckBuilder;
         this.playerIDs = new ArrayList<>();
         this.serverConnections = new HashMap<>();
         this.playerNames = new HashMap<>();
+        this.players = new ArrayList<>();
+        numberOfSetupsCompleted = 0;
     }
 
     public void addServerConnection(int playerID ,ServerConnection serverConnection) {
@@ -77,6 +81,8 @@ public class GameManager implements Runnable, Observer<Message>{
     public void run(){
         startGame();
         receiveWindows();
+        controller.setModel(
+                new Board(players,(ToolCard[]) toolCards.toArray(new ToolCard[0]),(PublicObjective[]) publicObjectives.toArray(new PublicObjective[0])));
     }
 
     private void startGame(){
@@ -121,18 +127,14 @@ public class GameManager implements Runnable, Observer<Message>{
         windows = WindowBuilder.extractWindows(playerIDs.size());
     }
 
-    //create the list of Player of the game
-    private void createListOfPlayer() {
-        players = new ArrayList<>();
-        for (Integer playerID : playerNames.keySet()) {
-            //players.add(new Player(playerNames.get(playerID), playerID, window, privateObjective));
-        }
-    }
-
     private void receiveWindows() {
-
+        while (numberOfSetupsCompleted < playerIDs.size());
     }
 
     public void update(Message message){
+        SetupMessage setupMessage = (SetupMessage) message;
+        players.add(new Player(
+                playerNames.get(setupMessage.getPlayerID()),setupMessage.getPlayerID(),setupMessage.getWindow(),privateObjectives.get(numberOfSetupsCompleted)));
+        numberOfSetupsCompleted++;
     }
 }
