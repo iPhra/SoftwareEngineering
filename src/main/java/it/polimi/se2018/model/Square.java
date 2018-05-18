@@ -20,6 +20,14 @@ public class Square implements Serializable{
         die=null;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
     public Die getDie() {
         return die;
     }

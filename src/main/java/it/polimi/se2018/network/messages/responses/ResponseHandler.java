@@ -11,4 +11,6 @@ public interface ResponseHandler {
     void handleResponse(ToolCardResponse toolCardResponse);
 
     void handleResponse(SetupResponse setupResponse);
+
+    void handleResponse(InputResponse inputResponse);
 }

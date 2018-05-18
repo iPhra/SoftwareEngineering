@@ -40,5 +40,4 @@ public enum Color implements Serializable {
             default : return null;
         }
     }
-
 }

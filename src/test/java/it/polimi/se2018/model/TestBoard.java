@@ -46,7 +46,7 @@ public class TestBoard {
         publicObjectives = new PublicObjective[2];
         publicObjectives[0] = DeepShadesObjective.instance("title1");
         publicObjectives[1] = RowColorVarietyObjective.instance("title2");
-        board = new Board (players,"boardImagePath", toolCards, publicObjectives);
+        board = new Board (players,toolCards, publicObjectives);
 
     }
 
@@ -83,11 +83,6 @@ public class TestBoard {
     @Test
     public void testGetPlayers(){
         assertEquals(players, board.getPlayers());
-    }
-
-    @Test
-    public void testGetImagePath(){
-        assertEquals("boardImagePath", board.getImagePath());
     }
 
     @Test
@@ -145,9 +140,9 @@ public class TestBoard {
         Assert.assertTrue(modelView.getUsedToolCards().containsAll(board.modelViewCopy().getUsedToolCards()) &&
                 board.modelViewCopy().getUsedToolCards().containsAll(modelView.getUsedToolCards()));
         Assert.assertEquals(modelView.getTurn(),board.modelViewCopy().getTurn());
-        for(int i=0; i<modelView.getPlayerMap().size(); i++) {
-            for(int j=0; j<modelView.getPlayerMap().get(i).length; j++) {
-                Assert.assertTrue(Arrays.equals(modelView.getPlayerMap().get(i)[j],board.modelViewCopy().getPlayerMap().get(i)[j]));
+        for(int i=0; i<modelView.getPlayerWindow().size(); i++) {
+            for(int j=0; j<modelView.getPlayerWindow().get(i).length; j++) {
+                Assert.assertTrue(Arrays.equals(modelView.getPlayerWindow().get(i)[j],board.modelViewCopy().getPlayerWindow().get(i)[j]));
             }
 
         }

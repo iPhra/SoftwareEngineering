@@ -39,4 +39,5 @@ public interface MessageHandler {
 
     void performMove(SetupMessage setupMessage);
 
+    void performMove(InputMessage inputMessage);
 }

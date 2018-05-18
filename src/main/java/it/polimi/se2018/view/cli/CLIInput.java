@@ -1,12 +1,11 @@
 package it.polimi.se2018.view.cli;
 
-import it.polimi.se2018.model.Die;
-import it.polimi.se2018.model.ModelView;
-import it.polimi.se2018.model.Square;
+import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
+
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
@@ -39,6 +38,22 @@ public class CLIInput {
         return publicObjectives;
     }
 
+    public void setPlayersName(List<String> playersName) {
+        this.playersName = playersName;
+    }
+
+    public void setToolCards(List<ToolCard> toolCards) {
+        this.toolCards = toolCards;
+    }
+
+    public void setPrivateObjective(PrivateObjective privateObjective) {
+        this.privateObjective = privateObjective;
+    }
+
+    public void setPublicObjectives(List<PublicObjective> publicObjectives) {
+        this.publicObjectives = publicObjectives;
+    }
+
     void print(String string) {
         printStream.println(string);
     }
@@ -54,7 +69,7 @@ public class CLIInput {
     }
 
 
-    public Coordinate getDieInMap() {
+    Coordinate getDieInMap() {
         printStream.println("Choose the die in the window");
         return getCoordinate();
     }
@@ -62,7 +77,7 @@ public class CLIInput {
     public Coordinate getCoordinate() {
         int row = -1;
         int col = -1;
-        printYourMap();
+        printYourWindow();
         while (row < 0 || row > 3) {
             printStream.print("Choose the row");
             row = scanner.nextInt();
@@ -74,7 +89,7 @@ public class CLIInput {
         return new Coordinate(row, col);
     }
 
-    public Coordinate getRoundTrackPosition() {
+    Coordinate getRoundTrackPosition() {
         int turn = -1;
         int pos = -1;
         printRoundTracker();
@@ -89,7 +104,7 @@ public class CLIInput {
         return new Coordinate(turn, pos);
     }
 
-    public int getToolCard() {
+    int getToolCard() {
         int choice = -1;
         while (choice < 0 || choice > toolCards.size()) {
             printToolcard();
@@ -127,6 +142,19 @@ public class CLIInput {
         return choice;
     }
 
+    void getPlayerWindow() {
+        printStream.print("Choose the player:");
+        int choicePlayer = -1;
+        while (choicePlayer < 0 || choicePlayer > playersName.size()) {
+            for(int i = 0; i < playersName.size(); i++){
+                printStream.print(i + "\b" + playersName.get(i));
+            }
+            choicePlayer = scanner.nextInt();
+        }
+        Square[][] window = board.getPlayerWindow().get(choicePlayer);
+        printPlayerWindow(window);
+    }
+
     void printDraftPool() {
         printStream.println("Dice on Draftpool are:");
         for (int i = 0; i < board.getDraftPool().size(); i++) {
@@ -143,10 +171,10 @@ public class CLIInput {
         }
     }
 
-    void printYourMap() {
+    void printYourWindow() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
-        Square[][] map = board.getPlayerMap().get(yourIndex);
-        for (Square[] row : map) {
+        Square[][] window = board.getPlayerWindow().get(yourIndex);
+        for (Square[] row : window) {
             for (Square square : row) {
                 printDie(square.getDie());
             }
@@ -154,25 +182,84 @@ public class CLIInput {
         }
     }
 
-    void printPlayerMap() {
-        printStream.print("Choose the player:");
-        int choicePlayer = -1;
-        while (choicePlayer < 0 || choicePlayer > playersName.size()) {
-            for(int i = 0; i < playersName.size(); i++){
-                printStream.print(i + "\b" + playersName.get(i));
-            }
-            choicePlayer = scanner.nextInt();
-        }
-        Square[][] map = board.getPlayerMap().get(choicePlayer);
-        for (Square[] row : map) {
+    void printPlayerWindow(Square[][] window) {
+        for (Square[] row : window) {
             for (Square square : row) {
-                printDie(square.getDie());
+                printSquare(square);
             }
             printStream.print("\n");
+        }
+    }
+
+    void printSquare(Square square) {
+        String toPrint = "";
+        if (!square.isEmpty()) {
+            printDie(square.getDie());
+        } else {
+            if (!square.getColor().equals(Color.WHITE)) {
+                switch (Color.fromColor(square.getColor())) {
+                    case 1:
+                        toPrint = "nb\b";
+                        break;
+                    case 2:
+                        toPrint = "nr\b";
+                        break;
+                    case 3:
+                        toPrint = "ng\b";
+                        break;
+                    case 4:
+                        toPrint = "ny\b";
+                        break;
+                    case 5:
+                        toPrint = "np\b";
+                        break;
+                }
+            }
+            if (square.getValue() != 0) {
+                switch (getValueDie()) {
+                    case 1:
+                        toPrint = "n1\b";
+                        break;
+                    case 2:
+                        toPrint = "n2\b";
+                        break;
+                    case 3:
+                        toPrint = "n3\b";
+                        break;
+                    case 4:
+                        toPrint = "n4\b";
+                        break;
+                    case 5:
+                        toPrint = "n5\b";
+                        break;
+                    case 6:
+                        toPrint = "n6\b";
+                        break;
+                }
+            }
+            else {
+                toPrint = "nn";
+            }
         }
     }
 
     void printDie(Die die) {
+        String toPrint = "";
+        switch (getValueDie()) {
+            case 1 : toPrint = "1"; break;
+            case 2 : toPrint = "2"; break;
+            case 3 : toPrint = "3"; break;
+            case 4 : toPrint = "4"; break;
+            case 5 : toPrint = "5"; break;
+            case 6 : toPrint = "6"; break;
+        }
+        switch (Color.fromColor(die.getColor())) {
+            case 1 : toPrint = toPrint + "B\b"; break;
+            case 2 : toPrint = toPrint + "R\b"; break;
+            case 3 : toPrint = toPrint + "G\b"; break;
+            case 4 : toPrint = toPrint + "Y\b"; break;
+            case 5 : toPrint = toPrint + "P\b"; break;
+        }
     }
 
     void printToolcard() {
@@ -190,5 +277,9 @@ public class CLIInput {
         printStream.println(privateObjective.getTitle() + "\b" + privateObjective.getDescription());
     }
 
-    void printPublicObjective() {}
+    void printPublicObjective() {
+        for (PublicObjective obj : publicObjectives) {
+            printStream.println(obj.getDescription());
+        }
+    }
 }

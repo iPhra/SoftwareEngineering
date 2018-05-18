@@ -2,6 +2,7 @@ package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
+import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
 
 public class GlazingHammer extends ToolCard {
@@ -11,8 +12,8 @@ public class GlazingHammer extends ToolCard {
     }
 
     @Override
-    public void handle(ToolCardHandler handler, ToolCardMessage message) {
-        handler.useCard(this, message);
+    public Response handle(ToolCardHandler handler, ToolCardMessage message) {
+        return handler.useCard(this, message);
     }
 
     @Override

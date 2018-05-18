@@ -88,4 +88,3 @@ public class WindowBuilder {
         return linearWindows;
     }
 }
-

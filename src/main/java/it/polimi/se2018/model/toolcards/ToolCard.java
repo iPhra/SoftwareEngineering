@@ -1,6 +1,8 @@
 package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
+import it.polimi.se2018.network.messages.responses.Response;
+import it.polimi.se2018.utils.exceptions.FluxRemoverException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
@@ -29,7 +31,7 @@ public abstract class ToolCard {
         return conditionRequests;
     }
 
-    public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
+    public abstract Response handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 
     public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber);
 }

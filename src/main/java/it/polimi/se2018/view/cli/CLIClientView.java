@@ -1,6 +1,7 @@
 package it.polimi.se2018.view.cli;
 
 import it.polimi.se2018.model.ModelView;
+import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
@@ -64,6 +65,17 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     }
 
     @Override
+    public void handleResponse(InputResponse inputResponse) {
+        cliInput.print("Color of the die is " + inputResponse.getColor());
+        int choice = cliInput.getValueDie();
+        try {
+            clientConnection.sendMessage(new InputMessage(playerID, choice));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     //chamo inizio turno
     public void handleResponse(TurnStartResponse turnStartResponse) {
         try {
@@ -84,38 +96,43 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
 
     @Override
     public void handleResponse(SetupResponse setupResponse) {
+        //cliInput.setPlayersName(setupResponse.PlayersName);
+        cliInput.setPrivateObjective(setupResponse.getPrivateObjective());
+        cliInput.setPublicObjectives(setupResponse.getPublicObjectives());
+        cliInput.setToolCards(setupResponse.getToolCards());
+        selectWindow(setupResponse.getWindows());
         //implementare per far scegliere le mappe
     }
 
     private List<Integer> actionPossible() {
         List<Integer> choosable = new ArrayList<>();
+        choosable.add(1);
         if (!board.hasDraftedDie()) {
-            choosable.add(1);
-        }
-        if (board.hasDieInHand()) {
             choosable.add(2);
         }
-        if (!board.hasUsedCard()) {
+        if (board.hasDieInHand()) {
             choosable.add(3);
         }
-        choosable.add(4);
+        if (!board.hasUsedCard()) {
+            choosable.add(4);
+        }
         choosable.add(5);
         return choosable;
     }
 
-    public void printActionPermitted(List<Integer> choosable) {
+    private void printActionPermitted(List<Integer> choosable) {
         for (int i : choosable) {
+            cliInput.print("[1] Ask information of the game");
             if (i == 1) {
-                cliInput.print("1: Draft a die");
+                cliInput.print("[2] Draft a die");
             }
             if (i == 2) {
-                cliInput.print("2: Place the drafted die");
+                cliInput.print("[3] Place the drafted die");
             }
             if (i == 3) {
-                cliInput.print("3: Select a toolcard");
+                cliInput.print("[4] Select a toolcard");
             }
-            cliInput.print("4: Pass turn");
-            cliInput.print("5: Ask for information of the game");
+            cliInput.print("[5] Pass turn");
         }
     }
 
@@ -130,15 +147,34 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             choice = scanner.nextInt();
         }
         if (choice == 1) {
-            draftDie();
-        } else if (choice == 2) {
-            placeDie();
-        } else if (choice == 3) {
-            selectToolcard();
-        } else if (choice == 4) {
-            passTurn();
-        } else if (choice == 5) {
             askInformation();
+        } else if (choice == 2) {
+            draftDie();
+        } else if (choice == 3) {
+            placeDie();
+        } else if (choice == 4) {
+            selectToolcard();
+        } else if (choice == 5) {
+            passTurn();
+        }
+    }
+
+    private void selectWindow(List<Window> windows) {
+        int choice = -1;
+        while (choice < 0 || choice > 5) {
+            cliInput.print("Select your window");
+            int i = 1;
+            for(Window window : windows) {
+                cliInput.print("Press [" + i + "] to select this window");
+                cliInput.printPlayerWindow(window.modelViewCopy());
+                cliInput.print("The level of the window is\b" + String.valueOf(window.getLevel()));
+                i++;
+            }
+            cliInput.print("[5] Ask information");
+            choice = scanner.nextInt();
+            if (choice == 1) {
+                this.askInformation();
+            }
         }
     }
 
@@ -173,20 +209,20 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         int choice = -1;
         cliInput.print("Choose the information you need.");
         while (choice < 1 || choice > 9) {
-            cliInput.print("1: Print your window");
-            cliInput.print("2: Print window of a player");
-            cliInput.print("3: Print draft pool");
-            cliInput.print("4: Print Round Tracker");
-            cliInput.print("5: Print toolcard");
-            cliInput.print("6: Print public objective");
-            cliInput.print("7: Print your private objecgive");
-            cliInput.print("8: Print your favor points");
+            cliInput.print("[1] Print your window");
+            cliInput.print("[2] Print window of a player");
+            cliInput.print("[3] Print draft pool");
+            cliInput.print("[4] Print round tracker");
+            cliInput.print("[5] Print toolcard");
+            cliInput.print("[6] Print public objective");
+            cliInput.print("[7] Print your private objecgive");
+            cliInput.print("[8] Print your favor points");
             choice = scanner.nextInt();
         }
         switch (choice) {
-            case 1: cliInput.printYourMap();
+            case 1: cliInput.printYourWindow();
                     break;
-            case 2: cliInput.printPlayerMap();
+            case 2: cliInput.getPlayerWindow();
                     break;
             case 3: cliInput.printDraftPool();
                     break;

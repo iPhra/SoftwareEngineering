@@ -1,6 +1,7 @@
 package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
+import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 
 
@@ -14,8 +15,8 @@ public class TapWheel extends ToolCard {
     }
 
     @Override
-    public void handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
-        handler.useCard(this, message);
+    public Response handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
+        return handler.useCard(this, message);
     }
 
     @Override

@@ -1,16 +1,11 @@
 package it.polimi.se2018.controller;
 
+import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.utils.Observable;
-import it.polimi.se2018.utils.exceptions.InvalidPlacementException;
-import it.polimi.se2018.utils.exceptions.NoDieException;
-import it.polimi.se2018.utils.exceptions.ToolCardException;
+import it.polimi.se2018.utils.exceptions.*;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.network.messages.requests.*;
-import it.polimi.se2018.network.messages.responses.ModelViewResponse;
-import it.polimi.se2018.network.messages.responses.TextResponse;
-import it.polimi.se2018.network.messages.responses.ToolCardResponse;
-import it.polimi.se2018.network.messages.responses.TurnStartResponse;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.controller.placementlogic.DiePlacer;
 import it.polimi.se2018.controller.placementlogic.DiePlacerFirst;
@@ -50,10 +45,21 @@ public class Controller extends Observable<Message> implements Observer<Message>
         Player player = model.getPlayerByIndex(toolCardMessage.getPlayerID());
         try {
             ToolCard toolCard = model.getToolCards()[player.getCardInUse()];
-            toolCard.handle(toolCardController,toolCardMessage);
-            model.notify(new ModelViewResponse(model.modelViewCopy()));
+            Response response = toolCard.handle(toolCardController,toolCardMessage);
+            model.notify(response);
         }
         catch (ToolCardException e) {model.notify(new TextResponse(toolCardMessage.getPlayerID(),e.getMessage()));}
+    }
+
+    @Override
+    public void performMove(InputMessage inputMessage) {
+        Player player = model.getPlayerByIndex(inputMessage.getPlayerID());
+        try {
+            player.getDieInHand().setValue(inputMessage.getDieValue());
+            model.notify(new ModelViewResponse(model.modelViewCopy()));
+        } catch (DieException e) {
+            model.notify(new TextResponse(inputMessage.getPlayerID(), e.getMessage()));
+        }
     }
 
     @Override

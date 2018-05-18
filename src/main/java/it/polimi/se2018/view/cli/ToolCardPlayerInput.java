@@ -44,8 +44,6 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
     @Override
     public ToolCardMessage getPlayerRequests(FluxRemover toolCard, int toolcardnumber) {
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
-        int value = cliInput.getValueDie();
-        toolCardMessage.addValue(value);
         return  toolCardMessage;
     }
 
