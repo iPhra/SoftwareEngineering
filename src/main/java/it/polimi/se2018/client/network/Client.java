@@ -2,8 +2,8 @@ package it.polimi.se2018.client.network;
 
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.network.connections.rmi.RemoteView;
-import it.polimi.se2018.view.ClientView;
-import it.polimi.se2018.view.cli.CLIClientView;
+import it.polimi.se2018.client.view.ClientView;
+import it.polimi.se2018.client.view.cli.CLIClientView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -62,9 +62,11 @@ public class Client {
             output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
         }
         clientView = new CLIClientView(playerID);
+        CLIClientView view = (CLIClientView) clientView;
         manager.addClient(playerID, playerName, (RemoteView) UnicastRemoteObject.exportObject(clientView,0));
         RemoteView server = (RemoteView) Naming.lookup("//localhost/RemoteView");
         connection = new RMIClientConnection(server);
+        view.setClientConnection(connection);
     }
 
     private void createSocketConnection(String host, int port){
@@ -85,9 +87,11 @@ public class Client {
                 System.err.println(e.getMessage());
             }
             clientView = new CLIClientView(playerID);
+            CLIClientView view = (CLIClientView) clientView;
             SocketClientConnection socketClientConnection = new SocketClientConnection(socket, (ClientView) clientView,in,out);
             socketClientConnection.run();
             connection = socketClientConnection;
+            view.setClientConnection(connection);
         } catch(IOException e){
             System.err.println(e.getMessage());
         }

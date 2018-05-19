@@ -1,4 +1,4 @@
-package it.polimi.se2018.view.cli;
+package it.polimi.se2018.client.view.cli;
 
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
@@ -20,6 +20,7 @@ public class CLIInput {
     private List<ToolCard> toolCards;
     private PrivateObjective privateObjective;
     private List<PublicObjective> publicObjectives;
+    private Window window;
     private PrintStream printStream;
 
     CLIInput(int playerID) {
@@ -46,6 +47,10 @@ public class CLIInput {
 
     public void setPlayersName(List<String> playersName) {
         this.playersName = playersName;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
     }
 
     public void setToolCards(List<ToolCard> toolCards) {

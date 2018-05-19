@@ -1,4 +1,4 @@
-package it.polimi.se2018.view.cli;
+package it.polimi.se2018.client.view.cli;
 
 import it.polimi.se2018.model.ModelView;
 import it.polimi.se2018.model.Window;
@@ -9,7 +9,7 @@ import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.*;
-import it.polimi.se2018.view.ClientView;
+import it.polimi.se2018.client.view.ClientView;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -96,11 +96,18 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
 
     @Override
     public void handleResponse(SetupResponse setupResponse) {
-        //cliInput.setPlayersName(setupResponse.PlayersName);
+        cliInput.setPlayersName(setupResponse.getPlayerNames());
         cliInput.setPrivateObjective(setupResponse.getPrivateObjective());
         cliInput.setPublicObjectives(setupResponse.getPublicObjectives());
         cliInput.setToolCards(setupResponse.getToolCards());
-        selectWindow(setupResponse.getWindows());
+        int windowNumber = selectWindow(setupResponse.getWindows())-1;
+        cliInput.setWindow(setupResponse.getWindows().get(windowNumber));
+        try {
+            clientConnection.sendMessage(new SetupMessage(playerID,setupResponse.getWindows().get(windowNumber)));
+        }
+        catch (RemoteException e) {
+        }
+
     }
 
     private List<Integer> actionPossible() {
@@ -155,7 +162,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         }
     }
 
-    private void selectWindow(List<Window> windows) {
+    private int selectWindow(List<Window> windows) {
         int choice = -1;
         while (choice < 0 || choice > 5) {
             cliInput.print("Select your window");
@@ -172,6 +179,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
                 this.askInformation();
             }
         }
+        return choice;
     }
 
     private void passTurn() throws RemoteException{

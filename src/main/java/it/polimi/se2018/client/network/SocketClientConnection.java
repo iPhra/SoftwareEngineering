@@ -1,9 +1,8 @@
 package it.polimi.se2018.client.network;
 
-import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
-import it.polimi.se2018.view.ClientView;
+import it.polimi.se2018.client.view.ClientView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

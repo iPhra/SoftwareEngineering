@@ -82,6 +82,7 @@ public class GameManager implements Observer<Message>{
     private void createMVC() {
         board = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
         controller.setModel(board);
+        controller.startMatch();
     }
 
     private void startSetup(){

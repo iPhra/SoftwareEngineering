@@ -1,4 +1,4 @@
-package it.polimi.se2018.view.cli;
+package it.polimi.se2018.client.view.cli;
 
 import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.Coordinate;

@@ -6,7 +6,7 @@ import it.polimi.se2018.utils.exceptions.ToolCardException;
 
 
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-import it.polimi.se2018.view.cli.ToolCardPlayerInputHandler;
+import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 public class TapWheel extends ToolCard {
 
