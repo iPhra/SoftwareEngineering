@@ -10,21 +10,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketClientConnection implements Runnable, ClientConnection {
+public class SocketClientConnection implements ClientConnection {
     private final Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private ClientView clientView;
     private boolean isOpen;
 
-    public SocketClientConnection(Socket socket, ClientView clientView){
+    public SocketClientConnection(Socket socket, ClientView clientView, ObjectInputStream in, ObjectOutputStream out){
         this.socket = socket;
-        try{
-            this.in = new ObjectInputStream(socket.getInputStream());
-            this.out = new ObjectOutputStream((socket.getOutputStream()));
-        }catch(IOException e){
-            System.err.println(e.getMessage());
-        }
+        //try{
+            //this.in = new ObjectInputStream(socket.getInputStream());
+            //this.out = new ObjectOutputStream((socket.getOutputStream()));
+            this.in = in;
+            this.out = out;
+        //}catch(IOException e){
+         //   System.err.println(e.getMessage());
+        //}
         this.clientView = clientView;
     }
 

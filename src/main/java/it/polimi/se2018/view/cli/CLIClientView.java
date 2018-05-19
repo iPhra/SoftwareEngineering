@@ -163,7 +163,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             for(Window window : windows) {
                 cliInput.print("Press [" + i + "] to select this window");
                 cliInput.printPlayerWindow(window.modelViewCopy());
-                cliInput.print("The level of the window is\b" + window.getLevel());
+                cliInput.print("The level of the window is " + window.getLevel());
                 i++;
             }
             cliInput.print("[5] Ask information");

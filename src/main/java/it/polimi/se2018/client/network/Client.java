@@ -85,7 +85,7 @@ public class Client {
                 System.err.println(e.getMessage());
             }
             clientView = new CLIClientView(playerID);
-            SocketClientConnection socketClientConnection = new SocketClientConnection(socket, (ClientView) clientView);
+            SocketClientConnection socketClientConnection = new SocketClientConnection(socket, (ClientView) clientView,in,out);
             socketClientConnection.run();
             connection = socketClientConnection;
         } catch(IOException e){

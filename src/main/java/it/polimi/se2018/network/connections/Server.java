@@ -53,6 +53,8 @@ public class Server {
         manager.addPlayerID(playerID);
         serverConnection.setServerView(manager.getServerView());
         manager.getServerView().addServerConnection(playerID,serverConnection);
+        if (isMatchFull())
+            manager.sendWindows();
     }
 
     public boolean checkName(int playerID, String playerName) {

@@ -43,7 +43,7 @@ public class GameManager implements Observer<Message>{
         this.playerNames = new HashMap<>();
         this.players = new ArrayList<>();
         setupsCompleted = 0;
-        sendSetup();
+        startSetup();
     }
 
     public void addServerConnection(int playerID ,ServerConnection serverConnection) {
@@ -84,21 +84,11 @@ public class GameManager implements Observer<Message>{
         controller.setModel(board);
     }
 
-    private void sendSetup(){
+    private void startSetup(){
         controller = new Controller();
         controller.register(this);
-        createPrivateObjectives();
         createPublicObjectives();
         createToolCards();
-        createWindows();
-        for(int i=0;i<playerIDs.size();i++) {
-            List<Window> windowsToSend = new ArrayList<>();
-            for(int j=i*4;j<i*4+4;j++){
-                windowsToSend.add(windows.get(j));
-            }
-            serverView.update(new SetupResponse(
-                    playerIDs.get(i),windowsToSend,publicObjectives,privateObjectives.get(i),toolCards,new ArrayList<>(playerNames.values())));
-        }
     }
 
     //create a privateObjective for each player (does not assign them to the players)
@@ -126,6 +116,20 @@ public class GameManager implements Observer<Message>{
         windows = WindowBuilder.extractWindows(playerIDs.size());
     }
 
+    public void sendWindows(){
+        createPrivateObjectives();
+        createWindows();
+        for(int i=0;i<playerIDs.size();i++) {
+            List<Window> windowsToSend = new ArrayList<>();
+            for(int j=i*4;j<i*4+4;j++){
+                windowsToSend.add(windows.get(j));
+            }
+            serverView.update(new SetupResponse(
+                    playerIDs.get(i),windowsToSend,publicObjectives,privateObjectives.get(i),toolCards,new ArrayList<>(playerNames.values())));
+        }
+    }
+
+    //when a player send the map he chose
     public void update(Message message){
         SetupMessage setupMessage = (SetupMessage) message;
         players.add(new Player(playerNames.get(setupMessage.getPlayerID()),setupMessage.getPlayerID(),setupMessage.getWindow(),privateObjectives.get(setupsCompleted)));

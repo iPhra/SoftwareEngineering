@@ -198,49 +198,49 @@ public class CLIInput {
         } else {
             if (!square.getColor().equals(Color.WHITE)) {
                 switch (Color.fromColor(square.getColor())) {
+                    case 0:
+                        toPrint = "nb ";
+                        break;
                     case 1:
-                        toPrint = "nb\b";
+                        toPrint = "nr ";
                         break;
                     case 2:
-                        toPrint = "nr\b";
+                        toPrint = "ng ";
                         break;
                     case 3:
-                        toPrint = "ng\b";
+                        toPrint = "ny ";
                         break;
                     case 4:
-                        toPrint = "ny\b";
+                        toPrint = "np ";
                         break;
-                    case 5:
-                        toPrint = "np\b";
-                        break;
-                    default : break;
+                    default : toPrint = "KO ";
                 }
             }
-            if (square.getValue() != 0) {
-                switch (getValueDie()) {
+            else if (square.getValue() != 0) {
+                switch (square.getValue()) {
                     case 1:
-                        toPrint = "n1\b";
+                        toPrint = "n1 ";
                         break;
                     case 2:
-                        toPrint = "n2\b";
+                        toPrint = "n2 ";
                         break;
                     case 3:
-                        toPrint = "n3\b";
+                        toPrint = "n3 ";
                         break;
                     case 4:
-                        toPrint = "n4\b";
+                        toPrint = "n4 ";
                         break;
                     case 5:
-                        toPrint = "n5\b";
+                        toPrint = "n5 ";
                         break;
                     case 6:
-                        toPrint = "n6\b";
+                        toPrint = "n6 ";
                         break;
                     default : break;
                 }
             }
             else {
-                toPrint = "nn";
+                toPrint = "nn ";
             }
         }
         printStream.print(toPrint);
