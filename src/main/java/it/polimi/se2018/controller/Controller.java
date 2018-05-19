@@ -187,6 +187,10 @@ public class Controller extends Observable<Message> implements Observer<Message>
         diePlacer.placeDie();
     }
 
+    public void startMatch() {
+        model.notify(new TurnStartResponse(model.getRound().getCurrentPlayerIndex()));
+    }
+
     @Override
     public void update(Message input) {
         checkInput(input);

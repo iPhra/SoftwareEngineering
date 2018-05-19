@@ -6,6 +6,11 @@ public class TurnStartResponse extends Response {
         super(player);
     }
 
+    /**
+     * Uses the handler to handle this specific notification response
+     * @param responseHandler is the object who will handle this response
+     */
+    @Override
     public void handle(ResponseHandler responseHandler) {
         responseHandler.handleResponse(this);
     }

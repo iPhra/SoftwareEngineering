@@ -1,5 +1,6 @@
-package it.polimi.se2018.network.connections;
+package it.polimi.se2018.client.network;
 
+import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.view.ClientView;
@@ -9,14 +10,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketClientConnection implements Runnable, ClientConnection{
+public class SocketClientConnection implements Runnable, ClientConnection {
     private final Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private ClientView clientView;
     private boolean isOpen;
 
-    SocketClientConnection(Socket socket, ClientView clientView){
+    public SocketClientConnection(Socket socket, ClientView clientView){
         this.socket = socket;
         try{
             this.in = new ObjectInputStream(socket.getInputStream());

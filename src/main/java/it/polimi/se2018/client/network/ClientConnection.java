@@ -1,4 +1,4 @@
-package it.polimi.se2018.network.connections;
+package it.polimi.se2018.client.network;
 
 import it.polimi.se2018.network.messages.requests.Message;
 

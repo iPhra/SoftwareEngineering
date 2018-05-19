@@ -1,6 +1,5 @@
-package it.polimi.se2018.network.connections;
+package it.polimi.se2018.client.network;
 
-import it.polimi.se2018.network.connections.rmi.RMIClientConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.network.connections.rmi.RemoteView;
 import it.polimi.se2018.view.ClientView;
@@ -19,6 +18,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
 public class Client {
+    private static final int PORT = 1234;
+    private static final String HOST = "127.0.0.1";
     private RemoteView clientView;
     private ClientConnection connection;
     private int playerID;
@@ -37,16 +38,15 @@ public class Client {
     private void chooseConnection() {
         try {
             output.println("What type of connection do you want to use?");
-            output.println("Type 1 and insert for Socket, 2 for RMI");
+            output.println("Type 1 for Socket, 2 for RMI");
             if (input.nextInt() == 1) {
                 input.nextLine();
-                createSocketConnection("127.0.0.1",1234);
+                createSocketConnection(HOST,PORT);
             }
             else {
                 input.nextLine();
                 createRMIConnection();
             }
-
         }
         catch(RemoteException | NotBoundException | MalformedURLException e) {
         }

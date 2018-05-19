@@ -14,9 +14,9 @@ public class CopperFoilBurnisher extends ToolCard {
 
     @Override
     public Response handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
-        Response response = handler.useCard(this, message);
-        return response;
+        return handler.useCard(this, message);
     }
+
     @Override
     public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) {
         return handler.getPlayerRequests(this, toolcardnumber);

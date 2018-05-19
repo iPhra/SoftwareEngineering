@@ -1,5 +1,7 @@
-package it.polimi.se2018.network.connections;
+package it.polimi.se2018.network.connections.socket;
 
+import it.polimi.se2018.network.connections.Server;
+import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.view.ServerView;
@@ -9,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketServerConnection implements Runnable, ServerConnection{
+public class SocketServerConnection implements Runnable, ServerConnection {
     private Server server;
     private Socket socket;
     private String playerName;
@@ -18,7 +20,7 @@ public class SocketServerConnection implements Runnable, ServerConnection{
     private boolean isOpen;
     private ServerView serverView;
 
-    SocketServerConnection(Socket socket, Server server){
+    public SocketServerConnection(Socket socket, Server server){
         this.socket = socket;
         this.server = server;
         isOpen = true;
@@ -51,7 +53,7 @@ public class SocketServerConnection implements Runnable, ServerConnection{
         out.writeObject(playerID);
         while (setup){
             playerName = (String) in.readObject();
-            setup = !server.checkName(playerID, playerName);
+            setup = server.checkName(playerID, playerName);
             out.writeObject(setup);
         }
         server.setPlayer(playerID,playerName,this);

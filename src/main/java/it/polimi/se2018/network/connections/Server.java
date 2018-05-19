@@ -3,6 +3,7 @@ package it.polimi.se2018.network.connections;
 import it.polimi.se2018.controller.GameManager;
 import it.polimi.se2018.network.connections.rmi.RMIManager;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
+import it.polimi.se2018.network.connections.socket.SocketHandler;
 import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.view.ServerView;
 
@@ -55,7 +56,7 @@ public class Server {
     }
 
     public boolean checkName(int playerID, String playerName) {
-        return matches.get(playerID/1000)==null || matches.get(playerID/1000).checkName(playerName);
+        return !(matches.get(playerID/1000)==null || matches.get(playerID/1000).checkName(playerName));
     }
 
     private static void incrementMatchID() {matchID++;}

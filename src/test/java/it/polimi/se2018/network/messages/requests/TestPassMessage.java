@@ -36,6 +36,9 @@ public class TestPassMessage {
 
             @Override
             public void performMove(SetupMessage setupMessage) {fail();}
+
+            @Override
+            public void performMove(InputMessage inputMessage) {fail();}
         });
     }
 }

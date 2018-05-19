@@ -24,12 +24,13 @@ public class WindowBuilder {
     private WindowBuilder() {
     }
 
+    @SuppressWarnings("WhileLoopReplaceableByForEach")
     public static List<Pair<Window,Window>> create() {
         JSONParser parser = new JSONParser();
         List<Pair<Window,Window>> windows = new ArrayList<>();
         try {
-            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("resources/maps.json"));
-            JSONArray jsonMaps = (JSONArray) jsonObject.get("maps");
+            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("resources/windows.json"));
+            JSONArray jsonMaps = (JSONArray) jsonObject.get("windows");
             Iterator iterator = jsonMaps.iterator();
             while(iterator.hasNext()) {
                 JSONObject jsonMapObject = (JSONObject) iterator.next();
@@ -47,7 +48,7 @@ public class WindowBuilder {
 
                 Window window1 = createMap(title1,level1,board1);
                 Window window2 = createMap(title2,level2,board2);
-                windows.add(new Pair(window1, window2));
+                windows.add(new Pair<>(window1, window2));
             }
             Collections.shuffle(windows);
             return windows;

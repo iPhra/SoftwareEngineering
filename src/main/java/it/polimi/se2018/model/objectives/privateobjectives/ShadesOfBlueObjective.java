@@ -15,7 +15,6 @@ public class ShadesOfBlueObjective extends PrivateObjective {
     private ShadesOfBlueObjective(String title){
         super(title);
     }
-
     private static synchronized ShadesOfBlueObjective createInstance(String title){
         if (instance==null) instance = new ShadesOfBlueObjective(title);
         return instance;

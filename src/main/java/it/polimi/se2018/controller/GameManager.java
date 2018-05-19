@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameManager implements Runnable, Observer<Message>{
+public class GameManager implements Observer<Message>{
     private DeckBuilder deckBuilder;
     private ServerView serverView;
     private Board board;
@@ -34,7 +34,7 @@ public class GameManager implements Runnable, Observer<Message>{
     private List<PublicObjective> publicObjectives;
     private List<ToolCard> toolCards;
     private List<Window> windows;
-    private int numberOfSetupsCompleted;
+    private int setupsCompleted;
 
     public GameManager(DeckBuilder deckBuilder){
         this.deckBuilder = deckBuilder;
@@ -42,7 +42,8 @@ public class GameManager implements Runnable, Observer<Message>{
         this.serverConnections = new HashMap<>();
         this.playerNames = new HashMap<>();
         this.players = new ArrayList<>();
-        numberOfSetupsCompleted = 0;
+        setupsCompleted = 0;
+        sendSetup();
     }
 
     public void addServerConnection(int playerID ,ServerConnection serverConnection) {
@@ -78,14 +79,12 @@ public class GameManager implements Runnable, Observer<Message>{
         return playerIDs.size();
     }
 
-    public void run(){
-        startGame();
-        receiveWindows();
-        controller.setModel(
-                new Board(players,(ToolCard[]) toolCards.toArray(new ToolCard[0]),(PublicObjective[]) publicObjectives.toArray(new PublicObjective[0])));
+    private void createMVC() {
+        board = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
+        controller.setModel(board);
     }
 
-    private void startGame(){
+    private void sendSetup(){
         controller = new Controller();
         controller.register(this);
         createPrivateObjectives();
@@ -98,7 +97,7 @@ public class GameManager implements Runnable, Observer<Message>{
                 windowsToSend.add(windows.get(j));
             }
             serverView.update(new SetupResponse(
-                    playerIDs.get(i),windowsToSend,publicObjectives,privateObjectives.get(i),toolCards));
+                    playerIDs.get(i),windowsToSend,publicObjectives,privateObjectives.get(i),toolCards,new ArrayList<>(playerNames.values())));
         }
     }
 
@@ -127,14 +126,10 @@ public class GameManager implements Runnable, Observer<Message>{
         windows = WindowBuilder.extractWindows(playerIDs.size());
     }
 
-    private void receiveWindows() {
-        while (numberOfSetupsCompleted < playerIDs.size());
-    }
-
     public void update(Message message){
         SetupMessage setupMessage = (SetupMessage) message;
-        players.add(new Player(
-                playerNames.get(setupMessage.getPlayerID()),setupMessage.getPlayerID(),setupMessage.getWindow(),privateObjectives.get(numberOfSetupsCompleted)));
-        numberOfSetupsCompleted++;
+        players.add(new Player(playerNames.get(setupMessage.getPlayerID()),setupMessage.getPlayerID(),setupMessage.getWindow(),privateObjectives.get(setupsCompleted)));
+        setupsCompleted++;
+        if(setupsCompleted==playerIDs.size()) createMVC();
     }
 }

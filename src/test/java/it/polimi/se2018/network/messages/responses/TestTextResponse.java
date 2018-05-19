@@ -46,6 +46,9 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(SetupResponse setupResponse) {fail();}
+
+            @Override
+            public void handleResponse(InputResponse inputMessage) {fail();}
         });
     }
 }

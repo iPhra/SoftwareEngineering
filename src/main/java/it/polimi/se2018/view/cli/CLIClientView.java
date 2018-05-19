@@ -5,7 +5,7 @@ import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
-import it.polimi.se2018.network.connections.ClientConnection;
+import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.*;
@@ -31,7 +31,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         this.playerID = playerID;
         scanner = new Scanner(System.in);
         cliInput = new CLIInput(playerID);
-        toolCardPlayerInput = new ToolCardPlayerInput();
+        toolCardPlayerInput = new ToolCardPlayerInput(playerID, cliInput);
     }
 
     public void setClientConnection(ClientConnection clientConnection) {
@@ -101,7 +101,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         cliInput.setPublicObjectives(setupResponse.getPublicObjectives());
         cliInput.setToolCards(setupResponse.getToolCards());
         selectWindow(setupResponse.getWindows());
-        //implementare per far scegliere le mappe
     }
 
     private List<Integer> actionPossible() {
@@ -146,16 +145,13 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             printActionPermitted(choosable);
             choice = scanner.nextInt();
         }
-        if (choice == 1) {
-            askInformation();
-        } else if (choice == 2) {
-            draftDie();
-        } else if (choice == 3) {
-            placeDie();
-        } else if (choice == 4) {
-            selectToolcard();
-        } else if (choice == 5) {
-            passTurn();
+        switch (choice) {
+            case 1 : askInformation(); break;
+            case 2 : draftDie(); break;
+            case 3 : placeDie(); break;
+            case 4 : selectToolcard(); break;
+            case 5 : passTurn(); break;
+            default : break;
         }
     }
 
@@ -167,7 +163,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             for(Window window : windows) {
                 cliInput.print("Press [" + i + "] to select this window");
                 cliInput.printPlayerWindow(window.modelViewCopy());
-                cliInput.print("The level of the window is\b" + String.valueOf(window.getLevel()));
+                cliInput.print("The level of the window is\b" + window.getLevel());
                 i++;
             }
             cliInput.print("[5] Ask information");

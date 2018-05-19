@@ -2,13 +2,13 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.network.messages.Coordinate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class Window implements Iterable<Square> {
-
+public class Window implements Iterable<Square>, Serializable {
     private final String title;
     private final int level; //it's the level of difficulty
     private final Square[][] matrix;

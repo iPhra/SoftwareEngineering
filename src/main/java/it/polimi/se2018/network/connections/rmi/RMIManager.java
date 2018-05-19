@@ -11,7 +11,7 @@ public class RMIManager implements RemoteManager {
     }
 
     public boolean checkName(int playerID, String playerName) {
-        return !server.checkName(playerID,playerName);
+        return server.checkName(playerID,playerName);
     }
 
     public void addClient(int playerID, String playerName, RemoteView clientView) {

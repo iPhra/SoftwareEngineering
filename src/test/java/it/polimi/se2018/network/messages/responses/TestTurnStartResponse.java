@@ -31,6 +31,9 @@ public class TestTurnStartResponse {
 
             @Override
             public void handleResponse(SetupResponse setupResponse) {fail();}
+
+            @Override
+            public void handleResponse(InputResponse inputMessage) {fail();}
         });
     }
 }

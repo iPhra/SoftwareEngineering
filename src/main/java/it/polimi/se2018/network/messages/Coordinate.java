@@ -3,19 +3,35 @@ package it.polimi.se2018.network.messages;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * This class represents a pair of integers, identifying a generic coordinate on any system representable as a matrix
+ */
 public class Coordinate implements Serializable{
-    private final int row; //This is x
-    private final int col; //This is y
+    /**
+     * This is the x coordinate, or row of the matrix
+     */
+    private final int row;
+
+    /**
+     * This is the y coordinate, or column of the matrix
+     */
+    private final int col;
 
     public Coordinate(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
+    /**
+     * @return the x of the coordinate
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * @return the y of the coordinate
+     */
     public int getCol() {
         return col;
     }

@@ -1,6 +1,7 @@
-package it.polimi.se2018.network.connections.rmi;
+package it.polimi.se2018.client.network;
 
-import it.polimi.se2018.network.connections.ClientConnection;
+import it.polimi.se2018.client.network.ClientConnection;
+import it.polimi.se2018.network.connections.rmi.RemoteView;
 import it.polimi.se2018.network.messages.requests.Message;
 
 import java.rmi.RemoteException;

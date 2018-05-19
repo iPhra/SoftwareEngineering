@@ -5,8 +5,14 @@ import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
-    int playerID;
-    CLIInput cliInput;
+    private int playerID;
+    private CLIInput cliInput;
+
+    ToolCardPlayerInput (int playerID, CLIInput cliInput) {
+        this.playerID=playerID;
+        this.cliInput=cliInput;
+
+    }
 
     @Override
     public ToolCardMessage getPlayerRequests(CopperFoilBurnisher toolCard, int toolcardnumber) {
@@ -43,8 +49,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(FluxRemover toolCard, int toolcardnumber) {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
-        return  toolCardMessage;
+        return new ToolCardMessage(playerID, toolcardnumber);
     }
 
     @Override

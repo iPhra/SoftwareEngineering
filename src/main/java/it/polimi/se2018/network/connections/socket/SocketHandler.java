@@ -1,4 +1,7 @@
-package it.polimi.se2018.network.connections;
+package it.polimi.se2018.network.connections.socket;
+
+import it.polimi.se2018.network.connections.Server;
+import it.polimi.se2018.network.connections.ServerConnection;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -12,7 +15,7 @@ public class SocketHandler implements Runnable {
     private ExecutorService pool;
     private boolean isOpen;
 
-    SocketHandler(Server server, ServerSocket serverSocket) {
+    public SocketHandler(Server server, ServerSocket serverSocket) {
         this.server = server;
         this.serverSocket = serverSocket;
         pool = Executors.newCachedThreadPool();

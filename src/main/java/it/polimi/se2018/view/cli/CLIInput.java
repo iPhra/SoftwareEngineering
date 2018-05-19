@@ -22,6 +22,12 @@ public class CLIInput {
     private List<PublicObjective> publicObjectives;
     private PrintStream printStream;
 
+    CLIInput(int playerID) {
+        this.playerID = playerID;
+        scanner = new Scanner(in);
+        printStream = new PrintStream(out);
+    }
+
     public List<String> getPlayersName() {
         return playersName;
     }
@@ -56,12 +62,6 @@ public class CLIInput {
 
     void print(String string) {
         printStream.println(string);
-    }
-
-    CLIInput(int playerID) {
-        this.playerID = playerID;
-        scanner = new Scanner(in);
-        printStream = new PrintStream(out);
     }
 
     public void setBoard(ModelView board) {
@@ -191,7 +191,7 @@ public class CLIInput {
         }
     }
 
-    void printSquare(Square square) {
+    private void printSquare(Square square) {
         String toPrint = "";
         if (!square.isEmpty()) {
             printDie(square.getDie());
@@ -213,6 +213,7 @@ public class CLIInput {
                     case 5:
                         toPrint = "np\b";
                         break;
+                    default : break;
                 }
             }
             if (square.getValue() != 0) {
@@ -235,15 +236,17 @@ public class CLIInput {
                     case 6:
                         toPrint = "n6\b";
                         break;
+                    default : break;
                 }
             }
             else {
                 toPrint = "nn";
             }
         }
+        printStream.print(toPrint);
     }
 
-    void printDie(Die die) {
+    private void printDie(Die die) {
         String toPrint = "";
         switch (getValueDie()) {
             case 1 : toPrint = "1"; break;
@@ -252,6 +255,7 @@ public class CLIInput {
             case 4 : toPrint = "4"; break;
             case 5 : toPrint = "5"; break;
             case 6 : toPrint = "6"; break;
+            default: break;
         }
         switch (Color.fromColor(die.getColor())) {
             case 1 : toPrint = toPrint + "B\b"; break;
@@ -259,7 +263,9 @@ public class CLIInput {
             case 3 : toPrint = toPrint + "G\b"; break;
             case 4 : toPrint = toPrint + "Y\b"; break;
             case 5 : toPrint = toPrint + "P\b"; break;
+            default : break;
         }
+        printStream.print(toPrint);
     }
 
     void printToolcard() {

@@ -2,7 +2,9 @@ package it.polimi.se2018.model.objectives;
 
 import it.polimi.se2018.model.Player;
 
-public abstract class ObjectiveCard {
+import java.io.Serializable;
+
+public abstract class ObjectiveCard implements Serializable{
     protected final String title;
     protected String description;
 

@@ -60,7 +60,7 @@ public class DeckBuilder {
         List<ToolCard> result = new ArrayList<>();
         Random random = new Random();
         for(int i=0; i<number; i++) {
-            result.add(toolCards.get(random.nextInt(i)));
+            result.add(toolCards.get(random.nextInt(number)));
         }
         return result;
     }
@@ -69,7 +69,7 @@ public class DeckBuilder {
         List<PublicObjective> result = new ArrayList<>();
         Random random = new Random();
         for(int i=0; i<number; i++) {
-            result.add(publicObjectives.get(random.nextInt(i)));
+            result.add(publicObjectives.get(random.nextInt(number)));
         }
         return result;
     }
@@ -78,7 +78,7 @@ public class DeckBuilder {
         List<PrivateObjective> result = new ArrayList<>();
         Random random = new Random();
         for(int i=0; i<number; i++) {
-            result.add(privateObjectives.get(random.nextInt(i)));
+            result.add(privateObjectives.get(random.nextInt(number)));
         }
         return result;
     }

@@ -1,6 +1,6 @@
 {
-	"maps" : [
-		{ "map" : [
+	"windows": [
+		{ "window": [
 			{ "title" : "KALEIDOSCOPIC DREAM",
 			  "level" : 4,
 			  "board" : "Y,B,W,W,1,G,W,5,W,4,3,W,R,W,G,2,W,W,B,Y"
@@ -11,7 +11,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "FRACTAL DROPS",
 			  "level" : 3,
 			  "board" : "W,4,W,Y,6,R,W,2,W,W,W,W,R,P,1,B,Y,W,W,W"
@@ -22,7 +22,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "LUX MUNDI",
 			  "level" : 6,
 			  "board" : "W,W,1,W,W,1,G,3,B,2,B,5,4,6,G,W,B,5,G,W"
@@ -33,7 +33,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "GRAVITAS",
 			  "level" : 5,
 			  "board" : "1,W,3,B,1,W,2,B,W,W,6,B,W,4,W,B,5,2,W,1"
@@ -44,7 +44,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "SUN CATCHER",
 			  "level" : 3,
 			  "board" : "W,B,2,W,Y,W,4,W,R,W,W,W,5,Y,W,G,3,W,W,P"
@@ -55,7 +55,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "AURORAE MAGNIFICUS",
 			  "level" : 5,
 			  "board" : "5,G,B,P,2,P,W,W,W,Y,Y,W,6,W,P,1,W,W,G,4"
@@ -66,7 +66,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "SYMPHONY OF LIGHT",
 			  "level" : 6,
 			  "board" : "2,W,5,W,1,Y,6,P,2,R,W,B,4,G,W,W,3,W,5,W"
@@ -77,7 +77,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "FIRELIGHT",
 			  "level" : 5,
 			  "board" : "3,4,1,5,W,W,6,2,W,Y,W,W,W,Y,R,5,W,Y,R,6"
@@ -88,7 +88,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "BATLLO",
 			  "level" : 5,
 			  "board" : "W,W,6,W,W,W,5,B,4,W,3,G,Y,P,2,1,4,R,5,3"
@@ -99,7 +99,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "FULGOR DEL CIELO",
 			  "level" : 5,
 			  "board" : "W,B,R,W,W,W,4,5,W,B,B,2,W,R,5,6,R,3,1,W"
@@ -110,7 +110,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "CHROMATIC SPLENDOR",
 			  "level" : 4,
 			  "board" : "W,W,G,W,W,2,Y,5,B,1,W,R,3,P,W,1,W,6,W,4"
@@ -121,7 +121,7 @@
 			}
 		]
 		},
-		{ "map" : [
+		{ "window": [
 			{ "title" : "INDUSTRIA",
 			  "level" : 5,
 			  "board" : "1,R,3,W,6,5,4,R,2,W,W,W,5,R,1,W,W,W,3,R"
