@@ -85,6 +85,7 @@ public class CLIInput {
     public Coordinate getCoordinate() {
         int row = -1;
         int col = -1;
+        int choice = -1;
         printYourWindow();
         while (row < 0 || row > 3) {
             printStream.println("Choose the row");
@@ -94,20 +95,34 @@ public class CLIInput {
             printStream.println("Choose the col");
             col = scanner.nextInt();
         }
-        return new Coordinate(row, col);
+        while (choice < 1 || choice > 3) {
+            printStream.println("You choose the position. Press: \n [1] to accept \n [2] to change [3] to do another action");
+            choice = scanner.nextInt();
+            if (choice == 1) return new Coordinate(row, col);
+            else if (choice == 2) return getCoordinate();
+            else if (choice == 3) new Coordinate(-1, -1);
+        }
+        return new Coordinate(-1, -1);
     }
 
     Coordinate getRoundTrackPosition() {
         int turn = -1;
         int pos = -1;
+        int choice = 1;
         printRoundTracker();
-        while (turn < 1 || turn > 10) {
-            printStream.print("Choose the turn.");
-            turn = scanner.nextInt();
-        }
-        while (pos < 0 || pos > board.getRoundTracker().get(turn).size()) {
-            printStream.print("Choose the position.");
-            pos = scanner.nextInt();
+        while (choice != 1) {
+            while (turn < 0 || turn > 10) {
+                printStream.println("Choose the turn. Insert a number from 0 to 9");
+                turn = scanner.nextInt();
+            }
+            while (pos < 0 || pos > board.getRoundTracker().get(turn).size()) {
+                printStream.println("Choose the position. Insert a number from 0 to " + board.getRoundTracker().get(turn).size());
+                pos = scanner.nextInt();
+            }
+            printStream.print("You choose this die ");
+            printDieExtended(board.getRoundTracker().get(turn).get(pos));
+            printStream.println("Are you sure? \n [1] Yes  [2]-[9] No");
+            choice = scanner.nextInt();
         }
         return new Coordinate(turn, pos);
     }
@@ -125,7 +140,7 @@ public class CLIInput {
     int getValueDie() {
         int val = 0;
         while (val < 1 || val > 6) {
-            printStream.print("Choose the value of the die");
+            printStream.print("Choose the value of the die (value of die go from 1 to 6)");
             val = scanner.nextInt();
         }
         return val;
@@ -133,18 +148,27 @@ public class CLIInput {
 
     int getPositionDraftPool() {
         int choice = -1;
+        int confirm = -1;
         printStream.print("Select the index of the die to choose.");
         while (choice < 1 || choice >= board.getDraftPool().size()) {
             printDraftPool();
             choice = scanner.nextInt();
         }
-        return choice;
+        while (confirm < 0 || confirm > 3) {
+            printStream.println("You choose this die to draft:");
+            printDieExtended(board.getDraftPool().get(choice));
+            printStream.println("Are you sure? \n [1] to accept  [2] to change  [3] to choose another action");
+            confirm = scanner.nextInt();
+        }
+        if (confirm == 1) return choice;
+        else if (confirm == 2) return getPositionDraftPool();
+        else return -1;
     }
 
     int getMinusPlus() {
         int choice = -1;
         while (choice < 1 || choice > 2) {
-            printStream.print("Choose 1 to increase 2 to decrease");
+            printStream.print("Choose 1 to increase 2 to decrease.");
             choice = scanner.nextInt();
         }
         return choice;
@@ -159,14 +183,14 @@ public class CLIInput {
             }
             choicePlayer = scanner.nextInt();
         }
-        Square[][] window = board.getPlayerWindow().get(choicePlayer);
-        printPlayerWindow(window);
+        printPlayerWindow(board.getPlayerWindow().get(choicePlayer));
     }
 
     void printDraftPool() {
         printStream.println("Dice on Draftpool are:");
         for (int i = 0; i < board.getDraftPool().size(); i++) {
-            printStream.println(i + ": color: " + board.getDraftPool().get(i).getColor() + ", value: " + board.getDraftPool().get(i).getValue());
+            printStream.print("[" + i + "] ");
+            printDieExtended(board.getDraftPool().get(i));
         }
     }
 
@@ -181,13 +205,7 @@ public class CLIInput {
 
     void printYourWindow() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
-        Square[][] window = board.getPlayerWindow().get(yourIndex);
-        for (Square[] row : window) {
-            for (Square square : row) {
-                printSquare(square);
-            }
-            printStream.print("\n");
-        }
+        printPlayerWindow(board.getPlayerWindow().get(yourIndex));
     }
 
     void printPlayerWindow(Square[][] window) {
@@ -204,63 +222,27 @@ public class CLIInput {
         if (!square.isEmpty()) {
             printDie(square.getDie());
         } else {
-            if (!square.getColor().equals(Color.WHITE)) {
-                switch (Color.fromColor(square.getColor())) {
-                    case 0:
-                        toPrint = "nb ";
-                        break;
-                    case 1:
-                        toPrint = "nr ";
-                        break;
-                    case 2:
-                        toPrint = "ng ";
-                        break;
-                    case 3:
-                        toPrint = "ny ";
-                        break;
-                    case 4:
-                        toPrint = "np ";
-                        break;
-                    default : toPrint = "KO ";
-                }
-            }
-            else if (square.getValue() != 0) {
-                switch (square.getValue()) {
-                    case 1:
-                        toPrint = "n1 ";
-                        break;
-                    case 2:
-                        toPrint = "n2 ";
-                        break;
-                    case 3:
-                        toPrint = "n3 ";
-                        break;
-                    case 4:
-                        toPrint = "n4 ";
-                        break;
-                    case 5:
-                        toPrint = "n5 ";
-                        break;
-                    case 6:
-                        toPrint = "n6 ";
-                        break;
-                    default : break;
-                }
-            }
-            else {
+            if (!square.getColor().equals(Color.WHITE))
+                toPrint = "n" + square.getColor().getAbbreviation().toLowerCase() + " ";
+            else if (square.getValue() != 0)
+                toPrint = "n" + square.getValue() + " ";
+            else
                 toPrint = "nn ";
-            }
         }
         printStream.print(toPrint);
     }
+
+    private void printDieExtended(Die die) { printStream.println("Color: " + die.getValue() + " Color: " + die.getValue());}
 
     private void printDie(Die die) {
         printStream.print(die.getValue() + die.getColor().getAbbreviation() + " ");
     }
 
     void printToolcard() {
+        int i = 0;
         for (ToolCard toolcard : toolCards) {
-            printStream.print(toolcard.getTitle() + " " + toolcard.getDescription() + "\n");
+            printStream.print(i + ": " + toolcard.getTitle() + " " + toolcard.getDescription() + "\n");
+            i++;
         }
     }
 

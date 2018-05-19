@@ -1,9 +1,6 @@
 package it.polimi.se2018.client.view.cli;
 
-import it.polimi.se2018.model.ModelView;
 import it.polimi.se2018.model.Window;
-import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
-import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.network.messages.Coordinate;
@@ -17,12 +14,8 @@ import java.util.*;
 
 public class CLIClientView implements ResponseHandler, ClientView, Serializable {
     private final transient int playerID;
-    private transient List<String> playersName;
     private transient ClientConnection clientConnection;
     private final transient Scanner scanner;
-    private transient List<ToolCard> toolCards;
-    private transient PrivateObjective privateObjective;
-    private transient List<PublicObjective> publicObjectives;
     private transient CLIInput cliInput;
     private transient ToolCardPlayerInput toolCardPlayerInput;
 
@@ -54,13 +47,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     public void handleResponse(ModelViewResponse modelViewResponse) {
         cliInput.setBoard(modelViewResponse.getModelView());
         cliInput.printDraftPool();
-        if (modelViewResponse.getPlayer() == playerID) {
-            try {
-                chooseAction();
-            } catch (RemoteException e) {
-                System.err.println(e.getMessage());
-            }
-        }
+            try { chooseAction(); }
+            catch (RemoteException e) { System.err.println(e.getMessage()); }
     }
 
     //prints the text message
@@ -153,19 +141,33 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         //Choose the action to do DraftDie, UseToolcard, PlaceDie, PassTurn
         int choice = -1;
         List<Integer> choosable = actionPossible();
-        cliInput.print("It's your turn, choose your action");
-        while (!choosable.contains(choice)) {
-            printActionPermitted(choosable);
-            choice = scanner.nextInt();
+        if (cliInput.getBoard().getCurrentPlayerID() == playerID) {
+            cliInput.print("It's your turn, choose your action");
+            while (!choosable.contains(choice)) {
+                printActionPermitted(choosable);
+                choice = scanner.nextInt();
+            }
+            switch (choice) {
+                case 1:
+                    askInformation();
+                    break;
+                case 2:
+                    draftDie();
+                    break;
+                case 3:
+                    placeDie();
+                    break;
+                case 4:
+                    selectToolcard();
+                    break;
+                case 5:
+                    passTurn();
+                    break;
+                default:
+                    break;
+            }
         }
-        switch (choice) {
-            case 1 : askInformation(); break;
-            case 2 : draftDie(); break;
-            case 3 : placeDie(); break;
-            case 4 : selectToolcard(); break;
-            case 5 : passTurn(); break;
-            default : break;
-        }
+        else cliInput.print("It's not your turn. You can't do anything!");
     }
 
     private int selectWindow(List<Window> windows) {
@@ -195,7 +197,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     private void draftDie() throws RemoteException {
         cliInput.print("Choose the die to draft.");
         int index = cliInput.getPositionDraftPool();
-        clientConnection.sendMessage(new DraftMessage(playerID, index));
+        if (index != -1) clientConnection.sendMessage(new DraftMessage(playerID, index));
+        else chooseAction();
     }
 
     private void selectToolcard() throws RemoteException {
@@ -206,13 +209,17 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     private void useToolcard(int indexOfToolCard) throws RemoteException {
         ToolCard toolCard = cliInput.getToolCards().get(indexOfToolCard);
         ToolCardMessage toolCardMessage = toolCard.handleView(toolCardPlayerInput, indexOfToolCard);
-        clientConnection.sendMessage(toolCardMessage);
+        if (!toolCardMessage.isToDismiss()) clientConnection.sendMessage(toolCardMessage);
+        else chooseAction();
     }
 
     private void placeDie() throws RemoteException {
         cliInput.print("Choose the position where put the drafted die");
         Coordinate coordinate = cliInput.getCoordinate();
-        clientConnection.sendMessage(new PlaceMessage(playerID, coordinate));
+        if (!coordinate.equals(new Coordinate(-1, -1))) {
+            clientConnection.sendMessage(new PlaceMessage(playerID, coordinate));
+        }
+        else { chooseAction(); }
     }
 
     private void askInformation() {

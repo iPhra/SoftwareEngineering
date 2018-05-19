@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class ToolCardMessage extends Message {
 
+    private boolean toDismiss;
     /**
      * This is the value a player wants to give to a Die drafted from the Dice Bag
      * Used by {@link it.polimi.se2018.model.toolcards.FluxRemover}
@@ -124,6 +125,14 @@ public class ToolCardMessage extends Message {
      */
     public int getToolCardNumber() {
         return toolCardNumber;
+    }
+
+    public boolean isToDismiss() {
+        return toDismiss;
+    }
+
+    public void setToDismiss(boolean toDismiss) {
+        this.toDismiss = toDismiss;
     }
 
     @Override

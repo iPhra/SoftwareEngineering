@@ -16,9 +16,17 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(CopperFoilBurnisher toolCard, int toolcardnumber) {
-        Coordinate startingCoordinate = cliInput.getDieInMap();
-        Coordinate finalPosition = cliInput.getCoordinate();
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        Coordinate startingCoordinate = cliInput.getDieInMap();
+        if (startingCoordinate.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
+        Coordinate finalPosition = cliInput.getCoordinate();
+        if (startingCoordinate.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         toolCardMessage.addStartingPosition(startingCoordinate);
         toolCardMessage.addFinalPosition(finalPosition);
         return  toolCardMessage;
@@ -26,17 +34,29 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(CorkBackedStraightedge toolCard, int toolcardnumber) {
-        Coordinate finalPosition = cliInput.getCoordinate();
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        Coordinate finalPosition = cliInput.getCoordinate();
+        if (finalPosition.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         toolCardMessage.addFinalPosition(finalPosition);
         return  toolCardMessage;
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(EglomiseBrush toolCard, int toolcardnumber) {
-        Coordinate startingCoordinate = cliInput.getDieInMap();
-        Coordinate finalPosition = cliInput.getCoordinate();
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        Coordinate startingCoordinate = cliInput.getDieInMap();
+        if (startingCoordinate.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
+        Coordinate finalPosition = cliInput.getCoordinate();
+        if (finalPosition.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         toolCardMessage.addStartingPosition(startingCoordinate);
         toolCardMessage.addFinalPosition(finalPosition);
         return  toolCardMessage;
@@ -72,13 +92,29 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(Lathekin toolCard, int toolcardnumber) {
-        Coordinate startingCoordinateOne = cliInput.getDieInMap();
-        Coordinate finalPositionOne = cliInput.getCoordinate();
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        Coordinate startingCoordinateOne = cliInput.getDieInMap();
+        if (startingCoordinateOne.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
+        Coordinate finalPositionOne = cliInput.getCoordinate();
+        if (finalPositionOne.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         toolCardMessage.addStartingPosition(startingCoordinateOne);
         toolCardMessage.addFinalPosition(finalPositionOne);
         Coordinate startingCoordinateTwo = cliInput.getDieInMap();
+        if (startingCoordinateTwo.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         Coordinate finalPositionTwo = cliInput.getCoordinate();
+        if (finalPositionTwo.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         toolCardMessage.addStartingPosition(startingCoordinateTwo);
         toolCardMessage.addFinalPosition(finalPositionTwo);
         return  toolCardMessage;
@@ -99,14 +135,34 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(TapWheel toolCard, int toolcardnumber) {
-        Coordinate startingCoordinateOne = cliInput.getDieInMap();
-        Coordinate finalPositionOne = cliInput.getCoordinate();
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        Coordinate startingCoordinateOne = cliInput.getDieInMap();
+        if (startingCoordinateOne.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
+        Coordinate finalPositionOne = cliInput.getCoordinate();
+        if (finalPositionOne.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         toolCardMessage.addStartingPosition(startingCoordinateOne);
         toolCardMessage.addFinalPosition(finalPositionOne);
         Coordinate startingCoordinateTwo = cliInput.getDieInMap();
+        if (startingCoordinateTwo.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         Coordinate finalPositionTwo = cliInput.getCoordinate();
+        if (finalPositionTwo.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         Coordinate positionRoundTrack = cliInput.getRoundTrackPosition();
+        if (positionRoundTrack.equals(new Coordinate(-1, -1))) {
+            toolCardMessage.setToDismiss(true);
+            return toolCardMessage;
+        }
         toolCardMessage.addStartingPosition(startingCoordinateTwo);
         toolCardMessage.addFinalPosition(finalPositionTwo);
         toolCardMessage.addRoundTrackerPosition(positionRoundTrack);
