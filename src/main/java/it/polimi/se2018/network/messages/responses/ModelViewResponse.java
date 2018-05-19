@@ -13,7 +13,7 @@ public class ModelViewResponse extends Response {
     private final ModelView modelView;
 
     public ModelViewResponse(ModelView modelView) {
-        super(0);
+        super(modelView.getCurrentPlayerID());
         this.modelView = modelView;
     }
 

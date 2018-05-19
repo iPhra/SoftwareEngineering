@@ -15,6 +15,7 @@ public class ModelView implements Serializable{
     private final List<List<Die>> roundTracker;
     private final List<Boolean> usedToolCard;
     private final int turn;
+    private final int currentPlayerID;
 
     private final boolean hasDieInHand;
     private final boolean hasDraftedDie;
@@ -32,6 +33,7 @@ public class ModelView implements Serializable{
         }
         int index;
         Player currentPlayer = board.getPlayerByIndex(board.getRound().getCurrentPlayerIndex());
+        currentPlayerID = currentPlayer.getId();
         for (Player player : board.getPlayers()) {
             playerWindow.add(player.getWindow().modelViewCopy());
             playerFavorPoint.add(player.getFavorPoints());
@@ -55,6 +57,9 @@ public class ModelView implements Serializable{
         roundTracker = board.getRoundTracker().modelViewCopy();
     }
 
+    public int getCurrentPlayerID() {
+        return currentPlayerID;
+    }
 
     public List<String> getPlayerName() {
         return playerName;

@@ -19,7 +19,7 @@ public class Round {
         missingPlayers=playersOrder.size()/2;
     }
 
-    public int getCurrentPlayerIndex() {return currentPlayerIndex;}
+    public int getCurrentPlayerIndex() {return playersOrder.get(currentPlayerIndex);}
 
     public int getRoundNumber () {
         return roundNumber;

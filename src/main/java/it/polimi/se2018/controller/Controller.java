@@ -86,7 +86,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
                 Die die = player.getDieInHand();
                 if(player.isFirstMove()) {
                     placeDie(new DiePlacerFirst(die,placeMessage.getFinalPosition(),player.getWindow()));
-                    player.setFirstMove(true);
+                    player.setFirstMove(false);
                 }
                 else {
                     placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getWindow()));
@@ -122,8 +122,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
         else {
             pass(player);
-            int nextPlayerID = model.getRound().getCurrentPlayerIndex();
-            model.notify(new TurnStartResponse(nextPlayerID));
             model.notify(new ModelViewResponse(model.modelViewCopy()));
         }
     }
@@ -134,9 +132,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
         else {
             startRound();
-            int nextPlayerID = model.getRound().getCurrentPlayerIndex();
             model.notify(new ModelViewResponse(model.modelViewCopy()));
-            model.notify(new TurnStartResponse(nextPlayerID));
         }
     }
 
@@ -188,12 +184,15 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     public void startMatch() {
-        model.notify(new TurnStartResponse(model.getRound().getCurrentPlayerIndex()));
+        model.notify(new ModelViewResponse(model.modelViewCopy()));
     }
 
     @Override
     public void update(Message input) {
-        checkInput(input);
+        if (input instanceof SetupMessage)
+            input.handle(this);
+        else
+            checkInput(input);
     }
 
 }

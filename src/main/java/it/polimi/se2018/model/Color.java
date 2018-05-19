@@ -7,7 +7,16 @@ import java.io.Serializable;
  * @author Francesco Lorenzo
  */
 public enum Color implements Serializable {
-    BLUE,RED,GREEN,YELLOW,PURPLE,WHITE;
+    BLUE("B"),RED("R"),GREEN("G"),YELLOW("Y"),PURPLE("P"),WHITE("W");
+    private String abbreviation;
+
+    Color(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
 
     /**
      * Given a color returns its index as if the enumeration was an array

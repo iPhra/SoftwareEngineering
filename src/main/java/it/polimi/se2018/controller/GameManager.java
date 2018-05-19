@@ -1,6 +1,7 @@
 package it.polimi.se2018.controller;
 
 import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.ModelView;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
@@ -9,6 +10,7 @@ import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
+import it.polimi.se2018.network.messages.responses.ModelViewResponse;
 import it.polimi.se2018.network.messages.responses.SetupResponse;
 import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.utils.Observer;
@@ -43,7 +45,6 @@ public class GameManager implements Observer<Message>{
         this.playerNames = new HashMap<>();
         this.players = new ArrayList<>();
         setupsCompleted = 0;
-        startSetup();
     }
 
     public void addServerConnection(int playerID ,ServerConnection serverConnection) {
@@ -81,13 +82,15 @@ public class GameManager implements Observer<Message>{
 
     private void createMVC() {
         board = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
+        board.register(serverView);
         controller.setModel(board);
         controller.startMatch();
     }
 
-    private void startSetup(){
+    public void startSetup(){
         controller = new Controller();
         controller.register(this);
+        serverView.register(controller);
         createPublicObjectives();
         createToolCards();
     }

@@ -89,9 +89,9 @@ public class Client {
             clientView = new CLIClientView(playerID);
             CLIClientView view = (CLIClientView) clientView;
             SocketClientConnection socketClientConnection = new SocketClientConnection(socket, (ClientView) clientView,in,out);
-            socketClientConnection.run();
             connection = socketClientConnection;
             view.setClientConnection(connection);
+            socketClientConnection.run();
         } catch(IOException e){
             System.err.println(e.getMessage());
         }

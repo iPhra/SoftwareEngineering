@@ -22,7 +22,7 @@ public class Player {
         this.id = id;
         this.window = window;
         this.privateObjective = privateObjective;
-        isFirstMove = false;
+        isFirstMove = true;
         hasDraftedDie = false;
         hasUsedCard = false;
     }

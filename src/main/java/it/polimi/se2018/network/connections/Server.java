@@ -38,8 +38,9 @@ public class Server {
         GameManager manager;
         if(matches.get(match)==null) {
             manager = new GameManager(deckBuilder);
-            matches.put(match,manager);
             manager.setServerView(new ServerView());
+            manager.startSetup();
+            matches.put(match,manager);
             try {
                 registry.rebind("RemoteView", UnicastRemoteObject.exportObject(manager.getServerView(),0));
             }

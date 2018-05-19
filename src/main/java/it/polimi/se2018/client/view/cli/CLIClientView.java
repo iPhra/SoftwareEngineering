@@ -19,7 +19,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     private final transient int playerID;
     private transient List<String> playersName;
     private transient ClientConnection clientConnection;
-    private transient ModelView board;
     private final transient Scanner scanner;
     private transient List<ToolCard> toolCards;
     private transient PrivateObjective privateObjective;
@@ -53,8 +52,15 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     @Override
     //aggiorno il modelview e stampo a schermo la tua e il roundtracker
     public void handleResponse(ModelViewResponse modelViewResponse) {
-        this.board = modelViewResponse.getModelView();
-        cliInput.printRoundTracker();
+        cliInput.setBoard(modelViewResponse.getModelView());
+        cliInput.printDraftPool();
+        if (modelViewResponse.getPlayer() == playerID) {
+            try {
+                chooseAction();
+            } catch (RemoteException e) {
+                System.err.println(e.getMessage());
+            }
+        }
     }
 
     //prints the text message
@@ -113,13 +119,13 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     private List<Integer> actionPossible() {
         List<Integer> choosable = new ArrayList<>();
         choosable.add(1);
-        if (!board.hasDraftedDie()) {
+        if (!cliInput.getBoard().hasDraftedDie()) {
             choosable.add(2);
         }
-        if (board.hasDieInHand()) {
+        if (cliInput.getBoard().hasDieInHand()) {
             choosable.add(3);
         }
-        if (!board.hasUsedCard()) {
+        if (!cliInput.getBoard().hasUsedCard()) {
             choosable.add(4);
         }
         choosable.add(5);
@@ -128,17 +134,17 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
 
     private void printActionPermitted(List<Integer> choosable) {
         for (int i : choosable) {
-            cliInput.print("[1] Ask information of the game");
-            if (i == 1) {
+            if (i == 1) cliInput.print("[1] Ask information of the game");
+            if (i == 2) {
                 cliInput.print("[2] Draft a die");
             }
-            if (i == 2) {
+            if (i == 3) {
                 cliInput.print("[3] Place the drafted die");
             }
-            if (i == 3) {
+            if (i == 4) {
                 cliInput.print("[4] Select a toolcard");
             }
-            cliInput.print("[5] Pass turn");
+            if (i == 5) cliInput.print("[5] Pass turn");
         }
     }
 
@@ -164,7 +170,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
 
     private int selectWindow(List<Window> windows) {
         int choice = -1;
-        while (choice < 0 || choice > 5) {
+        while (choice < 1 || choice > 4) {
             cliInput.print("Select your window");
             int i = 1;
             for(Window window : windows) {
@@ -175,7 +181,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             }
             cliInput.print("[5] Ask information");
             choice = scanner.nextInt();
-            if (choice == 1) {
+            if (choice == 5) {
                 this.askInformation();
             }
         }
@@ -241,6 +247,11 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             case 8: cliInput.printYourFavorPoint();
                     break;
             default: break;
+        }
+        try{
+            chooseAction();
+        }catch(RemoteException e){
+            System.err.println(e.getMessage());
         }
     }
 }

@@ -4,9 +4,7 @@ import it.polimi.se2018.model.objectives.privateobjectives.*;
 import it.polimi.se2018.model.objectives.publicobjectives.*;
 import it.polimi.se2018.model.toolcards.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class DeckBuilder {
     private static DeckBuilder instance;
@@ -58,27 +56,27 @@ public class DeckBuilder {
 
     public List<ToolCard> extractToolCards(int number) {
         List<ToolCard> result = new ArrayList<>();
-        Random random = new Random();
+        Collections.shuffle(toolCards);
         for(int i=0; i<number; i++) {
-            result.add(toolCards.get(random.nextInt(number)));
+            result.add(toolCards.get(i));
         }
         return result;
     }
 
     public List<PublicObjective> extractPublicObjectives(int number) {
         List<PublicObjective> result = new ArrayList<>();
-        Random random = new Random();
+        Collections.shuffle(publicObjectives);
         for(int i=0; i<number; i++) {
-            result.add(publicObjectives.get(random.nextInt(number)));
+            result.add(publicObjectives.get(i));
         }
         return result;
     }
 
     public List<PrivateObjective> extractPrivateObjectives(int number) {
         List<PrivateObjective> result = new ArrayList<>();
-        Random random = new Random();
+        Collections.shuffle(privateObjectives);
         for(int i=0; i<number; i++) {
-            result.add(privateObjectives.get(random.nextInt(number)));
+            result.add(privateObjectives.get(i));
         }
         return result;
     }
