@@ -13,6 +13,7 @@ public class ShadeVarietyObjective extends PublicObjective {
 
     private ShadeVarietyObjective(String title){
         super(title);
+        description = "Sets of one of each values anywhere. 5 Point";
     }
 
     private static synchronized ShadeVarietyObjective createInstance(String title){

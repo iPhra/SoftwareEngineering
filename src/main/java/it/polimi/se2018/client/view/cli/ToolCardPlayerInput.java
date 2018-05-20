@@ -122,8 +122,9 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(LensCutter toolCard, int toolcardnumber) {
-        Coordinate positionRoundTrack = cliInput.getRoundTrackPosition();
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        Coordinate positionRoundTrack = cliInput.getRoundTrackPosition();
+        if (positionRoundTrack.getRow() == -1) toolCardMessage.setToDismiss(true);
         toolCardMessage.addRoundTrackerPosition(positionRoundTrack);
         return  toolCardMessage;
     }
@@ -159,7 +160,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
             return toolCardMessage;
         }
         Coordinate positionRoundTrack = cliInput.getRoundTrackPosition();
-        if (positionRoundTrack.equals(new Coordinate(-1, -1))) {
+        if (positionRoundTrack.getRow() == -1) {
             toolCardMessage.setToDismiss(true);
             return toolCardMessage;
         }

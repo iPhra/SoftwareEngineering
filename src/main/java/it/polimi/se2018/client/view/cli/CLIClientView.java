@@ -47,8 +47,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     public void handleResponse(ModelViewResponse modelViewResponse) {
         cliInput.setBoard(modelViewResponse.getModelView());
         cliInput.printDraftPool();
-            try { chooseAction(); }
-            catch (RemoteException e) { System.err.println(e.getMessage()); }
+        checkIsYourTurn();
     }
 
     //prints the text message
@@ -56,6 +55,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     //eccezioni da printare
     public void handleResponse(TextResponse textResponse) {
         cliInput.print(textResponse.getMessage());
+        checkIsYourTurn();
     }
 
     @Override
@@ -88,12 +88,15 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         }
     }
 
+    //Set the objective and toolcard copy to the value. Ask the window to select
     @Override
     public void handleResponse(SetupResponse setupResponse) {
         cliInput.setPlayersName(setupResponse.getPlayerNames());
         cliInput.setPrivateObjective(setupResponse.getPrivateObjective());
         cliInput.setPublicObjectives(setupResponse.getPublicObjectives());
         cliInput.setToolCards(setupResponse.getToolCards());
+        cliInput.printPrivateObjective();
+        cliInput.printPublicObjective();
         int windowNumber = selectWindow(setupResponse.getWindows())-1;
         cliInput.setWindow(setupResponse.getWindows().get(windowNumber));
         try {
@@ -101,7 +104,17 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         }
         catch (RemoteException e) {
         }
+    }
 
+    private void checkIsYourTurn() {
+        if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
+            try {
+                chooseAction();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        else cliInput.print("It's not your turn. You can't do anything!");
     }
 
     private List<Integer> actionPossible() {
@@ -141,15 +154,13 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         //Choose the action to do DraftDie, UseToolcard, PlaceDie, PassTurn
         int choice = -1;
         List<Integer> choosable = actionPossible();
-        if (cliInput.getBoard().getCurrentPlayerID() == playerID) {
-            cliInput.print("It's your turn, choose your action");
-            while (!choosable.contains(choice)) {
-                printActionPermitted(choosable);
-                choice = scanner.nextInt();
-            }
+        cliInput.print("It's your turn, choose your action");
+        while (!choosable.contains(choice) || choice == 1) {
+            printActionPermitted(choosable);
+            choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    askInformation();
+                    cliInput.askInformation();
                     break;
                 case 2:
                     draftDie();
@@ -167,7 +178,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
                     break;
             }
         }
-        else cliInput.print("It's not your turn. You can't do anything!");
     }
 
     private int selectWindow(List<Window> windows) {
@@ -181,11 +191,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
                 cliInput.print("The level of the window is " + window.getLevel());
                 i++;
             }
-            cliInput.print("[5] Ask information");
             choice = scanner.nextInt();
-            if (choice == 5) {
-                this.askInformation();
-            }
         }
         return choice;
     }
@@ -229,45 +235,5 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             clientConnection.sendMessage(new PlaceMessage(playerID, coordinate));
         }
         else { chooseAction(); }
-    }
-
-    private void askInformation() {
-        int choice = -1;
-        cliInput.print("Choose the information you need.");
-        while (choice < 1 || choice > 9) {
-            cliInput.print("[1] Print your window");
-            cliInput.print("[2] Print window of a player");
-            cliInput.print("[3] Print draft pool");
-            cliInput.print("[4] Print round tracker");
-            cliInput.print("[5] Print toolcard");
-            cliInput.print("[6] Print public objective");
-            cliInput.print("[7] Print your private objecgive");
-            cliInput.print("[8] Print your favor points");
-            choice = scanner.nextInt();
-        }
-        switch (choice) {
-            case 1: cliInput.printYourWindow();
-                    break;
-            case 2: cliInput.getPlayerWindow();
-                    break;
-            case 3: cliInput.printDraftPool();
-                    break;
-            case 4: cliInput.printRoundTracker();
-                    break;
-            case 5: cliInput.printToolcard();
-                    break;
-            case 6: cliInput.printPublicObjective();
-                    break;
-            case 7: cliInput.printPrivateObjective();
-                    break;
-            case 8: cliInput.printYourFavorPoint();
-                    break;
-            default: break;
-        }
-        try{
-            chooseAction();
-        }catch(RemoteException e){
-            System.err.println(e.getMessage());
-        }
     }
 }

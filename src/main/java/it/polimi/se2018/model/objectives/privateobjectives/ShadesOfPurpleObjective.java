@@ -14,6 +14,7 @@ public class ShadesOfPurpleObjective extends PrivateObjective {
 
     private ShadesOfPurpleObjective(String title){
         super(title);
+        description = "Sum of values on purple dice";
     }
     private static synchronized ShadesOfPurpleObjective createInstance(String title){
         if (instance==null) instance = new ShadesOfPurpleObjective(title);

@@ -111,18 +111,27 @@ public class CLIInput {
         int choice = 1;
         printRoundTracker();
         while (choice != 1) {
-            while (turn < 0 || turn > 10) {
+            while (turn < 0 || turn > 9) {
                 printStream.println("Choose the turn. Insert a number from 0 to 9");
                 turn = scanner.nextInt();
+                while (pos < 0 || pos > board.getRoundTracker().get(turn).size() && pos != 9 && pos!=8) {
+                    printStream.println("Choose the position. Insert a number from 0 to " + board.getRoundTracker().get(turn).size());
+                    printStream.println("[8] to choose another turn");
+                    printStream.println("[9] to don't choose a die and change action");
+                    pos = scanner.nextInt();
+                }
+                if (pos == 8) turn = -1;
             }
-            while (pos < 0 || pos > board.getRoundTracker().get(turn).size()) {
-                printStream.println("Choose the position. Insert a number from 0 to " + board.getRoundTracker().get(turn).size());
-                pos = scanner.nextInt();
+            if (pos == 9) {
+                choice = 1;
+                turn = -1;
             }
-            printStream.print("You choose this die ");
-            printDieExtended(board.getRoundTracker().get(turn).get(pos));
-            printStream.println("Are you sure? \n [1] Yes  [2]-[9] No");
-            choice = scanner.nextInt();
+            else {
+                printStream.print("You choose this die ");
+                printDieExtended(board.getRoundTracker().get(turn).get(pos));
+                printStream.println("Are you sure? \n [1] Yes  [2]-[9] No");
+                choice = scanner.nextInt();
+            }
         }
         return new Coordinate(turn, pos);
     }
@@ -130,10 +139,13 @@ public class CLIInput {
     int getToolCard() {
         int choice = -1;
         while (choice < 0 || choice > toolCards.size()+1) {
+            choice = -1;
             printToolcard();
             printStream.println("Select the toolcard");
             printStream.println("[3] Choose another action");
+            printStream.println("[4] Ask information of the game");
             choice = scanner.nextInt();
+            if (choice == 4) askInformation();
         }
         return  choice;
     }
@@ -158,7 +170,7 @@ public class CLIInput {
         while (confirm < 0 || confirm > 3) {
             printStream.println("You choose this die to draft:");
             printDieExtended(board.getDraftPool().get(choice));
-            printStream.println("Are you sure? \n [1] to accept  [2] to change  [3] to choose another action");
+            printStream.println("Are you sure? \n [1] to accept  \n [2] to change \n [3] to choose another action");
             confirm = scanner.nextInt();
         }
         if (confirm == 1) return choice;
@@ -178,9 +190,10 @@ public class CLIInput {
     void getPlayerWindow() {
         printStream.print("Choose the player:");
         int choicePlayer = -1;
-        while (choicePlayer < 0 || choicePlayer > playersName.size()) {
+        while (choicePlayer < 0 || choicePlayer > playersName.size() - 1) {
+            printStream.println("size is" + playersName.size());
             for(int i = 0; i < playersName.size(); i++){
-                printStream.print(i + " " + playersName.get(i));
+                printStream.println(i + " " + playersName.get(i));
             }
             choicePlayer = scanner.nextInt();
         }
@@ -253,12 +266,49 @@ public class CLIInput {
     }
 
     void printPrivateObjective() {
-        printStream.println(privateObjective.getTitle() + " " + privateObjective.getDescription());
+        printStream.println("Private Objective:");
+        printStream.println(privateObjective.getTitle() + "\n" + privateObjective.getDescription() + "\n");
     }
 
     void printPublicObjective() {
+        printStream.println("Public Objectives:");
         for (PublicObjective obj : publicObjectives) {
-            printStream.println(obj.getDescription());
+            printStream.println(obj.getTitle() + "\n" + obj.getDescription() + "\n");
+        }
+    }
+
+    public void askInformation() {
+        int choice = -1;
+        print("Choose the information you need.");
+        while (choice < 1 || choice > 9) {
+            print("[1] Print your window");
+            print("[2] Print window of a player");
+            print("[3] Print draft pool");
+            print("[4] Print round tracker");
+            print("[5] Print toolcard");
+            print("[6] Print public objective");
+            print("[7] Print your private objective");
+            print("[8] Print your favor points");
+            choice = scanner.nextInt();
+        }
+        switch (choice) {
+            case 1: printYourWindow();
+                break;
+            case 2: getPlayerWindow();
+                break;
+            case 3: printDraftPool();
+                break;
+            case 4: printRoundTracker();
+                break;
+            case 5: printToolcard();
+                break;
+            case 6: printPublicObjective();
+                break;
+            case 7: printPrivateObjective();
+                break;
+            case 8: printYourFavorPoint();
+                break;
+            default: break;
         }
     }
 }

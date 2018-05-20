@@ -14,6 +14,7 @@ public class ColumnColorVarietyObjective extends PublicObjective {
 
     private ColumnColorVarietyObjective(String title){
         super(title);
+        description = "Columns with no repeated colors. 5 Point";
     }
 
     private static synchronized ColumnColorVarietyObjective createInstance(String title){

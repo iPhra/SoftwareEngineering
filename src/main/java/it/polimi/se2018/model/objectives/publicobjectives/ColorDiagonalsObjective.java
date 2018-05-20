@@ -14,6 +14,7 @@ public class ColorDiagonalsObjective extends PublicObjective {
 
     private ColorDiagonalsObjective(String title){
         super(title);
+        description = "Count of diagonally adjacent same-color dice";
         alreadyCounted = new boolean[4][5];
         resetAlreadyCounted();
     }

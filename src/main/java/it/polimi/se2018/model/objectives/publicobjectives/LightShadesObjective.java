@@ -13,6 +13,7 @@ public class LightShadesObjective extends PublicObjective {
 
     private LightShadesObjective(String title){
         super(title);
+        description = "Sets of 1 & 2 values anywhere. 2 Point";
     }
 
     private static synchronized LightShadesObjective createInstance(String title){

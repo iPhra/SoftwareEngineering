@@ -8,9 +8,25 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * This class represent a window of the game
+ * @author Edoardo Lamonaca
+ */
 public class Window implements Iterable<Square>, Serializable {
+    /**
+     * This is the name of this window in the game
+     */
     private final String title;
-    private final int level; //it's the level of difficulty
+
+    /**
+     * This is the number of favour points that give to the Player
+     * if he chooses this window. It's the level of difficulty
+     */
+    private final int level;
+
+    /**
+     * This is the matrix of Square that composite the window
+     */
     private final Square[][] matrix;
 
     public Window(String title, int level, Square[][] matrix) {
@@ -43,11 +59,19 @@ public class Window implements Iterable<Square>, Serializable {
         return result;
     }
 
+    /**
+     * Return the die with the given coordinate in the Window
+     * @param coordinate is the coordinate that you ask to show
+     * @return the die in the given position
+     */
     public Die getDie (Coordinate coordinate) {
         return matrix[coordinate.getRow()][coordinate.getCol()].getDie();
     }
 
-    //return number of empty slot in a window
+    /**
+     *
+     * @return return number of empty slot in a window
+     */
     public int countEmptySlots() {
         int countSlot = 0;
         for (Square[] squares : matrix) {
@@ -88,7 +112,11 @@ public class Window implements Iterable<Square>, Serializable {
 
     }
 
-    //used by method adjacentOk, returns the adjacent dice of a die
+    /**
+     * used by method adjacentOk
+     * @param coordinate of a Square. You have to cechk the position near it
+     * @return returns the adjacent dice of a die
+     */
     public List<Die> adjacentDice(Coordinate coordinate) {
         int row = coordinate.getRow();
         int col = coordinate.getCol();

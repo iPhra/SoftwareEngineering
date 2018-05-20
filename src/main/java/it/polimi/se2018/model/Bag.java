@@ -7,26 +7,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * This class represent the bag of the game. It contains the number of die of
+ * each (@link Color). It generate new die each round and fill the (@link DraftPool)
+ * @author Edoardo Lamonaca
+ */
 public class Bag {
-    private final ArrayList<Integer> remainingColors; //ogni elemento dell'arraylist corrisponde a un colore e indica quanti dati sono rimasti nella bag di quel colore
-    private final int colorsNumber; //numero totale di colori che ci sono. (nel gioco è 5, facciamo così per renderlo estendibile)
-    private int diceNumber; //numero totale di dadi che ci sono. (nel gioco è 90, facciamo così per renderlo estendibile)
-    private final int coloredDiceNumber; //numero di dadi di uno specifico colore
+    /**
+     * This list of initeger represent the number of remaining dice for each color
+     */
+    private final ArrayList<Integer> remainingColors;
 
-    //gli passi il numero totale di colori e il numero totale di dadi e inizializza remainingColors.
-    //non va bene che non siano divisibili, quindi se succede lancia un'eccezione.
+    /**
+     * This is the number of different color of dice in the game
+     */
+    private final int colorsNumber;
+
+    /**
+     * This is the total number of dice in the bag
+     */
+    private int diceNumber;
+
     Bag(int colorsNumber, int diceNumber) {
         if (diceNumber % colorsNumber != 0) throw new InvalidParameterException("Number of dice and colors is wrong!");
         this.colorsNumber = colorsNumber;
         this.diceNumber = diceNumber;
         remainingColors = new ArrayList<>();
-        coloredDiceNumber = diceNumber / this.colorsNumber;
+        int coloredDiceNumber = diceNumber / this.colorsNumber;
         for (int i = 0; i < colorsNumber; i++) {
             remainingColors.add(coloredDiceNumber);
         }
     }
 
-    //draws a single die from the bag, used by tool cards
+    /**
+     * Draws a single die from the bag, used by tool cards
+     * @return a single (@link Die) create from a color of the Bag
+     */
     public Die extractDie() throws NoDieException {
         if (diceNumber <= 0) {
             throw new NoDieException();
@@ -43,12 +59,20 @@ public class Bag {
         return new Die(randomValueOfDie, Color.values()[index]);
     }
 
-    public void insertDie(Die die) { //inserts a single die in the bag, used by tool cards
+    /**
+     * inserts a single die in the bag, used by tool cards
+     * @param die represent the die to put into
+     */
+    public void insertDie(Die die) {
         diceNumber += 1;
         remainingColors.set(Color.fromColor(die.getColor()), remainingColors.get(Color.fromColor(die.getColor())) + 1);
     }
 
-    //draws 2n+1 dice putting them in a arraylist, used by Board
+    /**
+     * draws 2n+1 dice putting them in a arraylist, used by Board
+     * @param playersNumber number of player in the game. It's used to decide the number of die to extract
+     * @return The die created in a List. It's used to fill the (@link DraftPool)
+     */
     public List<Die> drawDice(int playersNumber) {
         try {
             ArrayList<Die> drawDice = new ArrayList<>();

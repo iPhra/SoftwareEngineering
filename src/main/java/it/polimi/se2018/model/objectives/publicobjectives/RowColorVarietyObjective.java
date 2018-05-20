@@ -14,6 +14,7 @@ public class RowColorVarietyObjective extends PublicObjective {
 
     private RowColorVarietyObjective(String title){
         super(title);
+        description = "Rows with no repeated colors";
     }
 
     private static synchronized RowColorVarietyObjective createInstance(String title){

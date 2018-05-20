@@ -14,6 +14,7 @@ public class RowShadeVarietyObjective  extends PublicObjective{
 
     private RowShadeVarietyObjective(String title){
         super(title);
+        description = "Rows with no repeated values";
     }
 
     private static synchronized RowShadeVarietyObjective createInstance(String title){

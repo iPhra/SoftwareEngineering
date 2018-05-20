@@ -14,6 +14,7 @@ public class ColorVarietyObjective extends PublicObjective {
 
     private ColorVarietyObjective(String title) {
         super(title);
+        description = "Sets pf one of each color anywhere. 4 Point";
     }
 
     private static synchronized ColorVarietyObjective createInstance(String title) {
