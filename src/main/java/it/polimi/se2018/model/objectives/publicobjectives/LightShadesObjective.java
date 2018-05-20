@@ -52,8 +52,8 @@ public class LightShadesObjective extends PublicObjective {
     }
 
     /**
-     * The points are evaluated as it follows: this objective gives 2 points to the player for each set of 1 & 2 values
-     * anywhere
+     * The points are evaluated as it follows: this objective gives 2 points to the player for each set of 1 and 2
+     * values anywhere
      * @param player the player whose points must be evaluated
      * @return the points given by this card to the player
      */
