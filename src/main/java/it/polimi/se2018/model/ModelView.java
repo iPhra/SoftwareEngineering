@@ -1,5 +1,6 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 
 import java.io.Serializable;
@@ -14,8 +15,10 @@ public class ModelView implements Serializable{
     private final List<Die> draftPool;
     private final List<List<Die>> roundTracker;
     private final List<Boolean> usedToolCard;
-    private final int turn;
+    private final int round;
     private final int currentPlayerID;
+    private Die dieInHand;
+    private List<Boolean> toolCardUsability;
 
     private final boolean hasDieInHand;
     private final boolean hasDraftedDie;
@@ -52,10 +55,22 @@ public class ModelView implements Serializable{
         } catch (ToolCardException e) {
             cardInUse = -1;
         }
-        turn = board.getRoundTracker().getRound();
+        round = board.getRound().getRoundNumber();
         draftPool = board.getDraftPool().modelViewCopy();
         roundTracker = board.getRoundTracker().modelViewCopy();
+        if (hasDieInHand) dieInHand = board.getPlayerByIndex(currentPlayerID).getDieInHand();
+        toolCardUsability = new ArrayList<>();
+        for (int i = 0; i < board.getToolCards().length; i++) {
+            ToolCard toolCard = board.getToolCards()[i];
+            toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(), board.getToolCardsUsage()[i], currentPlayer, board.getRound().isFirstRotation()));
+        }
     }
+
+    public List<Boolean> getToolCardUsability() {
+        return toolCardUsability;
+    }
+
+    public Die getDieInHand() { return dieInHand; }
 
     public int getCurrentPlayerID() {
         return currentPlayerID;
@@ -89,8 +104,8 @@ public class ModelView implements Serializable{
         return usedToolCard;
     }
 
-    public int getTurn() {
-        return turn;
+    public int getRound() {
+        return round;
     }
 
     public boolean hasDieInHand() {

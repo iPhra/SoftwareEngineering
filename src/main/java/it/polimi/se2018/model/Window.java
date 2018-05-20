@@ -127,10 +127,10 @@ public class Window implements Iterable<Square>, Serializable {
         Coordinate cor2 = new Coordinate(row + 1, col);
         Coordinate cor3 = new Coordinate(row, col - 1);
         Coordinate cor4 = new Coordinate (row, col + 1);
-        if (row > 0) adjacent.add(getSquare(cor1).getDie());
-        if (row < rows - 1) adjacent.add(getSquare(cor2).getDie());
-        if (col > 0) adjacent.add(getSquare(cor3).getDie());
-        if (col < cols - 1) adjacent.add(getSquare(cor4).getDie());
+        if (row > 0 && !getSquare(cor1).isEmpty()) adjacent.add(getSquare(cor1).getDie());
+        if (row < rows - 1 && !getSquare(cor2).isEmpty()) adjacent.add(getSquare(cor2).getDie());
+        if (col > 0 && !getSquare(cor3).isEmpty()) adjacent.add(getSquare(cor3).getDie());
+        if (col < cols - 1 && !getSquare(cor4).isEmpty()) adjacent.add(getSquare(cor4).getDie());
         return adjacent;
     }
 }

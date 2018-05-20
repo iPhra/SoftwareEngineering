@@ -154,6 +154,10 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         //Choose the action to do DraftDie, UseToolcard, PlaceDie, PassTurn
         int choice = -1;
         List<Integer> choosable = actionPossible();
+        if (cliInput.getBoard().hasDieInHand()) {
+            cliInput.print("You have a die in hand:");
+            cliInput.printDieExtended(cliInput.getBoard().getDieInHand());
+        }
         cliInput.print("It's your turn, choose your action");
         while (!choosable.contains(choice) || choice == 1) {
             printActionPermitted(choosable);

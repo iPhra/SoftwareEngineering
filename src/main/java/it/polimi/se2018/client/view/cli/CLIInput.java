@@ -138,7 +138,7 @@ public class CLIInput {
 
     int getToolCard() {
         int choice = -1;
-        while (choice < 0 || choice > toolCards.size()+1) {
+        while (choice < 0 || choice > toolCards.size()+1 || !board.getToolCardUsability().get(choice)) {
             choice = -1;
             printToolcard();
             printStream.println("Select the toolcard");
@@ -187,7 +187,7 @@ public class CLIInput {
         return choice;
     }
 
-    void getPlayerWindow() {
+    private void getPlayerWindow() {
         printStream.print("Choose the player:");
         int choicePlayer = -1;
         while (choicePlayer < 0 || choicePlayer > playersName.size() - 1) {
@@ -210,10 +210,11 @@ public class CLIInput {
 
     void printRoundTracker() {
         printStream.println("Dice on Round Tracker are:");
-        for (int i = 0; i < board.getRoundTracker().size(); i++) {
-            for (int j = 0; i < board.getRoundTracker().get(i).size(); j++) {
+        for (int i = 0; i < board.getRoundTracker().size() - 1; i++) {
+            for (int j = 0; j < board.getRoundTracker().get(i).size() - 1; j++) {
                 printDie(board.getRoundTracker().get(i).get(j));
             }
+            printStream.print("\n");
         }
     }
 
@@ -246,17 +247,20 @@ public class CLIInput {
         printStream.print(toPrint);
     }
 
-    private void printDieExtended(Die die) { printStream.println("Color: " + die.getColor().toString().toLowerCase() + " Value: " + die.getValue());}
+    public void printDieExtended(Die die) { printStream.println("Color: " + die.getColor().toString().toLowerCase() + " Value: " + die.getValue());}
 
     private void printDie(Die die) {
         printStream.print(die.getValue() + die.getColor().getAbbreviation() + " ");
     }
 
     void printToolcard() {
-        int i = 0;
-        for (ToolCard toolcard : toolCards) {
-            printStream.print(i + ": " + toolcard.getTitle() + " " + toolcard.getDescription() + "\n");
-            i++;
+        printStream.println(board.getToolCardUsability().size());
+        for (int i = 0; i < toolCards.size(); i++) {
+            ToolCard toolCard = toolCards.get(i);
+            printStream.print(i + ": " + toolCard.getTitle());
+            if (!board.getToolCardUsability().get(i)) printStream.print("     (you can't use this toolcard now)");
+            printStream.println(" ");
+            printStream.println(toolCard.getDescription() + "\n");
         }
     }
 
@@ -280,15 +284,16 @@ public class CLIInput {
     public void askInformation() {
         int choice = -1;
         print("Choose the information you need.");
-        while (choice < 1 || choice > 9) {
-            print("[1] Print your window");
-            print("[2] Print window of a player");
-            print("[3] Print draft pool");
-            print("[4] Print round tracker");
-            print("[5] Print toolcard");
-            print("[6] Print public objective");
-            print("[7] Print your private objective");
-            print("[8] Print your favor points");
+        while (choice < 1 || choice > 9 || (choice == 9 && !board.hasDieInHand())) {
+            printStream.println("[1] Print your window");
+            printStream.println("[2] Print window of a player");
+            printStream.println("[3] Print draft pool");
+            printStream.println("[4] Print round tracker");
+            printStream.println("[5] Print toolcard");
+            printStream.println("[6] Print public objective");
+            printStream.println("[7] Print your private objective");
+            printStream.println("[8] Print your favor points");
+            if (board.hasDieInHand()) printStream.println("[9] Print die in hand");
             choice = scanner.nextInt();
         }
         switch (choice) {
@@ -307,6 +312,8 @@ public class CLIInput {
             case 7: printPrivateObjective();
                 break;
             case 8: printYourFavorPoint();
+                break;
+            case 9: printDieExtended(board.getDieInHand());
                 break;
             default: break;
         }
