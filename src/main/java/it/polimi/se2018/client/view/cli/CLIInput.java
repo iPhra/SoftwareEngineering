@@ -129,9 +129,10 @@ public class CLIInput {
 
     int getToolCard() {
         int choice = -1;
-        while (choice < 0 || choice > toolCards.size()) {
+        while (choice < 0 || choice > toolCards.size()+1) {
             printToolcard();
             printStream.println("Select the toolcard");
+            printStream.println("[3] Choose another action");
             choice = scanner.nextInt();
         }
         return  choice;
@@ -150,7 +151,7 @@ public class CLIInput {
         int choice = -1;
         int confirm = -1;
         printStream.print("Select the index of the die to choose.");
-        while (choice < 1 || choice >= board.getDraftPool().size()) {
+        while (choice < 0 || choice >= board.getDraftPool().size()) {
             printDraftPool();
             choice = scanner.nextInt();
         }
@@ -232,7 +233,7 @@ public class CLIInput {
         printStream.print(toPrint);
     }
 
-    private void printDieExtended(Die die) { printStream.println("Color: " + die.getValue() + " Color: " + die.getValue());}
+    private void printDieExtended(Die die) { printStream.println("Color: " + die.getColor().toString().toLowerCase() + " Value: " + die.getValue());}
 
     private void printDie(Die die) {
         printStream.print(die.getValue() + die.getColor().getAbbreviation() + " ");

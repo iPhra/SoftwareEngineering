@@ -73,7 +73,7 @@ public class TestRoundTracker {
 
     @Test
     public void testGetTurn() {
-        Assert.assertEquals(2,roundTracker.getTurn());
+        Assert.assertEquals(2,roundTracker.getRound());
     }
 
     @Test

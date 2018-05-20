@@ -16,11 +16,10 @@ import it.polimi.se2018.utils.Observer;
 
 public class Controller extends Observable<Message> implements Observer<Message>, MessageHandler {
     private Board model;
-    private final ToolCardController toolCardController;
+    private ToolCardController toolCardController;
 
     public Controller() {
         super();
-        toolCardController = new ToolCardController(model);
     }
 
     public void setModel(Board model) {
@@ -184,6 +183,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     public void startMatch() {
+        toolCardController = new ToolCardController(model);
         model.notify(new ModelViewResponse(model.modelViewCopy()));
     }
 

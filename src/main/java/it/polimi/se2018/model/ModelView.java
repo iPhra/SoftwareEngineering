@@ -52,7 +52,7 @@ public class ModelView implements Serializable{
         } catch (ToolCardException e) {
             cardInUse = -1;
         }
-        turn = board.getRoundTracker().getTurn();
+        turn = board.getRoundTracker().getRound();
         draftPool = board.getDraftPool().modelViewCopy();
         roundTracker = board.getRoundTracker().modelViewCopy();
     }

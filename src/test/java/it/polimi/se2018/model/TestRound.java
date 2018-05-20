@@ -16,7 +16,7 @@ public class TestRound {
     @Before
     public void init(){
         Random random = new Random();
-        playersOrder = Arrays.asList(1,2,3,4,4,3,2,1);
+        playersOrder = Arrays.asList(1,2,3,4);
         roundNumber = random.nextInt(10)+1;
         round = new Round(playersOrder,roundNumber);
 
@@ -37,5 +37,9 @@ public class TestRound {
         Assert.assertNotEquals(-12,round.getCurrentPlayerIndex());
     }
 
+    @Test
+    public void testGetPLayersOrder(){
+        Assert.assertEquals(Arrays.asList(1,2,3,4,4,3,2,1),round.getPlayersOrder());
+    }
 
 }

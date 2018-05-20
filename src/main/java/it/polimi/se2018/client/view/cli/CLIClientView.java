@@ -203,7 +203,16 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
 
     private void selectToolcard() throws RemoteException {
         int toolCard = cliInput.getToolCard();
-        clientConnection.sendMessage(new ToolCardRequestMessage(playerID, toolCard));
+        //if you click 3, you choose to go for another action
+        if (toolCard != 3)
+            clientConnection.sendMessage(new ToolCardRequestMessage(playerID, toolCard));
+        else{
+            try{
+                chooseAction();
+            }catch(RemoteException e){
+                System.err.println(e.getMessage());
+            }
+        }
     }
 
     private void useToolcard(int indexOfToolCard) throws RemoteException {
