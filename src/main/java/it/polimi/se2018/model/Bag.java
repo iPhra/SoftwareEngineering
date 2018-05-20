@@ -42,6 +42,7 @@ public class Bag {
     /**
      * Draws a single die from the bag, used by tool cards
      * @return a single (@link Die) create from a color of the Bag
+     * @throws NoDieException if there is no die in the bag
      */
     public Die extractDie() throws NoDieException {
         if (diceNumber <= 0) {

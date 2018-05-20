@@ -52,8 +52,8 @@ public class DeepShadesObjective extends PublicObjective {
     }
 
     /**
-     * The points are evaluated as it follows: this objective gives 2 points to the player for each set of 5 & 6 values
-     * anywhere
+     * The points are evaluated as it follows: this objective gives 2 points to the player for each set of 5 and 6
+     * values anywhere
      * @param player the player whose points must be evaluated
      * @return the points given by this card to the player
      */
