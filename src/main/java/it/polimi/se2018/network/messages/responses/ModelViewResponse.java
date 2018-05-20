@@ -25,7 +25,7 @@ public class ModelViewResponse extends Response {
     }
 
     /**
-     * Uses the handler to handle this specific {@link ModelView} reponse
+     * Uses the handler to handle this specific {@link ModelView} response
      * @param responseHandler is the object who will handle this response
      */
     @Override

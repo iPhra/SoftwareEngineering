@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * This class represents a message from a player wishing to specify the inputs needed to use the Tool Card in his hand
+ * @author Francesco Lorenzo
  */
 public class ToolCardMessage extends Message {
 

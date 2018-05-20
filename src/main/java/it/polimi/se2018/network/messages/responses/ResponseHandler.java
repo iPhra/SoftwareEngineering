@@ -36,5 +36,9 @@ public interface ResponseHandler {
      */
     void handleResponse(SetupResponse setupResponse);
 
+    /**
+     * This method is used by the Server to communicate a specific color for {@link it.polimi.se2018.model.toolcards.ToolCard}
+     * @param inputResponse contains the color chosen for the {@link it.polimi.se2018.model.Die}
+     */
     void handleResponse(InputResponse inputResponse);
 }

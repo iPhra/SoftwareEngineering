@@ -1,17 +1,31 @@
 package it.polimi.se2018.network.messages.requests;
 
+/**
+ * This class represents a message from the Client to the Server to communicate the value chosen for a die
+ * @author Francesco Lorenzo
+ */
 public class InputMessage extends Message {
-    int dieValue;
+    /**
+     * It's the chosen value for the die
+     */
+    private int dieValue;
 
     public InputMessage(int playerID, int dieValue) {
         super(playerID);
         this.dieValue = dieValue;
     }
 
+    /**
+     * @return the value of the die
+     */
     public int getDieValue() {
         return dieValue;
     }
 
+    /**
+     * Uses the handler to handle this specific input request
+     * @param handler is the object who will handle this request
+     */
     @Override
     public void handle(MessageHandler handler) {
         handler.performMove(this);
