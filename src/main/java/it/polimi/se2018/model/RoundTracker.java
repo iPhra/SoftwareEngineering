@@ -87,6 +87,17 @@ public class RoundTracker {
     }
 
     /**
+     * Checks if the round tracker is void (if there is no die)
+     * @return true if there is no die in the round tracker, false otherwise
+     */
+    public boolean isVoid(){
+        for (List<Die> diceList : dice){
+            if (!diceList.isEmpty()) return false;
+        }
+        return true;
+    }
+
+    /**
      * Used by {@link it.polimi.se2018.model.ModelView}, in the constructor, when it's needed to copy the whole Board
      * to send it to a client
      * @return a copy of attribute dice

@@ -1,6 +1,7 @@
 package it.polimi.se2018.model.toolcards;
 
 import it.polimi.se2018.controller.ToolCardHandler;
+import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.ToolCardCheckerHandler;
 import it.polimi.se2018.network.messages.responses.Response;
@@ -26,5 +27,5 @@ public abstract class ToolCard implements Serializable {
 
     public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber);
 
-    public abstract Boolean handleCheck(ToolCardCheckerHandler handler, boolean isUsed, Player player, boolean isFirstTurn);
+    public abstract Boolean handleCheck(ToolCardCheckerHandler handler, boolean isUsed, Player player, Board board);
 }

@@ -62,7 +62,7 @@ public class ModelView implements Serializable{
         toolCardUsability = new ArrayList<>();
         for (int i = 0; i < board.getToolCards().length; i++) {
             ToolCard toolCard = board.getToolCards()[i];
-            toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(), board.getToolCardsUsage()[i], currentPlayer, board.getRound().isFirstRotation()));
+            toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(), board.getToolCardsUsage()[i], currentPlayer, board));
         }
     }
 
