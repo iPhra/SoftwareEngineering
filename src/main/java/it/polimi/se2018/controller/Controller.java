@@ -2,6 +2,8 @@ package it.polimi.se2018.controller;
 
 import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.utils.Observable;
+import it.polimi.se2018.utils.Timing;
+import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.utils.exceptions.*;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
@@ -14,12 +16,18 @@ import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.utils.Observer;
 
-public class Controller extends Observable<Message> implements Observer<Message>, MessageHandler {
+import java.time.Duration;
+
+public class Controller extends Observable<Message> implements Observer<Message>, MessageHandler, Timing {
     private Board model;
     private ToolCardController toolCardController;
+    private Duration timeout;
+    private WaitingThread alarm;
 
     public Controller() {
         super();
+        timeout = Duration.ofSeconds(40);
+        alarm = new WaitingThread(timeout, this);
     }
 
     public void setModel(Board model) {
@@ -121,7 +129,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
         else {
             pass(player);
-            model.notify(new ModelViewResponse(model.modelViewCopy()));
         }
     }
 
@@ -176,6 +183,10 @@ public class Controller extends Observable<Message> implements Observer<Message>
             player.dropDieInHand();
             model.getDraftPool().addToDraftPool(die);
         }
+        model.notify(new ModelViewResponse(model.modelViewCopy()));
+        timeout = Duration.ofSeconds(40);
+        alarm = new WaitingThread(timeout, this);
+        alarm.start();
     }
 
     private void placeDie(DiePlacer diePlacer) throws InvalidPlacementException {
@@ -185,6 +196,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     public void startMatch() {
         toolCardController = new ToolCardController(model);
         model.notify(new ModelViewResponse(model.modelViewCopy()));
+        alarm.start();
     }
 
     @Override
@@ -195,4 +207,8 @@ public class Controller extends Observable<Message> implements Observer<Message>
             checkInput(input);
     }
 
+    @Override
+    public void onTimesUp() {
+        pass(model.getPlayerByIndex(model.getRound().getCurrentPlayerIndex()));
+    }
 }

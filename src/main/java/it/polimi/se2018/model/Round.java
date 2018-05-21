@@ -117,10 +117,6 @@ public class Round {
             newPlayersOrder.add(playersOrder.get(i+1));
         }    //given ABCDDCBA, now we have BCD
         newPlayersOrder.add(playersOrder.get(0)); //BCDA
-        newPlayersOrder.add(playersOrder.get(0)); //BCDAA
-        for(int i=playersOrder.size()/2; i<playersOrder.size() - 1; i++ ){
-            newPlayersOrder.add(playersOrder.get(i));
-        } //BCDAADCB, that's what we wanted
         return new Round(newPlayersOrder,roundNumber + 1);
     }
 

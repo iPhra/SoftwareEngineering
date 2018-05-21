@@ -18,7 +18,7 @@ public class DeepShadesObjective extends PublicObjective {
 
     private DeepShadesObjective(String title) {
         super(title);
-        description = "Sets of 5 & 6 values anywhere. 2 Point";
+        description = "Sets of 5 & 6 values anywhere. #2 Points";
     }
 
     /**

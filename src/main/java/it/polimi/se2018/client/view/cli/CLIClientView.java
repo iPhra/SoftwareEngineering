@@ -7,23 +7,30 @@ import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.client.view.ClientView;
+import it.polimi.se2018.utils.Timing;
+import it.polimi.se2018.utils.WaitingThread;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.time.Duration;
 import java.util.*;
 
-public class CLIClientView implements ResponseHandler, ClientView, Serializable {
+public class CLIClientView implements ResponseHandler, ClientView, Serializable, Timing {
     private final transient int playerID;
     private transient ClientConnection clientConnection;
     private final transient Scanner scanner;
     private transient CLIInput cliInput;
     private transient ToolCardPlayerInput toolCardPlayerInput;
+    private Duration timeout;
+    WaitingThread clock;
 
     public CLIClientView(int playerID) {
         this.playerID = playerID;
         scanner = new Scanner(System.in);
         cliInput = new CLIInput(playerID);
         toolCardPlayerInput = new ToolCardPlayerInput(playerID, cliInput);
+        timeout = Duration.ofSeconds(5);
+        clock = null;
     }
 
     public void setClientConnection(ClientConnection clientConnection) {
@@ -85,6 +92,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         int windowNumber = selectWindow(setupResponse.getWindows())-1;
         try {
             clientConnection.sendMessage(new SetupMessage(playerID,setupResponse.getWindows().get(windowNumber)));
+            cliInput.print("Window sent. Waiting for other players to choose.");
         }
         catch (RemoteException e) {
         }
@@ -92,13 +100,18 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
 
     private void checkIsYourTurn() {
         if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
+            clock = new WaitingThread(timeout, this);
+            clock.start();
             try {
                 chooseAction();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
-        else cliInput.print("It's not your turn. You can't do anything!");
+        else  {
+            clock = null;
+            cliInput.print("It's not your turn. You can't do anything!");
+        }
     }
 
     private List<Integer> actionPossible() {
@@ -143,6 +156,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             cliInput.print("You have this die in your hand:");
             cliInput.printDieExtended(cliInput.getBoard().getDieInHand());
         }
+        cliInput.print("");
         while (!choosable.contains(choice) || choice == 1) {
             printActionPermitted(choosable);
             choice = cliInput.takeInput();
@@ -173,8 +187,9 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             int i = 1;
             for(Window window : windows) {
                 cliInput.print("Press [" + i + "] to select this window");
+                cliInput.print(window.getTitle());
                 cliInput.printPlayerWindow(window.modelViewCopy());
-                cliInput.print("The level of the window is " + window.getLevel());
+                cliInput.print("The level of the window is " + window.getLevel() + "\n");
                 i++;
             }
             choice = scanner.nextInt();
@@ -183,6 +198,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
     }
 
     private void passTurn() throws RemoteException{
+        clock.interrupt();
         clientConnection.sendMessage(new PassMessage(playerID));
     }
 
@@ -221,5 +237,11 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
             clientConnection.sendMessage(new PlaceMessage(playerID, coordinate));
         }
         else { chooseAction(); }
+    }
+
+    @Override
+    public void onTimesUp() {
+        cliInput.print("Fine tempo!");
+        clock = null;
     }
 }

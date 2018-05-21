@@ -158,13 +158,16 @@ public class CLIInput {
 
     int getToolCard() {
         int choice = -1;
+        printToolcard();
+        printStream.println("Select the tool card");
+        printStream.println("[3] Choose another action");
+        printStream.println("[4] Ask an information on the game");
         while (choice != 3 && (choice < 0 || choice > toolCards.size()+1 || !board.getToolCardUsability().get(choice))) {
-            printToolcard();
-            printStream.println("Select the tool card");
-            printStream.println("[3] Choose another action");
-            printStream.println("[4] Ask an information on the game");
             choice = takeInput();
             if (choice == 4) askInformation();
+            if (choice >= 0 && choice < 3 && !board.getToolCardUsability().get(choice)) {
+                printStream.println("You can't use the chosen tool card. Please choose another one.");
+            }
         }
         return  choice;
     }
@@ -189,7 +192,7 @@ public class CLIInput {
         while (confirm < 0 || confirm > 3) {
             printStream.println("You selected this die: ");
             printDieExtended(board.getDraftPool().get(choice));
-            printStream.println("Are you sure? \n [1] to accept  \n [2] to change \n [3] to choose another action");
+            printStream.println("Are you sure? \n [1] to accept  [2] to change \n [3] to choose another action");
             confirm = takeInput();
         }
         switch(confirm) {
@@ -209,10 +212,9 @@ public class CLIInput {
     }
 
     private void getPlayerWindow() {
-        printStream.print("Choose the player:");
+        printStream.println("Choose the player:");
         int choicePlayer = -1;
         while (choicePlayer < 0 || choicePlayer > playersName.size() - 1) {
-            printStream.println("size is" + playersName.size());
             for(int i = 0; i < playersName.size(); i++){
                 printStream.println(i + " " + playersName.get(i));
             }
@@ -232,6 +234,7 @@ public class CLIInput {
     void printRoundTracker() {
         printStream.println("Dice on Round Tracker are:");
         for (int i = 0; i < board.getRoundTracker().size() - 1; i++) {
+            printStream.print("Round " + i + ":  ");
             for (int j = 0; j < board.getRoundTracker().get(i).size() - 1; j++) {
                 printDie(board.getRoundTracker().get(i).get(j));
             }
@@ -275,7 +278,6 @@ public class CLIInput {
     }
 
     void printToolcard() {
-        printStream.println(board.getToolCardUsability().size());
         for (int i = 0; i < toolCards.size(); i++) {
             ToolCard toolCard = toolCards.get(i);
             printStream.print(i + ": " + toolCard.getTitle());

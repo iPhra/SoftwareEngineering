@@ -5,6 +5,8 @@ import it.polimi.se2018.network.connections.rmi.RMIManager;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.network.connections.socket.SocketHandler;
 import it.polimi.se2018.utils.DeckBuilder;
+import it.polimi.se2018.utils.Timing;
+import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.view.ServerView;
 
 import java.io.IOException;
@@ -14,10 +16,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Server {
+public class Server implements Timing {
     private static final int PORT = 1234;
     private static int matchID = 0;
     private static int playerNumber = 0; //identifies just the player, without the match
@@ -25,10 +28,14 @@ public class Server {
     private ServerSocket serverSocket;
     private DeckBuilder deckBuilder;
     private static Registry registry;
+    private Duration timeout;
+    WaitingThread clock;
 
     private Server() {
         deckBuilder = DeckBuilder.instance();
         matches = new HashMap<>();
+        timeout = Duration.ofSeconds(30);
+        clock = new WaitingThread(timeout, this);
     }
 
     public void setPlayer(int playerID, String playerName, ServerConnection serverConnection) {
@@ -46,8 +53,15 @@ public class Server {
         manager.addPlayerID(playerID);
         serverConnection.setServerView(manager.getServerView());
         manager.getServerView().addServerConnection(playerID,serverConnection);
-        if (isMatchFull())
-            manager.sendWindows();
+        if (manager.playersNumber() == 2) {
+            timeout = Duration.ofSeconds(30);
+            clock = new WaitingThread(timeout, this);
+            clock.start();
+        }
+        if (isMatchFull()) {
+            manager.sendWindows(); //QUI dopo o prima di questa
+            clock.interrupt();
+        }
     }
 
     public boolean checkName(int playerID, String playerName) {
@@ -63,7 +77,7 @@ public class Server {
     }
 
     public int generateID() {
-        if (isMatchFull()) incrementMatchID();
+        if (isMatchFull()) incrementMatchID(); //Perchè qui e non vedi su
         incrementPlayerID();
         return (matchID*1000)+playerNumber;
     }
@@ -97,5 +111,13 @@ public class Server {
         server.startSocketConnection();
         server.createRMIRegistry();
         new PrintStream(System.out).println("Listening...");
+    }
+
+    @Override
+    public void onTimesUp() {
+        if (matches.get(matchID).playersNumber() >= 2) {
+            matches.get(matchID).sendWindows();
+            incrementMatchID();
+        }
     }
 }
