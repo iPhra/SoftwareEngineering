@@ -6,9 +6,9 @@ import it.polimi.se2018.network.messages.responses.Response;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RemoteView extends Remote{
+public interface RemoteConnection extends Remote{
 
-    void handleNetworkInput(Message message) throws RemoteException;
-
-    void handleNetworkInput(Response response) throws RemoteException;
+    void getResponse(Response response) throws RemoteException;
+    void getMessage(Message message) throws RemoteException;
+    void updateView() throws RemoteException;
 }

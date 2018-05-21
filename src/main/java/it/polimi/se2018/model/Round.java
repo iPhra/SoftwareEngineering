@@ -38,9 +38,7 @@ public class Round {
     Round(List<Integer> playersIDs, int roundNumber) {
         playersOrder = new ArrayList<>(playersIDs);
         Collections.reverse(playersIDs);
-        for(int player : playersIDs){
-            playersOrder.add(player);
-        }
+        playersOrder.addAll(playersIDs);
         this.roundNumber = roundNumber;
         currentPlayerIndex=0;
         currentPlayer=playersOrder.get(currentPlayerIndex);

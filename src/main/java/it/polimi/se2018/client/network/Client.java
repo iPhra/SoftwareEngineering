@@ -1,7 +1,7 @@
 package it.polimi.se2018.client.network;
 
+import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
-import it.polimi.se2018.network.connections.rmi.RemoteView;
 import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.client.view.cli.CLIClientView;
 
@@ -20,8 +20,8 @@ import java.util.Scanner;
 public class Client {
     private static final int PORT = 1234;
     private static final String HOST = "127.0.0.1";
-    private RemoteView clientView;
-    private ClientConnection connection;
+    private ClientView clientView;
+    private ClientConnection clientConnection;
     private int playerID;
     private String playerName;
     private Socket socket;
@@ -49,6 +49,7 @@ public class Client {
             }
         }
         catch(RemoteException | NotBoundException | MalformedURLException e) {
+            System.err.println();
         }
     }
 
@@ -62,11 +63,12 @@ public class Client {
             output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
         }
         clientView = new CLIClientView(playerID);
-        CLIClientView view = (CLIClientView) clientView;
-        manager.addClient(playerID, playerName, (RemoteView) UnicastRemoteObject.exportObject(clientView,0));
-        RemoteView server = (RemoteView) Naming.lookup("//localhost/RemoteView");
-        connection = new RMIClientConnection(server);
-        view.setClientConnection(connection);
+        clientConnection = new RMIClientConnection(clientView);
+        manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection)clientConnection,0));
+        RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection");
+        ((RMIClientConnection)clientConnection).setServerConnection(serverConnection);
+        clientView.setClientConnection(clientConnection);
+        new Thread(((RMIClientConnection)clientConnection)).start();
     }
 
     private void createSocketConnection(String host, int port){
@@ -87,11 +89,9 @@ public class Client {
                 System.err.println(e.getMessage());
             }
             clientView = new CLIClientView(playerID);
-            CLIClientView view = (CLIClientView) clientView;
-            SocketClientConnection socketClientConnection = new SocketClientConnection(socket, (ClientView) clientView,in,out);
-            connection = socketClientConnection;
-            view.setClientConnection(connection);
-            socketClientConnection.run();
+            clientConnection = new SocketClientConnection(socket, clientView,in,out);
+            clientView.setClientConnection(clientConnection);
+            ((SocketClientConnection)clientConnection).run();
         } catch(IOException e){
             System.err.println(e.getMessage());
         }

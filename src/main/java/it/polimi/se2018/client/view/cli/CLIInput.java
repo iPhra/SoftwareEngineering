@@ -109,15 +109,18 @@ public class CLIInput {
             row = takeInput();
         }
         while (col < 0 || col > 4) {
-            printStream.println("Choose the col");
+            printStream.println("Choose the column");
             col = takeInput();
         }
         while (choice < 1 || choice > 3) {
-            printStream.println("You choose the position. Press: \n [1] to accept \n [2] to change [3] to do another action");
+            printStream.println("You chose the position. Press: \n [1] to accept \n [2] to change [3] to do another action");
             choice = takeInput();
-            if (choice == 1) return new Coordinate(row, col);
-            else if (choice == 2) return getCoordinate();
-            else if (choice == 3) new Coordinate(-1, -1);
+            switch(choice) {
+                case 1 : return new Coordinate(row,col);
+                case 2 : return getCoordinate();
+                case 3 : new Coordinate(-1,-1); break;
+                default : break;
+            }
         }
         return new Coordinate(-1, -1);
     }
@@ -134,7 +137,7 @@ public class CLIInput {
                 while (pos < 0 || pos > board.getRoundTracker().get(turn).size() && pos != 9 && pos!=8) {
                     printStream.println("Choose the position. Insert a number from 0 to " + board.getRoundTracker().get(turn).size());
                     printStream.println("[8] to choose another turn");
-                    printStream.println("[9] to don't choose a die and change action");
+                    printStream.println("[9] to change action");
                     pos = takeInput();
                 }
                 if (pos == 8) turn = -1;
@@ -144,7 +147,7 @@ public class CLIInput {
                 turn = -1;
             }
             else {
-                printStream.print("You choose this die ");
+                printStream.print("You selected this die: ");
                 printDieExtended(board.getRoundTracker().get(turn).get(pos));
                 printStream.println("Are you sure? \n [1] Yes  [2]-[9] No");
                 choice = takeInput();
@@ -169,13 +172,13 @@ public class CLIInput {
     int getValueDie() {
         int val = 0;
         while (val < 1 || val > 6) {
-            printStream.print("Choose the value of the die (value of die go from 1 to 6)");
+            printStream.print("Choose the value of the die (value goes from 1 to 6)");
             val = takeInput();
         }
         return val;
     }
 
-    int getPositionDraftPool() {
+    int getDraftPoolPosition() {
         int choice = -1;
         int confirm = -1;
         printStream.print("Select the index of the die to choose.");
@@ -184,20 +187,22 @@ public class CLIInput {
             choice = takeInput();
         }
         while (confirm < 0 || confirm > 3) {
-            printStream.println("You choose this die to draft:");
+            printStream.println("You selected this die: ");
             printDieExtended(board.getDraftPool().get(choice));
             printStream.println("Are you sure? \n [1] to accept  \n [2] to change \n [3] to choose another action");
             confirm = takeInput();
         }
-        if (confirm == 1) return choice;
-        else if (confirm == 2) return getPositionDraftPool();
-        else return -1;
+        switch(confirm) {
+            case 1: return choice;
+            case 2: return getDraftPoolPosition();
+            default: return -1;
+        }
     }
 
     int getMinusPlus() {
         int choice = -1;
         while (choice < 0 || choice > 1) {
-            printStream.println("Choose 0 to decrease 1 to increase.");
+            printStream.println("0 to decrease, 1 to increase.");
             choice = takeInput();
         }
         return choice == 0 ? -1:1;
@@ -217,7 +222,7 @@ public class CLIInput {
     }
 
     void printDraftPool() {
-        printStream.println("Dice on Draftpool are:");
+        printStream.println("Dice on Draft Pool are:");
         for (int i = 0; i < board.getDraftPool().size(); i++) {
             printStream.print("[" + i + "] ");
             printDieExtended(board.getDraftPool().get(i));
@@ -274,7 +279,7 @@ public class CLIInput {
         for (int i = 0; i < toolCards.size(); i++) {
             ToolCard toolCard = toolCards.get(i);
             printStream.print(i + ": " + toolCard.getTitle());
-            if (!board.getToolCardUsability().get(i)) printStream.print("     (you can't use this toolcard now)");
+            if (!board.getToolCardUsability().get(i)) printStream.print("     (You can't use this Tool Card now!)");
             printStream.println(" ");
             printStream.println(toolCard.getDescription() + "\n");
         }
@@ -299,17 +304,17 @@ public class CLIInput {
 
     public void askInformation() {
         int choice = -1;
-        print("Choose the information you need.");
+        print("Choose which information you would like to know: ");
         while (choice < 1 || choice > 9 || (choice == 9 && !board.hasDieInHand())) {
-            printStream.println("[1] Print your window");
-            printStream.println("[2] Print window of a player");
-            printStream.println("[3] Print draft pool");
-            printStream.println("[4] Print round tracker");
-            printStream.println("[5] Print toolcard");
-            printStream.println("[6] Print public objective");
-            printStream.println("[7] Print your private objective");
-            printStream.println("[8] Print your favor points");
-            if (board.hasDieInHand()) printStream.println("[9] Print die in hand");
+            printStream.println("[1] Print your Window");
+            printStream.println("[2] Print the Window of a player");
+            printStream.println("[3] Print the Draft Pool");
+            printStream.println("[4] Print the Round Tracker");
+            printStream.println("[5] Print all Tool Cards");
+            printStream.println("[6] Print all Public Objectives");
+            printStream.println("[7] Print your Private Objective");
+            printStream.println("[8] Print your available favor points");
+            if (board.hasDieInHand()) printStream.println("[9] Print the die in your hand");
             choice = takeInput();
         }
         switch (choice) {

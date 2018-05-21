@@ -1,7 +1,6 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.model.toolcards.*;
-import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
 public interface ToolCardCheckerHandler {
     Boolean checkUsability(CopperFoilBurnisher toolCard, boolean isUsed, Player player, Board board);

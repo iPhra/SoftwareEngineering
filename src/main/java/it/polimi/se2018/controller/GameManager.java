@@ -1,7 +1,6 @@
 package it.polimi.se2018.controller;
 
 import it.polimi.se2018.model.Board;
-import it.polimi.se2018.model.ModelView;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.Window;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
@@ -10,7 +9,6 @@ import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
-import it.polimi.se2018.network.messages.responses.ModelViewResponse;
 import it.polimi.se2018.network.messages.responses.SetupResponse;
 import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.utils.Observer;

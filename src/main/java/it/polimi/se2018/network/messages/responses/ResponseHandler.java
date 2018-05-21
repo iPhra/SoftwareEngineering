@@ -19,12 +19,6 @@ public interface ResponseHandler {
     void handleResponse(TextResponse textResponse);
 
     /**
-     * This method notifies a client that his turn just started
-     * @param turnStartResponse is an empty response
-     */
-    void handleResponse(TurnStartResponse turnStartResponse);
-
-    /**
      * This method is used to notify the client that he can use the Tool Card he selected
      * @param toolCardResponse contains the number of the Tool Card to be used
      */

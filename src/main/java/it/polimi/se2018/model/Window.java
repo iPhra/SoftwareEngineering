@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * This class represent a window of the game
+ * This class represents a window of the game
  * @author Edoardo Lamonaca
  */
 public class Window implements Iterable<Square>, Serializable {
@@ -113,7 +113,7 @@ public class Window implements Iterable<Square>, Serializable {
     }
 
     /**
-     * used by method adjacentOk
+     * Used by method adjacentOk
      * @param coordinate of a Square. You have to cechk the position near it
      * @return returns the adjacent dice of a die
      */

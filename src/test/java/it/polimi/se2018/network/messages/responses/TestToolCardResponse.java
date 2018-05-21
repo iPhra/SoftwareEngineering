@@ -33,11 +33,6 @@ public class TestToolCardResponse {
             }
 
             @Override
-            public void handleResponse(TurnStartResponse turnStartResponse) {
-                fail();
-            }
-
-            @Override
             public void handleResponse(ToolCardResponse toolCardResponse) {
             }
 

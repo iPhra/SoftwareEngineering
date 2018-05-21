@@ -35,11 +35,6 @@ public class TestTextResponse {
             }
 
             @Override
-            public void handleResponse(TurnStartResponse turnStartResponse) {
-                fail();
-            }
-
-            @Override
             public void handleResponse(ToolCardResponse toolCardResponse) {
                 fail();
             }

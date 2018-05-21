@@ -19,16 +19,14 @@ import java.util.Map;
 
 public class Server {
     private static final int PORT = 1234;
-    private static RemoteManager remoteManager;
     private static int matchID = 0;
     private static int playerNumber = 0; //identifies just the player, without the match
     private Map<Integer, GameManager> matches;
     private ServerSocket serverSocket;
-    private static Registry registry;
     private DeckBuilder deckBuilder;
+    private static Registry registry;
 
     private Server() {
-        remoteManager = new RMIManager(this);
         deckBuilder = DeckBuilder.instance();
         matches = new HashMap<>();
     }
@@ -41,12 +39,6 @@ public class Server {
             manager.setServerView(new ServerView());
             manager.startSetup();
             matches.put(match,manager);
-            try {
-                registry.rebind("RemoteView", UnicastRemoteObject.exportObject(manager.getServerView(),0));
-            }
-            catch (RemoteException e) {
-                System.err.println(e.getMessage());
-            }
         }
         else manager = matches.get(match);
         manager.addPlayerName(playerID,playerName);
@@ -78,6 +70,7 @@ public class Server {
 
     private void createRMIRegistry () throws RemoteException{
         registry = LocateRegistry.createRegistry(1099);
+        RemoteManager remoteManager = new RMIManager(this,registry);
         registry.rebind("RemoteManager", UnicastRemoteObject.exportObject(remoteManager,0));
     }
 
@@ -101,8 +94,8 @@ public class Server {
 
     public static void main(String[] args) throws RemoteException {
         Server server = new Server();
-        new PrintStream(System.out).println("Listening...");
         server.startSocketConnection();
         server.createRMIRegistry();
+        new PrintStream(System.out).println("Listening...");
     }
 }

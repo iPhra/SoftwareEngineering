@@ -1,6 +1,5 @@
 package it.polimi.se2018.view;
 
-import it.polimi.se2018.network.connections.rmi.RemoteView;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.*;
@@ -12,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServerView extends Observable<Message> implements Observer<Response>, RemoteView{
+public class ServerView extends Observable<Message> implements Observer<Response>{
     private Map<Integer,ServerConnection> playerConnections;
 
     public ServerView() {
@@ -28,14 +27,8 @@ public class ServerView extends Observable<Message> implements Observer<Response
     }
 
     //receives input from the network, notifies the controller
-    @Override
     public void handleNetworkInput(Message message) {
         notify(message);
-    }
-
-    @Override
-    public void handleNetworkInput(Response response)  {
-        //not implemented serverside
     }
 
     @Override
