@@ -98,7 +98,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         cliInput.printPrivateObjective();
         cliInput.printPublicObjective();
         int windowNumber = selectWindow(setupResponse.getWindows())-1;
-        cliInput.setWindow(setupResponse.getWindows().get(windowNumber));
         try {
             clientConnection.sendMessage(new SetupMessage(playerID,setupResponse.getWindows().get(windowNumber)));
         }
@@ -154,18 +153,17 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
         //Choose the action to do DraftDie, UseToolcard, PlaceDie, PassTurn
         int choice = -1;
         List<Integer> choosable = actionPossible();
+        cliInput.print("It's your turn, choose your action");
         if (cliInput.getBoard().hasDieInHand()) {
             cliInput.print("You have a die in hand:");
             cliInput.printDieExtended(cliInput.getBoard().getDieInHand());
         }
-        cliInput.print("It's your turn, choose your action");
         while (!choosable.contains(choice) || choice == 1) {
             printActionPermitted(choosable);
-            choice = scanner.nextInt();
+            choice = cliInput.takeInput();
+            if (choice == 1) cliInput.askInformation();
+        }
             switch (choice) {
-                case 1:
-                    cliInput.askInformation();
-                    break;
                 case 2:
                     draftDie();
                     break;
@@ -181,7 +179,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable 
                 default:
                     break;
             }
-        }
     }
 
     private int selectWindow(List<Window> windows) {

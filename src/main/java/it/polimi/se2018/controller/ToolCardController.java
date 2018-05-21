@@ -142,7 +142,7 @@ public class ToolCardController implements ToolCardHandler{
     @Override
     public Response useCard(GrindingStone toolCard, ToolCardMessage toolCardMessage) throws ToolCardException{
         Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
-        if (player.hasDieInHand()) {
+        if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
         player.getDieInHand().flipDie();
@@ -156,9 +156,9 @@ public class ToolCardController implements ToolCardHandler{
         if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
-        if (toolCardMessage.getValue() != 1 || toolCardMessage.getValue() != -1) {
+        if (toolCardMessage.getValue() != +1 || toolCardMessage.getValue() != -1) {
             //This toolcards change the value of the die by +1 or -1, other value are not allowed
-            throw  new ToolCardException("Non puoi modificare nel modo indicato il dado! Puoi scegliere solo +1 o -1");
+            throw  new ToolCardException("Non puoi modificare nel modo indicato il dado! Puoi scegliere solo 0 o 1");
         }
         try {
             Die dieToChange = player.getDieInHand();
