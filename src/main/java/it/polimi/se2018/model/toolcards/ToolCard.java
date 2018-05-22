@@ -5,6 +5,7 @@ import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.ToolCardCheckerHandler;
 import it.polimi.se2018.network.messages.responses.Response;
+import it.polimi.se2018.utils.exceptions.TimeOutException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
@@ -25,7 +26,7 @@ public abstract class ToolCard implements Serializable {
 
     public abstract Response handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 
-    public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber);
+    public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws TimeOutException;
 
     public abstract Boolean handleCheck(ToolCardCheckerHandler handler, boolean isUsed, Player player, Board board);
 }
