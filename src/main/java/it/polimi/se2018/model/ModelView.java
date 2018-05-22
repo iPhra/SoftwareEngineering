@@ -16,7 +16,7 @@ public class ModelView implements Serializable{
     private final List<List<Die>> roundTracker;
     private final List<Boolean> usedToolCard;
     private final int round;
-    private final int currentPlayerID;
+    private int currentPlayerID;
     private Die dieInHand;
     private List<Boolean> toolCardUsability;
 
@@ -124,4 +124,7 @@ public class ModelView implements Serializable{
         return cardInUse;
     }
 
+    public void setCurrentPlayerID(int currentPlayerID) {
+        this.currentPlayerID = currentPlayerID;
+    }
 }

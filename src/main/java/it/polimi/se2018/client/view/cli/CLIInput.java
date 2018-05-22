@@ -5,6 +5,7 @@ import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
+import it.polimi.se2018.utils.exceptions.TimeOutException;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
@@ -77,29 +78,33 @@ public class CLIInput {
         return scanner;
     }
 
-    int takeInput() {
+    int takeInput() throws TimeOutException{
         scanner = new Scanner(in);
         boolean iterate = true;
         int res=0;
         do {
+            if (board.getCurrentPlayerID() != playerID) throw new TimeOutException();
             try {
-                res = scanner.nextInt();
-                iterate=false;
+                if (scanner.hasNext()) {
+                    res = scanner.nextInt();
+                    iterate = false;
+                }
             } catch (InputMismatchException e) {
                 printStream.println("Input is invalid");
                 scanner.nextLine();
             }
         }
         while(iterate);
+        if (board.getCurrentPlayerID() != playerID) throw new TimeOutException();
         return res;
     }
 
-    Coordinate getDieInMap() {
+    Coordinate getDieInMap() throws TimeOutException{
         printStream.println("Choose the die in the window");
         return getCoordinate();
     }
 
-    public Coordinate getCoordinate() {
+    public Coordinate getCoordinate() throws TimeOutException{
         int row = -1;
         int col = -1;
         int choice = -1;
@@ -125,7 +130,7 @@ public class CLIInput {
         return new Coordinate(-1, -1);
     }
 
-    Coordinate getRoundTrackPosition() {
+    Coordinate getRoundTrackPosition() throws TimeOutException{
         int turn = -1;
         int pos = -1;
         int choice = 1;
@@ -156,7 +161,7 @@ public class CLIInput {
         return new Coordinate(turn, pos);
     }
 
-    int getToolCard() {
+    int getToolCard() throws TimeOutException{
         int choice = -1;
         printToolcard();
         printStream.println("Select the tool card");
@@ -172,7 +177,7 @@ public class CLIInput {
         return  choice;
     }
 
-    int getValueDie() {
+    int getValueDie() throws TimeOutException{
         int val = 0;
         while (val < 1 || val > 6) {
             printStream.print("Choose the value of the die (value goes from 1 to 6)");
@@ -181,7 +186,7 @@ public class CLIInput {
         return val;
     }
 
-    int getDraftPoolPosition() {
+    int getDraftPoolPosition() throws TimeOutException{
         int choice = -1;
         int confirm = -1;
         printStream.print("Select the index of the die to choose.");
@@ -202,7 +207,7 @@ public class CLIInput {
         }
     }
 
-    int getMinusPlus() {
+    int getMinusPlus() throws TimeOutException{
         int choice = -1;
         while (choice < 0 || choice > 1) {
             printStream.println("0 to decrease, 1 to increase.");
@@ -211,7 +216,7 @@ public class CLIInput {
         return choice == 0 ? -1:1;
     }
 
-    private void getPlayerWindow() {
+    private void getPlayerWindow() throws TimeOutException{
         printStream.println("Choose the player:");
         int choicePlayer = -1;
         while (choicePlayer < 0 || choicePlayer > playersName.size() - 1) {
@@ -304,7 +309,7 @@ public class CLIInput {
         }
     }
 
-    public void askInformation() {
+    public void askInformation() throws TimeOutException{
         int choice = -1;
         print("Choose which information you would like to know: ");
         while (choice < 1 || choice > 9 || (choice == 9 && !board.hasDieInHand())) {

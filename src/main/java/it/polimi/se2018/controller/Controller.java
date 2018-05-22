@@ -26,7 +26,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     public Controller() {
         super();
-        timeout = Duration.ofSeconds(40);
+        timeout = Duration.ofSeconds(60);
         alarm = new WaitingThread(timeout, this);
     }
 
@@ -184,7 +184,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
             model.getDraftPool().addToDraftPool(die);
         }
         model.notify(new ModelViewResponse(model.modelViewCopy()));
-        timeout = Duration.ofSeconds(40);
+        timeout = Duration.ofSeconds(60);
         alarm = new WaitingThread(timeout, this);
         alarm.start();
     }

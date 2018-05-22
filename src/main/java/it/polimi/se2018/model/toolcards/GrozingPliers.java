@@ -5,6 +5,7 @@ import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.ToolCardCheckerHandler;
 import it.polimi.se2018.network.messages.responses.Response;
+import it.polimi.se2018.utils.exceptions.TimeOutException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
@@ -20,7 +21,7 @@ public class GrozingPliers extends ToolCard {
         return handler.useCard(this, message);
     }
     @Override
-    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) {
+    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) throws TimeOutException {
         return handler.getPlayerRequests(this, toolcardnumber);
     }
 

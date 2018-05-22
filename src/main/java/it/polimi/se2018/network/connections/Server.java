@@ -22,19 +22,18 @@ import java.util.Map;
 
 public class Server implements Timing {
     private static final int PORT = 1234;
-    private static int matchID = 0;
+    private static int matchID = 1;
     private static int playerNumber = 0; //identifies just the player, without the match
     private Map<Integer, GameManager> matches;
     private ServerSocket serverSocket;
     private DeckBuilder deckBuilder;
-    private static Registry registry;
-    private Duration timeout;
+    private Registry registry;
     WaitingThread clock;
 
     private Server() {
         deckBuilder = DeckBuilder.instance();
         matches = new HashMap<>();
-        timeout = Duration.ofSeconds(30);
+        Duration timeout = Duration.ofSeconds(60);
         clock = new WaitingThread(timeout, this);
     }
 
@@ -54,12 +53,13 @@ public class Server implements Timing {
         serverConnection.setServerView(manager.getServerView());
         manager.getServerView().addServerConnection(playerID,serverConnection);
         if (manager.playersNumber() == 2) {
-            timeout = Duration.ofSeconds(30);
+            Duration timeout = Duration.ofSeconds(60);
             clock = new WaitingThread(timeout, this);
             clock.start();
         }
         if (isMatchFull()) {
-            manager.sendWindows(); //QUI dopo o prima di questa
+            incrementMatchID();
+            manager.sendWindows();
             clock.interrupt();
         }
     }
@@ -73,11 +73,10 @@ public class Server implements Timing {
     private static void incrementPlayerID() {playerNumber++;}
 
     private boolean isMatchFull() {
-        return matches.get(matchID)==null || matches.get(matchID).playersNumber()==4; //oppure timer è scaduto?
+        return matches.get(matchID).playersNumber()==4;
     }
 
     public int generateID() {
-        if (isMatchFull()) incrementMatchID(); //Perchè qui e non vedi su
         incrementPlayerID();
         return (matchID*1000)+playerNumber;
     }
