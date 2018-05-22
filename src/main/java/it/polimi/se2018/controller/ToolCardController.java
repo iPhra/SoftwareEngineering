@@ -34,7 +34,7 @@ public class ToolCardController implements ToolCardHandler{
     }
 
     private void updateToolCard(ToolCardMessage toolCardMessage) {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         player.setFavorPoints(player.getFavorPoints()-(board.getToolCardsUsage()[toolCardMessage.getToolCardNumber()]? 2:1));
         board.setAlreadyUsed(toolCardMessage.getToolCardNumber());
         player.setHasUsedCard(true);
@@ -43,7 +43,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard (CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
             if (squareStart.isEmpty()) {
@@ -66,7 +66,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard (CorkBackedStraightedge toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             Die dieToPlace = player.getDieInHand();
             DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), player.getWindow());
@@ -81,7 +81,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard (EglomiseBrush toolCard, ToolCardMessage toolCardMessage)  throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
             if (squareStart.isEmpty()) {
@@ -104,7 +104,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard (FluxBrush toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
@@ -115,7 +115,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard(FluxRemover toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             if (!player.hasDieInHand()) {
                 throw new ToolCardException(NO_DIE_IN_HAND);
@@ -141,7 +141,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard(GrindingStone toolCard, ToolCardMessage toolCardMessage) throws ToolCardException{
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
@@ -152,7 +152,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard(GrozingPliers toolCard, ToolCardMessage toolCardMessage) throws ToolCardException{
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
@@ -173,7 +173,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard(Lathekin toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         boolean twoDiceNotCompatible = false; //this check that the two die can be moved together
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
@@ -206,7 +206,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard(LensCutter toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
@@ -220,7 +220,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard(RunningPliers toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         if (!board.getRound().isFirstRotation()) {
             throw new ToolCardException("Non è il primo turno, non puoi usare questa Toolcard!");
         }
@@ -235,7 +235,7 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard(TapWheel toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         Square squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));

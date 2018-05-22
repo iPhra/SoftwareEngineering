@@ -12,7 +12,7 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class EglomiseBrush extends ToolCard {
 
     public EglomiseBrush() {
-        super("Eglomise Brush", "Move any one die in your window ingoring color restrictions");
+        super("Eglomise Brush", "Move any one die in your window ignoring color restrictions");
     }
 
     @Override

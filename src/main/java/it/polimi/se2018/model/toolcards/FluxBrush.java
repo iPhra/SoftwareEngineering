@@ -12,7 +12,7 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class FluxBrush extends ToolCard {
 
     public FluxBrush() {
-        super("Flux Brush", "After draftiong, re-roll the drafted die");
+        super("Flux Brush", "After drafting, re-roll the drafted die");
     }
 
     @Override

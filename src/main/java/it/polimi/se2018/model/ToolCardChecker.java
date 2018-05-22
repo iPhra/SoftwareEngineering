@@ -6,6 +6,8 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
     public Boolean checkUsability(CopperFoilBurnisher toolCard, boolean isUsed, Player player, Board board) {
         boolean condition = true;
         if ((isUsed && player.getFavorPoints() == 1) || player.getFavorPoints() < 1) condition = false;
+        //because you need to check if 1 dice exist: if yes, there are 19 empty slots or less
+        if (player.getWindow().countEmptySlots() > 19) condition = false;
         return condition;
     }
 
@@ -19,6 +21,8 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
     public Boolean checkUsability(EglomiseBrush toolCard, boolean isUsed, Player player, Board board) {
         boolean condition = true;
         if ((isUsed && player.getFavorPoints() == 1) || player.getFavorPoints() < 1) condition = false;
+        //because you need to check if 1 dice exist: if yes, there are 19 empty slots or less
+        if (player.getWindow().countEmptySlots() > 19) condition = false;
         return condition;
     }
 
@@ -70,6 +74,7 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
         boolean condition = true;
         if ((isUsed && player.getFavorPoints() == 1) || player.getFavorPoints() < 1) condition = false;
         if(!player.hasDieInHand()) condition = false;
+        //because you need to check if a die in the round tracker exists
         if(board.getRoundTracker().isVoid()) condition = false;
         return condition;
     }
@@ -85,6 +90,9 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
     public Boolean checkUsability(TapWheel toolCard, boolean isUsed, Player player, Board board) {
         boolean condition = true;
         if ((isUsed && player.getFavorPoints() == 1) || player.getFavorPoints() < 1) condition = false;
+        //because you need to check if 2 dice exist: if yes, there are 18 empty slots or less
+        if (player.getWindow().countEmptySlots() > 18) condition = false;
+        //because you need to check if a die in the round tracker exists
         if (board.getRoundTracker().isVoid()) condition = false;
         return condition;
     }

@@ -9,16 +9,37 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the board, that is considered the Model in the used pattern MVC
+ * @author Emilio Imperiali
+ */
 public class Board extends Observable<Response> {
-    public static final int COLORSNUMBER = 5; //number of colors in the game, 5 in our instance
-    public static final int DICENUMBER = 90; //number of dice in the game, 90 in our instance
-    public static final int ROUNDSNUMBER = 10; //number of rounds in one game
+    /**
+     * number of colors in the game, 5 in our instance
+     */
+    public static final int COLORSNUMBER = 5;
+
+    /**
+     * number of dice in the game, 90 in our instance
+     */
+    public static final int DICENUMBER = 90;
+
+    /**
+     * number of rounds in one game
+     */
+    public static final int ROUNDSNUMBER = 10;
+    /**
+     * number of tool cards in one game
+     */
     public static final int TOOLCARDSNUMBER = 3;
     private Round round;
     private final int playersNumber;
-    private final List<Player> players; //contiene la mappa di ciascun giocatore
+    private final List<Player> players;
     private final DraftPool draftPool; //draft pool
-    private boolean[] toolCardsIndex;
+    /**
+     * This attribute is used to save, for each tool card, the information if it was used
+     */
+    private boolean[] toolCardsUsage;
     private final ToolCard[] toolCards;
     private final PublicObjective[] publicObjectives; //array che contiene le carte degli obbiettivi pubblici
     private final Bag bag; //ha il riferimento al sacchetto dei dadi
@@ -32,9 +53,9 @@ public class Board extends Observable<Response> {
             playersId.add(player.getId());
         }
         round = new Round(playersId, 1);
-        toolCardsIndex = new boolean[TOOLCARDSNUMBER];
+        toolCardsUsage = new boolean[TOOLCARDSNUMBER];
         for(int i=0; i<TOOLCARDSNUMBER; i++) {
-            toolCardsIndex[i]=false;
+            toolCardsUsage[i]=false;
         }
         this.toolCards=toolCards;
         this.publicObjectives = publicObjectives;
@@ -74,27 +95,49 @@ public class Board extends Observable<Response> {
 
     public int getPlayersNumber() {return playersNumber;}
 
+    /**
+     * Sets the new given round when it starts
+     * @param round it's the new round
+     */
     public void setRound(Round round) {
         this.round=round;
     }
 
-    public Player getPlayerByIndex(int index){
+    /**
+     *
+     * @param id it's the ID of the player that user wants to get
+     * @return the player with the given ID, if exists
+     * @throws InvalidParameterException if there is no player with that ID
+     */
+    public Player getPlayerByID(int id){
         for(Player player: players) {
-            if(player.getId()==index) return player;
+            if(player.getId()==id) return player;
         }
         throw new InvalidParameterException();
     }
 
+    /**
+     * Used by {@link it.polimi.se2018.model.ModelView}, in the constructor, when it's needed to copy the whole Board
+     * to send it to a client
+     * @return a copy of this Board
+     */
     public ModelView modelViewCopy() {
         return new ModelView(this);
     }
 
+    /**
+     * @return this toolCardsUsage
+     */
     public boolean[] getToolCardsUsage() {
-        return toolCardsIndex;
+        return toolCardsUsage;
     }
 
+    /**
+     * Sets as true the usage of a tool card, it's called when it was used
+     * @param index it's the index of the tool card that has to be setted as already used
+     */
     public void setAlreadyUsed(int index) {
-        toolCardsIndex[index]=true;
+        toolCardsUsage[index]=true;
     }
 
 }

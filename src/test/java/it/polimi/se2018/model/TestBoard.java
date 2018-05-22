@@ -114,14 +114,14 @@ public class TestBoard {
 
     @Test
     public void testGetPlayerByIndex() throws InvalidParameterException {
-        assertEquals(player2, board.getPlayerByIndex(player2.getId()));
+        assertEquals(player2, board.getPlayerByID(player2.getId()));
 
     }
 
     @Test
     public void testGetPlayerByIndexException(){
         try{
-            Player playerGot = board.getPlayerByIndex(200);
+            Player playerGot = board.getPlayerByID(200);
         }
         catch(InvalidParameterException e){
             return;

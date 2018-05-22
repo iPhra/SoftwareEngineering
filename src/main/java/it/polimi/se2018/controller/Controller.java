@@ -36,7 +36,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     //reads player, checks if it's his turn, call performMove
     private void checkInput(Message message){
-        Player player = model.getPlayerByIndex(message.getPlayerID());
+        Player player = model.getPlayerByID(message.getPlayerID());
         if (!model.getRound().isYourTurn(player)) model.notify(new TextResponse(message.getPlayerID(),"It's not your turn"));
         else message.handle(this);
     }
@@ -49,7 +49,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     //use a toolcards
     @Override
     public void performMove(ToolCardMessage toolCardMessage) {
-        Player player = model.getPlayerByIndex(toolCardMessage.getPlayerID());
+        Player player = model.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             ToolCard toolCard = model.getToolCards()[player.getCardInUse()];
             Response response = toolCard.handle(toolCardController,toolCardMessage);
@@ -60,7 +60,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     @Override
     public void performMove(InputMessage inputMessage) {
-        Player player = model.getPlayerByIndex(inputMessage.getPlayerID());
+        Player player = model.getPlayerByID(inputMessage.getPlayerID());
         try {
             player.getDieInHand().setValue(inputMessage.getDieValue());
             model.notify(new ModelViewResponse(model.modelViewCopy()));
@@ -71,7 +71,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     @Override
     public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
-        Player player = model.getPlayerByIndex(toolCardRequestMessage.getPlayerID());
+        Player player = model.getPlayerByID(toolCardRequestMessage.getPlayerID());
         if(player.hasUsedCard()) model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"You have already used a Tool Card"));
         else {
             int cost = model.getToolCardsUsage()[toolCardRequestMessage.getToolCardNumber()]? 2:1;
@@ -86,7 +86,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     //place a die
     @Override
     public void performMove(PlaceMessage placeMessage) {
-        Player player = model.getPlayerByIndex(placeMessage.getPlayerID());
+        Player player = model.getPlayerByID(placeMessage.getPlayerID());
         if(!player.hasDieInHand()) model.notify(new TextResponse(placeMessage.getPlayerID(),"You haven't selected a die"));
         else {
             try {
@@ -108,7 +108,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     //draft a die
     @Override
     public void performMove(DraftMessage draftMessage) {
-        Player player = model.getPlayerByIndex(draftMessage.getPlayerID());
+        Player player = model.getPlayerByID(draftMessage.getPlayerID());
         if (player.hasDraftedDie()) model.notify(new TextResponse(draftMessage.getPlayerID(),"You have already drafted"));
         else {
             try {
@@ -123,7 +123,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     //pass
     @Override
     public void performMove(PassMessage passMessage) {
-        Player player = model.getPlayerByIndex(passMessage.getPlayerID());
+        Player player = model.getPlayerByID(passMessage.getPlayerID());
         if (model.getRound().isLastTurn()) {
             this.endRound();
         }
@@ -167,7 +167,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     private void draft(DraftMessage draftMessage) throws NoDieException {
-        Player player = model.getPlayerByIndex(draftMessage.getPlayerID());
+        Player player = model.getPlayerByID(draftMessage.getPlayerID());
         Die die = model.getDraftPool().getDie(draftMessage.getDraftPoolPosition());
         model.getDraftPool().removeFromDraftPool(die);
         player.setDieInHand(die);
@@ -209,6 +209,6 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     @Override
     public void onTimesUp() {
-        pass(model.getPlayerByIndex(model.getRound().getCurrentPlayerIndex()));
+        pass(model.getPlayerByID(model.getRound().getCurrentPlayerIndex()));
     }
 }
