@@ -16,17 +16,17 @@ import java.rmi.RemoteException;
 import java.time.Duration;
 import java.util.*;
 
-public class CLIClientView implements ResponseHandler, ClientView, Serializable, Timing {
-    private final transient int playerID;
-    private transient ClientConnection clientConnection;
-    private final transient Scanner scanner;
-    private transient CLIInput cliInput;
-    private transient ToolCardPlayerInput toolCardPlayerInput;
-    WaitingThread clock;
+public class CLIClientView implements ResponseHandler, ClientView, Timing {
+    private final int playerID;
+    private ClientConnection clientConnection;
+    private CLIInput cliInput;
+    private ToolCardPlayerInput toolCardPlayerInput;
+    private final Scanner scanner;
+    private WaitingThread clock;
 
     public CLIClientView(int playerID) {
+        scanner =  new Scanner(System.in);
         this.playerID = playerID;
-        scanner = new Scanner(System.in);
         cliInput = new CLIInput(playerID);
         toolCardPlayerInput = new ToolCardPlayerInput(playerID, cliInput);
         clock = null;
@@ -103,7 +103,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable,
 
     private void checkIsYourTurn() {
         if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
-            Duration timeout = Duration.ofSeconds(60);
+            Duration timeout = Duration.ofSeconds(1520);
             clock = new WaitingThread(timeout, this);
             clock.start();
             try {

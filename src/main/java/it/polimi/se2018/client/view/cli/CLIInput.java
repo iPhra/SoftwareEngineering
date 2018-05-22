@@ -19,15 +19,15 @@ public class CLIInput {
     private final int playerID;
     private List<String> playersName;
     private ModelView board;
-    private Scanner scanner;
     private List<ToolCard> toolCards;
     private PrivateObjective privateObjective;
     private List<PublicObjective> publicObjectives;
     private PrintStream printStream;
+    private final Scanner scanner;
 
     CLIInput(int playerID) {
+        scanner = new Scanner(System.in);
         this.playerID = playerID;
-        scanner = new Scanner(in);
         printStream = new PrintStream(out);
     }
 
@@ -75,21 +75,13 @@ public class CLIInput {
         return board;
     }
 
-    public Scanner getScanner() {
-        return scanner;
-    }
-
     int takeInput() throws TimeoutException {
-        scanner = new Scanner(in);
         boolean iterate = true;
         int res=0;
         do {
-            if (board.getCurrentPlayerID() != playerID) throw new TimeoutException();
             try {
-                if (scanner.hasNext()) {
-                    res = scanner.nextInt();
-                    iterate = false;
-                }
+                res = scanner.nextInt();
+                iterate = false;
             } catch (InputMismatchException e) {
                 printStream.println("Input is invalid");
                 scanner.nextLine();

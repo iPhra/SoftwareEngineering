@@ -26,8 +26,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     public Controller() {
         super();
-        timeout = Duration.ofSeconds(60);
         alarm = new WaitingThread(timeout, this);
+    }
+
+    private void startTimer() {
+        timeout = Duration.ofSeconds(1520);
+        alarm = new WaitingThread(timeout, this);
+        alarm.start();
     }
 
     public void setModel(Board model) {
@@ -159,6 +164,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         model.setRound(model.getRound().changeRound());
         model.getRoundTracker().updateRoundTracker(model.getDraftPool().getAllDice());
         model.getDraftPool().fillDraftPool(model.getBag().drawDice(model.getPlayersNumber()));
+        startTimer();
     }
 
     private void endMatch() {
@@ -184,9 +190,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
             model.getDraftPool().addToDraftPool(die);
         }
         model.notify(new ModelViewResponse(model.modelViewCopy()));
-        timeout = Duration.ofSeconds(60);
-        alarm = new WaitingThread(timeout, this);
-        alarm.start();
+        startTimer();
     }
 
     private void placeDie(DiePlacer diePlacer) throws InvalidPlacementException {
@@ -196,7 +200,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     public void startMatch() {
         toolCardController = new ToolCardController(model);
         model.notify(new ModelViewResponse(model.modelViewCopy()));
-        alarm.start();
+        startTimer();
     }
 
     @Override
@@ -209,6 +213,11 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     @Override
     public void onTimesUp() {
-        pass(model.getPlayerByID(model.getRound().getCurrentPlayerIndex()));
+        if(model.getRound().isLastTurn()) {
+            this.endRound();
+        }
+        else {
+            pass(model.getPlayerByID(model.getRound().getCurrentPlayerIndex()));
+        }
     }
 }
