@@ -18,14 +18,8 @@ public class SocketClientConnection implements ClientConnection {
 
     public SocketClientConnection(Socket socket, ClientView clientView, ObjectInputStream in, ObjectOutputStream out){
         this.socket = socket;
-        //try{
-            //this.in = new ObjectInputStream(socket.getInputStream());
-            //this.out = new ObjectOutputStream((socket.getOutputStream()));
             this.in = in;
             this.out = out;
-        //}catch(IOException e){
-         //   System.err.println(e.getMessage());
-        //}
         this.clientView = clientView;
     }
 

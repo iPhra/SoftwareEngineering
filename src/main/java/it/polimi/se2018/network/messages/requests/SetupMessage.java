@@ -29,6 +29,6 @@ public class SetupMessage extends Message{
      * @param messageHandler is the object who will handle this message
      */
     public void handle(MessageHandler messageHandler){
-        messageHandler.performMove(this);
+        messageHandler.handleMove(this);
     }
 }

@@ -1,32 +1,32 @@
 package it.polimi.se2018.controller;
 
 import it.polimi.se2018.network.messages.responses.*;
-import it.polimi.se2018.utils.Observable;
-import it.polimi.se2018.utils.Timing;
-import it.polimi.se2018.utils.WaitingThread;
+import it.polimi.se2018.utils.*;
 import it.polimi.se2018.utils.exceptions.*;
 import it.polimi.se2018.model.Board;
 import it.polimi.se2018.model.Die;
 import it.polimi.se2018.network.messages.requests.*;
-import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.controller.placementlogic.DiePlacer;
 import it.polimi.se2018.controller.placementlogic.DiePlacerFirst;
 import it.polimi.se2018.controller.placementlogic.DiePlacerNormal;
 import it.polimi.se2018.model.Player;
 import it.polimi.se2018.model.toolcards.ToolCard;
-import it.polimi.se2018.utils.Observer;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 
 public class Controller extends Observable<Message> implements Observer<Message>, MessageHandler, Timing {
     private Board model;
     private ToolCardController toolCardController;
     private Duration timeout;
     private WaitingThread alarm;
+    private GameManager gameManager;
 
-    public Controller() {
+    public Controller(GameManager gameManager) {
         super();
         alarm = new WaitingThread(timeout, this);
+        this.gameManager = gameManager;
     }
 
     private void startTimer() {
@@ -39,7 +39,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         this.model = model;
     }
 
-    //reads player, checks if it's his turn, call performMove
+    //reads player, checks if it's his turn, call handleMove
     private void checkInput(Message message){
         Player player = model.getPlayerByID(message.getPlayerID());
         if (!model.getRound().isYourTurn(player)) model.notify(new TextResponse(message.getPlayerID(),"It's not your turn"));
@@ -47,13 +47,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     @Override
-    public void performMove(SetupMessage setupMessage){
-        notify(setupMessage);
+    public void handleMove(SetupMessage setupMessage){
+        gameManager.createPlayer(setupMessage);
     }
 
     //use a toolcards
     @Override
-    public void performMove(ToolCardMessage toolCardMessage) {
+    public void handleMove(ToolCardMessage toolCardMessage) {
         Player player = model.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             ToolCard toolCard = model.getToolCards()[player.getCardInUse()];
@@ -64,7 +64,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     @Override
-    public void performMove(InputMessage inputMessage) {
+    public void handleMove(InputMessage inputMessage) {
         Player player = model.getPlayerByID(inputMessage.getPlayerID());
         try {
             player.getDieInHand().setValue(inputMessage.getDieValue());
@@ -75,7 +75,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
     }
 
     @Override
-    public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
+    public void handleMove(ToolCardRequestMessage toolCardRequestMessage) {
         Player player = model.getPlayerByID(toolCardRequestMessage.getPlayerID());
         if(player.hasUsedCard()) model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"You have already used a Tool Card"));
         else {
@@ -90,7 +90,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     //place a die
     @Override
-    public void performMove(PlaceMessage placeMessage) {
+    public void handleMove(PlaceMessage placeMessage) {
         Player player = model.getPlayerByID(placeMessage.getPlayerID());
         if(!player.hasDieInHand()) model.notify(new TextResponse(placeMessage.getPlayerID(),"You haven't selected a die"));
         else {
@@ -112,7 +112,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     //draft a die
     @Override
-    public void performMove(DraftMessage draftMessage) {
+    public void handleMove(DraftMessage draftMessage) {
         Player player = model.getPlayerByID(draftMessage.getPlayerID());
         if (player.hasDraftedDie()) model.notify(new TextResponse(draftMessage.getPlayerID(),"You have already drafted"));
         else {
@@ -127,7 +127,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     //pass
     @Override
-    public void performMove(PassMessage passMessage) {
+    public void handleMove(PassMessage passMessage) {
         Player player = model.getPlayerByID(passMessage.getPlayerID());
         if (model.getRound().isLastTurn()) {
             this.endRound();
@@ -147,17 +147,10 @@ public class Controller extends Observable<Message> implements Observer<Message>
         }
     }
 
-    //evaluates point for all players
-    private void evaluatePoints() {
-        for(Player player: model.getPlayers()) {
-            int score = player.getPrivateObjective().evalPoints(player);
-            for(PublicObjective pub: model.getPublicObjectives()) {
-                score+=pub.evalPoints(player);
-            }
-            score+=player.getFavorPoints();
-            score-=player.getWindow().countEmptySlots();
-            player.setScore(score);
-        }
+    private List<Player> playersScoreBoard(){
+        List<Player> sortedPlayers = model.getPlayers();
+        Arrays.sort(sortedPlayers.toArray(new Player[0]), new ScoreComparator(Arrays.asList(model.getPublicObjectives()), model.getRound()));
+        return sortedPlayers;
     }
 
     private void startRound() {
@@ -167,9 +160,12 @@ public class Controller extends Observable<Message> implements Observer<Message>
         startTimer();
     }
 
+    //called by pass method when match ends
     private void endMatch() {
-        model.notify(new ModelViewResponse(model.modelViewCopy()));
-        evaluatePoints();
+        for(Player player : model.getPlayers())
+            model.notify(new ScoreBoardResponse(player.getId(),playersScoreBoard()));
+        gameManager.endGame();
+
     }
 
     private void draft(DraftMessage draftMessage) throws NoDieException {

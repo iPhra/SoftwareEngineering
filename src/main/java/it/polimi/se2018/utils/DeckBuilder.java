@@ -41,7 +41,7 @@ public class DeckBuilder {
         privateObjectives.add(ShadesOfGreenObjective.instance("Shades of Green"));
         privateObjectives.add(ShadesOfPurpleObjective.instance("Shades of Purple"));
         privateObjectives.add(ShadesOfRedObjective.instance("Shades of Red"));
-        privateObjectives.add(ShadesOfYellowObjective.instance("Shades of Purple"));
+        privateObjectives.add(ShadesOfYellowObjective.instance("Shades of Yellow"));
     }
 
     private static synchronized DeckBuilder createInstance(){

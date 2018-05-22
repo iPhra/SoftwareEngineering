@@ -38,6 +38,6 @@ public class PlaceMessage extends Message {
      */
     @Override
     public void handle(MessageHandler handler) {
-        handler.performMove(this);
+        handler.handleMove(this);
     }
 }

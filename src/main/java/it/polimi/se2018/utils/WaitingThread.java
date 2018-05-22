@@ -28,6 +28,7 @@ public class WaitingThread extends Thread {
     /**
      * this method must be ran when you want to start the timeout
      */
+    @Override
     public void run() {
         try {
             Thread.sleep(timeout.toMillis());

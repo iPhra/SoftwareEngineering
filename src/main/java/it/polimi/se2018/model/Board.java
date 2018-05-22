@@ -118,7 +118,7 @@ public class Board extends Observable<Response> {
     }
 
     /**
-     * Used by {@link it.polimi.se2018.model.ModelView}, in the constructor, when it's needed to copy the whole Board
+     * Used by {@link it.polimi.se2018.controller.ModelView}, in the constructor, when it's needed to copy the whole Board
      * to send it to a client
      * @return a copy of this Board
      */

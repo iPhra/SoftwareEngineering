@@ -7,11 +7,10 @@ import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ServerConnection;
-import it.polimi.se2018.network.messages.requests.Message;
+import it.polimi.se2018.network.connections.socket.SocketServerConnection;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.SetupResponse;
 import it.polimi.se2018.utils.DeckBuilder;
-import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.WindowBuilder;
 import it.polimi.se2018.view.ServerView;
 
@@ -21,10 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameManager implements Observer<Message>{
+public class GameManager{
     private DeckBuilder deckBuilder;
     private ServerView serverView;
-    private Board board;
     private Controller controller;
     private List<Integer> playerIDs;
     private Map<Integer,ServerConnection> serverConnections; //maps playerID to its connection
@@ -79,15 +77,14 @@ public class GameManager implements Observer<Message>{
     }
 
     private void createMVC() {
-        board = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
+        Board board = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
         board.register(serverView);
         controller.setModel(board);
         controller.startMatch();
     }
 
     public void startSetup(){
-        controller = new Controller();
-        controller.register(this);
+        controller = new Controller(this);
         serverView.register(controller);
         createPublicObjectives();
         createToolCards();
@@ -132,10 +129,18 @@ public class GameManager implements Observer<Message>{
     }
 
     //when a player send the map he chose
-    public void update(Message message){
-        SetupMessage setupMessage = (SetupMessage) message;
+    public void createPlayer(SetupMessage setupMessage){
         players.add(new Player(playerNames.get(setupMessage.getPlayerID()),setupMessage.getPlayerID(),setupMessage.getWindow(),privateObjectives.get(setupsCompleted)));
         setupsCompleted++;
+        //when every played sent his window
         if(setupsCompleted==playerIDs.size()) createMVC();
+    }
+
+    // the closure of RMI connection has still to be implemented
+    public void endGame(){
+        for(ServerConnection connection : serverConnections.values()){
+            if (connection instanceof SocketServerConnection)
+                ((SocketServerConnection) connection).stop();
+        }
     }
 }

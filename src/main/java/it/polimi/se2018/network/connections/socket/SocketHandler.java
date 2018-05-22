@@ -13,7 +13,6 @@ public class SocketHandler implements Runnable {
     private Server server;
     private ServerSocket serverSocket;
     private ExecutorService pool;
-    private boolean isOpen;
 
     public SocketHandler(Server server, ServerSocket serverSocket) {
         this.server = server;
@@ -22,7 +21,7 @@ public class SocketHandler implements Runnable {
     }
 
     public void run(){
-        isOpen = true;
+        boolean isOpen = true;
         while(isOpen){
             try {
                 Socket client = serverSocket.accept();

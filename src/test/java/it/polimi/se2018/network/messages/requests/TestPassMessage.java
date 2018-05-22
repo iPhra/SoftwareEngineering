@@ -11,34 +11,34 @@ public class TestPassMessage {
         PassMessage passMessage = new PassMessage(0);
         passMessage.handle(new MessageHandler() {
             @Override
-            public void performMove(ToolCardMessage toolCardMessage) {
+            public void handleMove(ToolCardMessage toolCardMessage) {
                 fail();
             }
 
             @Override
-            public void performMove(PassMessage passMessage) {
+            public void handleMove(PassMessage passMessage) {
             }
 
             @Override
-            public void performMove(PlaceMessage placeMessage) {
+            public void handleMove(PlaceMessage placeMessage) {
                 fail();
             }
 
             @Override
-            public void performMove(DraftMessage draftMessage) {
+            public void handleMove(DraftMessage draftMessage) {
                 fail();
             }
 
             @Override
-            public void performMove(ToolCardRequestMessage toolCardRequestMessage) {
+            public void handleMove(ToolCardRequestMessage toolCardRequestMessage) {
                 fail();
             }
 
             @Override
-            public void performMove(SetupMessage setupMessage) {fail();}
+            public void handleMove(SetupMessage setupMessage) {fail();}
 
             @Override
-            public void performMove(InputMessage inputMessage) {fail();}
+            public void handleMove(InputMessage inputMessage) {fail();}
         });
     }
 }

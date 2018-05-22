@@ -77,8 +77,8 @@ public class SocketServerConnection implements Runnable, ServerConnection {
         isOpen = false;
     }
 
+    //stop() method should be called before this method
     private void closeConnection(){
-        stop();
         try{
             in.close();
             out.close();

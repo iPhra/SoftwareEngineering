@@ -101,6 +101,12 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         }
     }
 
+    @Override
+    public void handleResponse(ScoreBoardResponse scoreBoardResponse){
+        //stampa la scoreboard
+        //QUA DEVI ANCHE CHIUDERE LA CONNESSIONE LATO CLIENT, SIA CHE SIA SOCKET SIA CHE SIA RMI
+    }
+
     private void checkIsYourTurn() {
         if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
             Duration timeout = Duration.ofSeconds(1520);

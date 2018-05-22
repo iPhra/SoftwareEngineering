@@ -35,4 +35,6 @@ public interface ResponseHandler {
      * @param inputResponse contains the color chosen for the {@link it.polimi.se2018.model.Die}
      */
     void handleResponse(InputResponse inputResponse);
+
+    void handleResponse(ScoreBoardResponse scoreBoardResponse);
 }
