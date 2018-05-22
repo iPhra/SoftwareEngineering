@@ -21,11 +21,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
     private ToolCardController toolCardController;
     private Duration timeout;
     private WaitingThread alarm;
+    private Boolean isBusy;
     private GameManager gameManager;
 
     public Controller(GameManager gameManager) {
         super();
         alarm = new WaitingThread(timeout, this);
+        isBusy = false;
         this.gameManager = gameManager;
     }
 
@@ -54,17 +56,24 @@ public class Controller extends Observable<Message> implements Observer<Message>
     //use a toolcards
     @Override
     public void handleMove(ToolCardMessage toolCardMessage) {
+        isBusy = true;
         Player player = model.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             ToolCard toolCard = model.getToolCards()[player.getCardInUse()];
             Response response = toolCard.handle(toolCardController,toolCardMessage);
             model.notify(response);
         }
-        catch (ToolCardException e) {model.notify(new TextResponse(toolCardMessage.getPlayerID(),e.getMessage()));}
+        catch (ToolCardException e) {
+            model.notify(new TextResponse(toolCardMessage.getPlayerID(),e.getMessage()));
+        }
+        finally {
+            isBusy = false;
+        }
     }
 
     @Override
     public void handleMove(InputMessage inputMessage) {
+        isBusy = true;
         Player player = model.getPlayerByID(inputMessage.getPlayerID());
         try {
             player.getDieInHand().setValue(inputMessage.getDieValue());
@@ -72,10 +81,14 @@ public class Controller extends Observable<Message> implements Observer<Message>
         } catch (DieException e) {
             model.notify(new TextResponse(inputMessage.getPlayerID(), e.getMessage()));
         }
+        finally {
+            isBusy = false;
+        }
     }
 
     @Override
     public void handleMove(ToolCardRequestMessage toolCardRequestMessage) {
+            isBusy = true;
         Player player = model.getPlayerByID(toolCardRequestMessage.getPlayerID());
         if(player.hasUsedCard()) model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"You have already used a Tool Card"));
         else {
@@ -86,11 +99,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
             }
             else model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"You can't use that Tool Card!"));;
         }
+        isBusy = false;
     }
 
     //place a die
     @Override
     public void handleMove(PlaceMessage placeMessage) {
+        isBusy = true;
         Player player = model.getPlayerByID(placeMessage.getPlayerID());
         if(!player.hasDieInHand()) model.notify(new TextResponse(placeMessage.getPlayerID(),"You haven't selected a die"));
         else {
@@ -108,11 +123,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
             }
             catch(InvalidPlacementException e) {model.notify(new TextResponse(placeMessage.getPlayerID(),"You can't place the die there"));}
         }
+        isBusy = false;
     }
 
     //draft a die
     @Override
     public void handleMove(DraftMessage draftMessage) {
+        isBusy = true;
         Player player = model.getPlayerByID(draftMessage.getPlayerID());
         if (player.hasDraftedDie()) model.notify(new TextResponse(draftMessage.getPlayerID(),"You have already drafted"));
         else {
@@ -123,11 +140,13 @@ public class Controller extends Observable<Message> implements Observer<Message>
                 model.notify(new TextResponse(draftMessage.getPlayerID(),"The die you want to draft does not exit"));
             }
         }
+        isBusy = false;
     }
 
     //pass
     @Override
     public void handleMove(PassMessage passMessage) {
+        isBusy = true;
         Player player = model.getPlayerByID(passMessage.getPlayerID());
         if (model.getRound().isLastTurn()) {
             this.endRound();
@@ -135,6 +154,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
         else {
             pass(player);
         }
+        isBusy = false;
     }
 
     private void endRound() {
@@ -209,6 +229,7 @@ public class Controller extends Observable<Message> implements Observer<Message>
 
     @Override
     public void onTimesUp() {
+        while (isBusy);
         if(model.getRound().isLastTurn()) {
             this.endRound();
         }

@@ -44,22 +44,26 @@ public class ToolCardController implements ToolCardHandler{
     @Override
     public Response useCard (CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
+        Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
+        Die dieToMove;
         try {
-            Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
             if (squareStart.isEmpty()) {
                 throw new NoDieException();
             }
-            Die dieToMove = squareStart.getDie();
+            dieToMove = squareStart.popDie();
+        }
+        catch (NoDieException e) {
+            throw new ToolCardException("Non hai selezionato un dado");
+        }
+        try {
             DiePlacerNoValue placer = new DiePlacerNoValue(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
             squareStart.setDie(null);
             updateToolCard(toolCardMessage);
             return new ModelViewResponse(board.modelViewCopy());
         }
-        catch (NoDieException e) {
-            throw new ToolCardException("Non hai selezionato un dado");
-        }
         catch (InvalidPlacementException e) {
+            squareStart.setDie(dieToMove);
             throw new ToolCardException(INVALID_POSITION);
         }
     }
@@ -82,20 +86,23 @@ public class ToolCardController implements ToolCardHandler{
     @Override
     public Response useCard (EglomiseBrush toolCard, ToolCardMessage toolCardMessage)  throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
+        Die dieToMove;
+        Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         try {
-            Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
             if (squareStart.isEmpty()) {
                 throw new NoDieException();
             }
-            Die dieToMove = squareStart.getDie();
+            dieToMove = squareStart.getDie();
+        }
+        catch (NoDieException e) {
+            throw new ToolCardException("Non hai selezionato un dado");
+        }
+        try {
             DiePlacerNoColor placer = new DiePlacerNoColor(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
             squareStart.setDie(null);
             updateToolCard(toolCardMessage);
             return new ModelViewResponse(board.modelViewCopy());
-        }
-        catch (NoDieException e) {
-            throw new ToolCardException("Non hai selezionato un dado");
         }
         catch (InvalidPlacementException e) {
             throw new ToolCardException(INVALID_POSITION);
@@ -178,8 +185,8 @@ public class ToolCardController implements ToolCardHandler{
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         Square squareTwo = player.getWindow().getSquare((toolCardMessage.getStartingPosition().get(1)));
-        Die dieOne = squareOne.getDie();
-        Die dieTwo = squareTwo.getDie();
+        Die dieOne = squareOne.popDie();
+        Die dieTwo = squareTwo.popDie();
         if (dieOne.getColor() == dieTwo.getColor() || dieOne.getValue() == dieTwo.getValue()) {
             twoDiceNotCompatible = true;
         }
@@ -194,12 +201,12 @@ public class ToolCardController implements ToolCardHandler{
             placerOne.placeDie();
             DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow());
             placerTwo.placeDie();
-            squareOne.setDie(null);
-            squareTwo.setDie(null);
             updateToolCard(toolCardMessage);
             return new ModelViewResponse(board.modelViewCopy());
         }
         catch (InvalidPlacementException e) {
+            squareOne.setDie(dieOne);
+            squareTwo.setDie(dieTwo);
             throw new ToolCardException("Uno spostamento selezionato non è valido");
         }
     }
@@ -239,8 +246,8 @@ public class ToolCardController implements ToolCardHandler{
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         Square squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));
-        Die dieOne = squareOne.getDie();
-        Die dieTwo = squareTwo.getDie();
+        Die dieOne = squareOne.popDie();
+        Die dieTwo = squareTwo.popDie();
         Coordinate indexRoundTracker = toolCardMessage.getRoundTrackerPosition();
         Die dieRoundTracker = board.getRoundTracker().getDie(indexRoundTracker.getRow(), indexRoundTracker.getCol());
         if (dieOne.getColor() != dieTwo.getColor()) {
@@ -260,12 +267,12 @@ public class ToolCardController implements ToolCardHandler{
             placerOne.placeDie();
             DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow());
             placerTwo.placeDie();
-            squareOne.setDie(null);
-            squareTwo.setDie(null);
             updateToolCard(toolCardMessage);
             return new ModelViewResponse(board.modelViewCopy());
         }
         catch (InvalidPlacementException e) {
+            squareOne.setDie(dieOne);
+            squareTwo.setDie(dieTwo);
             throw new ToolCardException("Uno spostamento selezionato non è valido");
         }
     }

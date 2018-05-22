@@ -8,6 +8,7 @@ import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.utils.exceptions.TimeoutException;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -78,6 +79,7 @@ public class CLIInput {
     int takeInput() throws TimeoutException {
         boolean iterate = true;
         int res=0;
+        res = 0;
         do {
             try {
                 res = scanner.nextInt();

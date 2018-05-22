@@ -104,6 +104,12 @@ public class Square implements Serializable{
         return result;
     }
 
+    public Die popDie () {
+        Die dieToGet = die;
+        die = null;
+        return die;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
