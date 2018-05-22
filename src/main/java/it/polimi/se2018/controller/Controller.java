@@ -74,12 +74,12 @@ public class Controller extends Observable<Message> implements Observer<Message>
         Player player = model.getPlayerByID(toolCardRequestMessage.getPlayerID());
         if(player.hasUsedCard()) model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"You have already used a Tool Card"));
         else {
-            int cost = model.getToolCardsUsage()[toolCardRequestMessage.getToolCardNumber()]? 2:1;
-            if(player.getFavorPoints()<cost) model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"Not enough favor points"));
-            else {
+            ToolCard toolCard = model.getToolCards()[toolCardRequestMessage.getToolCardNumber()];
+            if (toolCard.handleCheck(new ToolCardChecker(model), model.getToolCardsUsage()[toolCardRequestMessage.getToolCardNumber()], player)) {
                 player.setCardInUse(toolCardRequestMessage.getToolCardNumber());
-                model.notify(new ToolCardResponse(toolCardRequestMessage.getPlayerID(),toolCardRequestMessage.getToolCardNumber()));
+                model.notify(new ToolCardResponse(toolCardRequestMessage.getPlayerID(), toolCardRequestMessage.getToolCardNumber()));
             }
+            else model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"You can't use that Tool Card!"));;
         }
     }
 

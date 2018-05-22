@@ -9,7 +9,7 @@ import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.utils.Timing;
 import it.polimi.se2018.utils.WaitingThread;
-import it.polimi.se2018.utils.exceptions.TimeOutException;
+import it.polimi.se2018.utils.exceptions.TimeoutException;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -70,7 +70,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable,
                 e.printStackTrace();
             }
         }
-        catch (TimeOutException e) {
+        catch (TimeoutException e) {
         }
     }
 
@@ -184,7 +184,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable,
                     break;
             }
         }
-        catch (TimeOutException e) {
+        catch (TimeoutException e) {
         }
     }
 
@@ -210,14 +210,14 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable,
         clientConnection.sendMessage(new PassMessage(playerID));
     }
 
-    private void draftDie() throws RemoteException, TimeOutException {
+    private void draftDie() throws RemoteException, TimeoutException {
         cliInput.print("Choose the die to draft.");
         int index = cliInput.getDraftPoolPosition();
         if (index != -1) clientConnection.sendMessage(new DraftMessage(playerID, index));
         else chooseAction();
     }
 
-    private void selectToolcard() throws RemoteException, TimeOutException {
+    private void selectToolcard() throws RemoteException, TimeoutException {
         int toolCard = cliInput.getToolCard();
         //if you click 3, you choose to go for another action
         if (toolCard != 3)
@@ -238,10 +238,10 @@ public class CLIClientView implements ResponseHandler, ClientView, Serializable,
             if (!toolCardMessage.isToDismiss()) clientConnection.sendMessage(toolCardMessage);
             else chooseAction();
         }
-        catch (TimeOutException e) {}
+        catch (TimeoutException e) {}
     }
 
-    private void placeDie() throws RemoteException, TimeOutException {
+    private void placeDie() throws RemoteException, TimeoutException {
         cliInput.print("Choose the position where you want to put the drafted die");
         Coordinate coordinate = cliInput.getCoordinate();
         if (!coordinate.equals(new Coordinate(-1, -1))) {

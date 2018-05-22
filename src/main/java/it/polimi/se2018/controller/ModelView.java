@@ -1,5 +1,10 @@
-package it.polimi.se2018.model;
+package it.polimi.se2018.controller;
 
+import it.polimi.se2018.controller.ToolCardChecker;
+import it.polimi.se2018.model.Board;
+import it.polimi.se2018.model.Die;
+import it.polimi.se2018.model.Player;
+import it.polimi.se2018.model.Square;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 
@@ -19,7 +24,6 @@ public class ModelView implements Serializable{
     private int currentPlayerID;
     private Die dieInHand;
     private List<Boolean> toolCardUsability;
-
     private final boolean hasDieInHand;
     private final boolean hasDraftedDie;
     private  final boolean hasUsedCard;
@@ -62,7 +66,7 @@ public class ModelView implements Serializable{
         toolCardUsability = new ArrayList<>();
         for (int i = 0; i < board.getToolCards().length; i++) {
             ToolCard toolCard = board.getToolCards()[i];
-            toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(), board.getToolCardsUsage()[i], currentPlayer, board));
+            toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(board), board.getToolCardsUsage()[i], currentPlayer));
         }
     }
 

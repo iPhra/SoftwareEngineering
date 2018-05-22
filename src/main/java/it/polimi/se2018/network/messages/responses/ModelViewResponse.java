@@ -1,6 +1,6 @@
 package it.polimi.se2018.network.messages.responses;
 
-import it.polimi.se2018.model.*;
+import it.polimi.se2018.controller.ModelView;
 
 /**
  * This is the class containing a response from the Server containing an updated copy of the state of the game

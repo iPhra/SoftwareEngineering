@@ -1,11 +1,12 @@
 package it.polimi.se2018.client.view.cli;
 
+import it.polimi.se2018.controller.ModelView;
 import it.polimi.se2018.model.*;
 import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
-import it.polimi.se2018.utils.exceptions.TimeOutException;
+import it.polimi.se2018.utils.exceptions.TimeoutException;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
@@ -78,12 +79,12 @@ public class CLIInput {
         return scanner;
     }
 
-    int takeInput() throws TimeOutException{
+    int takeInput() throws TimeoutException {
         scanner = new Scanner(in);
         boolean iterate = true;
         int res=0;
         do {
-            if (board.getCurrentPlayerID() != playerID) throw new TimeOutException();
+            if (board.getCurrentPlayerID() != playerID) throw new TimeoutException();
             try {
                 if (scanner.hasNext()) {
                     res = scanner.nextInt();
@@ -95,16 +96,16 @@ public class CLIInput {
             }
         }
         while(iterate);
-        if (board.getCurrentPlayerID() != playerID) throw new TimeOutException();
+        if (board.getCurrentPlayerID() != playerID) throw new TimeoutException();
         return res;
     }
 
-    Coordinate getDieInMap() throws TimeOutException{
+    Coordinate getDieInMap() throws TimeoutException {
         printStream.println("Choose the die in the window");
         return getCoordinate();
     }
 
-    public Coordinate getCoordinate() throws TimeOutException{
+    public Coordinate getCoordinate() throws TimeoutException {
         int row = -1;
         int col = -1;
         int choice = -1;
@@ -130,7 +131,7 @@ public class CLIInput {
         return new Coordinate(-1, -1);
     }
 
-    Coordinate getRoundTrackPosition() throws TimeOutException{
+    Coordinate getRoundTrackPosition() throws TimeoutException {
         int turn = -1;
         int pos = -1;
         int choice = 1;
@@ -161,7 +162,7 @@ public class CLIInput {
         return new Coordinate(turn, pos);
     }
 
-    int getToolCard() throws TimeOutException{
+    int getToolCard() throws TimeoutException {
         int choice = -1;
         printToolcard();
         printStream.println("Select the tool card");
@@ -177,7 +178,7 @@ public class CLIInput {
         return  choice;
     }
 
-    int getValueDie() throws TimeOutException{
+    int getValueDie() throws TimeoutException {
         int val = 0;
         while (val < 1 || val > 6) {
             printStream.print("Choose the value of the die (value goes from 1 to 6)");
@@ -186,7 +187,7 @@ public class CLIInput {
         return val;
     }
 
-    int getDraftPoolPosition() throws TimeOutException{
+    int getDraftPoolPosition() throws TimeoutException {
         int choice = -1;
         int confirm = -1;
         printStream.print("Select the index of the die to choose.");
@@ -207,7 +208,7 @@ public class CLIInput {
         }
     }
 
-    int getMinusPlus() throws TimeOutException{
+    int getMinusPlus() throws TimeoutException {
         int choice = -1;
         while (choice < 0 || choice > 1) {
             printStream.println("0 to decrease, 1 to increase.");
@@ -216,7 +217,7 @@ public class CLIInput {
         return choice == 0 ? -1:1;
     }
 
-    private void getPlayerWindow() throws TimeOutException{
+    private void getPlayerWindow() throws TimeoutException {
         printStream.println("Choose the player:");
         int choicePlayer = -1;
         while (choicePlayer < 0 || choicePlayer > playersName.size() - 1) {
@@ -309,7 +310,7 @@ public class CLIInput {
         }
     }
 
-    public void askInformation() throws TimeOutException{
+    public void askInformation() throws TimeoutException {
         int choice = -1;
         print("Choose which information you would like to know: ");
         while (choice < 1 || choice > 9 || (choice == 9 && !board.hasDieInHand())) {

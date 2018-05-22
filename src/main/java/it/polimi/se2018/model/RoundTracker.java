@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.controller.ModelView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -98,7 +100,7 @@ public class RoundTracker {
     }
 
     /**
-     * Used by {@link it.polimi.se2018.model.ModelView}, in the constructor, when it's needed to copy the whole Board
+     * Used by {@link ModelView}, in the constructor, when it's needed to copy the whole Board
      * to send it to a client
      * @return a copy of attribute dice
      */

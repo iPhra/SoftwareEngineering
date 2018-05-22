@@ -1,6 +1,7 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.Database;
+import it.polimi.se2018.controller.ModelView;
 import it.polimi.se2018.model.objectives.privateobjectives.ShadesOfGreenObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.DeepShadesObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
