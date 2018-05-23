@@ -59,7 +59,9 @@ public abstract class DiePlacer {
             return true;
         if (square.getRow() > 0 && square.getCol() < window.getCols() && !window.getSquare(new Coordinate(square.getRow() - 1, square.getCol() + 1)).isEmpty())
             return true;
-        return square.getRow() < window.getRows() && square.getCol() > 0 && !window.getSquare(new Coordinate(square.getRow() + 1, square.getCol() - 1)).isEmpty() || square.getRow() < window.getRows() && square.getCol() < window.getCols() && !window.getSquare(new Coordinate(square.getRow() + 1, square.getCol() + 1)).isEmpty();
+        if (square.getRow() < window.getRows() && square.getCol() > 0 && !window.getSquare(new Coordinate(square.getRow() + 1, square.getCol() - 1)).isEmpty())
+            return true;
+        return square.getRow() < window.getRows() && square.getCol() < window.getCols() && !window.getSquare(new Coordinate(square.getRow() + 1, square.getCol() + 1)).isEmpty();
     }
 
 }

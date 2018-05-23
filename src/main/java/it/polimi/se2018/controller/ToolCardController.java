@@ -15,6 +15,9 @@ import it.polimi.se2018.model.toolcards.*;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ToolCardController implements ToolCardHandler{
     private static final String NO_DIE_IN_HAND = "You haven't a die in your hand!";
     private static final String INVALID_POSITION = "The selected position is invalid";
@@ -58,7 +61,6 @@ public class ToolCardController implements ToolCardHandler{
         try {
             DiePlacerNoValue placer = new DiePlacerNoValue(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
-            squareStart.setDie(null);
             updateToolCard(toolCardMessage);
             return new ModelViewResponse(board.modelViewCopy());
         }
@@ -93,7 +95,7 @@ public class ToolCardController implements ToolCardHandler{
             if (squareStart.isEmpty()) {
                 throw new NoDieException();
             }
-            dieToMove = squareStart.getDie();
+            dieToMove = squareStart.popDie();
         }
         catch (NoDieException e) {
             throw new ToolCardException("Non hai selezionato un dado");
@@ -101,11 +103,11 @@ public class ToolCardController implements ToolCardHandler{
         try {
             DiePlacerNoColor placer = new DiePlacerNoColor(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
-            squareStart.setDie(null);
             updateToolCard(toolCardMessage);
             return new ModelViewResponse(board.modelViewCopy());
         }
         catch (InvalidPlacementException e) {
+            squareStart.setDie(dieToMove);
             throw new ToolCardException(INVALID_POSITION);
         }
     }
@@ -116,7 +118,9 @@ public class ToolCardController implements ToolCardHandler{
         if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
-        player.getDieInHand().rollDie();
+        Die dieToGive = new Die(player.getDieInHand().getValue(), player.getDieInHand().getColor());
+        dieToGive.rollDie();
+        player.setDieInHand(dieToGive);
         updateToolCard(toolCardMessage);
         return new ModelViewResponse(board.modelViewCopy());
     }
@@ -140,9 +144,13 @@ public class ToolCardController implements ToolCardHandler{
 
     @Override
     public Response useCard(GlazingHammer toolCard, ToolCardMessage toolCardMessage) {
+        List<Die> diceReRolled = new ArrayList<>();
         for(Die die : board.getDraftPool().getAllDice()) {
-            die.rollDie();
+            Die dieToGive = new Die(die.getValue(), die.getColor());
+            dieToGive.rollDie();
+            diceReRolled.add(dieToGive);
         }
+        board.getDraftPool().fillDraftPool(diceReRolled);
         updateToolCard(toolCardMessage);
         return new ModelViewResponse(board.modelViewCopy());
     }
@@ -153,7 +161,9 @@ public class ToolCardController implements ToolCardHandler{
         if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
-        player.getDieInHand().flipDie();
+        Die dieToGive = new Die(player.getDieInHand().getValue(), player.getDieInHand().getColor());
+        dieToGive.flipDie();
+        player.setDieInHand(dieToGive);
         updateToolCard(toolCardMessage);
         return new ModelViewResponse(board.modelViewCopy());
     }
@@ -169,8 +179,9 @@ public class ToolCardController implements ToolCardHandler{
             throw  new ToolCardException("Non puoi modificare nel modo indicato il dado! Puoi scegliere solo 0 o 1");
         }
         try {
-            Die dieToChange = player.getDieInHand();
-            dieToChange.setValue(dieToChange.getValue() + toolCardMessage.getValue());
+            Die dieToGive = new Die(player.getDieInHand().getValue(), player.getDieInHand().getColor());
+            dieToGive.setValue(dieToGive.getValue() + toolCardMessage.getValue());
+            player.setDieInHand(dieToGive);
             updateToolCard(toolCardMessage);
         }
         catch (DieException e) {

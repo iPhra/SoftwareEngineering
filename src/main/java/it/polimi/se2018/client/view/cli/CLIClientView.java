@@ -99,7 +99,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     @Override
     public void handleResponse(ScoreBoardResponse scoreBoardResponse){
         for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
-            cliInput.print(i + "player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "  score: " + scoreBoardResponse.getSortedPlayersScores().get(i));
+            cliInput.print(i+1 + "  player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "  score: " + scoreBoardResponse.getSortedPlayersScores().get(i));
         }
         clientConnection.stop();
     }

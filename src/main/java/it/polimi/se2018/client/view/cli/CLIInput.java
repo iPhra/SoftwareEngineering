@@ -238,9 +238,9 @@ public class CLIInput {
 
     void printRoundTracker() {
         printStream.println("Dice on Round Tracker are:");
-        for (int i = 0; i < board.getRoundTracker().size() - 1; i++) {
+        for (int i = 0; i < board.getRoundTracker().size(); i++) {
             printStream.print("Round " + i + ":  ");
-            for (int j = 0; j < board.getRoundTracker().get(i).size() - 1; j++) {
+            for (int j = 0; j < board.getRoundTracker().get(i).size(); j++) {
                 printDie(board.getRoundTracker().get(i).get(j));
             }
             printStream.print("\n");
