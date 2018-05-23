@@ -62,7 +62,9 @@ public class ToolCardController implements ToolCardHandler{
             DiePlacerNoValue placer = new DiePlacerNoValue(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
             updateToolCard(toolCardMessage);
-            return new ModelViewResponse(board.modelViewCopy());
+            ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+            modelViewResponse.setDescription("Player " + player.getName() + " used Copper Foil Burnisher: \nhe/she moved the die " + dieToMove.getValue() + " " + dieToMove.getColor() + " from " + squareStart.getDescription() + " to " +squareStart.getDescription());
+            return modelViewResponse;
         }
         catch (InvalidPlacementException e) {
             squareStart.setDie(dieToMove);
@@ -79,7 +81,9 @@ public class ToolCardController implements ToolCardHandler{
             placer.placeDie();
             player.dropDieInHand();
             updateToolCard(toolCardMessage);
-            return new ModelViewResponse(board.modelViewCopy());
+            ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+            modelViewResponse.setDescription("Player " + player.getName() + " used Cork Backed Straightedge: \nhw/she placed the drafted die on " + toolCardMessage.getFinalPosition().get(0).getDescription());
+            return modelViewResponse;
         }
         catch (InvalidPlacementException e) {
             throw new ToolCardException(INVALID_POSITION);
@@ -104,7 +108,9 @@ public class ToolCardController implements ToolCardHandler{
             DiePlacerNoColor placer = new DiePlacerNoColor(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
             updateToolCard(toolCardMessage);
-            return new ModelViewResponse(board.modelViewCopy());
+            ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+            modelViewResponse.setDescription("Player " + player.getName() + " used Eglomise Brush: \nhe/she moved the die " + dieToMove.getValue() + " " + dieToMove.getColor() + " from " + squareStart.getDescription() + " to " +squareStart.getDescription());
+            return modelViewResponse;
         }
         catch (InvalidPlacementException e) {
             squareStart.setDie(dieToMove);
@@ -122,7 +128,9 @@ public class ToolCardController implements ToolCardHandler{
         dieToGive.rollDie();
         player.setDieInHand(dieToGive);
         updateToolCard(toolCardMessage);
-        return new ModelViewResponse(board.modelViewCopy());
+        ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+        modelViewResponse.setDescription("Player " + player.getName() + " used Flux Brush: \nhe/she re-rolled the drafted die");
+        return modelViewResponse;
     }
 
     @Override
@@ -152,7 +160,10 @@ public class ToolCardController implements ToolCardHandler{
         }
         board.getDraftPool().fillDraftPool(diceReRolled);
         updateToolCard(toolCardMessage);
-        return new ModelViewResponse(board.modelViewCopy());
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
+        ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+        modelViewResponse.setDescription("Player " + player.getName() + " used Glazing Hammer: \nhe/she re-rolled all dice in the draft pool");
+        return modelViewResponse;
     }
 
     @Override
@@ -165,7 +176,9 @@ public class ToolCardController implements ToolCardHandler{
         dieToGive.flipDie();
         player.setDieInHand(dieToGive);
         updateToolCard(toolCardMessage);
-        return new ModelViewResponse(board.modelViewCopy());
+        ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+        modelViewResponse.setDescription("Player " + player.getName() + " used Grinding Stone: \nhe/she flipped the drafted die");
+        return modelViewResponse;
     }
 
     @Override
@@ -187,8 +200,9 @@ public class ToolCardController implements ToolCardHandler{
         catch (DieException e) {
             throw new ToolCardException("Il dado assume un valore troppo alto/basso");
         }
-        ModelView copy = board.modelViewCopy();
-        return new ModelViewResponse(copy);
+        ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+        modelViewResponse.setDescription("Player " + player.getName() + " used GrozingPliers: \nhe/she increased/decresed the drafted die");
+        return modelViewResponse;
     }
 
     @Override
@@ -210,12 +224,16 @@ public class ToolCardController implements ToolCardHandler{
             throw new ToolCardException("I due dadi non possono essere spostati insieme");
         }
         try {
-            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), player.getWindow());
+            Coordinate finalPositionOne = toolCardMessage.getFinalPosition().get(0);
+            Coordinate finalPositionTwo = toolCardMessage.getFinalPosition().get(1);
+            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, finalPositionOne, player.getWindow());
             placerOne.placeDie();
-            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow());
+            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, finalPositionTwo, player.getWindow());
             placerTwo.placeDie();
             updateToolCard(toolCardMessage);
-            return new ModelViewResponse(board.modelViewCopy());
+            ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+            modelViewResponse.setDescription("Player " + player.getName() + " used Lathekin: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + " from " + squareOne.getDescription() + " to " + finalPositionOne.getDescription() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor() + " from " + squareTwo.getDescription() + " to " + finalPositionTwo.getDescription());
+            return modelViewResponse;
         }
         catch (InvalidPlacementException e) {
             squareOne.setDie(dieOne);
@@ -235,7 +253,9 @@ public class ToolCardController implements ToolCardHandler{
         player.setDieInHand(dieFromRoundTrack);
         board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().getRow(), dieDrafted);
         updateToolCard(toolCardMessage);
-        return new ModelViewResponse(board.modelViewCopy());
+        ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+        modelViewResponse.setDescription("Player " + player.getName() + " used Lens Cutter: \nhw/she swapped the drafted die with the die " + dieFromRoundTrack.getValue() + " " + dieFromRoundTrack.getColor() + " from round track");
+        return modelViewResponse;
     }
 
     @Override
@@ -250,7 +270,9 @@ public class ToolCardController implements ToolCardHandler{
         player.setHasDraftedDie(false);
         board.getRound().denyNextTurn();
         updateToolCard(toolCardMessage);
-        return new ModelViewResponse(board.modelViewCopy());
+        ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+        modelViewResponse.setDescription("Player " + player.getName() + " used Running Pliers");
+        return modelViewResponse;
     }
 
     @Override
@@ -276,12 +298,16 @@ public class ToolCardController implements ToolCardHandler{
             throw new ToolCardException("I due dadi non possono essere spostati insieme");
         }
         try {
-            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), player.getWindow());
+            Coordinate finalPositionOne = toolCardMessage.getFinalPosition().get(0);
+            Coordinate finalPositionTwo = toolCardMessage.getFinalPosition().get(1);
+            DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, finalPositionOne, player.getWindow());
             placerOne.placeDie();
-            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow());
+            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, finalPositionTwo, player.getWindow());
             placerTwo.placeDie();
             updateToolCard(toolCardMessage);
-            return new ModelViewResponse(board.modelViewCopy());
+            ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
+            modelViewResponse.setDescription("Player " + player.getName() + " used Tap Wheel: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + " from " + squareOne.getDescription() + " to " + finalPositionOne.getDescription() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor() + " from " + squareTwo.getDescription() + " to " + finalPositionTwo.getDescription());
+            return modelViewResponse;
         }
         catch (InvalidPlacementException e) {
             squareOne.setDie(dieOne);

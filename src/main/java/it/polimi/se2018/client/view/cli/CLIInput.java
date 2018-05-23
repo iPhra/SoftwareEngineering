@@ -99,6 +99,29 @@ public class CLIInput {
         return res;
     }
 
+    String takeAction() throws TimeoutException {
+        boolean iterate = true;
+        String res="";
+        try {
+            System.in.read(new byte[System.in.available()]);
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+        do {
+            try {
+                res = String.valueOf(scanner.next());
+                iterate = false;
+            } catch (InputMismatchException e) {
+                printStream.println("Input is invalid");
+                scanner.nextLine();
+            }
+        }
+        while(iterate);
+        if (board.getCurrentPlayerID() != playerID) throw new TimeoutException();
+        return res;
+    }
+
     Coordinate getDieInMap() throws TimeoutException {
         printStream.println("Choose the die in the window");
         return getCoordinate();

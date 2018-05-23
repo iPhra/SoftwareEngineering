@@ -12,6 +12,7 @@ public abstract class Response implements Serializable {
      * This is the ID of the player this message will be sent to, or in case of ModelViewResponse it is the current player
      */
     private final int playerID;
+    private String description;
 
     protected Response(int player) {
         this.playerID = player;
@@ -22,6 +23,14 @@ public abstract class Response implements Serializable {
      */
     public int getPlayer() {
         return playerID;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**

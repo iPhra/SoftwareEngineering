@@ -43,7 +43,20 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     public void handleResponse(ModelViewResponse modelViewResponse) {
         cliInput.setBoard(modelViewResponse.getModelView());
         cliInput.printDraftPool();
-        playTurn();
+        if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
+            Duration timeout = Duration.ofSeconds(6000);
+            clock = new WaitingThread(timeout, this);
+            clock.start();
+            try {
+                chooseAction();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        else  {
+            cliInput.print(modelViewResponse.getDescription());
+            cliInput.print("It's not your turn. You can't do anything!");
+        }
     }
 
     //prints the text message
@@ -51,7 +64,11 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     //eccezioni da printare
     public void handleResponse(TextResponse textResponse) {
         cliInput.print(textResponse.getMessage());
-        playTurn();
+        try {
+            chooseAction();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -104,84 +121,72 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         clientConnection.stop();
     }
 
-    private void playTurn() {
-        if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
-            Duration timeout = Duration.ofSeconds(6000);
-            clock = new WaitingThread(timeout, this);
-            clock.start();
-            try {
-                chooseAction();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-        else  {
-            cliInput.print("It's not your turn. You can't do anything!");
-        }
-    }
-
-    private List<Integer> actionPossible() {
-        List<Integer> choosable = new ArrayList<>();
-        choosable.add(1);
+    private List<String> actionPossible() {
+        List<String> choosable = new ArrayList<>();
         if (!cliInput.getBoard().hasDraftedDie()) {
-            choosable.add(2);
+            choosable.add("d");
         }
         if (cliInput.getBoard().hasDieInHand()) {
-            choosable.add(3);
+            choosable.add("m");
         }
         if (!cliInput.getBoard().hasUsedCard()) {
-            choosable.add(4);
+            choosable.add("t");
         }
-        choosable.add(5);
+        choosable.add("p");
         return choosable;
     }
 
-    private void printActionPermitted(List<Integer> choosable) {
-        for (int i : choosable) {
-            if (i == 1) cliInput.print("[1] Ask an information on the game");
-            if (i == 2) {
-                cliInput.print("[2] Draft a die");
+    private void printActionPermitted(List<String> choosable) {
+        cliInput.print("[I] Ask an information on the game"); //i
+        for (String i : choosable) {
+            if (i.equals("d")) {
+                cliInput.print("[D] Draft a die"); //d
             }
-            if (i == 3) {
-                cliInput.print("[3] Place the drafted die");
+            if (i.equals("m")) {
+                cliInput.print("[M] Place the drafted die");
             }
-            if (i == 4) {
-                cliInput.print("[4] Select a Tool Card");
+            if (i.equals("t")) {
+                cliInput.print("[T] Select a Tool Card"); //t
             }
-            if (i == 5) cliInput.print("[5] Pass");
+            if (i.equals("p")) cliInput.print("[P] Pass"); //p
         }
     }
 
 
     private void chooseAction() throws RemoteException{
         try {
-            int choice = -1;
-            List<Integer> choosable = actionPossible();
+            String choice = "";
+            List<String> choosable = actionPossible();
             cliInput.print("It's your turn, choose your action");
             if (cliInput.getBoard().hasDieInHand()) {
                 cliInput.print("You have this die in your hand:");
                 cliInput.printDieExtended(cliInput.getBoard().getDieInHand());
             }
             cliInput.print("");
-            while (!choosable.contains(choice) || choice == 1) {
+            while (!choosable.contains(choice)) {
                 printActionPermitted(choosable);
-                choice = cliInput.takeInput();
-                if (choice == 1) cliInput.askInformation();
+                choice = cliInput.takeAction().toLowerCase();
+                if (choice.equals("i") || choice.equals("I")) cliInput.askInformation();
             }
             switch (choice) {
-                case 2:
+                case "d":
                     draftDie();
+
                     break;
-                case 3:
+                case "m":
                     placeDie();
+
                     break;
-                case 4:
+                case "t":
                     selectToolCard();
+
                     break;
-                case 5:
+                case "p":
                     passTurn();
+
                     break;
                 default:
+                    cliInput.print("Error!");
                     break;
             }
         }

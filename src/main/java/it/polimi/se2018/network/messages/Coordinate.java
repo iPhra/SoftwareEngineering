@@ -36,6 +36,10 @@ public class Coordinate implements Serializable{
         return col;
     }
 
+    public String getDescription() {
+        return ("row " + row + " col " + col);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

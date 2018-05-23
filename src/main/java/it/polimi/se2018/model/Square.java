@@ -72,7 +72,9 @@ public class Square implements Serializable{
 
     public int getRow() {return row; }
 
-
+    public String getDescription() {
+        return ("row " + row + " col " + col);
+    }
     /**
      * @return a boolean that show if there are a die in this Square
      */

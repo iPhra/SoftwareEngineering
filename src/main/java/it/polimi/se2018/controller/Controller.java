@@ -76,7 +76,9 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
         Player player = model.getPlayerByID(inputMessage.getPlayerID());
         try {
             player.getDieInHand().setValue(inputMessage.getDieValue());
-            model.notify(new ModelViewResponse(model.modelViewCopy()));
+            ModelViewResponse modelViewResponse = new ModelViewResponse(model.modelViewCopy());
+            modelViewResponse.setDescription("Player " + player.getName() + " used Flux Remover: \nhe/she moved the die drafted to the bag and received the die " + player.getDieInHand().getValue()+ " " + player.getDieInHand().getColor());
+            model.notify(modelViewResponse);
         } catch (DieException e) {
             model.notify(new TextResponse(inputMessage.getPlayerID(), e.getMessage()));
         }
@@ -116,7 +118,9 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
                     placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getWindow()));
                 }
                 player.dropDieInHand();
-                model.notify(new ModelViewResponse(model.modelViewCopy()));
+                ModelViewResponse modelViewResponse = new ModelViewResponse(model.modelViewCopy());
+                modelViewResponse.setDescription("Player " + player.getName() + " placed the drafted die in " + placeMessage.getFinalPosition().getDescription());
+                model.notify(modelViewResponse);
             }
             catch(InvalidPlacementException e) {model.notify(new TextResponse(placeMessage.getPlayerID(),"You can't place the die there"));}
         }
@@ -132,7 +136,9 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
         else {
             try {
                 draft(draftMessage);
-                model.notify(new ModelViewResponse(model.modelViewCopy()));
+                ModelViewResponse modelViewResponse = new ModelViewResponse(model.modelViewCopy());
+                modelViewResponse.setDescription("Player " + player.getName() + " drafted the die " + modelViewResponse.getModelView().getDieInHand().getValue() + " " + modelViewResponse.getModelView().getDieInHand().getColor());
+                model.notify(modelViewResponse);
             } catch (NoDieException e) {
                 model.notify(new TextResponse(draftMessage.getPlayerID(),"The die you want to draft does not exit"));
             }
@@ -177,7 +183,10 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
         player.setHasUsedCard(false);
         player.setHasDraftedDie(false);
         model.incrementStateID();
-        model.notify(new ModelViewResponse(model.modelViewCopy()));
+        ModelViewResponse modelViewResponse = new ModelViewResponse(model.modelViewCopy());
+        int round = model.getRound().getRoundNumber() - 1;
+        modelViewResponse.setDescription("Player " + player.getName() + " passed the turn. Round " + round + " ends");
+        model.notify(modelViewResponse);
         startTimer();
     }
 
@@ -191,7 +200,9 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
             model.getDraftPool().addToDraftPool(die);
         }
         model.incrementStateID();
-        model.notify(new ModelViewResponse(model.modelViewCopy()));
+        ModelViewResponse modelViewResponse = new ModelViewResponse(model.modelViewCopy());
+        modelViewResponse.setDescription("Player " + player.getName() + " passed the turn.");
+        model.notify(modelViewResponse);
         startTimer();
     }
 
