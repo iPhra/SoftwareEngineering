@@ -75,6 +75,7 @@ public class ToolCardController implements ToolCardHandler{
             Die dieToPlace = player.getDieInHand();
             DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), player.getWindow());
             placer.placeDie();
+            player.dropDieInHand();
             updateToolCard(toolCardMessage);
             return new ModelViewResponse(board.modelViewCopy());
         }
@@ -163,7 +164,7 @@ public class ToolCardController implements ToolCardHandler{
         if (!player.hasDieInHand()) {
             throw new ToolCardException(NO_DIE_IN_HAND);
         }
-        if (toolCardMessage.getValue() != +1 || toolCardMessage.getValue() != -1) {
+        if (toolCardMessage.getValue() != +1 && toolCardMessage.getValue() != -1) {
             //This toolcards change the value of the die by +1 or -1, other value are not allowed
             throw  new ToolCardException("Non puoi modificare nel modo indicato il dado! Puoi scegliere solo 0 o 1");
         }
@@ -171,11 +172,12 @@ public class ToolCardController implements ToolCardHandler{
             Die dieToChange = player.getDieInHand();
             dieToChange.setValue(dieToChange.getValue() + toolCardMessage.getValue());
             updateToolCard(toolCardMessage);
-            return new ModelViewResponse(board.modelViewCopy());
         }
         catch (DieException e) {
             throw new ToolCardException("Il dado assume un valore troppo alto/basso");
         }
+        ModelView copy = board.modelViewCopy();
+        return new ModelViewResponse(copy);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
     }
 
     private boolean checkFavorPoints(boolean isUsed, Player player) {
-        return (isUsed && player.getFavorPoints() != 1) && (player.getFavorPoints() >= 1);
+        return (player.getFavorPoints() > 1) || (!isUsed && player.getFavorPoints() == 1);
     }
 
     public boolean checkUsability(CopperFoilBurnisher toolCard, boolean isUsed, Player player) {

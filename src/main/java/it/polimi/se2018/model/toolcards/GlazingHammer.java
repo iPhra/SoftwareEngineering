@@ -12,7 +12,7 @@ public class GlazingHammer extends ToolCard {
 
     public GlazingHammer() {
         super("Glazing Hammer",
-                "Re-roll all dice in the Draft Pool, (you can only in first turn of the round and before drafting)");
+                "Re-roll all dice in the Draft Pool, (you can only in second turn of the round and before drafting)");
     }
 
     @Override

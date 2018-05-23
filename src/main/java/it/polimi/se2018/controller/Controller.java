@@ -30,7 +30,7 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(20);
+        Duration timeout = Duration.ofSeconds(6000);
         WaitingThread alarm = new WaitingThread(timeout, this);
         alarm.start();
     }

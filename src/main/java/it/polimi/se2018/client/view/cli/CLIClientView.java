@@ -98,13 +98,15 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
 
     @Override
     public void handleResponse(ScoreBoardResponse scoreBoardResponse){
-        //TO-DO: stampa la score board
+        for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
+            cliInput.print(i + "player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "  score: " + scoreBoardResponse.getSortedPlayersScores().get(i));
+        }
         clientConnection.stop();
     }
 
     private void playTurn() {
         if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
-            Duration timeout = Duration.ofSeconds(20);
+            Duration timeout = Duration.ofSeconds(6000);
             clock = new WaitingThread(timeout, this);
             clock.start();
             try {
