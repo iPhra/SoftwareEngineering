@@ -12,8 +12,8 @@ public class SetupMessage extends Message{
      */
     private final Window window;
 
-    public SetupMessage(int playerID, Window window) {
-        super(playerID);
+    public SetupMessage(int playerID, int stateID, Window window) {
+        super(playerID,stateID);
         this.window = window;
     }
 

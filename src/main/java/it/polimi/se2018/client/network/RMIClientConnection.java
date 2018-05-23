@@ -63,4 +63,9 @@ public class RMIClientConnection implements ClientConnection, RemoteConnection, 
             updateView();
         }
     }
+
+    @Override
+    public void stop() {
+        isOpen = false;
+    }
 }

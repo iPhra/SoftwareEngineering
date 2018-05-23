@@ -10,7 +10,7 @@ public class TestMessage {
     @Test
     public void testGetPlayer() {
         int value = new Random().nextInt();
-        Message message = new Message(value) {
+        Message message = new Message(value,0) {
             @Override
             public void handle(MessageHandler handler) {
             }

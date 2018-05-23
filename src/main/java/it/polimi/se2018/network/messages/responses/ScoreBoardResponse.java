@@ -19,6 +19,14 @@ public class ScoreBoardResponse extends Response{
         }
     }
 
+    public List<String> getSortedPlayersNames() {
+        return sortedPlayersNames;
+    }
+
+    public List<Integer> getSortedPlayersScores() {
+        return sortedPlayersScores;
+    }
+
     @Override
     public void handle(ResponseHandler responseHandler){
         responseHandler.handleResponse(this);

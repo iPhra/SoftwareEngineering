@@ -4,18 +4,10 @@ import java.time.Duration;
 
 public class WaitingThread extends Thread {
 
-    public Duration timeout;
+    private Duration timeout;
     private Timing caller;
     private Boolean stopped = false;
 
-    /**
-     * Constructs a waiting thread with a given timeout and caller
-     *
-     * @param timeout
-     *            the timeout that you want to assign to the waiting thread
-     * @param caller
-     *            the caller that you want to assign to the waiting thread
-     */
     public WaitingThread(Duration timeout, Timing caller) {
         this.timeout = timeout;
         this.caller = caller;
@@ -25,9 +17,6 @@ public class WaitingThread extends Thread {
         this.timeout = timeout;
     }
 
-    /**
-     * this method must be ran when you want to start the timeout
-     */
     @Override
     public void run() {
         try {
@@ -36,8 +25,8 @@ public class WaitingThread extends Thread {
             stopped = true;
         }
         if (!stopped) {
-            System.out.println("waiting thread: time's up");
-            caller.onTimesUp();
+            System.out.println("Waiting thread: time's up");
+            caller.wakeUp();
         }
 
     }

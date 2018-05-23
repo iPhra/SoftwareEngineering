@@ -10,8 +10,8 @@ public class InputMessage extends Message {
      */
     private int dieValue;
 
-    public InputMessage(int playerID, int dieValue) {
-        super(playerID);
+    public InputMessage(int playerID, int stateID, int dieValue) {
+        super(playerID,stateID);
         this.dieValue = dieValue;
     }
 

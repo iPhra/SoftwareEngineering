@@ -10,8 +10,8 @@ public class ToolCardRequestMessage extends Message {
      */
     private final int toolCardNumber;
 
-    public ToolCardRequestMessage(int player, int toolCardNumber) {
-        super(player);
+    public ToolCardRequestMessage(int playerID, int stateID, int toolCardNumber) {
+        super(playerID,stateID);
         this.toolCardNumber=toolCardNumber;
     }
 

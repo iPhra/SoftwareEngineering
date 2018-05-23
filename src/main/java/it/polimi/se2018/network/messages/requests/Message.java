@@ -13,8 +13,14 @@ public abstract class Message implements Serializable {
      */
     private final int playerID;
 
-    protected Message(int playerID) {
+    /**
+     * This is the unique id of the state of the game
+     */
+    private final int stateID;
+
+    protected Message(int playerID, int stateID) {
         this.playerID = playerID;
+        this.stateID = stateID;
     }
 
     /**
@@ -24,6 +30,11 @@ public abstract class Message implements Serializable {
     public int getPlayerID() {
         return playerID;
     }
+
+    /**
+     * @return the unique id of the state of the game
+     */
+    public int getStateID() { return stateID;}
 
     /**
      * Uses the handler to handle this specific request

@@ -27,14 +27,19 @@ public class Server implements Timing {
     private Map<Integer, GameManager> matches;
     private ServerSocket serverSocket;
     private DeckBuilder deckBuilder;
-    private Registry registry;
-    WaitingThread clock;
+    private WaitingThread clock;
 
     private Server() {
         deckBuilder = DeckBuilder.instance();
         matches = new HashMap<>();
-        Duration timeout = Duration.ofSeconds(60);
+        Duration timeout = Duration.ofSeconds(20);
         clock = new WaitingThread(timeout, this);
+    }
+
+    private void startTimer() {
+        Duration timeout = Duration.ofSeconds(20);
+        clock = new WaitingThread(timeout, this);
+        clock.start();
     }
 
     public void setPlayer(int playerID, String playerName, ServerConnection serverConnection) {
@@ -52,11 +57,7 @@ public class Server implements Timing {
         manager.addPlayerID(playerID);
         serverConnection.setServerView(manager.getServerView());
         manager.getServerView().addServerConnection(playerID,serverConnection);
-        if (manager.playersNumber() == 2) {
-            Duration timeout = Duration.ofSeconds(60);
-            clock = new WaitingThread(timeout, this);
-            clock.start();
-        }
+        if (manager.playersNumber() == 2) startTimer();
         if (isMatchFull()) {
             incrementMatchID();
             manager.sendWindows();
@@ -82,7 +83,7 @@ public class Server implements Timing {
     }
 
     private void createRMIRegistry () throws RemoteException{
-        registry = LocateRegistry.createRegistry(1099);
+        Registry registry = LocateRegistry.createRegistry(1099);
         RemoteManager remoteManager = new RMIManager(this,registry);
         registry.rebind("RemoteManager", UnicastRemoteObject.exportObject(remoteManager,0));
     }
@@ -113,7 +114,7 @@ public class Server implements Timing {
     }
 
     @Override
-    public void onTimesUp() {
+    public void wakeUp() {
         if (matches.get(matchID).playersNumber() >= 2) {
             matches.get(matchID).sendWindows();
             incrementMatchID();

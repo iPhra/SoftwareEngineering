@@ -12,12 +12,11 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
     ToolCardPlayerInput (int playerID, CLIInput cliInput) {
         this.playerID=playerID;
         this.cliInput=cliInput;
-
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(CopperFoilBurnisher toolCard, int toolcardnumber) throws TimeoutException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
         Coordinate startingCoordinate = cliInput.getDieInMap();
         if (startingCoordinate.equals(new Coordinate(-1, -1))) {
             toolCardMessage.setToDismiss(true);
@@ -35,7 +34,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(CorkBackedStraightedge toolCard, int toolcardnumber) throws TimeoutException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
         Coordinate finalPosition = cliInput.getCoordinate();
         if (finalPosition.equals(new Coordinate(-1, -1))) {
             toolCardMessage.setToDismiss(true);
@@ -47,7 +46,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(EglomiseBrush toolCard, int toolcardnumber) throws TimeoutException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
         Coordinate startingCoordinate = cliInput.getDieInMap();
         if (startingCoordinate.equals(new Coordinate(-1, -1))) {
             toolCardMessage.setToDismiss(true);
@@ -65,35 +64,35 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(FluxBrush toolCard, int toolcardnumber) throws TimeoutException {
-        return new ToolCardMessage(playerID, toolcardnumber);
+        return new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(FluxRemover toolCard, int toolcardnumber) throws TimeoutException {
-        return new ToolCardMessage(playerID, toolcardnumber);
+        return new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(GlazingHammer toolCard, int toolcardnumber) throws TimeoutException {
-        return new ToolCardMessage(playerID, toolcardnumber);
+        return new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(GrindingStone toolCard, int toolcardnumber) throws TimeoutException {
-        return new ToolCardMessage(playerID, toolcardnumber);
+        return new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(GrozingPliers toolCard, int toolcardnumber) throws TimeoutException {
         int choice = cliInput.getMinusPlus();
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
         toolCardMessage.addValue(choice);
         return  toolCardMessage;
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(Lathekin toolCard, int toolcardnumber) throws TimeoutException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
         Coordinate startingCoordinateOne = cliInput.getDieInMap();
         if (startingCoordinateOne.equals(new Coordinate(-1, -1))) {
             toolCardMessage.setToDismiss(true);
@@ -123,7 +122,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(LensCutter toolCard, int toolcardnumber) throws TimeoutException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID,cliInput.getBoard().getStateID(), toolcardnumber);
         Coordinate positionRoundTrack = cliInput.getRoundTrackPosition();
         if (positionRoundTrack.getRow() == -1) toolCardMessage.setToDismiss(true);
         toolCardMessage.addRoundTrackerPosition(positionRoundTrack);
@@ -132,12 +131,12 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(RunningPliers toolCard, int toolcardnumber) throws TimeoutException {
-        return new ToolCardMessage(playerID, toolcardnumber);
+        return new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(TapWheel toolCard, int toolcardnumber) throws TimeoutException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliInput.getBoard().getStateID(),toolcardnumber);
         Coordinate startingCoordinateOne = cliInput.getDieInMap();
         if (startingCoordinateOne.equals(new Coordinate(-1, -1))) {
             toolCardMessage.setToDismiss(true);

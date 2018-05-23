@@ -45,6 +45,7 @@ public class Board extends Observable<Response> {
     private final PublicObjective[] publicObjectives; //array che contiene le carte degli obbiettivi pubblici
     private final Bag bag; //ha il riferimento al sacchetto dei dadi
     private final RoundTracker roundTracker; //ha il riferimento al roundTracker
+    private int stateID;
 
     public Board(List<Player> players, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
         this.players = players;
@@ -64,6 +65,15 @@ public class Board extends Observable<Response> {
         roundTracker = new RoundTracker(ROUNDSNUMBER);
         draftPool=new DraftPool();
         draftPool.fillDraftPool(bag.drawDice(playersNumber));
+        stateID = 0;
+    }
+
+    public void incrementStateID() {
+        stateID++;
+    }
+
+    public int getStateID() {
+        return stateID;
     }
 
     public DraftPool getDraftPool() {

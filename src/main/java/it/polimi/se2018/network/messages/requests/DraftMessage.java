@@ -11,8 +11,8 @@ public class DraftMessage extends Message {
      */
     private int draftPoolPosition;
 
-    public DraftMessage(int player, int draftPoolPosition) {
-        super(player);
+    public DraftMessage(int player, int stateID, int draftPoolPosition) {
+        super(player,stateID);
         this.draftPoolPosition = draftPoolPosition;
     }
 

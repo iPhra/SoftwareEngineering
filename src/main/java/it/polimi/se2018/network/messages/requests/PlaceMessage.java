@@ -12,8 +12,8 @@ public class PlaceMessage extends Message {
      */
     private Coordinate finalPosition;
 
-    public PlaceMessage(int player, Coordinate finalPosition) {
-        super(player);
+    public PlaceMessage(int playerID, int stateID, Coordinate finalPosition) {
+        super(playerID,stateID);
         this.finalPosition = finalPosition;
     }
 

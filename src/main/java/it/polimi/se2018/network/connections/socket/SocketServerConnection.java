@@ -73,6 +73,7 @@ public class SocketServerConnection implements Runnable, ServerConnection {
         closeConnection();
     }
 
+    @Override
     public void stop(){
         isOpen = false;
     }

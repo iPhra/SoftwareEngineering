@@ -11,7 +11,6 @@ import it.polimi.se2018.utils.Timing;
 import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.utils.exceptions.TimeoutException;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.util.*;
@@ -21,15 +20,12 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     private ClientConnection clientConnection;
     private CLIInput cliInput;
     private ToolCardPlayerInput toolCardPlayerInput;
-    private final Scanner scanner;
     private WaitingThread clock;
 
     public CLIClientView(int playerID) {
-        scanner =  new Scanner(System.in);
         this.playerID = playerID;
         cliInput = new CLIInput(playerID);
         toolCardPlayerInput = new ToolCardPlayerInput(playerID, cliInput);
-        clock = null;
     }
 
     public void setClientConnection(ClientConnection clientConnection) {
@@ -44,11 +40,10 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
 
     //updates the board
     @Override
-    //aggiorno il modelview e stampo a schermo la tua e il roundtracker
     public void handleResponse(ModelViewResponse modelViewResponse) {
         cliInput.setBoard(modelViewResponse.getModelView());
         cliInput.printDraftPool();
-        checkIsYourTurn();
+        playTurn();
     }
 
     //prints the text message
@@ -56,7 +51,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     //eccezioni da printare
     public void handleResponse(TextResponse textResponse) {
         cliInput.print(textResponse.getMessage());
-        checkIsYourTurn();
+        playTurn();
     }
 
     @Override
@@ -65,7 +60,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         try {
             int choice = cliInput.getValueDie();
             try {
-                clientConnection.sendMessage(new InputMessage(playerID, choice));
+                clientConnection.sendMessage(new InputMessage(playerID, cliInput.getBoard().getStateID(), choice));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -94,7 +89,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         cliInput.printPublicObjective();
         int windowNumber = selectWindow(setupResponse.getWindows())-1;
         try {
-            clientConnection.sendMessage(new SetupMessage(playerID,setupResponse.getWindows().get(windowNumber)));
+            clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
             cliInput.print("Window sent. Waiting for other players to choose.");
         }
         catch (RemoteException e) {
@@ -103,13 +98,13 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
 
     @Override
     public void handleResponse(ScoreBoardResponse scoreBoardResponse){
-        //stampa la scoreboard
-        //QUA DEVI ANCHE CHIUDERE LA CONNESSIONE LATO CLIENT, SIA CHE SIA SOCKET SIA CHE SIA RMI
+        //TO-DO: stampa la score board
+        clientConnection.stop();
     }
 
-    private void checkIsYourTurn() {
+    private void playTurn() {
         if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
-            Duration timeout = Duration.ofSeconds(1520);
+            Duration timeout = Duration.ofSeconds(20);
             clock = new WaitingThread(timeout, this);
             clock.start();
             try {
@@ -119,7 +114,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             }
         }
         else  {
-            clock = null;
             cliInput.print("It's not your turn. You can't do anything!");
         }
     }
@@ -158,7 +152,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
 
 
     private void chooseAction() throws RemoteException{
-        //Choose the action to do DraftDie, UseToolcard, PlaceDie, PassTurn
         try {
             int choice = -1;
             List<Integer> choosable = actionPossible();
@@ -181,7 +174,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
                     placeDie();
                     break;
                 case 4:
-                    selectToolcard();
+                    selectToolCard();
                     break;
                 case 5:
                     passTurn();
@@ -195,39 +188,47 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     }
 
     private int selectWindow(List<Window> windows) {
+        Scanner scanner = new Scanner(System.in);
         int choice = -1;
-        while (choice < 1 || choice > 4) {
-            cliInput.print("Select your Window");
-            int i = 1;
-            for(Window window : windows) {
-                cliInput.print("Press [" + i + "] to select this window");
-                cliInput.print(window.getTitle());
-                cliInput.printPlayerWindow(window.modelViewCopy());
-                cliInput.print("The level of the window is " + window.getLevel() + "\n");
-                i++;
-            }
-            choice = scanner.nextInt();
+        boolean iterate = true;
+        cliInput.print("Select your Window");
+        for(int i=1; i<windows.size(); i++) {
+            cliInput.print("Press [" + i + "] to select this window");
+            cliInput.print(windows.get(i).getTitle());
+            cliInput.printPlayerWindow(windows.get(i).modelViewCopy());
+            cliInput.print("The level of the window is " + windows.get(i).getLevel() + "\n");
         }
+        do {
+            try {
+                choice = scanner.nextInt();
+                if (choice<1 || choice>4) cliInput.print("Type a number between 1 and 4");
+                else iterate = false;
+            } catch (InputMismatchException e) {
+                cliInput.print("Input is invalid");
+                scanner.nextLine();
+            }
+        }
+        while(iterate);
         return choice;
     }
 
     private void passTurn() throws RemoteException{
         clock.interrupt();
-        clientConnection.sendMessage(new PassMessage(playerID));
+        clientConnection.sendMessage(new PassMessage(playerID,cliInput.getBoard().getStateID()));
     }
 
     private void draftDie() throws RemoteException, TimeoutException {
         cliInput.print("Choose the die to draft.");
         int index = cliInput.getDraftPoolPosition();
-        if (index != -1) clientConnection.sendMessage(new DraftMessage(playerID, index));
+        if (index != -1) clientConnection.sendMessage(new DraftMessage(playerID, cliInput.getBoard().getStateID(),index));
         else chooseAction();
     }
 
-    private void selectToolcard() throws RemoteException, TimeoutException {
+    private void selectToolCard() throws RemoteException, TimeoutException {
         int toolCard = cliInput.getToolCard();
         //if you click 3, you choose to go for another action
         if (toolCard != 3)
-            clientConnection.sendMessage(new ToolCardRequestMessage(playerID, toolCard));
+            clientConnection.sendMessage(new ToolCardRequestMessage(playerID, cliInput.getBoard().getStateID(), toolCard));
         else{
             try{
                 chooseAction();
@@ -251,13 +252,13 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         cliInput.print("Choose the position where you want to put the drafted die");
         Coordinate coordinate = cliInput.getCoordinate();
         if (!coordinate.equals(new Coordinate(-1, -1))) {
-            clientConnection.sendMessage(new PlaceMessage(playerID, coordinate));
+            clientConnection.sendMessage(new PlaceMessage(playerID, cliInput.getBoard().getStateID(), coordinate));
         }
         else { chooseAction(); }
     }
 
     @Override
-    public void onTimesUp() {
+    public void wakeUp() {
         clock = null;
         cliInput.getBoard().setCurrentPlayerID(0);
         cliInput.print("Time is up, press any number to continue");

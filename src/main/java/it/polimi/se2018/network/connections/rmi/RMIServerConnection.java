@@ -63,4 +63,9 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
             updateView();
         }
     }
+
+    @Override
+    public void stop() {
+        isOpen=false;
+    }
 }

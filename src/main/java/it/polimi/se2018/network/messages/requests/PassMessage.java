@@ -6,8 +6,8 @@ package it.polimi.se2018.network.messages.requests;
  */
 public class PassMessage extends Message {
 
-    public PassMessage(int player) {
-        super(player);
+    public PassMessage(int playerID, int stateID) {
+        super(playerID,stateID);
     }
 
     /**

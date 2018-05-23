@@ -5,5 +5,5 @@ public interface Timing {
     /**
      * this method will be called when the time is up
      */
-    void onTimesUp();
+    void wakeUp();
 }

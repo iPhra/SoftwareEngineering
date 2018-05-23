@@ -7,4 +7,5 @@ import java.rmi.RemoteException;
 public interface ClientConnection {
 
     void sendMessage(Message message) throws RemoteException;
+    void stop();
 }

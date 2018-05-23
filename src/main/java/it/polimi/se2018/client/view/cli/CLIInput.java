@@ -79,7 +79,12 @@ public class CLIInput {
     int takeInput() throws TimeoutException {
         boolean iterate = true;
         int res=0;
-        res = 0;
+        try {
+            System.in.read(new byte[System.in.available()]);
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
         do {
             try {
                 res = scanner.nextInt();

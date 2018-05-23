@@ -44,8 +44,8 @@ public class ToolCardMessage extends Message {
      */
     private Coordinate roundTrackerPosition; //x is the Turn, y is the position
 
-    public ToolCardMessage(int player, int toolCardNumber) {
-        super(player);
+    public ToolCardMessage(int playerID, int stateID, int toolCardNumber) {
+        super(playerID, stateID);
         startingPosition = new ArrayList<>();
         this.toolCardNumber=toolCardNumber;
         finalPosition = new ArrayList<>();

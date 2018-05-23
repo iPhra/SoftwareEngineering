@@ -28,6 +28,7 @@ public class ModelView implements Serializable{
     private final boolean hasDraftedDie;
     private  final boolean hasUsedCard;
     private int cardInUse;
+    private int stateID;
 
     public ModelView(Board board) {
         this.usedToolCard = new ArrayList<>();
@@ -68,7 +69,10 @@ public class ModelView implements Serializable{
             ToolCard toolCard = board.getToolCards()[i];
             toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(board), board.getToolCardsUsage()[i], currentPlayer));
         }
+        stateID = board.getStateID();
     }
+
+    public int getStateID() {return stateID;}
 
     public List<Boolean> getToolCardUsability() {
         return toolCardUsability;

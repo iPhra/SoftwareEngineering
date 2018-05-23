@@ -9,4 +9,5 @@ public interface ServerConnection {
 
     void sendResponse(Response response) throws RemoteException;
     void setServerView(ServerView serverView);
+    void stop();
 }

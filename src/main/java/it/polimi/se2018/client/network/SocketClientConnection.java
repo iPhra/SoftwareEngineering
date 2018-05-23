@@ -21,10 +21,20 @@ public class SocketClientConnection implements ClientConnection {
             this.in = in;
             this.out = out;
         this.clientView = clientView;
+        isOpen = true;
+    }
+
+    private void closeConnection(){
+        try{
+            in.close();
+            out.close();
+            socket.close();
+        }catch(IOException e){
+            System.err.println(e.getMessage());
+        }
     }
 
     public void run(){
-        isOpen = true;
         while(isOpen){
             try{
                 Response response = (Response) in.readObject();
@@ -37,21 +47,6 @@ public class SocketClientConnection implements ClientConnection {
 
     }
 
-    public void stop(){
-        isOpen = false;
-    }
-
-    private void closeConnection(){
-        stop();
-        try{
-            in.close();
-            out.close();
-            socket.close();
-        }catch(IOException e){
-            System.err.println(e.getMessage());
-        }
-    }
-
     @Override
     public void sendMessage(Message message){
         try{
@@ -59,6 +54,11 @@ public class SocketClientConnection implements ClientConnection {
         }catch(IOException e){
             System.err.println(e.getMessage());
         }
+    }
+
+    @Override
+    public void stop(){
+        isOpen = false;
     }
 
 }

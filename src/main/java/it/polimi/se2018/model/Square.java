@@ -107,7 +107,7 @@ public class Square implements Serializable{
     public Die popDie () {
         Die dieToGet = die;
         die = null;
-        return die;
+        return dieToGet;
     }
 
     @Override
