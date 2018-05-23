@@ -45,6 +45,17 @@ public class Round {
         missingPlayers=playersOrder.size()/2;
     }
 
+    /*
+    public boolean handleDisconnection(int playerID) {
+        for(int player : playersOrder) {
+            if (player==playerID) playersOrder.remove(player);
+        }
+        if (playersOrder.indexOf(playerID)==playersOrder.size()-1) return true;
+        currentPlayer=playersOrder.get(currentPlayerIndex);
+        missingPlayers--;
+        return false;
+    }*/
+
     /**
      * @return the array of playersIDs representing the order of the players
      */
@@ -107,7 +118,7 @@ public class Round {
 
     /**
      * This method builds the next array playersOrder and gives it to
-     * the costructor of the next round with the new roundNumber
+     * the constructor of the next round with the new roundNumber
      * Used by {@link it.polimi.se2018.controller.Controller} to start a new round
      * @return the next Round
      */
@@ -123,14 +134,14 @@ public class Round {
     // used by the toolcards that allows you to place the die twice and skip your second turn
     //this method, specifically, let the player skip his second turn (deleting the player from the second half of the array)
     //toolcards MUST set hasPlacedDie and hasUsedCard
-    //requires being in the first half of the array. if not, toolcards throws an exception
+    //requires being in the first half of the array. if not, tool cards throw an exception
 
     /**
      * Used by {@link it.polimi.se2018.controller.ToolCardController} because RunningPliers toolCard needs it to allow
      * the player to place the die twice and skip your second turn
      * this method, specifically, let the player skip his second turn (deleting the player from the second half of the array)
      * note that the toolcard must set hasPlacedDie and hasUsedCard
-     * requires being in the first half of the array. if not, toolcards throws an exception
+     * requires being in the first half of the array. if not, tool cards throw an exception
      */
     public void denyNextTurn() {
         playersOrder.remove(playersOrder.size()- currentPlayerIndex -1);
@@ -155,7 +166,6 @@ public class Round {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(playersOrder, missingPlayers, currentPlayer, currentPlayerIndex, roundNumber);
     }
 }

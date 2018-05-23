@@ -65,10 +65,11 @@ public class Client {
         clientView = new CLIClientView(playerID);
         clientConnection = new RMIClientConnection(clientView);
         manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection)clientConnection,0));
-        RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection");
+        RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection"+playerID);
         ((RMIClientConnection)clientConnection).setServerConnection(serverConnection);
         clientView.setClientConnection(clientConnection);
-        new Thread(((RMIClientConnection)clientConnection)).start();
+        Thread thread = new Thread((RMIClientConnection) clientConnection);
+        thread.start();
     }
 
     private void createSocketConnection(String host, int port){
@@ -91,16 +92,9 @@ public class Client {
             clientView = new CLIClientView(playerID);
             clientConnection = new SocketClientConnection(socket, clientView,in,out);
             clientView.setClientConnection(clientConnection);
-            ((SocketClientConnection)clientConnection).run();
+            Thread thread = new Thread((SocketClientConnection) clientConnection);
+            thread.start();
         } catch(IOException e){
-            System.err.println(e.getMessage());
-        }
-    }
-
-    private void closeSocketConnection(){
-        try{
-            socket.close();
-        }catch(IOException e){
             System.err.println(e.getMessage());
         }
     }

@@ -7,12 +7,11 @@ import it.polimi.se2018.model.toolcards.*;
 import java.util.*;
 
 public class DeckBuilder {
-    private static DeckBuilder instance;
     private List<ToolCard> toolCards;
     private List<PublicObjective> publicObjectives;
     private List<PrivateObjective> privateObjectives;
 
-    private DeckBuilder() {
+    public DeckBuilder() {
         toolCards = new ArrayList<>();
         publicObjectives = new ArrayList<>();
         privateObjectives = new ArrayList<>();
@@ -42,16 +41,6 @@ public class DeckBuilder {
         privateObjectives.add(ShadesOfPurpleObjective.instance("Shades of Purple"));
         privateObjectives.add(ShadesOfRedObjective.instance("Shades of Red"));
         privateObjectives.add(ShadesOfYellowObjective.instance("Shades of Yellow"));
-    }
-
-    private static synchronized DeckBuilder createInstance(){
-        if (instance==null) instance = new DeckBuilder();
-        return instance;
-    }
-
-    public static DeckBuilder instance(){
-        if (instance==null) createInstance();
-        return instance;
     }
 
     public List<ToolCard> extractToolCards(int number) {

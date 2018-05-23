@@ -1,10 +1,10 @@
-package it.polimi.se2018.network.connections;
+package it.polimi.se2018.network;
 
 import it.polimi.se2018.controller.GameManager;
+import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.connections.rmi.RMIManager;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.network.connections.socket.SocketHandler;
-import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.utils.Timing;
 import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.view.ServerView;
@@ -12,6 +12,7 @@ import it.polimi.se2018.view.ServerView;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -19,18 +20,18 @@ import java.rmi.server.UnicastRemoteObject;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Server implements Timing {
     private static final int PORT = 1234;
     private static int matchID = 1;
     private static int playerNumber = 0; //identifies just the player, without the match
     private Map<Integer, GameManager> matches;
-    private ServerSocket serverSocket;
-    private DeckBuilder deckBuilder;
     private WaitingThread clock;
+    private RMIManager remoteManager;
+    private SocketHandler socketHandler;
 
     private Server() {
-        deckBuilder = DeckBuilder.instance();
         matches = new HashMap<>();
         Duration timeout = Duration.ofSeconds(20);
         clock = new WaitingThread(timeout, this);
@@ -46,7 +47,7 @@ public class Server implements Timing {
         int match = playerID/1000;
         GameManager manager;
         if(matches.get(match)==null) {
-            manager = new GameManager(deckBuilder);
+            manager = new GameManager();
             manager.setServerView(new ServerView());
             manager.startSetup();
             matches.put(match,manager);
@@ -63,6 +64,22 @@ public class Server implements Timing {
             manager.sendWindows();
             clock.interrupt();
         }
+    }
+
+    public void handleDisconnection(int playerID) {
+        int match = playerID/1000;
+        GameManager manager = matches.get(match);
+        if(manager.isMatchPlaying()) {
+
+        }
+        else removePlayer(playerID);
+    }
+
+    private void removePlayer(int playerID) {
+        int match = playerID/1000;
+        GameManager manager = matches.get(match);
+        if(manager.playersNumber()==2) clock.interrupt();
+        manager.removePlayer(playerID);
     }
 
     public boolean checkName(int playerID, String playerName) {
@@ -82,35 +99,26 @@ public class Server implements Timing {
         return (matchID*1000)+playerNumber;
     }
 
-    private void createRMIRegistry () throws RemoteException{
-        Registry registry = LocateRegistry.createRegistry(1099);
-        RemoteManager remoteManager = new RMIManager(this,registry);
-        registry.rebind("RemoteManager", UnicastRemoteObject.exportObject(remoteManager,0));
+    private void createRMIRegistry () {
+        try {
+            Registry registry = LocateRegistry.createRegistry(1099);
+            remoteManager = new RMIManager(this,registry);
+            registry.rebind("RemoteManager", UnicastRemoteObject.exportObject(remoteManager,0));
+        }
+        catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     private void startSocketConnection(){
         try{
-            serverSocket = new ServerSocket(PORT);
-            SocketHandler socketHandler = new SocketHandler(this,serverSocket);
-            new Thread(socketHandler).start();
+            ServerSocket serverSocket = new ServerSocket(PORT);
+            socketHandler = new SocketHandler(this,serverSocket);
+            Thread thread = new Thread(socketHandler);
+            thread.start();
         }catch(IOException e){
             System.err.println(e.getMessage());
         }
-    }
-
-    private void closeSocketConnection(){
-        try{
-            serverSocket.close();
-        }catch(IOException e){
-            System.err.println(e.getMessage());
-        }
-    }
-
-    public static void main(String[] args) throws RemoteException {
-        Server server = new Server();
-        server.startSocketConnection();
-        server.createRMIRegistry();
-        new PrintStream(System.out).println("Listening...");
     }
 
     @Override
@@ -119,5 +127,19 @@ public class Server implements Timing {
             matches.get(matchID).sendWindows();
             incrementMatchID();
         }
+    }
+
+    private void close() {
+        socketHandler.stop();
+        remoteManager.closeConnection();
+    }
+
+
+
+    public static void main(String[] args) {
+        Server server = new Server();
+        server.startSocketConnection();
+        server.createRMIRegistry();
+        new PrintStream(System.out).println("Listening...");
     }
 }

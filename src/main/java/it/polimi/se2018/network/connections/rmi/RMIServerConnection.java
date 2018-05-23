@@ -14,11 +14,15 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
     private final RemoteConnection clientConnection;
     private final List<Message> events;
     private boolean isOpen;
+    private RMIManager manager;
+    private int playerID;
 
-    public RMIServerConnection(RemoteConnection clientConnection) {
+    public RMIServerConnection(RemoteConnection clientConnection, RMIManager manager, int playerID) {
         events = new ArrayList<>();
         this.clientConnection = clientConnection;
         isOpen = true;
+        this.manager = manager;
+        this.playerID = playerID;
     }
 
     @Override
@@ -62,6 +66,7 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
         while(isOpen) {
             updateView();
         }
+        manager.closePlayerConnection(playerID,this);
     }
 
     @Override

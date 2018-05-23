@@ -1,6 +1,6 @@
 package it.polimi.se2018.network.connections.socket;
 
-import it.polimi.se2018.network.connections.Server;
+import it.polimi.se2018.network.Server;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
@@ -15,6 +15,7 @@ public class SocketServerConnection implements Runnable, ServerConnection {
     private Server server;
     private Socket socket;
     private String playerName;
+    private int playerID;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private boolean isOpen;
@@ -49,7 +50,7 @@ public class SocketServerConnection implements Runnable, ServerConnection {
 
     private void setup() throws IOException, ClassNotFoundException{
         boolean setup = true;
-        int playerID = server.generateID();
+        playerID = server.generateID();
         out.writeObject(playerID);
         while (setup){
             playerName = (String) in.readObject();
@@ -67,10 +68,15 @@ public class SocketServerConnection implements Runnable, ServerConnection {
                 Message message = (Message) in.readObject();
                 if (message != null) serverView.handleNetworkInput(message);
             }
-        }catch(ClassNotFoundException | IOException e){
+        } catch(ClassNotFoundException e) {
             System.err.println(e.getMessage());
         }
-        closeConnection();
+        catch (IOException e) {
+            server.handleDisconnection(playerID);
+        }
+        finally {
+            closeConnection();
+        }
     }
 
     @Override
@@ -78,7 +84,6 @@ public class SocketServerConnection implements Runnable, ServerConnection {
         isOpen = false;
     }
 
-    //stop() method should be called before this method
     private void closeConnection(){
         try{
             in.close();
@@ -88,6 +93,4 @@ public class SocketServerConnection implements Runnable, ServerConnection {
             System.err.println(e.getMessage());
         }
     }
-
-
 }

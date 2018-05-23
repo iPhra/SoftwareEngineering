@@ -151,11 +151,11 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
     public void handleMove(PassMessage passMessage) {
         lock.lock();
         Player player = model.getPlayerByID(passMessage.getPlayerID());
-        if (model.getRound().isLastTurn()) {
-            this.endRound(player);
+        if (model.getRound().getRoundNumber()!= Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
+            endRound(player);
         }
-        else if (model.getRound().getRoundNumber() == Board.ROUNDSNUMBER) {
-            this.endMatch();
+        else if (model.getRound().getRoundNumber() == Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
+            endMatch();
         }
         else {
             endTurn(player);
@@ -171,8 +171,9 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
 
     //called by endTurn method when match ends
     private void endMatch() {
+        List<Player> scoreBoard = playersScoreBoard();
         for(Player player : model.getPlayers())
-            model.notify(new ScoreBoardResponse(player.getId(),playersScoreBoard()));
+            model.notify(new ScoreBoardResponse(player.getId(),scoreBoard));
         gameManager.endGame();
     }
 
@@ -232,6 +233,18 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
         else
             checkInput(input);
     }
+
+    /*
+    private void suspend(int playerID) {
+        if(model.getRound().handleDisconnection(playerID)) {
+            if (model.getRound().getRoundNumber() == Board.ROUNDSNUMBER) {
+                endMatch();
+            }
+            else  {
+                endRound(model.getPlayerByID(playerID));
+            }
+        }
+    }*/
 
     @Override
     public void wakeUp() {

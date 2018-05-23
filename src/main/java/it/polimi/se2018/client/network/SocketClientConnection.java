@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketClientConnection implements ClientConnection {
+public class SocketClientConnection implements ClientConnection, Runnable {
     private final Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -18,8 +18,8 @@ public class SocketClientConnection implements ClientConnection {
 
     public SocketClientConnection(Socket socket, ClientView clientView, ObjectInputStream in, ObjectOutputStream out){
         this.socket = socket;
-            this.in = in;
-            this.out = out;
+        this.in = in;
+        this.out = out;
         this.clientView = clientView;
         isOpen = true;
     }
@@ -44,7 +44,6 @@ public class SocketClientConnection implements ClientConnection {
             }
         }
         closeConnection();
-
     }
 
     @Override

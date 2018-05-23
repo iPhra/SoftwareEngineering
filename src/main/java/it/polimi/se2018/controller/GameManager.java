@@ -7,40 +7,49 @@ import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ServerConnection;
-import it.polimi.se2018.network.connections.socket.SocketServerConnection;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.SetupResponse;
 import it.polimi.se2018.utils.DeckBuilder;
+import it.polimi.se2018.utils.Timing;
+import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.utils.WindowBuilder;
 import it.polimi.se2018.view.ServerView;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.util.*;
 
-public class GameManager{
+public class GameManager implements Timing{
     private DeckBuilder deckBuilder;
     private ServerView serverView;
     private Controller controller;
     private List<Integer> playerIDs;
     private Map<Integer,ServerConnection> serverConnections; //maps playerID to its connection
     private Map<Integer, String> playerNames; //maps playerID to its name
+    private Map<Integer, List<Window>> windowsSetup;
     private List<Player> players;
     private List<PrivateObjective> privateObjectives;
     private List<PublicObjective> publicObjectives;
     private List<ToolCard> toolCards;
     private List<Window> windows;
     private int setupsCompleted;
+    private boolean matchPlaying;
 
-    public GameManager(DeckBuilder deckBuilder){
-        this.deckBuilder = deckBuilder;
-        this.playerIDs = new ArrayList<>();
-        this.serverConnections = new HashMap<>();
-        this.playerNames = new HashMap<>();
-        this.players = new ArrayList<>();
+    public GameManager(){
+        windowsSetup = new HashMap<>();
+        deckBuilder = new DeckBuilder();
+        playerIDs = new ArrayList<>();
+        serverConnections = new HashMap<>();
+        playerNames = new HashMap<>();
+        players = new ArrayList<>();
         setupsCompleted = 0;
+        matchPlaying = false;
+    }
+
+    private void startTimer() {
+        Duration timeout = Duration.ofSeconds(30);
+        WaitingThread alarm = new WaitingThread(timeout, this);
+        alarm.start();
     }
 
     public void addServerConnection(int playerID ,ServerConnection serverConnection) {
@@ -63,6 +72,16 @@ public class GameManager{
         return serverView;
     }
 
+    public void removePlayer(int playerID) {
+        serverConnections.remove(playerID);
+        playerNames.remove(playerID);
+        playerIDs.remove(playerID);
+    }
+
+    public boolean isMatchPlaying() {
+        return matchPlaying;
+    }
+
     //called by server
     public boolean checkName(String playerName){
         for(Integer player : playerNames.keySet()) {
@@ -77,9 +96,11 @@ public class GameManager{
     }
 
     private void createMVC() {
+        Collections.shuffle(players);
         Board board = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
         board.register(serverView);
         controller.setModel(board);
+        matchPlaying = true;
         controller.startMatch();
     }
 
@@ -119,28 +140,44 @@ public class GameManager{
         createPrivateObjectives();
         createWindows();
         for(int i=0;i<playerIDs.size();i++) {
-            List<Window> windowsToSend = new ArrayList<>();
+            windowsSetup.put(playerIDs.get(i),new ArrayList<>());
             for(int j=i*4;j<i*4+4;j++){
-                windowsToSend.add(windows.get(j));
+                windowsSetup.get(playerIDs.get(i)).add(windows.get(j));
             }
             serverView.update(new SetupResponse(
-                    playerIDs.get(i),windowsToSend,publicObjectives,privateObjectives.get(i),toolCards,new ArrayList<>(playerNames.values())));
+                    playerIDs.get(i),windowsSetup.get(playerIDs.get(i)),publicObjectives,privateObjectives.get(i),toolCards,new ArrayList<>(playerNames.values())));
         }
+        startTimer();
     }
 
-    //when a player send the map he chose
+    //when a player sends the map he chose
     public void createPlayer(SetupMessage setupMessage){
+        windowsSetup.remove(setupMessage.getPlayerID());
         players.add(new Player(playerNames.get(setupMessage.getPlayerID()),setupMessage.getPlayerID(),setupMessage.getWindow(),privateObjectives.get(setupsCompleted)));
         setupsCompleted++;
         //when every played sent his window
         if(setupsCompleted==playerIDs.size()) createMVC();
     }
 
-    // the closure of RMI connection has still to be implemented
-    public void endGame(){
-        for(ServerConnection connection : serverConnections.values()){
-            if (connection instanceof SocketServerConnection)
-                ((SocketServerConnection) connection).stop();
+    public void endGame() {
+        matchPlaying = false;
+        for (ServerConnection connection : serverConnections.values()) {
+            connection.stop();
         }
+    }
+
+    @Override
+    public void wakeUp() {
+        List<Integer> missingPlayers = playerIDs;
+        Random random = new Random();
+        for(Player player : players) {
+            missingPlayers.remove(missingPlayers.indexOf(player.getId()));
+        }
+        for(int id : missingPlayers) {
+            players.add(new Player(playerNames.get(id),id,windowsSetup.get(id).get(random.nextInt(4)),privateObjectives.get(setupsCompleted)));
+            setupsCompleted++;
+        }
+        windowsSetup.clear();
+        createMVC();
     }
 }

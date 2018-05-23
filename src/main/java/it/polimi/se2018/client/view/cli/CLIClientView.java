@@ -28,6 +28,12 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         toolCardPlayerInput = new ToolCardPlayerInput(playerID, cliInput);
     }
 
+    private void startTimer(int seconds) {
+        Duration timeout = Duration.ofSeconds(seconds);
+        WaitingThread alarm = new WaitingThread(timeout, this);
+        alarm.start();
+    }
+
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
     }
@@ -44,9 +50,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         cliInput.setBoard(modelViewResponse.getModelView());
         cliInput.printDraftPool();
         if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
-            Duration timeout = Duration.ofSeconds(6000);
-            clock = new WaitingThread(timeout, this);
-            clock.start();
+            startTimer(3000);
             try {
                 chooseAction();
             } catch (RemoteException e) {
@@ -98,6 +102,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     //Set the objective and toolcard copy to the value. Ask the window to select
     @Override
     public void handleResponse(SetupResponse setupResponse) {
+        startTimer(30);
         cliInput.setPlayersName(setupResponse.getPlayerNames());
         cliInput.setPrivateObjective(setupResponse.getPrivateObjective());
         cliInput.setPublicObjectives(setupResponse.getPublicObjectives());
@@ -151,8 +156,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             if (i.equals("p")) cliInput.print("[P] Pass"); //p
         }
     }
-
-
+    
     private void chooseAction() throws RemoteException{
         try {
             String choice = "";
@@ -268,6 +272,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     public void wakeUp() {
         clock = null;
         cliInput.getBoard().setCurrentPlayerID(0);
-        cliInput.print("Time is up, press any number to continue");
+        cliInput.print("Time is up, press 1 to continue");
     }
 }
