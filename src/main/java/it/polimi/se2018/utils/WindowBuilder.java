@@ -1,9 +1,9 @@
 package it.polimi.se2018.utils;
 
 
-import it.polimi.se2018.model.Color;
-import it.polimi.se2018.model.Square;
-import it.polimi.se2018.model.Window;
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Square;
+import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.network.messages.Coordinate;
 import javafx.util.Pair;
 import org.json.simple.JSONArray;

@@ -5,7 +5,7 @@ import java.time.Duration;
 public class WaitingThread extends Thread {
 
     private Duration timeout;
-    private Timing caller;
+    private final Timing caller;
     private Boolean stopped = false;
 
     public WaitingThread(Duration timeout, Timing caller) {
@@ -25,10 +25,8 @@ public class WaitingThread extends Thread {
             stopped = true;
         }
         if (!stopped) {
-            System.out.println("Waiting thread: time's up");
             caller.wakeUp();
         }
-
     }
 
 }

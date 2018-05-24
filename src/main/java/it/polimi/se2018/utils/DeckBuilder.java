@@ -1,15 +1,15 @@
 package it.polimi.se2018.utils;
 
-import it.polimi.se2018.model.objectives.privateobjectives.*;
-import it.polimi.se2018.model.objectives.publicobjectives.*;
-import it.polimi.se2018.model.toolcards.*;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.*;
+import it.polimi.se2018.mvc.model.objectives.publicobjectives.*;
+import it.polimi.se2018.mvc.model.toolcards.*;
 
 import java.util.*;
 
 public class DeckBuilder {
-    private List<ToolCard> toolCards;
-    private List<PublicObjective> publicObjectives;
-    private List<PrivateObjective> privateObjectives;
+    private final List<ToolCard> toolCards;
+    private final List<PublicObjective> publicObjectives;
+    private final List<PrivateObjective> privateObjectives;
 
     public DeckBuilder() {
         toolCards = new ArrayList<>();

@@ -1,5 +1,8 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.mvc.model.Bag;
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.utils.exceptions.NoDieException;
 import org.junit.Before;
 import org.junit.Test;

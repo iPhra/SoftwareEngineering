@@ -1,6 +1,8 @@
 package it.polimi.se2018.network.messages.requests;
 
 
+import it.polimi.se2018.mvc.model.toolcards.ToolCard;
+
 /**
  * This is the interface implemented by the class who will perform the move associated to a message
  * @author Francesco Lorenzo
@@ -9,7 +11,7 @@ public interface MessageHandler {
 
     /**
      * This method uses a Tool Card
-     * @param toolCardMessage contains the parameters needed by the {@link it.polimi.se2018.model.toolcards.ToolCard}
+     * @param toolCardMessage contains the parameters needed by the {@link ToolCard}
      */
     void handleMove(ToolCardMessage toolCardMessage);
 

@@ -1,7 +1,8 @@
 package it.polimi.se2018.model;
 
-import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
-import it.polimi.se2018.model.objectives.privateobjectives.ShadesOfGreenObjective;
+import it.polimi.se2018.mvc.model.*;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
 import it.polimi.se2018.network.messages.Coordinate;
 import org.junit.Before;
 import org.junit.Test;

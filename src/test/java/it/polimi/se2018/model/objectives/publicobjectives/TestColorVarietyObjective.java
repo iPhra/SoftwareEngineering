@@ -1,11 +1,12 @@
 package it.polimi.se2018.model.objectives.publicobjectives;
 
 import it.polimi.se2018.Database;
-import it.polimi.se2018.model.Color;
-import it.polimi.se2018.model.Window;
-import it.polimi.se2018.model.Player;
-import it.polimi.se2018.model.Square;
-import it.polimi.se2018.model.objectives.privateobjectives.ShadesOfGreenObjective;
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Window;
+import it.polimi.se2018.mvc.model.Player;
+import it.polimi.se2018.mvc.model.Square;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
+import it.polimi.se2018.mvc.model.objectives.publicobjectives.ColorVarietyObjective;
 import org.junit.Before;
 import org.junit.Test;
 

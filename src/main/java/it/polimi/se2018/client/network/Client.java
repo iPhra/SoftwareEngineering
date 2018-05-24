@@ -35,69 +35,68 @@ public class Client {
         output = new PrintStream(System.out);
     }
 
+    private String getPlayerName() {
+        output.println("Choose your nickname");
+        return input.nextLine();
+    }
+
     private void chooseConnection() {
+        output.println("What type of connection do you want to use?");
+        output.println("Type 1 for Socket, 2 for RMI");
+        if (input.nextInt() == 1) {
+            input.nextLine();
+            createSocketConnection();
+        }
+        else {
+            input.nextLine();
+            createRMIConnection();
+        }
+    }
+
+    private void createRMIConnection() {
         try {
-            output.println("What type of connection do you want to use?");
-            output.println("Type 1 for Socket, 2 for RMI");
-            if (input.nextInt() == 1) {
-                input.nextLine();
-                createSocketConnection(HOST,PORT);
+            RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
+            playerID = manager.getID();
+            while (setup) {
+                playerName = getPlayerName();
+                setup = manager.checkName(playerID, playerName);
+                output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
             }
-            else {
-                input.nextLine();
-                createRMIConnection();
-            }
+            clientView = new CLIClientView(playerID);
+            clientConnection = new RMIClientConnection(clientView);
+            manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
+            RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
+            ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
+            clientView.setClientConnection(clientConnection);
+            new Thread((RMIClientConnection) clientConnection).start();
         }
         catch(RemoteException | NotBoundException | MalformedURLException e) {
-            System.err.println();
+            e.printStackTrace();
         }
     }
 
-    private void createRMIConnection() throws RemoteException, NotBoundException, MalformedURLException{
-        RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
-        playerID = manager.getID();
-        while(setup) {
-            output.println("Choose your nickname");
-            playerName = input.nextLine();
-            setup = manager.checkName(playerID,playerName);
-            output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
-        }
-        clientView = new CLIClientView(playerID);
-        clientConnection = new RMIClientConnection(clientView);
-        manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection)clientConnection,0));
-        RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection"+playerID);
-        ((RMIClientConnection)clientConnection).setServerConnection(serverConnection);
-        clientView.setClientConnection(clientConnection);
-        Thread thread = new Thread((RMIClientConnection) clientConnection);
-        thread.start();
-    }
-
-    private void createSocketConnection(String host, int port){
+    private void createSocketConnection(){
         try{
-            socket = new Socket(host, port);
+            socket = new Socket(HOST, PORT);
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            try {
-                playerID = (int) in.readObject();
-                while (setup) {
-                    output.println("Choose your nickname");
-                    playerName = input.nextLine();
-                    out.writeObject(playerName);
-                    setup = (boolean) in.readObject();
-                    output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
-                }
-            }catch (ClassNotFoundException e) {
-                System.err.println(e.getMessage());
+            playerID = (int) in.readObject();
+            while (setup) {
+                playerName = getPlayerName();
+                out.writeObject(playerName);
+                setup = (boolean) in.readObject();
+                output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
             }
             clientView = new CLIClientView(playerID);
             clientConnection = new SocketClientConnection(socket, clientView,in,out);
             clientView.setClientConnection(clientConnection);
-            Thread thread = new Thread((SocketClientConnection) clientConnection);
-            thread.start();
-        } catch(IOException e){
-            System.err.println(e.getMessage());
+            new Thread((SocketClientConnection) clientConnection).start();
+        } catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
         }
     }
+
+
 
     public static void main(String[] args) {
         Client client = new Client();

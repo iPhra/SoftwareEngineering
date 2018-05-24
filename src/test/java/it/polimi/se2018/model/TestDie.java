@@ -1,5 +1,7 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.utils.exceptions.DieException;
 import org.junit.Assert;
 import org.junit.Before;

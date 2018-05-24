@@ -1,5 +1,7 @@
 package it.polimi.se2018.network.messages.requests;
 
+import it.polimi.se2018.mvc.model.Board;
+import it.polimi.se2018.mvc.model.toolcards.FluxRemover;
 import it.polimi.se2018.network.messages.Coordinate;
 
 
@@ -15,24 +17,24 @@ public class ToolCardMessage extends Message {
     private boolean toDismiss;
     /**
      * This is the value a player wants to give to a Die drafted from the Dice Bag
-     * Used by {@link it.polimi.se2018.model.toolcards.FluxRemover}
+     * Used by {@link FluxRemover}
      */
     private int value;
 
     /**
-     * This is the number of the Tool Card as displayed on the array in {@link it.polimi.se2018.model.Board}
+     * This is the number of the Tool Card as displayed on the array in {@link Board}
      */
     private final int toolCardNumber;
 
     /**
      * This contains all the positions you want to move a die from, each value in the Array List is associated to a die to move
      */
-    private List<Coordinate> startingPosition;
+    private final List<Coordinate> startingPosition;
 
     /**
      * This contains all the positions you want to move a die to, each value in the Array List is associated to a die to move
      */
-    private List<Coordinate> finalPosition;
+    private final List<Coordinate> finalPosition;
 
     /**
      * This contains all the positions on the Draft Pool of a Die you want to select, each value is associated to a die to select
@@ -108,14 +110,14 @@ public class ToolCardMessage extends Message {
     }
 
     /**
-     * @return the value used by {@link it.polimi.se2018.model.toolcards.FluxRemover}
+     * @return the value used by {@link FluxRemover}
      */
     public int getValue() {
         return value;
     }
 
     /**
-     * @param value is the value you want to set for {@link it.polimi.se2018.model.toolcards.FluxRemover}
+     * @param value is the value you want to set for {@link FluxRemover}
      */
     public void addValue(int value) {
         this.value = value;

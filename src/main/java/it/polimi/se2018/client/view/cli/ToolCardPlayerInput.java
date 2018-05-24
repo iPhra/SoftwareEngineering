@@ -1,13 +1,13 @@
 package it.polimi.se2018.client.view.cli;
 
-import it.polimi.se2018.model.toolcards.*;
+import it.polimi.se2018.mvc.model.toolcards.*;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.TimeoutException;
 
 public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
-    private int playerID;
-    private CLIInput cliInput;
+    private final int playerID;
+    private final CLIInput cliInput;
 
     ToolCardPlayerInput (int playerID, CLIInput cliInput) {
         this.playerID=playerID;

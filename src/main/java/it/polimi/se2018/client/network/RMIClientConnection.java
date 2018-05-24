@@ -34,8 +34,7 @@ public class RMIClientConnection implements ClientConnection, RemoteConnection, 
     }
 
     @Override
-    public void getMessage(Message message) {
-        //not implemented client-side
+    public void getMessage(Message message) { //not implemented client-side
     }
 
     @Override
@@ -53,8 +52,19 @@ public class RMIClientConnection implements ClientConnection, RemoteConnection, 
     }
 
     @Override
-    public void sendMessage(Message message) throws RemoteException{
-        serverConnection.getMessage(message);
+    public void sendMessage(Message message){
+        try {
+            serverConnection.getMessage(message);
+        }
+        catch(RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void stop() {
+        isOpen = false;
     }
 
     @Override
@@ -62,10 +72,5 @@ public class RMIClientConnection implements ClientConnection, RemoteConnection, 
         while(isOpen) {
             updateView();
         }
-    }
-
-    @Override
-    public void stop() {
-        isOpen = false;
     }
 }

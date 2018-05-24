@@ -1,18 +1,16 @@
 package it.polimi.se2018.network;
 
-import it.polimi.se2018.controller.GameManager;
+import it.polimi.se2018.mvc.controller.GameManager;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.connections.rmi.RMIManager;
-import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.network.connections.socket.SocketHandler;
 import it.polimi.se2018.utils.Timing;
 import it.polimi.se2018.utils.WaitingThread;
-import it.polimi.se2018.view.ServerView;
+import it.polimi.se2018.mvc.view.ServerView;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -20,13 +18,12 @@ import java.rmi.server.UnicastRemoteObject;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Server implements Timing {
     private static final int PORT = 1234;
     private static int matchID = 1;
     private static int playerNumber = 0; //identifies just the player, without the match
-    private Map<Integer, GameManager> matches;
+    private final Map<Integer, GameManager> matches;
     private WaitingThread clock;
     private RMIManager remoteManager;
     private SocketHandler socketHandler;
@@ -43,36 +40,26 @@ public class Server implements Timing {
         clock.start();
     }
 
-    public void setPlayer(int playerID, String playerName, ServerConnection serverConnection) {
-        int match = playerID/1000;
-        GameManager manager;
-        if(matches.get(match)==null) {
-            manager = new GameManager();
-            manager.setServerView(new ServerView());
-            manager.startSetup();
-            matches.put(match,manager);
-        }
-        else manager = matches.get(match);
+    private void startGame(GameManager manager) {
+        incrementMatchID();
+        manager.sendWindows();
+        clock.interrupt();
+    }
+
+    private GameManager createManager(int match) {
+        GameManager manager = new GameManager();
+        manager.setServerView(new ServerView());
+        manager.startSetup();
+        matches.put(match,manager);
+        return manager;
+    }
+
+    private void addPlayer(GameManager manager, int playerID, String playerName, ServerConnection serverConnection) {
         manager.addPlayerName(playerID,playerName);
         manager.addServerConnection(playerID, serverConnection);
         manager.addPlayerID(playerID);
         serverConnection.setServerView(manager.getServerView());
         manager.getServerView().addServerConnection(playerID,serverConnection);
-        if (manager.playersNumber() == 2) startTimer();
-        if (isMatchFull()) {
-            incrementMatchID();
-            manager.sendWindows();
-            clock.interrupt();
-        }
-    }
-
-    public void handleDisconnection(int playerID) {
-        int match = playerID/1000;
-        GameManager manager = matches.get(match);
-        if(manager.isMatchPlaying()) {
-
-        }
-        else removePlayer(playerID);
     }
 
     private void removePlayer(int playerID) {
@@ -82,21 +69,10 @@ public class Server implements Timing {
         manager.removePlayer(playerID);
     }
 
-    public boolean checkName(int playerID, String playerName) {
-        return !(matches.get(playerID/1000)==null || matches.get(playerID/1000).checkName(playerName));
-    }
-
     private static void incrementMatchID() {matchID++;}
-
-    private static void incrementPlayerID() {playerNumber++;}
 
     private boolean isMatchFull() {
         return matches.get(matchID).playersNumber()==4;
-    }
-
-    public int generateID() {
-        incrementPlayerID();
-        return (matchID*1000)+playerNumber;
     }
 
     private void createRMIRegistry () {
@@ -117,8 +93,43 @@ public class Server implements Timing {
             Thread thread = new Thread(socketHandler);
             thread.start();
         }catch(IOException e){
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private void close() {
+        socketHandler.stop();
+        remoteManager.closeConnection();
+    }
+
+    public void setPlayer(int playerID, String playerName, ServerConnection serverConnection) {
+        int match = playerID/1000;
+        GameManager manager;
+        if(matches.get(match)==null) manager = createManager(match);
+        else {
+            manager = matches.get(match);
+            addPlayer(manager,playerID,playerName,serverConnection);
+        }
+        if (manager.playersNumber() == 2) startTimer();
+        if (isMatchFull()) startGame(manager);
+    }
+
+    public void handleDisconnection(int playerID) {
+        int match = playerID/1000;
+        GameManager manager = matches.get(match);
+        if(manager.isMatchPlaying()) {
+            //implementa
+        }
+        else removePlayer(playerID);
+    }
+
+    public boolean checkName(int playerID, String playerName) {
+        return !(matches.get(playerID/1000)==null || matches.get(playerID/1000).checkName(playerName));
+    }
+
+    public static int generateID() {
+        playerNumber++;
+        return (matchID*1000)+playerNumber;
     }
 
     @Override
@@ -129,10 +140,6 @@ public class Server implements Timing {
         }
     }
 
-    private void close() {
-        socketHandler.stop();
-        remoteManager.closeConnection();
-    }
 
 
 

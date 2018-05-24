@@ -1,12 +1,13 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Die;
+import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.network.messages.Coordinate;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.Objects;
 import java.util.Random;
 
 public class TestSquare {

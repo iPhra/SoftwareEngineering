@@ -10,9 +10,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SocketHandler implements Runnable {
-    private Server server;
-    private ServerSocket serverSocket;
-    private ExecutorService pool;
+    private final Server server;
+    private final ServerSocket serverSocket;
+    private final ExecutorService pool;
     private boolean isOpen;
 
     public SocketHandler(Server server, ServerSocket serverSocket) {
@@ -20,6 +20,10 @@ public class SocketHandler implements Runnable {
         this.serverSocket = serverSocket;
         pool = Executors.newCachedThreadPool();
         isOpen = true;
+    }
+
+    public void stop() {
+        isOpen = false;
     }
 
     public void run() {
@@ -34,10 +38,6 @@ public class SocketHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void stop() {
-        isOpen = false;
     }
 }
 

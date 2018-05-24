@@ -1,12 +1,14 @@
 package it.polimi.se2018.network.messages.requests;
 
+import it.polimi.se2018.mvc.model.Board;
+
 /**
  * This class represents a message from a player wishing to select a Tool Card
  * @author Francesco Lorenzo
  */
 public class ToolCardRequestMessage extends Message {
     /**
-     * This is the number of the Tool Card as displayed on the array in {@link it.polimi.se2018.model.Board}
+     * This is the number of the Tool Card as displayed on the array in {@link Board}
      */
     private final int toolCardNumber;
 

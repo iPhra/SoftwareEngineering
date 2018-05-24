@@ -1,7 +1,7 @@
 package it.polimi.se2018.client.view.cli;
 
-import it.polimi.se2018.model.Window;
-import it.polimi.se2018.model.toolcards.ToolCard;
+import it.polimi.se2018.mvc.model.Window;
+import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
@@ -18,8 +18,8 @@ import java.util.*;
 public class CLIClientView implements ResponseHandler, ClientView, Timing {
     private final int playerID;
     private ClientConnection clientConnection;
-    private CLIInput cliInput;
-    private ToolCardPlayerInput toolCardPlayerInput;
+    private final CLIInput cliInput;
+    private final ToolCardPlayerInput toolCardPlayerInput;
     private WaitingThread clock;
 
     public CLIClientView(int playerID) {
@@ -80,13 +80,10 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         cliInput.print("Color of the die is " + inputResponse.getColor());
         try {
             int choice = cliInput.getValueDie();
-            try {
-                clientConnection.sendMessage(new InputMessage(playerID, cliInput.getBoard().getStateID(), choice));
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            clientConnection.sendMessage(new InputMessage(playerID, cliInput.getBoard().getStateID(), choice));
         }
         catch (TimeoutException e) {
+            e.printStackTrace();
         }
     }
 
@@ -95,7 +92,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         try {
             useToolCard(toolCardResponse.getToolCardNumber());
         }
-        catch (RemoteException ignored) {
+        catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
@@ -110,12 +108,9 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         cliInput.printPrivateObjective();
         cliInput.printPublicObjective();
         int windowNumber = selectWindow(setupResponse.getWindows())-1;
-        try {
-            clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
-            cliInput.print("Window sent. Waiting for other players to choose.");
-        }
-        catch (RemoteException e) {
-        }
+        clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
+        cliInput.print("Window sent. Waiting for other players to choose.");
+
     }
 
     @Override
@@ -195,6 +190,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             }
         }
         catch (TimeoutException e) {
+            e.printStackTrace();
         }
     }
 
@@ -223,7 +219,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         return choice;
     }
 
-    private void passTurn() throws RemoteException{
+    private void passTurn() {
         clock.interrupt();
         clientConnection.sendMessage(new PassMessage(playerID,cliInput.getBoard().getStateID()));
     }
@@ -235,7 +231,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         else chooseAction();
     }
 
-    private void selectToolCard() throws RemoteException, TimeoutException {
+    private void selectToolCard() throws TimeoutException {
         int toolCard = cliInput.getToolCard();
         //if you click 3, you choose to go for another action
         if (toolCard != 3)
@@ -244,7 +240,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             try{
                 chooseAction();
             }catch(RemoteException e){
-                System.err.println(e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -256,7 +252,9 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             if (!toolCardMessage.isToDismiss()) clientConnection.sendMessage(toolCardMessage);
             else chooseAction();
         }
-        catch (TimeoutException e) {}
+        catch (TimeoutException e) {
+            e.printStackTrace();
+        }
     }
 
     private void placeDie() throws RemoteException, TimeoutException {

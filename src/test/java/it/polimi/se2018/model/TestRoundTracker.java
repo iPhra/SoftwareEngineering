@@ -1,5 +1,8 @@
 package it.polimi.se2018.model;
 
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Die;
+import it.polimi.se2018.mvc.model.RoundTracker;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +21,7 @@ public class TestRoundTracker {
     @Before
     public void init(){
         roundTracker = new RoundTracker(2);
-        Die die1 = new Die(3,Color.GREEN);
+        Die die1 = new Die(3, Color.GREEN);
         Die die2 = new Die(5,Color.BLUE);
         Die die3 = new Die(1,Color.PURPLE);
         Die die4 = new Die(6,Color.RED);

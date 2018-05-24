@@ -8,7 +8,7 @@ public class InputMessage extends Message {
     /**
      * It's the chosen value for the die
      */
-    private int dieValue;
+    private final int dieValue;
 
     public InputMessage(int playerID, int stateID, int dieValue) {
         super(playerID,stateID);

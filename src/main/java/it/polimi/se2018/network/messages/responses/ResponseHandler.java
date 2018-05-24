@@ -1,5 +1,8 @@
 package it.polimi.se2018.network.messages.responses;
 
+import it.polimi.se2018.mvc.model.Die;
+import it.polimi.se2018.mvc.model.toolcards.ToolCard;
+
 /**
  * This is the interface implemented by the clas handling the responses
  * @author Francesco Lorenzo
@@ -31,8 +34,8 @@ public interface ResponseHandler {
     void handleResponse(SetupResponse setupResponse);
 
     /**
-     * This method is used by the Server to communicate a specific color for {@link it.polimi.se2018.model.toolcards.ToolCard}
-     * @param inputResponse contains the color chosen for the {@link it.polimi.se2018.model.Die}
+     * This method is used by the Server to communicate a specific color for {@link ToolCard}
+     * @param inputResponse contains the color chosen for the {@link Die}
      */
     void handleResponse(InputResponse inputResponse);
 

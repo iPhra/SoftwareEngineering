@@ -4,7 +4,7 @@ import it.polimi.se2018.network.Server;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
-import it.polimi.se2018.view.ServerView;
+import it.polimi.se2018.mvc.view.ServerView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,8 +12,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SocketServerConnection implements Runnable, ServerConnection {
-    private Server server;
-    private Socket socket;
+    private final Server server;
+    private final Socket socket;
     private String playerName;
     private int playerID;
     private ObjectOutputStream out;
@@ -30,27 +30,13 @@ public class SocketServerConnection implements Runnable, ServerConnection {
             out.flush();
             this.in = new ObjectInputStream(socket.getInputStream());
         }catch (IOException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
-    }
-
-    @Override
-    public void sendResponse(Response response){
-        try{
-            out.writeObject(response);
-        }catch(IOException e){
-            System.err.println(e.getMessage());
-        }
-    }
-
-    @Override
-    public void setServerView(ServerView serverView) {
-        this.serverView = serverView;
     }
 
     private void setup() throws IOException, ClassNotFoundException{
         boolean setup = true;
-        playerID = server.generateID();
+        playerID = Server.generateID();
         out.writeObject(playerID);
         while (setup){
             playerName = (String) in.readObject();
@@ -60,23 +46,29 @@ public class SocketServerConnection implements Runnable, ServerConnection {
         server.setPlayer(playerID,playerName,this);
     }
 
-    @Override
-    public void run(){
+    private void closeConnection(){
         try{
-            setup();
-            while(isOpen){
-                Message message = (Message) in.readObject();
-                if (message != null) serverView.handleNetworkInput(message);
-            }
-        } catch(ClassNotFoundException e) {
-            System.err.println(e.getMessage());
+            in.close();
+            out.close();
+            socket.close();
         }
-        catch (IOException e) {
-            server.handleDisconnection(playerID);
+        catch(IOException e){
+            e.printStackTrace();
         }
-        finally {
-            closeConnection();
+    }
+
+    @Override
+    public void sendResponse(Response response){
+        try{
+            out.writeObject(response);
+        }catch(IOException e){
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setServerView(ServerView serverView) {
+        this.serverView = serverView;
     }
 
     @Override
@@ -84,13 +76,20 @@ public class SocketServerConnection implements Runnable, ServerConnection {
         isOpen = false;
     }
 
-    private void closeConnection(){
-        try{
-            in.close();
-            out.close();
-            socket.close();
-        }catch(IOException e){
-            System.err.println(e.getMessage());
+    @Override
+    public void run() {
+        try {
+            setup();
+            while (isOpen) {
+                Message message = (Message) in.readObject();
+                if (message != null) serverView.handleNetworkInput(message);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            server.handleDisconnection(playerID);
+        } finally {
+            closeConnection();
         }
     }
 }

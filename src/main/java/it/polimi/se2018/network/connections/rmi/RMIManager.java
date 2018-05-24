@@ -3,15 +3,14 @@ package it.polimi.se2018.network.connections.rmi;
 import it.polimi.se2018.network.Server;
 import it.polimi.se2018.network.connections.ServerConnection;
 
-import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RMIManager implements RemoteManager {
-    private Server server;
-    private Registry registry;
+    private final Server server;
+    private final Registry registry;
     private int playerID;
 
     public RMIManager(Server server, Registry registry) {
@@ -37,7 +36,7 @@ public class RMIManager implements RemoteManager {
     }
 
     public int getID() {
-        playerID = server.generateID();
+        playerID = Server.generateID();
         return playerID;
     }
 

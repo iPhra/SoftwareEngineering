@@ -1,21 +1,22 @@
 package it.polimi.se2018.utils;
 
-import it.polimi.se2018.model.Player;
-import it.polimi.se2018.model.Round;
-import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
+import it.polimi.se2018.mvc.controller.Controller;
+import it.polimi.se2018.mvc.model.Player;
+import it.polimi.se2018.mvc.model.Round;
+import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 /**
- * This class implements Comparator. It's used by {@link it.polimi.se2018.controller.Controller} to sort players in
+ * This class implements Comparator. It's used by {@link Controller} to sort players in
  * descending order and get the final score board of the game
  * @author Emilio Imperiali
  */
 public class ScoreComparator implements Comparator<Player>{
-    private List<PublicObjective> publicObjectives;
-    private Round round;
+    private final List<PublicObjective> publicObjectives;
+    private final Round round;
 
     public ScoreComparator(List<PublicObjective> publicObjectives, Round round){
         this.publicObjectives = publicObjectives;

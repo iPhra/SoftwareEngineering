@@ -3,7 +3,7 @@ package it.polimi.se2018.network.connections.rmi;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
-import it.polimi.se2018.view.ServerView;
+import it.polimi.se2018.mvc.view.ServerView;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
     private final RemoteConnection clientConnection;
     private final List<Message> events;
     private boolean isOpen;
-    private RMIManager manager;
-    private int playerID;
+    private final RMIManager manager;
+    private final int playerID;
 
     public RMIServerConnection(RemoteConnection clientConnection, RMIManager manager, int playerID) {
         events = new ArrayList<>();
@@ -26,8 +26,13 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
     }
 
     @Override
-    public void sendResponse(Response response) throws RemoteException {
-        clientConnection.getResponse(response);
+    public void sendResponse(Response response) {
+        try {
+            clientConnection.getResponse(response);
+        }
+        catch(RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -62,15 +67,15 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
     }
 
     @Override
+    public void stop() {
+        isOpen=false;
+    }
+
+    @Override
     public void run() {
         while(isOpen) {
             updateView();
         }
         manager.closePlayerConnection(playerID,this);
-    }
-
-    @Override
-    public void stop() {
-        isOpen=false;
     }
 }

@@ -1,11 +1,13 @@
 package it.polimi.se2018.network.messages.responses;
 
+import it.polimi.se2018.mvc.model.toolcards.ToolCard;
+
 /**
- * This class represents an ack from the Server to the Client relative to using a {@link it.polimi.se2018.model.toolcards.ToolCard}
+ * This class represents an ack from the Server to the Client relative to using a {@link ToolCard}
  */
 public class ToolCardResponse extends Response{
     /**
-     * This is the number of the {@link it.polimi.se2018.model.toolcards.ToolCard} to be used
+     * This is the number of the {@link ToolCard} to be used
      */
     private final int toolCardNumber;
 
@@ -15,7 +17,7 @@ public class ToolCardResponse extends Response{
     }
 
     /**
-     * @return the number of the {@link it.polimi.se2018.model.toolcards.ToolCard} to be used
+     * @return the number of the {@link ToolCard} to be used
      */
     public int getToolCardNumber() {
         return toolCardNumber;

@@ -1,10 +1,12 @@
 package it.polimi.se2018.client.view.cli;
 
-import it.polimi.se2018.controller.ModelView;
-import it.polimi.se2018.model.*;
-import it.polimi.se2018.model.objectives.privateobjectives.PrivateObjective;
-import it.polimi.se2018.model.objectives.publicobjectives.PublicObjective;
-import it.polimi.se2018.model.toolcards.ToolCard;
+import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Die;
+import it.polimi.se2018.mvc.model.Square;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
+import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
+import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.utils.exceptions.TimeoutException;
 
@@ -23,7 +25,7 @@ public class CLIInput {
     private List<ToolCard> toolCards;
     private PrivateObjective privateObjective;
     private List<PublicObjective> publicObjectives;
-    private PrintStream printStream;
+    private final PrintStream printStream;
     private final Scanner scanner;
 
     CLIInput(int playerID) {

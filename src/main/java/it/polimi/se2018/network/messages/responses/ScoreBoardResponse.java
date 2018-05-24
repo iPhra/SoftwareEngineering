@@ -1,6 +1,6 @@
 package it.polimi.se2018.network.messages.responses;
 
-import it.polimi.se2018.model.Player;
+import it.polimi.se2018.mvc.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;

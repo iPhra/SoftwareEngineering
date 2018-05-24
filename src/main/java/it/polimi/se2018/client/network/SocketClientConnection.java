@@ -11,9 +11,9 @@ import java.net.Socket;
 
 public class SocketClientConnection implements ClientConnection, Runnable {
     private final Socket socket;
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
-    private ClientView clientView;
+    private final ObjectOutputStream out;
+    private final ObjectInputStream in;
+    private final ClientView clientView;
     private boolean isOpen;
 
     public SocketClientConnection(Socket socket, ClientView clientView, ObjectInputStream in, ObjectOutputStream out){
@@ -30,20 +30,8 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             out.close();
             socket.close();
         }catch(IOException e){
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
-    }
-
-    public void run(){
-        while(isOpen){
-            try{
-                Response response = (Response) in.readObject();
-                if (response != null) clientView.handleNetworkInput(response);
-            }catch(ClassNotFoundException | IOException e){
-                System.err.println(e.getMessage());
-            }
-        }
-        closeConnection();
     }
 
     @Override
@@ -51,7 +39,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         try{
             out.writeObject(message);
         }catch(IOException e){
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -60,4 +48,16 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         isOpen = false;
     }
 
+    @Override
+    public void run(){
+        while(isOpen){
+            try{
+                Response response = (Response) in.readObject();
+                if (response != null) clientView.handleNetworkInput(response);
+            }catch(ClassNotFoundException | IOException e){
+                e.printStackTrace();
+            }
+        }
+        closeConnection();
+    }
 }
