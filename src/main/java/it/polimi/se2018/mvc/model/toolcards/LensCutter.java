@@ -10,8 +10,14 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 public class LensCutter extends ToolCard {
+    private static LensCutter instance = null;
 
-    public LensCutter() {
+    public static LensCutter instance(){
+        if (instance==null) instance = new LensCutter();
+        return instance;
+    }
+
+    private LensCutter() {
         super("Lens Cutter", "After drafting, swap the drafted die with a die from the Round Track");
     }
 

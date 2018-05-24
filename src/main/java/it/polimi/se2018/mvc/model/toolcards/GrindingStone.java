@@ -10,8 +10,14 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 public class GrindingStone extends ToolCard {
+    private static GrindingStone instance = null;
 
-    public GrindingStone() {
+    public static GrindingStone instance(){
+        if (instance==null) instance = new GrindingStone();
+        return instance;
+    }
+
+    private GrindingStone() {
         super("Grinding Stone", "After drafting, flip the die to its opposite side");
     }
 

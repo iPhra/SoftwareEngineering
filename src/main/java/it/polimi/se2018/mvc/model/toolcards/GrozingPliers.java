@@ -10,8 +10,14 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 public class GrozingPliers extends ToolCard {
+    private static GrozingPliers instance = null;
 
-    public GrozingPliers() {
+    public static GrozingPliers instance(){
+        if (instance==null) instance = new GrozingPliers();
+        return instance;
+    }
+
+    private GrozingPliers() {
         super("Grozing Pliers", "After drafting, increase or decrease the value of the drafted die by 1");
     }
 

@@ -45,9 +45,9 @@ public class TestBoard {
         players.add(player1);
         players.add(player2);
         toolCards = new ToolCard[3];
-        toolCards[0] = new EglomiseBrush();
-        toolCards[1] = new FluxBrush();
-        toolCards[2] = new TapWheel();
+        toolCards[0] = EglomiseBrush.instance();
+        toolCards[1] = FluxBrush.instance();
+        toolCards[2] = TapWheel.instance();
         publicObjectives = new PublicObjective[2];
         publicObjectives[0] = DeepShadesObjective.instance("title1");
         publicObjectives[1] = RowColorVarietyObjective.instance("title2");

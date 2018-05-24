@@ -10,8 +10,14 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 public class EglomiseBrush extends ToolCard {
+    private static EglomiseBrush instance = null;
 
-    public EglomiseBrush() {
+    public static EglomiseBrush instance(){
+        if (instance==null) instance = new EglomiseBrush();
+        return instance;
+    }
+
+    private EglomiseBrush() {
         super("Eglomise Brush", "Move any one die in your window ignoring color restrictions");
     }
 

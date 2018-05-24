@@ -142,7 +142,11 @@ public class Round {
      * requires being in the first half of the array. if not, tool cards throw an exception
      */
     public void denyNextTurn() {
-        playersOrder.remove(playersOrder.size()- currentPlayerIndex -1);
+        for (int i = 0; i < playersOrder.size(); i++) {
+            if (playersOrder.get(i) == currentPlayer && i != currentPlayerIndex) {
+                playersOrder.remove(i);
+            }
+        }
     }
 
     /**

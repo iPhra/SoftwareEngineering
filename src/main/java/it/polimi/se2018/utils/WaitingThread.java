@@ -25,6 +25,7 @@ public class WaitingThread extends Thread {
             stopped = true;
         }
         if (!stopped) {
+            System.out.println("Fine turno");
             caller.wakeUp();
         }
     }

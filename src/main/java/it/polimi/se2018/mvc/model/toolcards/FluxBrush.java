@@ -10,8 +10,14 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 public class FluxBrush extends ToolCard {
+    private static FluxBrush instance = null;
 
-    public FluxBrush() {
+    public static FluxBrush instance(){
+        if (instance==null) instance = new FluxBrush();
+        return instance;
+    }
+
+    private FluxBrush() {
         super("Flux Brush", "After drafting, re-roll the drafted die");
     }
 

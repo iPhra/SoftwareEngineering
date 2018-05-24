@@ -30,8 +30,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
 
     private void startTimer(int seconds) {
         Duration timeout = Duration.ofSeconds(seconds);
-        WaitingThread alarm = new WaitingThread(timeout, this);
-        alarm.start();
+        clock = new WaitingThread(timeout, this);
+        clock.start();
     }
 
     public void setClientConnection(ClientConnection clientConnection) {
@@ -50,7 +50,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         cliInput.setBoard(modelViewResponse.getModelView());
         cliInput.printDraftPool();
         if (playerID == cliInput.getBoard().getCurrentPlayerID()) {
-            startTimer(3000);
+            startTimer(6000);
             try {
                 chooseAction();
             } catch (RemoteException e) {
@@ -83,6 +83,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             clientConnection.sendMessage(new InputMessage(playerID, cliInput.getBoard().getStateID(), choice));
         }
         catch (TimeoutException e) {
+            cliInput.setHasToChange(false);
             e.printStackTrace();
         }
     }
@@ -100,16 +101,21 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     //Set the objective and toolcard copy to the value. Ask the window to select
     @Override
     public void handleResponse(SetupResponse setupResponse) {
-        //startTimer(30);
+        startTimer(20);
         cliInput.setPlayersName(setupResponse.getPlayerNames());
         cliInput.setPrivateObjective(setupResponse.getPrivateObjective());
         cliInput.setPublicObjectives(setupResponse.getPublicObjectives());
         cliInput.setToolCards(setupResponse.getToolCards());
         cliInput.printPrivateObjective();
         cliInput.printPublicObjective();
-        int windowNumber = selectWindow(setupResponse.getWindows())-1;
-        clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
-        cliInput.print("Window sent. Waiting for other players to choose.");
+        int windowNumber = 0;
+        try {
+            windowNumber = selectWindow(setupResponse.getWindows())-1;
+            clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
+            cliInput.print("Window sent. Waiting for other players to choose.");
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -189,30 +195,26 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             }
         }
         catch (TimeoutException e) {
+            cliInput.setHasToChange(false);
             e.printStackTrace();
         }
     }
 
-    private int selectWindow(List<Window> windows) {
+    private int selectWindow(List<Window> windows) throws TimeoutException {
         Scanner scanner = new Scanner(System.in);
         int choice = -1;
         boolean iterate = true;
         cliInput.print("Select your Window");
-        for(int i=1; i<windows.size(); i++) {
-            cliInput.print("Press [" + i + "] to select this window");
+        for(int i=0; i<windows.size(); i++) {
+            cliInput.print("Press [" + (i+1) + "] to select this window");
             cliInput.print(windows.get(i).getTitle());
             cliInput.printPlayerWindow(windows.get(i).modelViewCopy());
             cliInput.print("The level of the window is " + windows.get(i).getLevel() + "\n");
         }
         do {
-            try {
-                choice = scanner.nextInt();
+                choice = cliInput.takeInput();
                 if (choice<1 || choice>4) cliInput.print("Type a number between 1 and 4");
                 else iterate = false;
-            } catch (InputMismatchException e) {
-                cliInput.print("Input is invalid");
-                scanner.nextLine();
-            }
         }
         while(iterate);
         return choice;
@@ -252,6 +254,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             else chooseAction();
         }
         catch (TimeoutException e) {
+            cliInput.setHasToChange(false);
             e.printStackTrace();
         }
     }
@@ -268,7 +271,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     @Override
     public void wakeUp() {
         clock = null;
-        cliInput.getBoard().setCurrentPlayerID(0);
+        cliInput.setHasToChange(true);
         cliInput.print("Time is up, press 1 to continue");
     }
 }

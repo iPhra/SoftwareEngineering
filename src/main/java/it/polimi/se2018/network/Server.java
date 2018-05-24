@@ -30,8 +30,6 @@ public class Server implements Timing {
 
     private Server() {
         matches = new HashMap<>();
-        Duration timeout = Duration.ofSeconds(20);
-        clock = new WaitingThread(timeout, this);
     }
 
     private void startTimer() {

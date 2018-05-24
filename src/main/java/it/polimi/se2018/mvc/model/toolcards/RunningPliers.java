@@ -10,8 +10,14 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 public class RunningPliers extends ToolCard {
+    private static RunningPliers instance = null;
 
-    public RunningPliers() {
+    public static RunningPliers instance(){
+        if (instance==null) instance = new RunningPliers();
+        return instance;
+    }
+
+    private RunningPliers() {
         super("Running Pliers", "After your first turn, immediately draft a die");
     }
 

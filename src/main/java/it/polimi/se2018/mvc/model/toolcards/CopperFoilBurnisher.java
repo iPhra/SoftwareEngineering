@@ -10,8 +10,14 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 public class CopperFoilBurnisher extends ToolCard {
+    private static CopperFoilBurnisher instance = null;
 
-    public CopperFoilBurnisher() {
+    public static CopperFoilBurnisher instance(){
+        if (instance==null) instance = new CopperFoilBurnisher();
+        return instance;
+    }
+
+    private CopperFoilBurnisher() {
         super("Copper Foil Burnisher", "Move any one die in your window ignoring value restrictions");
     }
 

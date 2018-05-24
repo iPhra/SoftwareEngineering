@@ -10,8 +10,15 @@ import it.polimi.se2018.utils.exceptions.TimeoutException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 
 public class GlazingHammer extends ToolCard {
+    private static GlazingHammer instance = null;
 
-    public GlazingHammer() {
+    public static GlazingHammer instance(){
+        if (instance==null) instance = new GlazingHammer();
+        return instance;
+    }
+
+    private
+    GlazingHammer() {
         super("Glazing Hammer",
                 "Re-roll all dice in the Draft Pool, (you can only in second turn of the round and before drafting)");
     }

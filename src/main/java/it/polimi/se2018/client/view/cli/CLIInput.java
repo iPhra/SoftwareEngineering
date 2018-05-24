@@ -27,11 +27,13 @@ public class CLIInput {
     private List<PublicObjective> publicObjectives;
     private final PrintStream printStream;
     private final Scanner scanner;
+    private boolean hasToChange;
 
     CLIInput(int playerID) {
         scanner = new Scanner(System.in);
         this.playerID = playerID;
         printStream = new PrintStream(out);
+        hasToChange = false;
     }
 
     public List<String> getPlayersName() {
@@ -66,6 +68,10 @@ public class CLIInput {
         this.publicObjectives = publicObjectives;
     }
 
+    public void setHasToChange(boolean haToChange) {
+        this.hasToChange = haToChange;
+    }
+
     void print(String string) {
         printStream.println(string);
     }
@@ -97,7 +103,7 @@ public class CLIInput {
             }
         }
         while(iterate);
-        if (board.getCurrentPlayerID() != playerID) throw new TimeoutException();
+        if (hasToChange) throw new TimeoutException();
         return res;
     }
 

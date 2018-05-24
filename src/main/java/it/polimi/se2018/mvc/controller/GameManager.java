@@ -34,6 +34,7 @@ public class GameManager implements Timing{
     private List<Window> windows;
     private int setupsCompleted;
     private boolean matchPlaying;
+    private WaitingThread clock;
 
     public GameManager(){
         windowsSetup = new HashMap<>();
@@ -47,9 +48,9 @@ public class GameManager implements Timing{
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(30);
-        WaitingThread alarm = new WaitingThread(timeout, this);
-        alarm.start();
+        Duration timeout = Duration.ofSeconds(20);
+        clock = new WaitingThread(timeout, this);
+        clock.start();
     }
 
     private void createMVC() {
@@ -156,7 +157,10 @@ public class GameManager implements Timing{
         players.add(new Player(playerNames.get(setupMessage.getPlayerID()),setupMessage.getPlayerID(),setupMessage.getWindow(),privateObjectives.get(setupsCompleted)));
         setupsCompleted++;
         //when every played sent his window
-        if(setupsCompleted==playerIDs.size()) createMVC();
+        if(setupsCompleted==playerIDs.size()) {
+            clock.interrupt();
+            createMVC();
+        }
     }
 
     public void endGame() {
