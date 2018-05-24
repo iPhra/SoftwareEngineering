@@ -18,18 +18,8 @@ public class ShadesOfPurpleObjective extends PrivateObjective {
     private static final Color color = Color.PURPLE;
 
     private ShadesOfPurpleObjective(String title){
-        super(title);
+        super(title,color);
         description = "Sum of values on purple dice";
-    }
-
-    /**
-     * This method creates the instance of this card, it's needed because of the Singleton pattern used here
-     * @param title it's the title of this card
-     * @return the instance of this card
-     */
-    private static synchronized ShadesOfPurpleObjective createInstance(String title){
-        if (instance==null) instance = new ShadesOfPurpleObjective(title);
-        return instance;
     }
 
     /**
@@ -38,24 +28,7 @@ public class ShadesOfPurpleObjective extends PrivateObjective {
      * Singleton pattern)
      */
     public static ShadesOfPurpleObjective instance(String title){
-        if (instance==null) createInstance(title);
+        if (instance==null) instance = new ShadesOfPurpleObjective(title);
         return instance;
-    }
-
-    /**
-     * The points are evaluated as it follows: all the values of the purple dice in the player's window are added. The
-     * result number represents the points given to the player by this objective
-     * @param player the player whose points must be evaluated
-     * @return the points given by this card to the player
-     */
-    @Override
-    public int evalPoints(Player player){
-        return StreamSupport.stream(player.getWindow().spliterator(),false)
-                .map(Square::getDie)
-                .filter(Objects::nonNull)
-                .filter(die -> die.getColor()==color)
-                .map(Die::getValue)
-                .mapToInt(value -> value)
-                .sum();
     }
 }

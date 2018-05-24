@@ -23,22 +23,12 @@ public class ColumnShadeVarietyObjective extends PublicObjective{
     }
 
     /**
-     * This method creates the instance of this card, it's needed because of the Singleton pattern used here
-     * @param title it's the title of this card
-     * @return the instance of this card
-     */
-    private static synchronized ColumnShadeVarietyObjective createInstance(String title){
-        if (instance==null) instance = new ColumnShadeVarietyObjective(title);
-        return instance;
-    }
-
-    /**
      * @param title it's the title of this card
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
     public static ColumnShadeVarietyObjective instance(String title){
-        if (instance==null) createInstance(title);
+        if (instance==null) instance = new ColumnShadeVarietyObjective(title);
         return instance;
     }
 

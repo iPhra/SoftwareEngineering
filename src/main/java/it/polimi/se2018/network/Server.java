@@ -41,9 +41,9 @@ public class Server implements Timing {
     }
 
     private void startGame(GameManager manager) {
+        clock.interrupt();
         incrementMatchID();
         manager.sendWindows();
-        clock.interrupt();
     }
 
     private GameManager createManager(int match) {
@@ -106,10 +106,8 @@ public class Server implements Timing {
         int match = playerID/1000;
         GameManager manager;
         if(matches.get(match)==null) manager = createManager(match);
-        else {
-            manager = matches.get(match);
-            addPlayer(manager,playerID,playerName,serverConnection);
-        }
+        else manager = matches.get(match);
+        addPlayer(manager,playerID,playerName,serverConnection);
         if (manager.playersNumber() == 2) startTimer();
         if (isMatchFull()) startGame(manager);
     }

@@ -100,7 +100,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     //Set the objective and toolcard copy to the value. Ask the window to select
     @Override
     public void handleResponse(SetupResponse setupResponse) {
-        startTimer(30);
+        //startTimer(30);
         cliInput.setPlayersName(setupResponse.getPlayerNames());
         cliInput.setPrivateObjective(setupResponse.getPrivateObjective());
         cliInput.setPublicObjectives(setupResponse.getPublicObjectives());
@@ -110,7 +110,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         int windowNumber = selectWindow(setupResponse.getWindows())-1;
         clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
         cliInput.print("Window sent. Waiting for other players to choose.");
-
     }
 
     @Override
