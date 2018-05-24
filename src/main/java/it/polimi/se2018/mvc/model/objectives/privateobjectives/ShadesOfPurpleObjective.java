@@ -1,12 +1,6 @@
 package it.polimi.se2018.mvc.model.objectives.privateobjectives;
 
 import it.polimi.se2018.mvc.model.Color;
-import it.polimi.se2018.mvc.model.Die;
-import it.polimi.se2018.mvc.model.Player;
-import it.polimi.se2018.mvc.model.Square;
-
-import java.util.Objects;
-import java.util.stream.StreamSupport;
 
 /**
  * This is the shades of purple objective card. It extends {@link PrivateObjective}

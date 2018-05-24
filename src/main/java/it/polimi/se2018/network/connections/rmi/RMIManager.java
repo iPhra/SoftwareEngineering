@@ -7,6 +7,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RMIManager implements RemoteManager {
     private final Server server;
@@ -46,7 +48,8 @@ public class RMIManager implements RemoteManager {
             UnicastRemoteObject.unexportObject((RemoteConnection)serverConnection,true);
         }
         catch (NotBoundException | RemoteException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -56,7 +59,8 @@ public class RMIManager implements RemoteManager {
             UnicastRemoteObject.unexportObject(this, true);
             UnicastRemoteObject.unexportObject(registry, true);
         } catch (RemoteException | NotBoundException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 }

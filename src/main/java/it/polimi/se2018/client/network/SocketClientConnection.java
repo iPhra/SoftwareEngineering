@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SocketClientConnection implements ClientConnection, Runnable {
     private final Socket socket;
@@ -30,7 +32,8 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             out.close();
             socket.close();
         }catch(IOException e){
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -39,7 +42,8 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         try{
             out.writeObject(message);
         }catch(IOException e){
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -55,7 +59,8 @@ public class SocketClientConnection implements ClientConnection, Runnable {
                 Response response = (Response) in.readObject();
                 if (response != null) clientView.handleNetworkInput(response);
             }catch(ClassNotFoundException | IOException e){
-                e.printStackTrace();
+                Logger logger = Logger.getAnonymousLogger();
+                logger.log(Level.ALL,e.getMessage());
             }
         }
         closeConnection();

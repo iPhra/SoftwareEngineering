@@ -14,6 +14,8 @@ import it.polimi.se2018.utils.exceptions.TimeoutException;
 import java.rmi.RemoteException;
 import java.time.Duration;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CLIClientView implements ResponseHandler, ClientView, Timing {
     private final int playerID;
@@ -54,7 +56,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             try {
                 chooseAction();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                Logger logger = Logger.getAnonymousLogger();
+                logger.log(Level.ALL,e.getMessage());
             }
         }
         else  {
@@ -71,7 +74,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         try {
             chooseAction();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -84,7 +88,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         }
         catch (TimeoutException e) {
             cliInput.setHasToChange(false);
-            e.printStackTrace();
         }
     }
 
@@ -94,7 +97,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             useToolCard(toolCardResponse.getToolCardNumber());
         }
         catch (RemoteException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -112,9 +116,10 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         try {
             windowNumber = selectWindow(setupResponse.getWindows())-1;
             clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
+            clock.interrupt();
             cliInput.print("Window sent. Waiting for other players to choose.");
         } catch (TimeoutException e) {
-            e.printStackTrace();
+            //nothing to be done
         }
     }
 
@@ -196,12 +201,10 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         }
         catch (TimeoutException e) {
             cliInput.setHasToChange(false);
-            e.printStackTrace();
         }
     }
 
     private int selectWindow(List<Window> windows) throws TimeoutException {
-        Scanner scanner = new Scanner(System.in);
         int choice = -1;
         boolean iterate = true;
         cliInput.print("Select your Window");
@@ -212,9 +215,9 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             cliInput.print("The level of the window is " + windows.get(i).getLevel() + "\n");
         }
         do {
-                choice = cliInput.takeInput();
-                if (choice<1 || choice>4) cliInput.print("Type a number between 1 and 4");
-                else iterate = false;
+            choice = cliInput.takeInput();
+            if (choice<1 || choice>4) cliInput.print("Type a number between 1 and 4");
+            else iterate = false;
         }
         while(iterate);
         return choice;
@@ -241,7 +244,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             try{
                 chooseAction();
             }catch(RemoteException e){
-                e.printStackTrace();
+                Logger logger = Logger.getAnonymousLogger();
+                logger.log(Level.ALL,e.getMessage());
             }
         }
     }
@@ -255,7 +259,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         }
         catch (TimeoutException e) {
             cliInput.setHasToChange(false);
-            e.printStackTrace();
         }
     }
 
@@ -270,7 +273,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
 
     @Override
     public void wakeUp() {
-        clock = null;
         cliInput.setHasToChange(true);
         cliInput.print("Time is up, press 1 to continue");
     }

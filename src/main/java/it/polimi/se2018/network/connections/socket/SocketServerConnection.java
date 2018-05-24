@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SocketServerConnection implements Runnable, ServerConnection {
     private final Server server;
@@ -30,7 +32,8 @@ public class SocketServerConnection implements Runnable, ServerConnection {
             out.flush();
             this.in = new ObjectInputStream(socket.getInputStream());
         }catch (IOException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -53,7 +56,8 @@ public class SocketServerConnection implements Runnable, ServerConnection {
             socket.close();
         }
         catch(IOException e){
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -62,7 +66,8 @@ public class SocketServerConnection implements Runnable, ServerConnection {
         try{
             out.writeObject(response);
         }catch(IOException e){
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -85,7 +90,8 @@ public class SocketServerConnection implements Runnable, ServerConnection {
                 if (message != null) serverView.handleNetworkInput(message);
             }
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         } catch (IOException e) {
             server.handleDisconnection(playerID);
         } finally {

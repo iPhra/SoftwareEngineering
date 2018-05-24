@@ -23,9 +23,10 @@ public class WaitingThread extends Thread {
             Thread.sleep(timeout.toMillis());
         } catch (InterruptedException e) {
             stopped = true;
+            Thread.currentThread().interrupt();
         }
         if (!stopped) {
-            System.out.println("Fine turno");
+            System.out.println("Time is up");
             caller.wakeUp();
         }
     }

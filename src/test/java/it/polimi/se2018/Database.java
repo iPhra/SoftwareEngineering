@@ -33,6 +33,14 @@ public class Database {
         }
     }
 
+    public Window generateWindowByTitle(String title) {
+        for(Pair<Window,Window> pair: defaultMaps) {
+            if (pair.getKey().getTitle().equals(title)) return pair.getKey();
+            if (pair.getValue().getTitle().equals(title)) return pair.getValue();
+        }
+        return null;
+    }
+
     public void sixSameColoredDice(Color color){
         standardWhiteMatrix();
         matrix[1][2].setDie(new Die(2, color));
@@ -66,7 +74,5 @@ public class Database {
         matrix[3][2].setDie(new Die(6, Color.PURPLE));
         matrix[3][3].setDie(new Die(1, Color.BLUE));
         matrix[3][4].setDie(new Die(2, Color.GREEN));
-
-
     }
 }

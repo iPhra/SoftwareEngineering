@@ -2,6 +2,7 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
+import it.polimi.se2018.mvc.model.Round;
 import it.polimi.se2018.mvc.model.RoundTracker;
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,6 +42,12 @@ public class TestRoundTracker {
         dice2.add(die3);
         dice2.add(die4);
         roundTracker.updateRoundTracker(dice2);
+    }
+
+    @Test
+    public void testIsVoid() {
+        Assert.assertTrue(!roundTracker.isVoid());
+        Assert.assertTrue(new RoundTracker(3).isVoid());
     }
 
     @Test
@@ -85,6 +92,14 @@ public class TestRoundTracker {
         assertTrue(dice2.containsAll(roundTracker.modelViewCopy().get(1)) && roundTracker.modelViewCopy().get(1).containsAll(dice2));
         roundTracker=new RoundTracker(10);
         assertTrue(dice1.containsAll(roundTracker.modelViewCopy().get(0)) && roundTracker.modelViewCopy().get(0).containsAll(new ArrayList<>()));
+    }
 
+    @Test
+    public void testEquals() {
+        RoundTracker roundTracker1 = new RoundTracker(2);
+        roundTracker1.updateRoundTracker(dice1);
+        roundTracker1.updateRoundTracker(dice2);
+        Assert.assertEquals(roundTracker, roundTracker1);
+        Assert.assertEquals(roundTracker1.hashCode(),roundTracker.hashCode());
     }
 }

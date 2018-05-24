@@ -27,4 +27,14 @@ public class TestColor {
         Assert.assertEquals(Color.WHITE,Color.fromAbbreviation("W"));
         Assert.assertEquals(null,Color.fromAbbreviation("Z"));
     }
+
+    @Test
+    public void testGetAbbreviation() {
+        Assert.assertEquals("G", Color.GREEN.getAbbreviation());
+        Assert.assertEquals("R", Color.RED.getAbbreviation());
+        Assert.assertEquals("B", Color.BLUE.getAbbreviation());
+        Assert.assertEquals("P", Color.PURPLE.getAbbreviation());
+        Assert.assertEquals("W", Color.WHITE.getAbbreviation());
+        Assert.assertEquals("Y", Color.YELLOW.getAbbreviation());
+    }
 }

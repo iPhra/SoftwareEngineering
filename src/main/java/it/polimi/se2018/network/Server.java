@@ -18,6 +18,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Server implements Timing {
     private static final int PORT = 1234;
@@ -80,7 +82,8 @@ public class Server implements Timing {
             registry.rebind("RemoteManager", UnicastRemoteObject.exportObject(remoteManager,0));
         }
         catch (RemoteException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -91,7 +94,8 @@ public class Server implements Timing {
             Thread thread = new Thread(socketHandler);
             thread.start();
         }catch(IOException e){
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 

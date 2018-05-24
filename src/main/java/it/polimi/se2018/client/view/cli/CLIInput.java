@@ -15,6 +15,8 @@ import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static java.lang.System.*;
 
@@ -88,10 +90,11 @@ public class CLIInput {
         boolean iterate = true;
         int res=0;
         try {
-            System.in.read(new byte[System.in.available()]);
+            int junk = System.in.read(new byte[System.in.available()]);
         }
         catch(IOException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
         do {
             try {
@@ -111,10 +114,11 @@ public class CLIInput {
         boolean iterate = true;
         String res="";
         try {
-            System.in.read(new byte[System.in.available()]);
+            int junk = System.in.read(new byte[System.in.available()]);
         }
         catch(IOException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
         do {
             try {

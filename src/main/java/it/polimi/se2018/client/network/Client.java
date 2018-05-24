@@ -16,6 +16,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Client {
     private static final int PORT = 1234;
@@ -71,7 +73,8 @@ public class Client {
             new Thread((RMIClientConnection) clientConnection).start();
         }
         catch(RemoteException | NotBoundException | MalformedURLException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
@@ -92,7 +95,8 @@ public class Client {
             clientView.setClientConnection(clientConnection);
             new Thread((SocketClientConnection) clientConnection).start();
         } catch(IOException | ClassNotFoundException e){
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 

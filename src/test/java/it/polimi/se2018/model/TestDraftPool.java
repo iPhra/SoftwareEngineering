@@ -4,6 +4,7 @@ import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.DraftPool;
 import it.polimi.se2018.utils.exceptions.NoDieException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -73,7 +74,6 @@ public class TestDraftPool {
         assertTrue(draftPool.getAllDice().containsAll(dice) && dice.containsAll(draftPool.getAllDice()));
     }
 
-
     @Test
     public void testAddToDraftPool() throws NoDieException{
         Die die = new Die(3,Color.RED);
@@ -104,5 +104,13 @@ public class TestDraftPool {
         assertTrue(draftPool.modelViewCopy().containsAll(draftPool.getAllDice()) && draftPool.getAllDice().containsAll(draftPool.modelViewCopy()));
         draftPool=new DraftPool();
         assertTrue(draftPool.modelViewCopy().containsAll(draftPool.getAllDice()) && draftPool.getAllDice().containsAll(draftPool.modelViewCopy()));
+    }
+
+    @Test
+    public void testEquals() {
+        DraftPool draftPool2 = new DraftPool();
+        draftPool2.fillDraftPool(dice);
+        Assert.assertEquals(draftPool,draftPool2);
+        Assert.assertEquals(draftPool2.hashCode(),draftPool2.hashCode());
     }
 }

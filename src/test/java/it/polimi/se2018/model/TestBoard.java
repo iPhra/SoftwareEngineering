@@ -81,7 +81,7 @@ public class TestBoard {
 
     @Test
     public void testGetRoundTracker(){
-        RoundTracker roundTracker = new RoundTracker(10);
+        RoundTracker roundTracker = new RoundTracker(Board.ROUNDSNUMBER);
         assertEquals(roundTracker, board.getRoundTracker());
     }
 

@@ -16,7 +16,7 @@ public class TestDiePlacerFirst {
 
     @Test
     public void testCheckCondition() {
-        Window window = new Database().getDefaultMaps().get(0).getKey();
+        Window window = new Database().generateWindowByTitle("KALEIDOSCOPIC DREAM");
         Die die = new Die(1, Color.YELLOW);
         DiePlacerFirst placer = new DiePlacerFirst(die,new Coordinate(1,3), window);
         Assert.assertTrue(!placer.checkCondition());

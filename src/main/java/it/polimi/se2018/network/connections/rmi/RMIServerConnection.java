@@ -8,6 +8,8 @@ import it.polimi.se2018.mvc.view.ServerView;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RMIServerConnection implements ServerConnection, RemoteConnection, Runnable {
     private ServerView serverView;
@@ -31,7 +33,8 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
             clientConnection.getResponse(response);
         }
         catch(RemoteException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 
