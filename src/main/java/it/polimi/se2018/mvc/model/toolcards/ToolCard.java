@@ -28,4 +28,9 @@ public abstract class ToolCard implements Serializable {
     public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws TimeoutException;
 
     public abstract Boolean handleCheck(ToolCardCheckerHandler handler, boolean isUsed, Player player);
+
+    @Override
+    public String toString() {
+        return getTitle() + "     " + getDescription();
+    }
 }

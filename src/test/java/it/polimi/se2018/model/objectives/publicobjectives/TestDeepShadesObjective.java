@@ -25,6 +25,7 @@ public class TestDeepShadesObjective {
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
         deepShadesObjective = DeepShadesObjective.instance("title");
+        deepShadesObjective = DeepShadesObjective.instance("title");
         Window window = new Window("BasicMap",0, matrix);
         shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         player = new Player("name",1, window,shadesOfGreenObjective);

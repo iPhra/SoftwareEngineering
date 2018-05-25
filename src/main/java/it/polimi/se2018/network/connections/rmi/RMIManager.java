@@ -30,7 +30,8 @@ public class RMIManager implements RemoteManager {
             registry.rebind("ServerConnection"+playerID, UnicastRemoteObject.exportObject((RemoteConnection) serverConnection,0));
         }
         catch (RemoteException e) {
-            System.err.println(e.getMessage());
+            Server.decrementID();
+            closeConnection();
         }
         Thread thread = new Thread((RMIServerConnection)serverConnection);
         thread.start();

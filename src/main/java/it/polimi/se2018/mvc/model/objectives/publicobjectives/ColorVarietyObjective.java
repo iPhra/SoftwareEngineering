@@ -19,7 +19,7 @@ public class ColorVarietyObjective extends PublicObjective {
 
     private ColorVarietyObjective(String title) {
         super(title);
-        description = "Sets pf one of each color anywhere. #4 Points";
+        description = "4 points for every set of one of each color anywhere";
     }
 
     /**

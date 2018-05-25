@@ -3,12 +3,17 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.mvc.model.*;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
+import it.polimi.se2018.mvc.model.toolcards.Lathekin;
+import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
+import it.polimi.se2018.utils.exceptions.ToolCardException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Random;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -118,7 +123,28 @@ public class TestPlayer {
         assertEquals(hasUsedCard, player.hasUsedCard());
     }
 
+    @Test
+    public void testDropCardInUse() {
+        player.dropCardInUse();;
+        try {
+            player.getCardInUse();
+        }
+        catch(ToolCardException e) {
+            return;
+        }
+        fail();
+    }
 
+    @Test
+    public void testSetCardInUse() {
+        player.setCardInUse(1);
+        try {
+            Assert.assertEquals(1,player.getCardInUse());
+        }
+        catch(ToolCardException e) {
+            fail();
+        }
+    }
 }
 
 

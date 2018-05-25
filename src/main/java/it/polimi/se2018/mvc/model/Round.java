@@ -48,17 +48,6 @@ public class Round {
         missingPlayers=playersOrder.size()/2;
     }
 
-    /*
-    public boolean handleDisconnection(int playerID) {
-        for(int player : playersOrder) {
-            if (player==playerID) playersOrder.remove(player);
-        }
-        if (playersOrder.indexOf(playerID)==playersOrder.size()-1) return true;
-        currentPlayer=playersOrder.get(currentPlayerIndex);
-        missingPlayers--;
-        return false;
-    }*/
-
     /**
      * @return the array of playersIDs representing the order of the players
      */

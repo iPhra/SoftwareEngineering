@@ -42,8 +42,7 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         try{
             out.writeObject(message);
         }catch(IOException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            //riconnettiti
         }
     }
 
@@ -58,9 +57,9 @@ public class SocketClientConnection implements ClientConnection, Runnable {
             try{
                 Response response = (Response) in.readObject();
                 if (response != null) clientView.handleNetworkInput(response);
-            }catch(ClassNotFoundException | IOException e){
-                Logger logger = Logger.getAnonymousLogger();
-                logger.log(Level.ALL,e.getMessage());
+            }
+            catch(ClassNotFoundException | IOException e) {
+                //riconnettiti
             }
         }
         closeConnection();

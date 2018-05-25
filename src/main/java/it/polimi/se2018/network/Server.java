@@ -1,5 +1,4 @@
 package it.polimi.se2018.network;
-
 import it.polimi.se2018.mvc.controller.GameManager;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.connections.rmi.RMIManager;
@@ -8,8 +7,7 @@ import it.polimi.se2018.utils.Timing;
 import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.mvc.view.ServerView;
 
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -118,7 +116,7 @@ public class Server implements Timing {
         int match = playerID/1000;
         GameManager manager = matches.get(match);
         if(manager.isMatchPlaying()) {
-            //implementa
+            //to-be implemented
         }
         else removePlayer(playerID);
     }
@@ -132,6 +130,10 @@ public class Server implements Timing {
         return (matchID*1000)+playerNumber;
     }
 
+    public static void decrementID() {
+        playerNumber--;
+    }
+
     @Override
     public void wakeUp() {
         if (matches.get(matchID).playersNumber() >= 2) {
@@ -140,7 +142,87 @@ public class Server implements Timing {
         }
     }
 
+    /*public int checkEmail(String email) {
+        int playerID = -1;
+        String filename = "resources\\setting.txt";
+        BufferedReader br = null;
+        FileReader fr = null;
+        try {
+            //br = new BufferedReader(new FileReader(filename));
+            fr = new FileReader(filename);
+            br = new BufferedReader(fr);
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                String[] parsedLine = sCurrentLine.split(" ");
+                if (parsedLine[0] == email) {
+                    if (parsedLine.length < 2) {
+                        break;
+                    }
+                    else {
+                        playerID = Integer.parseInt(parsedLine[1]);
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null)
+                    br.close();
+                if (fr != null)
+                    fr.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return playerID;
+    }
 
+    public void writePlayerID(String email, int playerID) {
+        String filename = "resources\\setting.txt";
+        BufferedReader br = null;
+        FileReader fr = null;
+
+        boolean find = false;
+        try {
+            //br = new BufferedReader(new FileReader(FILENAME));
+            fr = new FileReader(filename);
+            br = new BufferedReader(fr);
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                String[] parsedLine = sCurrentLine.split(" ");
+                if (parsedLine[0].equals(email)) {
+                    find = true;
+                    if (parsedLine.length > 1) {
+                        break;
+                    }
+                    else {
+                        playerID = Integer.parseInt(parsedLine[1]);
+                        break;
+                    }
+                }
+            }
+            if (!find){
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+                    writer.append(email + " " + playerID);
+                    writer.append("\r\n");
+                    writer.close();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null)
+                    br.close();
+                if (fr != null)
+                    fr.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }*/
 
 
     public static void main(String[] args) {

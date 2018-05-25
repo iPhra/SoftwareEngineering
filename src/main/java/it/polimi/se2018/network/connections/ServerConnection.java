@@ -9,4 +9,7 @@ public interface ServerConnection {
     void sendResponse(Response response);
     void setServerView(ServerView serverView);
     void stop();
+    void setDisconnected();
+    void setReconnected();
+    boolean isDisconnected();
 }

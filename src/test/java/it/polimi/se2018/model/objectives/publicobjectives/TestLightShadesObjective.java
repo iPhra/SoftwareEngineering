@@ -25,6 +25,7 @@ public class TestLightShadesObjective {
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
         lightShadesObjective = LightShadesObjective.instance("title");
+        lightShadesObjective = LightShadesObjective.instance("title");
         Window window = new Window("BasicMap",0, matrix);
         shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         player = new Player("name",1, window,shadesOfGreenObjective);

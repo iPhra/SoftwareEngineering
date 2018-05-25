@@ -1,7 +1,6 @@
 package it.polimi.se2018.client.view.cli;
 
 import it.polimi.se2018.mvc.controller.ModelView;
-import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
@@ -29,13 +28,13 @@ public class CLIInput {
     private List<PublicObjective> publicObjectives;
     private final PrintStream printStream;
     private final Scanner scanner;
-    private boolean hasToChange;
+    private boolean timeIsUp;
 
     CLIInput(int playerID) {
         scanner = new Scanner(System.in);
         this.playerID = playerID;
         printStream = new PrintStream(out);
-        hasToChange = false;
+        timeIsUp = false;
     }
 
     public List<String> getPlayersName() {
@@ -70,13 +69,17 @@ public class CLIInput {
         this.publicObjectives = publicObjectives;
     }
 
-    public void setHasToChange(boolean haToChange) {
-        this.hasToChange = haToChange;
+    public String generateSpaces(int number) {
+        StringBuilder res = new StringBuilder();
+        for(int i=0; i<number; i++) {
+            res.append(" ");
+        }
+        return res.toString();
     }
 
-    void print(String string) {
-        printStream.println(string);
-    }
+    public void setTimeIsUp(boolean timeIsUp) { this.timeIsUp = timeIsUp; }
+
+    void print(String string) { printStream.println(string); }
 
     public void setBoard(ModelView board) {
         this.board = board;
@@ -106,37 +109,8 @@ public class CLIInput {
             }
         }
         while(iterate);
-        if (hasToChange) throw new TimeoutException();
+        if (timeIsUp) throw new TimeoutException();
         return res;
-    }
-
-    String takeAction() throws TimeoutException {
-        boolean iterate = true;
-        String res="";
-        try {
-            int junk = System.in.read(new byte[System.in.available()]);
-        }
-        catch(IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
-        }
-        do {
-            try {
-                res = String.valueOf(scanner.next());
-                iterate = false;
-            } catch (InputMismatchException e) {
-                printStream.println("Input is invalid");
-                scanner.nextLine();
-            }
-        }
-        while(iterate);
-        if (board.getCurrentPlayerID() != playerID) throw new TimeoutException();
-        return res;
-    }
-
-    Coordinate getDieInMap() throws TimeoutException {
-        printStream.println("Choose the die in the window");
-        return getCoordinate();
     }
 
     public Coordinate getCoordinate() throws TimeoutException {
@@ -188,7 +162,7 @@ public class CLIInput {
             }
             else {
                 printStream.print("You selected this die: ");
-                printDieExtended(board.getRoundTracker().get(turn).get(pos));
+                printDraftPoolDice(board.getRoundTracker().get(turn).get(pos));
                 printStream.println("Are you sure? \n [1] Yes  [2]-[9] No");
                 choice = takeInput();
             }
@@ -198,13 +172,13 @@ public class CLIInput {
 
     int getToolCard() throws TimeoutException {
         int choice = -1;
-        printToolcard();
+        printToolCards();
         printStream.println("Select the tool card");
         printStream.println("[3] Choose another action");
-        printStream.println("[4] Ask an information on the game");
+        printStream.println("[4] Print the state of the game");
         while (choice != 3 && (choice < 0 || choice > toolCards.size()+1 || !board.getToolCardUsability().get(choice))) {
             choice = takeInput();
-            if (choice == 4) askInformation();
+            if (choice == 4) printModel();
             if (choice >= 0 && choice < 3 && !board.getToolCardUsability().get(choice)) {
                 printStream.println("You can't use the chosen tool card. Please choose another one.");
             }
@@ -212,7 +186,7 @@ public class CLIInput {
         return  choice;
     }
 
-    int getValueDie() throws TimeoutException {
+    int getDieValue() throws TimeoutException {
         int val = 0;
         while (val < 1 || val > 6) {
             printStream.print("Choose the value of the die (value goes from 1 to 6)");
@@ -224,14 +198,14 @@ public class CLIInput {
     int getDraftPoolPosition() throws TimeoutException {
         int choice = -1;
         int confirm = -1;
-        printStream.print("Select the index of the die to choose.");
+        printStream.print("Select the index of the die to choose. ");
         while (choice < 0 || choice >= board.getDraftPool().size()) {
             printDraftPool();
             choice = takeInput();
         }
         while (confirm < 0 || confirm > 3) {
             printStream.println("You selected this die: ");
-            printDieExtended(board.getDraftPool().get(choice));
+            printDraftPoolDice(board.getDraftPool().get(choice));
             printStream.println("Are you sure? \n [1] to accept  [2] to change \n [3] to choose another action");
             confirm = takeInput();
         }
@@ -242,7 +216,7 @@ public class CLIInput {
         }
     }
 
-    int getMinusPlus() throws TimeoutException {
+    int getIncrementOrDecrement() throws TimeoutException {
         int choice = -1;
         while (choice < 0 || choice > 1) {
             printStream.println("0 to decrease, 1 to increase.");
@@ -251,134 +225,114 @@ public class CLIInput {
         return choice == 0 ? -1:1;
     }
 
-    private void getPlayerWindow() throws TimeoutException {
-        printStream.println("Choose the player:");
-        int choicePlayer = -1;
-        while (choicePlayer < 0 || choicePlayer > playersName.size() - 1) {
-            for(int i = 0; i < playersName.size(); i++){
-                printStream.println(i + " " + playersName.get(i));
-            }
-            choicePlayer = takeInput();
-        }
-        printPlayerWindow(board.getPlayerWindow().get(choicePlayer));
-    }
-
     void printDraftPool() {
         printStream.println("Dice on Draft Pool are:");
         for (int i = 0; i < board.getDraftPool().size(); i++) {
             printStream.print("[" + i + "] ");
-            printDieExtended(board.getDraftPool().get(i));
+            printDraftPoolDice(board.getDraftPool().get(i));
+            if ((i+1) % 3 == 0) printStream.println(" ");
         }
+        printStream.print("\n");
     }
 
-    void printRoundTracker() {
+    private void printRoundTracker() {
         printStream.println("Dice on Round Tracker are:");
         for (int i = 0; i < board.getRoundTracker().size(); i++) {
             printStream.print("Round " + i + ":  ");
             for (int j = 0; j < board.getRoundTracker().get(i).size(); j++) {
-                printDie(board.getRoundTracker().get(i).get(j));
+                printStream.print(board.getRoundTracker().get(i).get(j));
             }
             printStream.print("\n");
         }
+        printStream.print("\n");
     }
 
-    void printYourWindow() {
+    private void printYourWindow() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
-        printPlayerWindow(board.getPlayerWindow().get(yourIndex));
-    }
-
-    void printPlayerWindow(Square[][] window) {
+        Square[][] window = board.getPlayerWindow().get(yourIndex);
+        StringBuilder builder;
         for (Square[] row : window) {
+            builder = new StringBuilder();
             for (Square square : row) {
-                printSquare(square);
+                builder.append(square);
             }
+            printStream.print(builder);
             printStream.print("\n");
         }
     }
 
-    private void printSquare(Square square) {
-        String toPrint = "";
-        if (!square.isEmpty()) {
-            printDie(square.getDie());
-        } else {
-            if (!square.getColor().equals(Color.WHITE))
-                toPrint = "n" + square.getColor().getAbbreviation().toLowerCase() + " ";
-            else if (square.getValue() != 0)
-                toPrint = "n" + square.getValue() + " ";
-            else
-                toPrint = "nn ";
+    void printAllWindows(List<Square[][]> windows) {
+        StringBuilder row;
+        for(int i=0; i<4; i++) {
+            row = new StringBuilder();
+            for(Square[][] window : windows) {
+                for(Square square : window[i]) {
+                    row.append(square.toString());
+                    row.append(" ");
+                }
+                row.append(generateSpaces(20));
+            }
+            printStream.print(row.toString());
+            printStream.print("\n");
         }
-        printStream.print(toPrint);
     }
 
-    public void printDieExtended(Die die) { printStream.println("Color: " + die.getColor().toString().toLowerCase() + " Value: " + die.getValue());}
-
-    private void printDie(Die die) {
-        printStream.print(die.getValue() + die.getColor().getAbbreviation() + " ");
+    public void printDraftPoolDice(Die die) {
+        StringBuilder result = new StringBuilder();
+        String color = die.getColor().toString();
+        result.append("COLOR: ");
+        result.append(color.toLowerCase());
+        result.append(generateSpaces(6 - color.length()));
+        result.append(generateSpaces(2));
+        result.append(" VALUE: ");
+        result.append(die.getValue());
+        result.append(generateSpaces(5));
+        printStream.print(result);
     }
 
-    void printToolcard() {
+    private void printToolCards() {
+        StringBuilder result;
         for (int i = 0; i < toolCards.size(); i++) {
+            result = new StringBuilder();
             ToolCard toolCard = toolCards.get(i);
-            printStream.print(i + ": " + toolCard.getTitle());
-            if (!board.getToolCardUsability().get(i)) printStream.print("     (You can't use this Tool Card now!)");
-            printStream.println(" ");
-            printStream.println(toolCard.getDescription() + "\n");
+            result.append(i);
+            result.append(": ");
+            result.append(toolCard);
+            if (!board.getToolCardUsability().get(i)) result.append("     (You can't use this Tool Card now!)");
+            result.append("\n");
+            printStream.print(result.toString());
         }
     }
 
-    void printYourFavorPoint() {
+    private void printFavorPoints() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
-        printStream.println(board.getPlayerFavorPoint().get(yourIndex));
+        printStream.println("Favor points left: " + board.getPlayerFavorPoint().get(yourIndex));
+        printStream.print("\n");
     }
 
     void printPrivateObjective() {
-        printStream.println("Private Objective:");
-        printStream.println(privateObjective.getTitle() + "\n" + privateObjective.getDescription() + "\n");
+        printStream.print("\n");
+        printStream.println(privateObjective);
+        printStream.print("\n");
     }
 
     void printPublicObjective() {
-        printStream.println("Public Objectives:");
+        printStream.println("Public Objectives: ");
         for (PublicObjective obj : publicObjectives) {
-            printStream.println(obj.getTitle() + "\n" + obj.getDescription() + "\n");
+            printStream.print(obj);
         }
+        printStream.print("\n");
     }
 
-    public void askInformation() throws TimeoutException {
-        int choice = -1;
-        print("Choose which information you would like to know: ");
-        while (choice < 1 || choice > 9 || (choice == 9 && !board.hasDieInHand())) {
-            printStream.println("[1] Print your Window");
-            printStream.println("[2] Print the Window of a player");
-            printStream.println("[3] Print the Draft Pool");
-            printStream.println("[4] Print the Round Tracker");
-            printStream.println("[5] Print all Tool Cards");
-            printStream.println("[6] Print all Public Objectives");
-            printStream.println("[7] Print your Private Objective");
-            printStream.println("[8] Print your available favor points");
-            if (board.hasDieInHand()) printStream.println("[9] Print the die in your hand");
-            choice = takeInput();
-        }
-        switch (choice) {
-            case 1: printYourWindow();
-                break;
-            case 2: getPlayerWindow();
-                break;
-            case 3: printDraftPool();
-                break;
-            case 4: printRoundTracker();
-                break;
-            case 5: printToolcard();
-                break;
-            case 6: printPublicObjective();
-                break;
-            case 7: printPrivateObjective();
-                break;
-            case 8: printYourFavorPoint();
-                break;
-            case 9: printDieExtended(board.getDieInHand());
-                break;
-            default: break;
-        }
+    public void printModel() {
+        printPrivateObjective();
+        printPublicObjective();
+        printFavorPoints();
+        printToolCards();
+        printRoundTracker();
+        printDraftPool();
+        printStream.println("Windows:");
+        printAllWindows(board.getPlayerWindow());
+        printStream.print("\n");
     }
 }

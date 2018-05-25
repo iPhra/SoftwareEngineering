@@ -18,7 +18,7 @@ public class LightShadesObjective extends PublicObjective {
 
     private LightShadesObjective(String title){
         super(title);
-        description = "Sets of 1 & 2 values anywhere. #2 Points";
+        description = "2 points for each set of 1 & 2 anywhere";
     }
 
     /**

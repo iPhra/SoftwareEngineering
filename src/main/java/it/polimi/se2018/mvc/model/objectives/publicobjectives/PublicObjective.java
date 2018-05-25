@@ -11,4 +11,9 @@ public abstract class PublicObjective extends ObjectiveCard {
     protected PublicObjective(String title) {
         super(title);
     }
+
+    @Override
+    public String toString() {
+        return "Title: \"" + getTitle() + "\", Effect: \"" + getDescription() + "\"" + "\n";
+    }
 }

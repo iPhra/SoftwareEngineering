@@ -1,5 +1,8 @@
-package it.polimi.se2018.client.network;
+package it.polimi.se2018.client;
 
+import it.polimi.se2018.client.network.ClientConnection;
+import it.polimi.se2018.client.network.RMIClientConnection;
+import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.client.view.ClientView;
@@ -16,8 +19,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Client {
     private static final int PORT = 1234;
@@ -30,6 +31,7 @@ public class Client {
     private boolean setup;
     private final Scanner input;
     private final PrintStream output;
+    private String email;
 
     private Client() {
         setup = true;
@@ -43,6 +45,8 @@ public class Client {
     }
 
     private void chooseConnection() {
+        //output.println("Give your email");
+        //email = input.next();
         output.println("What type of connection do you want to use?");
         output.println("Type 1 for Socket, 2 for RMI");
         if (input.nextInt() == 1) {
@@ -69,21 +73,22 @@ public class Client {
             manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
             RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
             ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
-            clientView.setClientConnection(clientConnection);
-            new Thread((RMIClientConnection) clientConnection).start();
         }
         catch(RemoteException | NotBoundException | MalformedURLException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            System.exit(1);
         }
+        clientView.setClientConnection(clientConnection);
+        new Thread((RMIClientConnection) clientConnection).start();
     }
 
     private void createSocketConnection(){
-        try{
+        try {
             socket = new Socket(HOST, PORT);
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            //out.writeObject(email);
             playerID = (int) in.readObject();
+            //setup = (boolean) in.readObject();
             while (setup) {
                 playerName = getPlayerName();
                 out.writeObject(playerName);
@@ -92,12 +97,12 @@ public class Client {
             }
             clientView = new CLIClientView(playerID);
             clientConnection = new SocketClientConnection(socket, clientView,in,out);
-            clientView.setClientConnection(clientConnection);
-            new Thread((SocketClientConnection) clientConnection).start();
-        } catch(IOException | ClassNotFoundException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
         }
+        catch(IOException | ClassNotFoundException e) {
+            System.exit(1);
+        }
+        clientView.setClientConnection(clientConnection);
+        new Thread((SocketClientConnection) clientConnection).start();
     }
 
 

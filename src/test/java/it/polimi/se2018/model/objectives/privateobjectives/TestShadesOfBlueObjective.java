@@ -23,6 +23,7 @@ public class TestShadesOfBlueObjective {
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
         shadesOfBlueObjective=ShadesOfBlueObjective.instance("title");
+        shadesOfBlueObjective=ShadesOfBlueObjective.instance("title");
         Window window = new Window("BasicMap",0,matrix);
         player = new Player("name",1, window,shadesOfBlueObjective);
     }

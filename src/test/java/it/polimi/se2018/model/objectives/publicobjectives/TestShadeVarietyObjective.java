@@ -25,6 +25,7 @@ public class TestShadeVarietyObjective {
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
         shadeVarietyObjective = ShadeVarietyObjective.instance("title");
+        shadeVarietyObjective = ShadeVarietyObjective.instance("title");
         Window window = new Window("BasicMap",0, matrix);
         shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         player = new Player("name",1, window,shadesOfGreenObjective);

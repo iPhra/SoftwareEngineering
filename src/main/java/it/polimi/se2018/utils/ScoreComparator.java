@@ -34,18 +34,18 @@ public class ScoreComparator implements Comparator<Player>{
     public int compare(Player player1, Player player2){
         evaluatePoints(Arrays.asList(player1,player2));
         //check if players have the same score, if not the highest one is higher in the score board
-        if (player2.getScore() - player1.getScore() != 0)
-            return player2.getScore() - player1.getScore();
+        if (player1.getScore() - player2.getScore() != 0)
+            return player1.getScore() - player2.getScore();
         //check if players have the same score from private objectives, if not the highest one is higher in the score
             // board
-        else if (player2.getPrivateObjective().evalPoints(player2) - player1.getPrivateObjective().evalPoints(player1)!=0)
-            return player2.getPrivateObjective().evalPoints(player2) - player1.getPrivateObjective().evalPoints(player1);
+        else if (player1.getPrivateObjective().evalPoints(player1) - player2.getPrivateObjective().evalPoints(player2)!=0)
+            return player1.getPrivateObjective().evalPoints(player1) - player2.getPrivateObjective().evalPoints(player2);
         //check if players have the same amount of remaing favor points, if not the highest one is higher in the score
             // board
-        else if (player2.getFavorPoints() - player1.getFavorPoints() != 0)
-            return (player2.getFavorPoints() - player1.getFavorPoints());
+        else if (player1.getFavorPoints() - player2.getFavorPoints() != 0)
+            return (player1.getFavorPoints() - player2.getFavorPoints());
         //finally, it's considered the reverse player order
-        return round.getPlayersOrder().indexOf(player2.getId()) - round.getPlayersOrder().indexOf(player1.getId());
+        return round.getPlayersOrder().indexOf(player1.getId()) - round.getPlayersOrder().indexOf(player2.getId());
         }
 
     /**

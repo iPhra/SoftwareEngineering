@@ -3,10 +3,7 @@ package it.polimi.se2018.mvc.model;
 import it.polimi.se2018.network.messages.Coordinate;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * This class represents a window of the game
@@ -132,5 +129,17 @@ public class Window implements Iterable<Square>, Serializable {
         if (col > 0 && !getSquare(cor3).isEmpty()) adjacent.add(getSquare(cor3).getDie());
         if (col < cols - 1 && !getSquare(cor4).isEmpty()) adjacent.add(getSquare(cor4).getDie());
         return adjacent;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (Square[] row : matrix) {
+            for (Square square : row) {
+                result.append(square);
+            }
+            result.append("\n");
+        }
+        return result.toString();
     }
 }

@@ -128,4 +128,20 @@ public class Square implements Serializable{
     public int hashCode() {
         return Objects.hash(color, value, die, row, col);
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        if (!isEmpty()) {
+            return die.toString();
+        } else {
+            if (!color.equals(Color.WHITE))
+                result = "n" + color.getAbbreviation().toLowerCase() + " ";
+            else if (value != 0)
+                result = "n" + value + " ";
+            else
+                result = "nn ";
+        }
+        return result;
+    }
 }

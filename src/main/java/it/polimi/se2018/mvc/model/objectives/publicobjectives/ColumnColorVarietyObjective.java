@@ -19,7 +19,7 @@ public class ColumnColorVarietyObjective extends PublicObjective {
 
     private ColumnColorVarietyObjective(String title){
         super(title);
-        description = "Columns with no repeated colors. #5 Points";
+        description = "5 points for each column with no repeated color";
     }
 
     /**

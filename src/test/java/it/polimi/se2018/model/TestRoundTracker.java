@@ -100,6 +100,10 @@ public class TestRoundTracker {
         roundTracker1.updateRoundTracker(dice1);
         roundTracker1.updateRoundTracker(dice2);
         Assert.assertEquals(roundTracker, roundTracker1);
-        Assert.assertEquals(roundTracker1.hashCode(),roundTracker.hashCode());
+        Assert.assertEquals(roundTracker1.hashCode(), roundTracker.hashCode());
+        Assert.assertNotEquals(new Object(), roundTracker);
+        Assert.assertNotEquals(null, roundTracker);
+        Assert.assertEquals(roundTracker, roundTracker);
+        Assert.assertNotEquals(new RoundTracker(3), roundTracker);
     }
 }

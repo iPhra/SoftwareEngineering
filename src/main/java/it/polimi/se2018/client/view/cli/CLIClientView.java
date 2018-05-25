@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.cli;
 
+import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.client.network.ClientConnection;
@@ -61,16 +62,15 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             }
         }
         else  {
-            cliInput.print(modelViewResponse.getDescription());
+            cliInput.print("\n" + modelViewResponse.getDescription());
             cliInput.print("It's not your turn. You can't do anything!");
         }
     }
 
     //prints the text message
     @Override
-    //eccezioni da printare
     public void handleResponse(TextResponse textResponse) {
-        cliInput.print(textResponse.getMessage());
+        cliInput.print(textResponse.getMessage()+"\n");
         try {
             chooseAction();
         } catch (RemoteException e) {
@@ -83,11 +83,11 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     public void handleResponse(InputResponse inputResponse) {
         cliInput.print("Color of the die is " + inputResponse.getColor());
         try {
-            int choice = cliInput.getValueDie();
+            int choice = cliInput.getDieValue();
             clientConnection.sendMessage(new InputMessage(playerID, cliInput.getBoard().getStateID(), choice));
         }
         catch (TimeoutException e) {
-            cliInput.setHasToChange(false);
+            cliInput.setTimeIsUp(false);
         }
     }
 
@@ -102,7 +102,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         }
     }
 
-    //Set the objective and toolcard copy to the value. Ask the window to select
+    //Set the objective and tool card copy to the value. Ask the window to select
     @Override
     public void handleResponse(SetupResponse setupResponse) {
         startTimer(20);
@@ -117,82 +117,78 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             windowNumber = selectWindow(setupResponse.getWindows())-1;
             clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
             clock.interrupt();
-            cliInput.print("Window sent. Waiting for other players to choose.");
+            cliInput.print("Window sent. Waiting for other players to choose." + "\n");
         } catch (TimeoutException e) {
-            //nothing to be done
+            cliInput.setTimeIsUp(false);
         }
     }
 
     @Override
     public void handleResponse(ScoreBoardResponse scoreBoardResponse){
         for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
-            cliInput.print(i+1 + "  player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "  score: " + scoreBoardResponse.getSortedPlayersScores().get(i));
+            cliInput.print(i+1 + "  Player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "     Score: " + scoreBoardResponse.getSortedPlayersScores().get(i));
         }
         clientConnection.stop();
     }
 
-    private List<String> actionPossible() {
-        List<String> choosable = new ArrayList<>();
+    private List<Integer> actionPossible() {
+        List<Integer> choosable = new ArrayList<>();
         if (!cliInput.getBoard().hasDraftedDie()) {
-            choosable.add("d");
+            choosable.add(2);
         }
         if (cliInput.getBoard().hasDieInHand()) {
-            choosable.add("m");
+            choosable.add(3);
         }
         if (!cliInput.getBoard().hasUsedCard()) {
-            choosable.add("t");
+            choosable.add(4);
         }
-        choosable.add("p");
+        choosable.add(5);
         return choosable;
     }
 
-    private void printActionPermitted(List<String> choosable) {
-        cliInput.print("[I] Ask an information on the game"); //i
-        for (String i : choosable) {
-            if (i.equals("d")) {
-                cliInput.print("[D] Draft a die"); //d
+    private void printActionPermitted(List<Integer> choosable) {
+        cliInput.print("[1] Print the state of the game");
+        for (int i : choosable) {
+            if (i==2) {
+                cliInput.print("[2] Draft a die");
             }
-            if (i.equals("m")) {
-                cliInput.print("[M] Place the drafted die");
+            if (i==3) {
+                cliInput.print("[3] Place the drafted die");
             }
-            if (i.equals("t")) {
-                cliInput.print("[T] Select a Tool Card"); //t
+            if (i==4) {
+                cliInput.print("[4] Select a Tool Card");
             }
-            if (i.equals("p")) cliInput.print("[P] Pass"); //p
+            if (i==5) cliInput.print("[5] Pass");
         }
     }
     
     private void chooseAction() throws RemoteException{
         try {
-            String choice = "";
-            List<String> choosable = actionPossible();
+            int choice = -1;
+            List<Integer> choosable = actionPossible();
             cliInput.print("It's your turn, choose your action");
             if (cliInput.getBoard().hasDieInHand()) {
                 cliInput.print("You have this die in your hand:");
-                cliInput.printDieExtended(cliInput.getBoard().getDieInHand());
+                cliInput.printDraftPoolDice(cliInput.getBoard().getDieInHand());
             }
-            cliInput.print("");
+            cliInput.print("\n");
             while (!choosable.contains(choice)) {
                 printActionPermitted(choosable);
-                choice = cliInput.takeAction().toLowerCase();
-                if (choice.equals("i") || choice.equals("I")) cliInput.askInformation();
+                choice = cliInput.takeInput();
+                if (choice == 1) cliInput.printModel();
             }
             switch (choice) {
-                case "d":
+                case 2:
                     draftDie();
-
                     break;
-                case "m":
+                case 3:
                     placeDie();
-
                     break;
-                case "t":
+                case 4:
                     selectToolCard();
-
                     break;
-                case "p":
+                case 5:
                     passTurn();
-
                     break;
                 default:
                     cliInput.print("Error!");
@@ -200,27 +196,41 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             }
         }
         catch (TimeoutException e) {
-            cliInput.setHasToChange(false);
+            cliInput.setTimeIsUp(false);
         }
     }
 
     private int selectWindow(List<Window> windows) throws TimeoutException {
         int choice = -1;
         boolean iterate = true;
-        cliInput.print("Select your Window");
+        cliInput.print("Windows:");
+        StringBuilder titles = new StringBuilder();
         for(int i=0; i<windows.size(); i++) {
-            cliInput.print("Press [" + (i+1) + "] to select this window");
-            cliInput.print(windows.get(i).getTitle());
-            cliInput.printPlayerWindow(windows.get(i).modelViewCopy());
-            cliInput.print("The level of the window is " + windows.get(i).getLevel() + "\n");
+            titles.append("[" + (i+1) + "] " + windows.get(i).getTitle() + cliInput.generateSpaces(36-windows.get(i).getTitle().length()));
         }
+        cliInput.print(titles.toString());
+        cliInput.printAllWindows(getPatterns(windows));
+        StringBuilder levels = new StringBuilder();
+        for(Window window : windows) {
+            levels.append("Level: "+window.getLevel() + cliInput.generateSpaces(32));
+        }
+        cliInput.print(levels.toString());
         do {
             choice = cliInput.takeInput();
             if (choice<1 || choice>4) cliInput.print("Type a number between 1 and 4");
             else iterate = false;
         }
         while(iterate);
+        cliInput.print("\n");
         return choice;
+    }
+
+    private List<Square[][]> getPatterns(List<Window> windows) {
+        List<Square[][]> result = new ArrayList<>();
+        for(Window window : windows) {
+            result.add(window.modelViewCopy());
+        }
+        return result;
     }
 
     private void passTurn() {
@@ -237,7 +247,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
 
     private void selectToolCard() throws TimeoutException {
         int toolCard = cliInput.getToolCard();
-        //if you click 3, you choose to go for another action
         if (toolCard != 3)
             clientConnection.sendMessage(new ToolCardRequestMessage(playerID, cliInput.getBoard().getStateID(), toolCard));
         else{
@@ -258,7 +267,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             else chooseAction();
         }
         catch (TimeoutException e) {
-            cliInput.setHasToChange(false);
+            cliInput.setTimeIsUp(false);
         }
     }
 
@@ -273,7 +282,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
 
     @Override
     public void wakeUp() {
-        cliInput.setHasToChange(true);
+        cliInput.setTimeIsUp(true);
         cliInput.print("Time is up, press 1 to continue");
     }
 }

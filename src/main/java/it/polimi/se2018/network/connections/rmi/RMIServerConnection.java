@@ -18,13 +18,30 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
     private boolean isOpen;
     private final RMIManager manager;
     private final int playerID;
+    private boolean disconnected;
 
     public RMIServerConnection(RemoteConnection clientConnection, RMIManager manager, int playerID) {
+        disconnected = false;
         events = new ArrayList<>();
         this.clientConnection = clientConnection;
         isOpen = true;
         this.manager = manager;
         this.playerID = playerID;
+    }
+
+    @Override
+    public void setDisconnected() {
+        disconnected = true;
+    }
+
+    @Override
+    public void setReconnected() {
+        disconnected = false;
+    }
+
+    @Override
+    public boolean isDisconnected() {
+        return disconnected;
     }
 
     @Override

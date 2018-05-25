@@ -18,7 +18,7 @@ public class ShadeVarietyObjective extends PublicObjective {
 
     private ShadeVarietyObjective(String title){
         super(title);
-        description = "Sets of one of each values anywhere. #5 Points";
+        description = "5 points for each set of one of each value anywhere";
     }
 
     /**

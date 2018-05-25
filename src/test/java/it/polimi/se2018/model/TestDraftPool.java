@@ -112,5 +112,8 @@ public class TestDraftPool {
         draftPool2.fillDraftPool(dice);
         Assert.assertEquals(draftPool,draftPool2);
         Assert.assertEquals(draftPool2.hashCode(),draftPool2.hashCode());
+        Assert.assertNotEquals(new Object(), draftPool);
+        Assert.assertNotEquals(null,draftPool);
+        Assert.assertEquals(draftPool,draftPool);
     }
 }

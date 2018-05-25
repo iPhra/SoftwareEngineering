@@ -22,31 +22,50 @@ public class SocketServerConnection implements Runnable, ServerConnection {
     private ObjectInputStream in;
     private boolean isOpen;
     private ServerView serverView;
+    private boolean disconnected;
 
     public SocketServerConnection(Socket socket, Server server){
+        disconnected = false;
         this.socket = socket;
         this.server = server;
         isOpen = true;
         try {
-            this.out = new ObjectOutputStream(socket.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
-            this.in = new ObjectInputStream(socket.getInputStream());
+            in = new ObjectInputStream(socket.getInputStream());
         }catch (IOException e) {
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }
     }
 
-    private void setup() throws IOException, ClassNotFoundException{
-        boolean setup = true;
-        playerID = Server.generateID();
-        out.writeObject(playerID);
-        while (setup){
-            playerName = (String) in.readObject();
-            setup = server.checkName(playerID, playerName);
-            out.writeObject(setup);
+    private void setup() {
+        try {
+            boolean setup = true;
+            /*String email = (String) in.readObject();
+            playerID = server.checkEmail(email);
+            if (playerID != -1) {
+                setup = false;
+                out.writeObject(setup);
+            }
+            else {
+                out.writeObject(setup);
+                playerID = Server.generateID();
+                server.writePlayerID(email, playerID);
+            }*/
+            playerID = Server.generateID();
+            out.writeObject(playerID);
+            while (setup) {
+                playerName = (String) in.readObject();
+                setup = server.checkName(playerID, playerName);
+                out.writeObject(setup);
+            }
         }
-        server.setPlayer(playerID,playerName,this);
+        catch(IOException | ClassNotFoundException e) {
+            Server.decrementID();
+            stop();
+        }
+        server.setPlayer(playerID, playerName, this);
     }
 
     private void closeConnection(){
@@ -62,12 +81,26 @@ public class SocketServerConnection implements Runnable, ServerConnection {
     }
 
     @Override
+    public void setDisconnected() {
+        disconnected = true;
+    }
+
+    @Override
+    public void setReconnected() {
+        disconnected = false;
+    }
+
+    @Override
+    public boolean isDisconnected() {
+        return disconnected;
+    }
+
+    @Override
     public void sendResponse(Response response){
         try{
             out.writeObject(response);
         }catch(IOException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            server.handleDisconnection(playerID);
         }
     }
 

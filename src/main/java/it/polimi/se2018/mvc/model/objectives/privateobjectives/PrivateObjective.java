@@ -36,4 +36,9 @@ public abstract class PrivateObjective extends ObjectiveCard {
                 .mapToInt(value -> value)
                 .sum();
     }
+
+    @Override
+    public String toString() {
+        return "Private Objective:" + "\n" + "Title: \"" + getTitle() + "\", Effect: \"" + getDescription() + "\"";
+    }
 }

@@ -28,6 +28,7 @@ public class GameManager implements Timing{
     private final Map<Integer, String> playerNames; //maps playerID to its name
     private final Map<Integer, List<Window>> windowsSetup;
     private final List<Player> players;
+    private final List<Integer> disconnectedPlayers;
     private List<PrivateObjective> privateObjectives;
     private List<PublicObjective> publicObjectives;
     private List<ToolCard> toolCards;
@@ -43,8 +44,14 @@ public class GameManager implements Timing{
         serverConnections = new HashMap<>();
         playerNames = new HashMap<>();
         players = new ArrayList<>();
+        disconnectedPlayers = new ArrayList<>();
         setupsCompleted = 0;
         matchPlaying = false;
+    }
+
+    private void setDisconnected(int playerID) {
+        disconnectedPlayers.add(playerID);
+        serverConnections.get(playerID).setDisconnected();
     }
 
     private void startTimer() {

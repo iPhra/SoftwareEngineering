@@ -18,7 +18,7 @@ public class MediumShadesObjective extends PublicObjective {
 
     private MediumShadesObjective(String title){
         super(title);
-        description = "Sets of 3 & 4 values anywhere. #2 Points";
+        description = "2 points for each set of 3 & 4 anywhere";
     }
 
     /**

@@ -19,7 +19,7 @@ public class RowColorVarietyObjective extends PublicObjective {
 
     private RowColorVarietyObjective(String title){
         super(title);
-        description = "Rows with no repeated colors";
+        description = "6 points for each row with no repeated color";
     }
 
     /**

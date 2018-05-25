@@ -19,7 +19,7 @@ public class RowShadeVarietyObjective  extends PublicObjective{
 
     private RowShadeVarietyObjective(String title){
         super(title);
-        description = "Rows with no repeated values";
+        description = "5 points for each row with no repeated value";
     }
 
     /**

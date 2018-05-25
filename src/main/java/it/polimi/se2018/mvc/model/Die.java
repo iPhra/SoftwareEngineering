@@ -85,5 +85,10 @@ public class Die implements Serializable {
     public boolean equals(Object object) {
         return (object instanceof Die) && ((Die) object).getValue() == getValue() && (((Die) object).getColor() == getColor());
     }
+
+    @Override
+    public String toString() {
+        return value + color.getAbbreviation() + " ";
+    }
 }
 
