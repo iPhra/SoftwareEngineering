@@ -1,0 +1,4 @@
+.redButton {
+	-fx-graphic:url('file:/C:/Users/Emilio/IdeaProjects/ing-sw-2018-imperiali-lamonaca-lorenzo/resources/pulsanterosso.png');
+    -fx-background-color: transparent;
+}

@@ -22,8 +22,6 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,12 +34,13 @@ public class ClientGUI extends Application{
     private String playerName;
     private Socket socket;
     private boolean setup;
-    private Stage primaryStage;
+    private InputStream playerNameStream;
 
     public ClientGUI() {
         setup = true;
     }
 
+    //has to be implemented
     private String getPlayerName(){
         return null;
     }
@@ -51,7 +50,7 @@ public class ClientGUI extends Application{
             RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
             playerID = manager.getID();
             while (setup) {
-                playerName = getPlayerName();
+                playerName = getPlayerName();  //not ok
                 setup = manager.checkName(playerID, playerName);
                 //here i must write the output that in ClientCLI is:
                 //output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
@@ -78,7 +77,7 @@ public class ClientGUI extends Application{
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             playerID = (int) in.readObject();
             while (setup) {
-                playerName = getPlayerName();
+                playerName = getPlayerName();  //not ok
                 out.writeObject(playerName);
                 setup = (boolean) in.readObject();
                 //here i must write the output that in ClientCLI is:
@@ -98,35 +97,17 @@ public class ClientGUI extends Application{
         launch(args);
     }
 
-    public void windowPlayerName(){
-        createScene("/playerNameScene.fxml","Choose nick", primaryStage, this);
-
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         ClientGUI clientGUI = new ClientGUI();
-        createScene("/startingScene.fxml", "Hello World", primaryStage, clientGUI);
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/startingScene.fxml")));
+        Parent root = loader.load();
+        SceneController sceneController = loader.getController();
+        sceneController.setClientGUI(clientGUI);
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root, 600, 623));
         primaryStage.show();
-        this.primaryStage = primaryStage;
-        //Scanner in = new Scanner(System.in);
-        //String lol = in.nextLine();
-        windowPlayerName();
-        //TimeUnit.SECONDS.sleep(10);
-    }
-
-    private void createScene(String path, String title, Stage stage, ClientGUI clientGUI){
-        FXMLLoader loader = new FXMLLoader((getClass().getResource((path))));
-        try {
-            Parent root = loader.load();
-            SceneController sceneController = loader.getController();
-            sceneController.setClientGUI(clientGUI);
-            stage.setTitle(title);
-            stage.setScene(new Scene(root, 300, 275));
-            //stage.show();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
 
     }
+
 }
