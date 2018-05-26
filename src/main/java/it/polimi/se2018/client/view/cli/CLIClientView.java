@@ -106,10 +106,10 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     @Override
     public void handleResponse(SetupResponse setupResponse) {
         startTimer(20);
-        cliInput.setPlayersName(setupResponse.getPlayerNames());
         cliInput.setPrivateObjective(setupResponse.getPrivateObjective());
         cliInput.setPublicObjectives(setupResponse.getPublicObjectives());
         cliInput.setToolCards(setupResponse.getToolCards());
+        cliInput.print("");
         cliInput.printPrivateObjective();
         cliInput.printPublicObjective();
         int windowNumber = 0;
@@ -203,18 +203,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     private int selectWindow(List<Window> windows) throws TimeoutException {
         int choice = -1;
         boolean iterate = true;
-        cliInput.print("Windows:");
-        StringBuilder titles = new StringBuilder();
-        for(int i=0; i<windows.size(); i++) {
-            titles.append("[" + (i+1) + "] " + windows.get(i).getTitle() + cliInput.generateSpaces(36-windows.get(i).getTitle().length()));
-        }
-        cliInput.print(titles.toString());
-        cliInput.printAllWindows(getPatterns(windows));
-        StringBuilder levels = new StringBuilder();
-        for(Window window : windows) {
-            levels.append("Level: "+window.getLevel() + cliInput.generateSpaces(32));
-        }
-        cliInput.print(levels.toString());
+        cliInput.printSetupWindows(windows);
         do {
             choice = cliInput.takeInput();
             if (choice<1 || choice>4) cliInput.print("Type a number between 1 and 4");
@@ -223,14 +212,6 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         while(iterate);
         cliInput.print("\n");
         return choice;
-    }
-
-    private List<Square[][]> getPatterns(List<Window> windows) {
-        List<Square[][]> result = new ArrayList<>();
-        for(Window window : windows) {
-            result.add(window.modelViewCopy());
-        }
-        return result;
     }
 
     private void passTurn() {

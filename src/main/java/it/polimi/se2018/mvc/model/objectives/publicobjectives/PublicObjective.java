@@ -14,6 +14,11 @@ public abstract class PublicObjective extends ObjectiveCard {
 
     @Override
     public String toString() {
-        return "Title: \"" + getTitle() + "\", Effect: \"" + getDescription() + "\"" + "\n";
+        StringBuilder spaces = new StringBuilder();
+        for(int i=0; i<21-getTitle().length()-1; i++) {
+            spaces.append(" ");
+        }
+        spaces.append("      ");
+        return "Title: \"" + getTitle() +"\"" +  spaces.toString() + "Effect: \"" + getDescription() + "\"" + "\n";
     }
 }

@@ -32,25 +32,12 @@ public class SetupResponse extends Response{
      */
     private final PrivateObjective privateObjective;
 
-    /**
-     * This is the list of the names of all players in the game
-     */
-    private final List<String> playerNames;
-
-    public SetupResponse(int player, List<Window> windows, List<PublicObjective> publicObjectives, PrivateObjective privateObjective, List<ToolCard> toolCards, List<String> playerNames) {
+    public SetupResponse(int player, List<Window> windows, List<PublicObjective> publicObjectives, PrivateObjective privateObjective, List<ToolCard> toolCards) {
         super(player);
         this.windows = windows;
         this.privateObjective = privateObjective;
         this.publicObjectives = publicObjectives;
         this.toolCards = toolCards;
-        this.playerNames = playerNames;
-    }
-
-    /**
-     * @return the list of all the names of the players
-     */
-    public List<String> getPlayerNames() {
-        return playerNames;
     }
 
     /**

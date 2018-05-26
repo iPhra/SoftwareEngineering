@@ -136,11 +136,11 @@ public class Square implements Serializable{
             return die.toString();
         } else {
             if (!color.equals(Color.WHITE))
-                result = "n" + color.getAbbreviation().toLowerCase() + " ";
+                result = "-" + color.getAbbreviation() + " ";
             else if (value != 0)
-                result = "n" + value + " ";
+                result = "-" + value  + " ";
             else
-                result = "nn ";
+                result = "-- ";
         }
         return result;
     }

@@ -30,7 +30,7 @@ public class DeckBuilder {
         publicObjectives.add(ColorDiagonalsObjective.instance("Color Diagonals"));
         publicObjectives.add(ColorVarietyObjective.instance("Color Variety"));
         publicObjectives.add(ColumnColorVarietyObjective.instance("Column Color Variety"));
-        publicObjectives.add(ColumnShadeVarietyObjective.instance("Colum Shade Variety"));
+        publicObjectives.add(ColumnShadeVarietyObjective.instance("Column Shade Variety"));
         publicObjectives.add(DeepShadesObjective.instance("Deep Shades"));
         publicObjectives.add(LightShadesObjective.instance("Light Shades"));
         publicObjectives.add(RowColorVarietyObjective.instance("Row Color Variety"));

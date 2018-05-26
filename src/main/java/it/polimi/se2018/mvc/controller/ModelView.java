@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelView implements Serializable{
-    private final List<String> playerName;
+    private final List<String> playerNames;
     private final List<Integer> playerID;
     private final List<Square[][]> playerWindow;
     private final List<Integer> playerFavorPoint;
@@ -33,7 +33,7 @@ public class ModelView implements Serializable{
         this.usedToolCard = new ArrayList<>();
         playerWindow = new ArrayList<>();
         playerFavorPoint = new ArrayList<>();
-        playerName = new ArrayList<>();
+        playerNames = new ArrayList<>();
         playerID = new ArrayList<>();
         for (boolean b : board.getToolCardsUsage()) {
             this.usedToolCard.add(b);
@@ -44,7 +44,7 @@ public class ModelView implements Serializable{
         for (Player player : board.getPlayers()) {
             playerWindow.add(player.getWindow().modelViewCopy());
             playerFavorPoint.add(player.getFavorPoints());
-            playerName.add(player.getName());
+            playerNames.add(player.getName());
             playerID.add(player.getId());
             if (board.getRound().getCurrentPlayerIndex() == player.getId()) {
                 index = player.getId();
@@ -83,8 +83,8 @@ public class ModelView implements Serializable{
         return currentPlayerID;
     }
 
-    public List<String> getPlayerName() {
-        return playerName;
+    public List<String> getPlayerNames() {
+        return playerNames;
     }
 
     public List<Integer> getPlayerID() {

@@ -3,6 +3,7 @@ package it.polimi.se2018.client.view.cli;
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
+import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
@@ -11,6 +12,7 @@ import it.polimi.se2018.utils.exceptions.TimeoutException;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -21,7 +23,7 @@ import static java.lang.System.*;
 
 public class CLIInput {
     private final int playerID;
-    private List<String> playersName;
+    private List<String> playerNames;
     private ModelView board;
     private List<ToolCard> toolCards;
     private PrivateObjective privateObjective;
@@ -37,24 +39,12 @@ public class CLIInput {
         timeIsUp = false;
     }
 
-    public List<String> getPlayersName() {
-        return playersName;
-    }
-
     List<ToolCard> getToolCards() {
         return toolCards;
     }
 
-    public PrivateObjective getPrivateObjective() {
-        return privateObjective;
-    }
-
     public List<PublicObjective> getPublicObjectives() {
         return publicObjectives;
-    }
-
-    public void setPlayersName(List<String> playersName) {
-        this.playersName = playersName;
     }
 
     public void setToolCards(List<ToolCard> toolCards) {
@@ -69,7 +59,7 @@ public class CLIInput {
         this.publicObjectives = publicObjectives;
     }
 
-    public String generateSpaces(int number) {
+    private String generateSpaces(int number) {
         StringBuilder res = new StringBuilder();
         for(int i=0; i<number; i++) {
             res.append(" ");
@@ -82,6 +72,7 @@ public class CLIInput {
     void print(String string) { printStream.println(string); }
 
     public void setBoard(ModelView board) {
+        if(playerNames==null) playerNames = board.getPlayerNames();
         this.board = board;
     }
 
@@ -232,7 +223,7 @@ public class CLIInput {
             printDraftPoolDice(board.getDraftPool().get(i));
             if ((i+1) % 3 == 0) printStream.println(" ");
         }
-        printStream.print("\n");
+        printStream.println("\n");
     }
 
     private void printRoundTracker() {
@@ -244,7 +235,7 @@ public class CLIInput {
             }
             printStream.print("\n");
         }
-        printStream.print("\n");
+        printStream.println("\n");
     }
 
     private void printYourWindow() {
@@ -261,20 +252,52 @@ public class CLIInput {
         }
     }
 
-    void printAllWindows(List<Square[][]> windows) {
-        StringBuilder row;
+    private void printWindows(List<Square[][]> windows) {
+        StringBuilder builder;
         for(int i=0; i<4; i++) {
-            row = new StringBuilder();
+            builder = new StringBuilder();
             for(Square[][] window : windows) {
                 for(Square square : window[i]) {
-                    row.append(square.toString());
-                    row.append(" ");
+                    builder.append(square.toString());
+                    builder.append(" ");
                 }
-                row.append(generateSpaces(20));
+                builder.append(generateSpaces(20));
             }
-            printStream.print(row.toString());
-            printStream.print("\n");
+            printStream.println(builder);
         }
+    }
+
+    void printSetupWindows(List<Window> windows) {
+        printStream.println("Windows:");
+        StringBuilder titles = new StringBuilder();
+        for(int i=0; i<windows.size(); i++) {
+            titles.append("[" + (i+1) + "] " + windows.get(i).getTitle() + generateSpaces(36-windows.get(i).getTitle().length()));
+        }
+        printStream.println(titles);
+        printWindows(getPatterns(windows));
+        StringBuilder levels = new StringBuilder();
+        for(Window window : windows) {
+            levels.append("Level: "+window.getLevel() + generateSpaces(32));
+        }
+        printStream.println(levels);
+    }
+
+    private List<Square[][]> getPatterns(List<Window> windows) {
+        List<Square[][]> result = new ArrayList<>();
+        for(Window window : windows) {
+            result.add(window.modelViewCopy());
+        }
+        return result;
+    }
+
+    private void printPlayersWindows() {
+        printStream.println("Windows:");
+        printWindows(board.getPlayerWindow());
+        StringBuilder builder = new StringBuilder();
+        for(String playerName: playerNames) {
+            builder.append("Player "+ playerName + generateSpaces(33-playerName.length()));
+        }
+        printStream.println(builder);
     }
 
     public void printDraftPoolDice(Die die) {
@@ -291,6 +314,7 @@ public class CLIInput {
     }
 
     private void printToolCards() {
+        printStream.println("Tool Cards:");
         StringBuilder result;
         for (int i = 0; i < toolCards.size(); i++) {
             result = new StringBuilder();
@@ -298,22 +322,26 @@ public class CLIInput {
             result.append(i);
             result.append(": ");
             result.append(toolCard);
-            if (!board.getToolCardUsability().get(i)) result.append("     (You can't use this Tool Card now!)");
+            if (!board.getToolCardUsability().get(i)) {
+                result.append("You can't use this Tool Card right now!");
+                result.append("\n");
+            }
             result.append("\n");
             printStream.print(result.toString());
         }
+        printStream.print("\n");
     }
 
     private void printFavorPoints() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
         printStream.println("Favor points left: " + board.getPlayerFavorPoint().get(yourIndex));
-        printStream.print("\n");
+        printStream.println("\n");
     }
 
     void printPrivateObjective() {
         printStream.print("\n");
         printStream.println(privateObjective);
-        printStream.print("\n");
+        printStream.println("\n");
     }
 
     void printPublicObjective() {
@@ -321,7 +349,7 @@ public class CLIInput {
         for (PublicObjective obj : publicObjectives) {
             printStream.print(obj);
         }
-        printStream.print("\n");
+        printStream.println("\n");
     }
 
     public void printModel() {
@@ -331,8 +359,7 @@ public class CLIInput {
         printToolCards();
         printRoundTracker();
         printDraftPool();
-        printStream.println("Windows:");
-        printAllWindows(board.getPlayerWindow());
+        printPlayersWindows();
         printStream.print("\n");
     }
 }

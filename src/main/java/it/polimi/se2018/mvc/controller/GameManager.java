@@ -153,7 +153,7 @@ public class GameManager implements Timing{
                 windowsSetup.get(playerIDs.get(i)).add(windows.get(j));
             }
             serverView.update(new SetupResponse(
-                    playerIDs.get(i),windowsSetup.get(playerIDs.get(i)),publicObjectives,privateObjectives.get(i),toolCards,new ArrayList<>(playerNames.values())));
+                    playerIDs.get(i),windowsSetup.get(playerIDs.get(i)),publicObjectives,privateObjectives.get(i),toolCards));
         }
         startTimer();
     }

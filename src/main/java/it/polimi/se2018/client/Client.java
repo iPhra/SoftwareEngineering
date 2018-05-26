@@ -18,6 +18,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Client {
@@ -47,16 +48,29 @@ public class Client {
     private void chooseConnection() {
         //output.println("Give your email");
         //email = input.next();
+        boolean connection = true;
         output.println("What type of connection do you want to use?");
-        output.println("Type 1 for Socket, 2 for RMI");
-        if (input.nextInt() == 1) {
-            input.nextLine();
-            createSocketConnection();
+        do {
+            try {
+                output.println("Type 1 for Socket, 2 for RMI");
+                int value = input.nextInt();
+                if (value == 1) {
+                    connection = false;
+                    input.nextLine();
+                    createSocketConnection();
+                }
+                else if (value == 2){
+                    connection = false;
+                    input.nextLine();
+                    createRMIConnection();
+                }
+                else throw new InputMismatchException();
+            } catch (InputMismatchException e) {
+                output.println("Input is invalid \n");
+                input.nextLine();
+            }
         }
-        else {
-            input.nextLine();
-            createRMIConnection();
-        }
+        while(connection);
     }
 
     private void createRMIConnection() {

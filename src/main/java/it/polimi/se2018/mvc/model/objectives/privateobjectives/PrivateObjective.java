@@ -39,6 +39,6 @@ public abstract class PrivateObjective extends ObjectiveCard {
 
     @Override
     public String toString() {
-        return "Private Objective:" + "\n" + "Title: \"" + getTitle() + "\", Effect: \"" + getDescription() + "\"";
+        return "Private Objective:" + "\n" + "Title: \"" + getTitle() + "\"      Effect: \"" + getDescription() + "\"";
     }
 }
