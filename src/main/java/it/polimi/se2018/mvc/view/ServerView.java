@@ -25,11 +25,11 @@ public class ServerView extends Observable<Message> implements Observer<Response
         } else playerConnections.get(response.getPlayer()).sendResponse(response);
     }
 
-    public ServerConnection getPlayerConnection(Integer playerID) {
-        return playerConnections.get(playerID);
+    public void removePlayerConnection(int playerID) {
+        playerConnections.remove(playerID);
     }
 
-    public void addServerConnection(Integer playerID, ServerConnection serverConnection) {
+    public void addServerConnection(int playerID, ServerConnection serverConnection) {
         playerConnections.put(playerID, serverConnection);
     }
 

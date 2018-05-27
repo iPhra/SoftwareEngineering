@@ -270,14 +270,17 @@ public class CLIInput {
     void printSetupWindows(List<Window> windows) {
         printStream.println("Windows:");
         StringBuilder titles = new StringBuilder();
+        String tmp;
         for(int i=0; i<windows.size(); i++) {
-            titles.append("[" + (i+1) + "] " + windows.get(i).getTitle() + generateSpaces(36-windows.get(i).getTitle().length()));
+            tmp = "[" + (i+1) + "] " + windows.get(i).getTitle() + generateSpaces(36-windows.get(i).getTitle().length());
+            titles.append(tmp);
         }
         printStream.println(titles);
         printWindows(getPatterns(windows));
         StringBuilder levels = new StringBuilder();
         for(Window window : windows) {
-            levels.append("Level: "+window.getLevel() + generateSpaces(32));
+            tmp = "Level: "+window.getLevel() + generateSpaces(32);
+            levels.append(tmp);
         }
         printStream.println(levels);
     }
@@ -294,8 +297,10 @@ public class CLIInput {
         printStream.println("Windows:");
         printWindows(board.getPlayerWindow());
         StringBuilder builder = new StringBuilder();
+        String tmp;
         for(String playerName: playerNames) {
-            builder.append("Player "+ playerName + generateSpaces(33-playerName.length()));
+            tmp = "Player "+ playerName + generateSpaces(33-playerName.length());
+            builder.append(tmp);
         }
         printStream.println(builder);
     }

@@ -243,18 +243,6 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
             checkInput(input);
     }
 
-    /*
-    private void suspend(int playerID) {
-        if(model.getRound().handleDisconnection(playerID)) {
-            if (model.getRound().getRoundNumber() == Board.ROUNDSNUMBER) {
-                endMatch();
-            }
-            else  {
-                endRound(model.getPlayerByID(playerID));
-            }
-        }
-    }*/
-
     @Override
     public void wakeUp() {
         lock.lock();

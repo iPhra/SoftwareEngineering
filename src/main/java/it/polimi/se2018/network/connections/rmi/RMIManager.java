@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 public class RMIManager implements RemoteManager {
     private final Server server;
     private final Registry registry;
-    private int playerID;
 
     public RMIManager(Server server, Registry registry) {
         this.server = server;
@@ -39,8 +38,7 @@ public class RMIManager implements RemoteManager {
     }
 
     public int getID() {
-        playerID = Server.generateID();
-        return playerID;
+        return Server.generateID();
     }
 
     public synchronized void closePlayerConnection(int playerID, ServerConnection serverConnection) {

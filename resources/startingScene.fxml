@@ -23,6 +23,6 @@
    </rowConstraints>
    <children>
       <Button fx:id="socketButton" mnemonicParsing="false" onAction="#socketButtonClicked" prefHeight="110.0" prefWidth="36.0" styleClass="redButton" stylesheets="@pulsante%20rosso.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Button fx:id="RMIButton" mnemonicParsing="false" onAction="#RMIButtonClicked" styleClass="greenButton" stylesheets="@pulsante%20verdeazzurro.css" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+      <Button fx:id="rmiButton" mnemonicParsing="false" onAction="#rmiButtonClicked" styleClass="greenButton" stylesheets="@pulsante%20verdeazzurro.css" GridPane.columnIndex="3" GridPane.rowIndex="1" />
    </children>
 </GridPane>

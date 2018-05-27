@@ -5,9 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PlayerNameSceneController implements SceneController{
     private ClientGUI clientGUI;
@@ -31,7 +32,8 @@ public class PlayerNameSceneController implements SceneController{
             sceneController.setClientGUI(clientGUI);
             button.getScene().setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 }

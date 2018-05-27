@@ -1,6 +1,8 @@
 package it.polimi.se2018.utils;
 
 import java.time.Duration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WaitingThread extends Thread {
 
@@ -26,7 +28,8 @@ public class WaitingThread extends Thread {
             Thread.currentThread().interrupt();
         }
         if (!stopped) {
-            System.out.println("Time is up");
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,"Time is up");
             caller.wakeUp();
         }
     }

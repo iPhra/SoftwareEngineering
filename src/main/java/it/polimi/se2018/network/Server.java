@@ -33,7 +33,7 @@ public class Server implements Timing {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(20);
+        Duration timeout = Duration.ofSeconds(15);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -63,7 +63,9 @@ public class Server implements Timing {
     private void removePlayer(int playerID) {
         int match = playerID/1000;
         GameManager manager = matches.get(match);
-        if(manager.playersNumber()==2) clock.interrupt();
+        if(manager.playersNumber()==2) {
+            clock.interrupt();
+        }
         manager.removePlayer(playerID);
     }
 
@@ -112,13 +114,17 @@ public class Server implements Timing {
         if (isMatchFull()) startGame(manager);
     }
 
-    public void handleDisconnection(int playerID) {
+    public synchronized void handleDisconnection(int playerID) {
         int match = playerID/1000;
         GameManager manager = matches.get(match);
         if(manager.isMatchPlaying()) {
-            //to-be implemented
+            manager.setDisconnected(playerID);
         }
-        else removePlayer(playerID);
+        else {
+            ServerConnection connection = manager.getServerConnection(playerID);
+            removePlayer(playerID);
+            connection.stop();
+        }
     }
 
     public boolean checkName(int playerID, String playerName) {

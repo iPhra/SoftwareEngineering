@@ -25,31 +25,31 @@ public class GUIClientView implements ResponseHandler, ClientView{
 
     @Override
     public void handleResponse(ModelViewResponse modelViewResponse) {
-
+        //to be implemented
     }
 
     @Override
     public void handleResponse(TextResponse textResponse) {
-
+        //to be implemented
     }
 
     @Override
     public void handleResponse(ToolCardResponse toolCardResponse) {
-
+        //to be implemented
     }
 
     @Override
     public void handleResponse(SetupResponse setupResponse) {
-
+        //to be implemented
     }
 
     @Override
     public void handleResponse(InputResponse inputResponse) {
-
+        //to be implemented
     }
 
     @Override
     public void handleResponse(ScoreBoardResponse scoreBoardResponse) {
-
+        //to be implemented
     }
 }

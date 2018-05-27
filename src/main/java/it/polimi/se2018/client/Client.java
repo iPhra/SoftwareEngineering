@@ -54,17 +54,19 @@ public class Client {
             try {
                 output.println("Type 1 for Socket, 2 for RMI");
                 int value = input.nextInt();
-                if (value == 1) {
-                    connection = false;
-                    input.nextLine();
-                    createSocketConnection();
+                switch (value) {
+                    case 1:
+                        connection = false;
+                        input.nextLine();
+                        createSocketConnection();
+                        break;
+                    case 2:
+                        connection = false;
+                        input.nextLine();
+                        createRMIConnection();
+                        break;
+                    default: throw new InputMismatchException();
                 }
-                else if (value == 2){
-                    connection = false;
-                    input.nextLine();
-                    createRMIConnection();
-                }
-                else throw new InputMismatchException();
             } catch (InputMismatchException e) {
                 output.println("Input is invalid \n");
                 input.nextLine();

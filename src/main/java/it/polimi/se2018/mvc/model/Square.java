@@ -131,7 +131,7 @@ public class Square implements Serializable{
 
     @Override
     public String toString() {
-        String result = "";
+        String result;
         if (!isEmpty()) {
             return die.toString();
         } else {

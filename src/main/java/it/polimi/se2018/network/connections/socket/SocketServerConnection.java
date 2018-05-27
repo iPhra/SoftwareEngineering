@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SocketServerConnection implements Runnable, ServerConnection {
+public class SocketServerConnection extends ServerConnection implements Runnable{
     private final Server server;
     private final Socket socket;
     private String playerName;
@@ -22,10 +22,8 @@ public class SocketServerConnection implements Runnable, ServerConnection {
     private ObjectInputStream in;
     private boolean isOpen;
     private ServerView serverView;
-    private boolean disconnected;
 
     public SocketServerConnection(Socket socket, Server server){
-        disconnected = false;
         this.socket = socket;
         this.server = server;
         isOpen = true;
@@ -33,7 +31,8 @@ public class SocketServerConnection implements Runnable, ServerConnection {
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
-        }catch (IOException e) {
+        }
+        catch (IOException e) {
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }
@@ -81,25 +80,11 @@ public class SocketServerConnection implements Runnable, ServerConnection {
     }
 
     @Override
-    public void setDisconnected() {
-        disconnected = true;
-    }
-
-    @Override
-    public void setReconnected() {
-        disconnected = false;
-    }
-
-    @Override
-    public boolean isDisconnected() {
-        return disconnected;
-    }
-
-    @Override
     public void sendResponse(Response response){
         try{
             out.writeObject(response);
-        }catch(IOException e){
+        }
+        catch(IOException e){
             server.handleDisconnection(playerID);
         }
     }
@@ -115,20 +100,25 @@ public class SocketServerConnection implements Runnable, ServerConnection {
     }
 
     @Override
-    public void run() {
-        try {
-            setup();
-            while (isOpen) {
+    public synchronized void run() {
+        setup();
+        while (isOpen) {
+            try {
+                if(isDisconnected()) this.wait();
                 Message message = (Message) in.readObject();
                 if (message != null) serverView.handleNetworkInput(message);
             }
-        } catch (ClassNotFoundException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
-        } catch (IOException e) {
-            server.handleDisconnection(playerID);
-        } finally {
-            closeConnection();
+            catch (ClassNotFoundException e) {
+                Logger logger = Logger.getAnonymousLogger();
+                logger.log(Level.ALL, e.getMessage());
+            }
+            catch (IOException e) {
+                server.handleDisconnection(playerID);
+            }
+            catch(InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
+        closeConnection();
     }
 }

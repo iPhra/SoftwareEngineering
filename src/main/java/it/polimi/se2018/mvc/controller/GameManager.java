@@ -49,15 +49,28 @@ public class GameManager implements Timing{
         matchPlaying = false;
     }
 
-    private void setDisconnected(int playerID) {
-        disconnectedPlayers.add(playerID);
-        serverConnections.get(playerID).setDisconnected();
-    }
-
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(20);
+        Duration timeout = Duration.ofSeconds(30);
         clock = new WaitingThread(timeout, this);
         clock.start();
+    }
+
+    //create a privateObjective for each player (does not assign them to the players)
+    private void createPrivateObjectives() {
+        privateObjectives = new ArrayList<>();
+        privateObjectives = deckBuilder.extractPrivateObjectives(playerIDs.size());
+    }
+
+    //create the 3 public objectives of the game
+    private void createPublicObjectives(){
+        publicObjectives = new ArrayList<>();
+        publicObjectives = deckBuilder.extractPublicObjectives(3);
+    }
+
+    //create the 3 toolcards of the game
+    private void createToolCards(){
+        toolCards = new ArrayList<>();
+        toolCards = deckBuilder.extractToolCards(3);
     }
 
     private void createMVC() {
@@ -65,7 +78,6 @@ public class GameManager implements Timing{
         Board board = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
         board.register(serverView);
         controller.setModel(board);
-        matchPlaying = true;
         controller.startMatch();
     }
 
@@ -74,6 +86,10 @@ public class GameManager implements Timing{
     private void createWindows(){
         windows = new ArrayList<>();
         windows = WindowBuilder.extractWindows(playerIDs.size());
+    }
+
+    public ServerConnection getServerConnection(int playerID) {
+        return serverConnections.get(playerID);
     }
 
     public void addServerConnection(int playerID ,ServerConnection serverConnection) {
@@ -99,7 +115,8 @@ public class GameManager implements Timing{
     public void removePlayer(int playerID) {
         serverConnections.remove(playerID);
         playerNames.remove(playerID);
-        playerIDs.remove(playerID);
+        playerIDs.remove(playerIDs.indexOf(playerID));
+        serverView.removePlayerConnection(playerID);
     }
 
     public boolean isMatchPlaying() {
@@ -108,8 +125,8 @@ public class GameManager implements Timing{
 
     //called by server
     public boolean checkName(String playerName){
-        for(Integer player : playerNames.keySet()) {
-            if (playerName.equals(playerNames.get(player))) return false;
+        for(Map.Entry<Integer,String> entry : playerNames.entrySet()) {
+            if (playerName.equals(playerNames.get(entry.getKey()))) return false;
         }
         return true;
     }
@@ -126,25 +143,8 @@ public class GameManager implements Timing{
         createToolCards();
     }
 
-    //create a privateObjective for each player (does not assign them to the players)
-    private void createPrivateObjectives() {
-        privateObjectives = new ArrayList<>();
-        privateObjectives = deckBuilder.extractPrivateObjectives(playerIDs.size());
-    }
-
-    //create the 3 public objectives of the game
-    private void createPublicObjectives(){
-        publicObjectives = new ArrayList<>();
-        publicObjectives = deckBuilder.extractPublicObjectives(3);
-    }
-
-    //create the 3 toolcards of the game
-    private void createToolCards(){
-        toolCards = new ArrayList<>();
-        toolCards = deckBuilder.extractToolCards(3);
-    }
-
     public void sendWindows(){
+        matchPlaying = true;
         createPrivateObjectives();
         createWindows();
         for(int i=0;i<playerIDs.size();i++) {
@@ -156,6 +156,20 @@ public class GameManager implements Timing{
                     playerIDs.get(i),windowsSetup.get(playerIDs.get(i)),publicObjectives,privateObjectives.get(i),toolCards));
         }
         startTimer();
+    }
+
+    public void setDisconnected(int playerID) {
+        disconnectedPlayers.add(playerID);
+        serverConnections.get(playerID).setDisconnected();
+    }
+
+    public boolean isDisconnected(int playerID) {
+        return disconnectedPlayers.contains(playerID);
+    }
+
+    public void setReconnected(int playerID) {
+        disconnectedPlayers.remove(playerID);
+        serverConnections.get(playerID).setReconnected();
     }
 
     //when a player sends the map he chose

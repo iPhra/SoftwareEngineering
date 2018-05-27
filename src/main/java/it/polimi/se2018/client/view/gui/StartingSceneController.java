@@ -5,22 +5,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StartingSceneController implements SceneController {
     private ClientGUI clientGUI;
     @FXML
     private Button socketButton;
     @FXML
-    private Button RMIButton;
+    private Button rmiButton;
 
     public void socketButtonClicked(){
         clientGUI.createSocketConnection();
         changeScene(socketButton);
     }
 
-    public void RMIButtonClicked(){
+    public void rmiButtonClicked(){
         clientGUI.createRMIConnection();
-        changeScene(RMIButton);
+        changeScene(rmiButton);
     }
 
     @Override
@@ -36,7 +38,8 @@ public class StartingSceneController implements SceneController {
             sceneController.setClientGUI(clientGUI);
             button.getScene().setRoot(root);
         }catch(IOException e){
-            e.printStackTrace();
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
         }
     }
 

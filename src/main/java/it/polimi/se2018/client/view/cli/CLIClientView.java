@@ -1,6 +1,5 @@
 package it.polimi.se2018.client.view.cli;
 
-import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.client.network.ClientConnection;
@@ -112,7 +111,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         cliInput.print("");
         cliInput.printPrivateObjective();
         cliInput.printPublicObjective();
-        int windowNumber = 0;
+        int windowNumber;
         try {
             windowNumber = selectWindow(setupResponse.getWindows())-1;
             clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
@@ -201,7 +200,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     }
 
     private int selectWindow(List<Window> windows) throws TimeoutException {
-        int choice = -1;
+        int choice;
         boolean iterate = true;
         cliInput.printSetupWindows(windows);
         do {

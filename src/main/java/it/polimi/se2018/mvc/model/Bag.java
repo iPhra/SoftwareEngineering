@@ -19,21 +19,15 @@ public class Bag {
     private final ArrayList<Integer> remainingColors;
 
     /**
-     * This is the number of different color of dice in the game
-     */
-    private final int colorsNumber;
-
-    /**
      * This is the total number of dice in the bag
      */
     private int diceNumber;
 
     public Bag(int colorsNumber, int diceNumber) {
         if (diceNumber % colorsNumber != 0) throw new InvalidParameterException("Number of dice and colors is wrong!");
-        this.colorsNumber = colorsNumber;
         this.diceNumber = diceNumber;
         remainingColors = new ArrayList<>();
-        int coloredDiceNumber = diceNumber / this.colorsNumber;
+        int coloredDiceNumber = diceNumber / colorsNumber;
         for (int i = 0; i < colorsNumber; i++) {
             remainingColors.add(coloredDiceNumber);
         }

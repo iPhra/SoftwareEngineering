@@ -20,14 +20,14 @@ public class ModelView implements Serializable{
     private final List<List<Die>> roundTracker;
     private final List<Boolean> usedToolCard;
     private final int round;
-    private int currentPlayerID;
-    private Die dieInHand;
     private final List<Boolean> toolCardUsability;
-    private final boolean hasDieInHand;
-    private final boolean hasDraftedDie;
-    private final boolean hasUsedCard;
-    private int cardInUse;
     private final int stateID;
+    private int currentPlayerID;
+    private boolean hasDieInHand;
+    private boolean hasDraftedDie;
+    private boolean hasUsedCard;
+    private int cardInUse;
+    private Die dieInHand;
 
     public ModelView(Board board) {
         this.usedToolCard = new ArrayList<>();
@@ -35,22 +35,34 @@ public class ModelView implements Serializable{
         playerFavorPoint = new ArrayList<>();
         playerNames = new ArrayList<>();
         playerID = new ArrayList<>();
+        toolCardUsability = new ArrayList<>();
+        round = board.getRound().getRoundNumber();
+        draftPool = board.getDraftPool().modelViewCopy();
+        roundTracker = board.getRoundTracker().modelViewCopy();
+        stateID = board.getStateID();
+        setToolCards(board);
+        setCurrentPlayer(board);
+        setPlayers(board);
+    }
+
+    private void setToolCards(Board board) {
         for (boolean b : board.getToolCardsUsage()) {
             this.usedToolCard.add(b);
         }
-        int index;
-        Player currentPlayer = board.getPlayerByID(board.getRound().getCurrentPlayerIndex());
-        currentPlayerID = currentPlayer.getId();
+    }
+
+    private void setPlayers(Board board) {
         for (Player player : board.getPlayers()) {
             playerWindow.add(player.getWindow().modelViewCopy());
             playerFavorPoint.add(player.getFavorPoints());
             playerNames.add(player.getName());
             playerID.add(player.getId());
-            if (board.getRound().getCurrentPlayerIndex() == player.getId()) {
-                index = player.getId();
-                currentPlayer = board.getPlayerByID(index);
-            }
         }
+    }
+
+    private void setCurrentPlayer(Board board) {
+        Player currentPlayer = board.getPlayerByID(board.getRound().getCurrentPlayerIndex());
+        currentPlayerID = currentPlayer.getId();
         hasDieInHand = currentPlayer.hasDieInHand();
         hasDraftedDie = currentPlayer.hasDraftedDie();
         hasUsedCard = currentPlayer.hasUsedCard();
@@ -59,16 +71,11 @@ public class ModelView implements Serializable{
         } catch (ToolCardException e) {
             cardInUse = -1;
         }
-        round = board.getRound().getRoundNumber();
-        draftPool = board.getDraftPool().modelViewCopy();
-        roundTracker = board.getRoundTracker().modelViewCopy();
         if (hasDieInHand) dieInHand = board.getPlayerByID(currentPlayerID).getDieInHand();
-        toolCardUsability = new ArrayList<>();
         for (int i = 0; i < board.getToolCards().length; i++) {
             ToolCard toolCard = board.getToolCards()[i];
             toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(board), board.getToolCardsUsage()[i], currentPlayer));
         }
-        stateID = board.getStateID();
     }
 
     public int getStateID() {return stateID;}
@@ -129,9 +136,5 @@ public class ModelView implements Serializable{
 
     public int getCardInUse() {
         return cardInUse;
-    }
-
-    public void setCurrentPlayerID(int currentPlayerID) {
-        this.currentPlayerID = currentPlayerID;
     }
 }

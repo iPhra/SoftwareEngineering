@@ -11,37 +11,22 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RMIServerConnection implements ServerConnection, RemoteConnection, Runnable {
+public class RMIServerConnection extends ServerConnection implements RemoteConnection, Runnable {
     private ServerView serverView;
     private final RemoteConnection clientConnection;
     private final List<Message> events;
     private boolean isOpen;
     private final RMIManager manager;
     private final int playerID;
-    private boolean disconnected;
+
 
     public RMIServerConnection(RemoteConnection clientConnection, RMIManager manager, int playerID) {
-        disconnected = false;
+        super();
         events = new ArrayList<>();
         this.clientConnection = clientConnection;
         isOpen = true;
         this.manager = manager;
         this.playerID = playerID;
-    }
-
-    @Override
-    public void setDisconnected() {
-        disconnected = true;
-    }
-
-    @Override
-    public void setReconnected() {
-        disconnected = false;
-    }
-
-    @Override
-    public boolean isDisconnected() {
-        return disconnected;
     }
 
     @Override
