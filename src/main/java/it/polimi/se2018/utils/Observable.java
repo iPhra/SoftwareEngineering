@@ -13,12 +13,6 @@ public class Observable<T> {
         }
     }
 
-    public void deregister(Observer<T> observer){
-        synchronized (observers) {
-            observers.remove(observer);
-        }
-    }
-
     public void notify(T message){
         synchronized (observers) {
             for(Observer<T> observer : observers){
