@@ -3,7 +3,7 @@ import it.polimi.se2018.mvc.controller.GameManager;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.connections.rmi.RMIManager;
 import it.polimi.se2018.network.connections.socket.SocketHandler;
-import it.polimi.se2018.utils.Timing;
+import it.polimi.se2018.utils.Stopper;
 import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.mvc.view.ServerView;
 
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Server implements Timing {
+public class Server implements Stopper {
     private static final int PORT = 1234;
     private static int matchID = 1;
     private static int playerNumber = 0; //identifies just the player, without the match
@@ -141,7 +141,7 @@ public class Server implements Timing {
     }
 
     @Override
-    public void wakeUp() {
+    public void halt(String message) {
         if (matches.get(matchID).playersNumber() >= 2) {
             matches.get(matchID).sendWindows();
             incrementMatchID();

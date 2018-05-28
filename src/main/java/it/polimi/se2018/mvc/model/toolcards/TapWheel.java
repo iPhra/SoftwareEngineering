@@ -4,7 +4,7 @@ import it.polimi.se2018.mvc.controller.ToolCardHandler;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.controller.ToolCardCheckerHandler;
 import it.polimi.se2018.network.messages.responses.Response;
-import it.polimi.se2018.utils.exceptions.TimeoutException;
+import it.polimi.se2018.utils.exceptions.HaltException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 
 
@@ -29,7 +29,7 @@ public class TapWheel extends ToolCard {
     }
 
     @Override
-    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) throws TimeoutException {
+    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) throws HaltException {
         return handler.getPlayerRequests(this, toolcardnumber);
     }
 

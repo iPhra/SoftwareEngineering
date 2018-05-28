@@ -82,7 +82,7 @@ public class SocketServerConnection extends ServerConnection implements Runnable
     @Override
     public void sendResponse(Response response){
         try{
-            out.writeObject(response);
+            if(!isDisconnected()) out.writeObject(response);
         }
         catch(IOException e){
             server.handleDisconnection(playerID);

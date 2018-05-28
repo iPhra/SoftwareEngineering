@@ -39,5 +39,15 @@ public interface ResponseHandler {
      */
     void handleResponse(InputResponse inputResponse);
 
+    /**
+     * This method is used by the Server to send the final scores
+     * @param scoreBoardResponse contains the list of the players in descending order
+     */
     void handleResponse(ScoreBoardResponse scoreBoardResponse);
+
+    /**
+     * This method is used by the Server to communicate that a specific player has disconnected
+     * @param disconnectionResponse contains a notification message
+     */
+    void handleResponse(DisconnectionResponse disconnectionResponse);
 }

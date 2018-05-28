@@ -14,10 +14,11 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Controller implements Observer<Message>, MessageHandler, Timing {
+public class Controller implements Observer<Message>, MessageHandler, Stopper {
     private static final String PLAYER = "Player ";
     private Board model;
     private ToolCardController toolCardController;
@@ -34,20 +35,6 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
         Duration timeout = Duration.ofSeconds(6000);
         WaitingThread alarm = new WaitingThread(timeout, this);
         alarm.start();
-    }
-
-    private List<Player> playersScoreBoard(){
-        List<Player> sortedPlayers = model.getPlayers();
-        Arrays.sort(sortedPlayers.toArray(new Player[0]), new ScoreComparator(Arrays.asList(model.getPublicObjectives()), model.getRound()));
-        return sortedPlayers;
-    }
-
-    //called by endTurn method when match ends
-    private void endMatch() {
-        List<Player> scoreBoard = playersScoreBoard();
-        for(Player player : model.getPlayers())
-            model.notify(new ScoreBoardResponse(player.getId(),scoreBoard));
-        gameManager.endGame();
     }
 
     private void endRound(Player player) {
@@ -100,6 +87,21 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
             model.notify(new TextResponse(message.getPlayerID(),"It's not your turn"));
         else message.handle(this);
         lock.unlock();
+    }
+
+    private List<Player> playersScoreBoard(){
+        List<Player> sortedPlayers = model.getPlayers();
+        sortedPlayers.sort(new ScoreComparator(Arrays.asList(model.getPublicObjectives()), model.getRound()));
+        Collections.reverse(sortedPlayers);
+        return sortedPlayers;
+    }
+
+    //called by endTurn method when match ends
+    void endMatch() {
+        List<Player> scoreBoard = playersScoreBoard();
+        for(Player player : model.getPlayers())
+            model.notify(new ScoreBoardResponse(player.getId(),scoreBoard));
+        gameManager.endGame();
     }
 
     public void setModel(Board model) {
@@ -244,7 +246,7 @@ public class Controller implements Observer<Message>, MessageHandler, Timing {
     }
 
     @Override
-    public void wakeUp() {
+    public void halt(String message) {
         lock.lock();
         handleMove(new PassMessage(model.getRound().getCurrentPlayerIndex(),model.getStateID()));
         lock.unlock();

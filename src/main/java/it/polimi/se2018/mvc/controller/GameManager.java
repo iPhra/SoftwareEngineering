@@ -8,9 +8,10 @@ import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
+import it.polimi.se2018.network.messages.responses.DisconnectionResponse;
 import it.polimi.se2018.network.messages.responses.SetupResponse;
 import it.polimi.se2018.utils.DeckBuilder;
-import it.polimi.se2018.utils.Timing;
+import it.polimi.se2018.utils.Stopper;
 import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.utils.WindowBuilder;
 import it.polimi.se2018.mvc.view.ServerView;
@@ -19,10 +20,11 @@ import it.polimi.se2018.mvc.view.ServerView;
 import java.time.Duration;
 import java.util.*;
 
-public class GameManager implements Timing{
+public class GameManager implements Stopper {
     private final DeckBuilder deckBuilder;
     private ServerView serverView;
     private Controller controller;
+    private Board model;
     private final List<Integer> playerIDs;
     private final Map<Integer,ServerConnection> serverConnections; //maps playerID to its connection
     private final Map<Integer, String> playerNames; //maps playerID to its name
@@ -75,9 +77,9 @@ public class GameManager implements Timing{
 
     private void createMVC() {
         Collections.shuffle(players);
-        Board board = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
-        board.register(serverView);
-        controller.setModel(board);
+        model = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
+        model.register(serverView);
+        controller.setModel(model);
         controller.startMatch();
     }
 
@@ -86,6 +88,11 @@ public class GameManager implements Timing{
     private void createWindows(){
         windows = new ArrayList<>();
         windows = WindowBuilder.extractWindows(playerIDs.size());
+    }
+
+    private int getLastPlayer() {
+        for(Player player: players) if(!disconnectedPlayers.contains(player.getId())) return player.getId();
+        return 0;
     }
 
     public ServerConnection getServerConnection(int playerID) {
@@ -161,10 +168,13 @@ public class GameManager implements Timing{
     public void setDisconnected(int playerID) {
         disconnectedPlayers.add(playerID);
         serverConnections.get(playerID).setDisconnected();
-    }
-
-    public boolean isDisconnected(int playerID) {
-        return disconnectedPlayers.contains(playerID);
+        if (disconnectedPlayers.size() == playerIDs.size() - 1) {
+            model.notify(new DisconnectionResponse(getLastPlayer(),"You are the last player remaining, you win!",playerNames.get(playerID)));
+            controller.endMatch();
+        }
+        else {
+            for (Player player : players) model.notify(new DisconnectionResponse(player.getId(), null, playerNames.get(playerID)));
+        }
     }
 
     public void setReconnected(int playerID) {
@@ -192,7 +202,7 @@ public class GameManager implements Timing{
     }
 
     @Override
-    public void wakeUp() {
+    public void halt(String message) {
         List<Integer> missingPlayers = playerIDs;
         Random random = new Random();
         for(Player player : players) {

@@ -8,7 +8,7 @@ import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
-import it.polimi.se2018.utils.exceptions.TimeoutException;
+import it.polimi.se2018.utils.exceptions.HaltException;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -30,13 +30,13 @@ public class CLIInput {
     private List<PublicObjective> publicObjectives;
     private final PrintStream printStream;
     private final Scanner scanner;
-    private boolean timeIsUp;
+    private boolean stopAction;
 
     CLIInput(int playerID) {
         scanner = new Scanner(System.in);
         this.playerID = playerID;
         printStream = new PrintStream(out);
-        timeIsUp = false;
+        stopAction = false;
     }
 
     List<ToolCard> getToolCards() {
@@ -67,7 +67,7 @@ public class CLIInput {
         return res.toString();
     }
 
-    public void setTimeIsUp(boolean timeIsUp) { this.timeIsUp = timeIsUp; }
+    public void setStopAction(boolean stopAction) { this.stopAction = stopAction; }
 
     void print(String string) { printStream.println(string); }
 
@@ -80,7 +80,7 @@ public class CLIInput {
         return board;
     }
 
-    int takeInput() throws TimeoutException {
+    int takeInput() throws HaltException {
         boolean iterate = true;
         int res=0;
         try {
@@ -100,11 +100,11 @@ public class CLIInput {
             }
         }
         while(iterate);
-        if (timeIsUp) throw new TimeoutException();
+        if (stopAction) throw new HaltException();
         return res;
     }
 
-    public Coordinate getCoordinate() throws TimeoutException {
+    public Coordinate getCoordinate() throws HaltException {
         int row = -1;
         int col = -1;
         int choice = -1;
@@ -130,7 +130,7 @@ public class CLIInput {
         return new Coordinate(-1, -1);
     }
 
-    Coordinate getRoundTrackPosition() throws TimeoutException {
+    Coordinate getRoundTrackPosition() throws HaltException {
         int turn = -1;
         int pos = -1;
         int choice = 1;
@@ -161,7 +161,7 @@ public class CLIInput {
         return new Coordinate(turn, pos);
     }
 
-    int getToolCard() throws TimeoutException {
+    int getToolCard() throws HaltException {
         int choice = -1;
         printToolCards();
         printStream.println("Select the tool card");
@@ -177,7 +177,7 @@ public class CLIInput {
         return  choice;
     }
 
-    int getDieValue() throws TimeoutException {
+    int getDieValue() throws HaltException {
         int val = 0;
         while (val < 1 || val > 6) {
             printStream.print("Choose the value of the die (value goes from 1 to 6)");
@@ -186,7 +186,7 @@ public class CLIInput {
         return val;
     }
 
-    int getDraftPoolPosition() throws TimeoutException {
+    int getDraftPoolPosition() throws HaltException {
         int choice = -1;
         int confirm = -1;
         printStream.print("Select the index of the die to choose. ");
@@ -207,7 +207,7 @@ public class CLIInput {
         }
     }
 
-    int getIncrementOrDecrement() throws TimeoutException {
+    int getIncrementOrDecrement() throws HaltException {
         int choice = -1;
         while (choice < 0 || choice > 1) {
             printStream.println("0 to decrease, 1 to increase.");

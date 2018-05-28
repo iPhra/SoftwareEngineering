@@ -44,6 +44,9 @@ public class TestToolCardResponse {
 
             @Override
             public void handleResponse(ScoreBoardResponse scoreBoardResponse) {fail();}
+
+            @Override
+            public void handleResponse(DisconnectionResponse disconnectionResponse) {fail();}
         });
     }
 }

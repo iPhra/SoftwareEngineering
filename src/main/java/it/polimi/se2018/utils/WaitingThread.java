@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 public class WaitingThread extends Thread {
 
     private Duration timeout;
-    private final Timing caller;
+    private final Stopper caller;
     private Boolean stopped = false;
 
-    public WaitingThread(Duration timeout, Timing caller) {
+    public WaitingThread(Duration timeout, Stopper caller) {
         this.timeout = timeout;
         this.caller = caller;
     }
@@ -30,7 +30,7 @@ public class WaitingThread extends Thread {
         if (!stopped) {
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,"Time is up");
-            caller.wakeUp();
+            caller.halt("Time is up");
         }
     }
 

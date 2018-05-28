@@ -7,9 +7,9 @@ import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.client.view.ClientView;
-import it.polimi.se2018.utils.Timing;
+import it.polimi.se2018.utils.Stopper;
 import it.polimi.se2018.utils.WaitingThread;
-import it.polimi.se2018.utils.exceptions.TimeoutException;
+import it.polimi.se2018.utils.exceptions.HaltException;
 
 import java.rmi.RemoteException;
 import java.time.Duration;
@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CLIClientView implements ResponseHandler, ClientView, Timing {
+public class CLIClientView implements ResponseHandler, ClientView, Stopper {
     private final int playerID;
     private ClientConnection clientConnection;
     private final CLIInput cliInput;
@@ -85,8 +85,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             int choice = cliInput.getDieValue();
             clientConnection.sendMessage(new InputMessage(playerID, cliInput.getBoard().getStateID(), choice));
         }
-        catch (TimeoutException e) {
-            cliInput.setTimeIsUp(false);
+        catch (HaltException e) {
+            cliInput.setStopAction(false);
         }
     }
 
@@ -117,17 +117,28 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
             clock.interrupt();
             cliInput.print("Window sent. Waiting for other players to choose." + "\n");
-        } catch (TimeoutException e) {
-            cliInput.setTimeIsUp(false);
+        } catch (HaltException e) {
+            cliInput.setStopAction(false);
         }
     }
 
     @Override
     public void handleResponse(ScoreBoardResponse scoreBoardResponse){
+        cliInput.print("Final score:");
         for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
             cliInput.print(i+1 + "  Player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "     Score: " + scoreBoardResponse.getSortedPlayersScores().get(i));
         }
         clientConnection.stop();
+    }
+
+    /**
+     * This method is used by the Server to notify that a player has disconnected
+     *
+     * @param disconnectionResponse contains a notification message
+     */
+    @Override
+    public void handleResponse(DisconnectionResponse disconnectionResponse) {
+        new Thread(new AsyncPrinter(cliInput,this,disconnectionResponse)).start();
     }
 
     private List<Integer> actionPossible() {
@@ -194,12 +205,12 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
                     break;
             }
         }
-        catch (TimeoutException e) {
-            cliInput.setTimeIsUp(false);
+        catch (HaltException e) {
+            cliInput.setStopAction(false);
         }
     }
 
-    private int selectWindow(List<Window> windows) throws TimeoutException {
+    private int selectWindow(List<Window> windows) throws HaltException {
         int choice;
         boolean iterate = true;
         cliInput.printSetupWindows(windows);
@@ -218,14 +229,14 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
         clientConnection.sendMessage(new PassMessage(playerID,cliInput.getBoard().getStateID()));
     }
 
-    private void draftDie() throws RemoteException, TimeoutException {
+    private void draftDie() throws RemoteException, HaltException {
         cliInput.print("Choose the die to draft.");
         int index = cliInput.getDraftPoolPosition();
         if (index != -1) clientConnection.sendMessage(new DraftMessage(playerID, cliInput.getBoard().getStateID(),index));
         else chooseAction();
     }
 
-    private void selectToolCard() throws TimeoutException {
+    private void selectToolCard() throws HaltException {
         int toolCard = cliInput.getToolCard();
         if (toolCard != 3)
             clientConnection.sendMessage(new ToolCardRequestMessage(playerID, cliInput.getBoard().getStateID(), toolCard));
@@ -246,12 +257,12 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
             if (!toolCardMessage.isToDismiss()) clientConnection.sendMessage(toolCardMessage);
             else chooseAction();
         }
-        catch (TimeoutException e) {
-            cliInput.setTimeIsUp(false);
+        catch (HaltException e) {
+            cliInput.setStopAction(false);
         }
     }
 
-    private void placeDie() throws RemoteException, TimeoutException {
+    private void placeDie() throws RemoteException, HaltException {
         cliInput.print("Choose the position where you want to put the drafted die");
         Coordinate coordinate = cliInput.getCoordinate();
         if (!coordinate.equals(new Coordinate(-1, -1))) {
@@ -261,8 +272,8 @@ public class CLIClientView implements ResponseHandler, ClientView, Timing {
     }
 
     @Override
-    public void wakeUp() {
-        cliInput.setTimeIsUp(true);
-        cliInput.print("Time is up, press 1 to continue");
+    public void halt(String message) {
+        cliInput.setStopAction(true);
+        cliInput.print(message + ", press 1 to continue" + "\n");
     }
 }

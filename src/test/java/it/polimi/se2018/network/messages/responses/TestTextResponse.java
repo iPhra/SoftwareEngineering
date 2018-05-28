@@ -47,6 +47,9 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(ScoreBoardResponse scoreBoardResponse) {fail();}
+
+            @Override
+            public void handleResponse(DisconnectionResponse disconnectionResponse) {fail();}
         });
     }
 }
