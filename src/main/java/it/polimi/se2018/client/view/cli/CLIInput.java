@@ -1,5 +1,7 @@
 package it.polimi.se2018.client.view.cli;
 
+import it.polimi.se2018.client.network.ClientConnection;
+import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
@@ -8,6 +10,9 @@ import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
+import it.polimi.se2018.network.messages.requests.Message;
+import it.polimi.se2018.network.messages.responses.Response;
+import it.polimi.se2018.utils.Observable;
 import it.polimi.se2018.utils.exceptions.HaltException;
 
 import java.io.IOException;
@@ -21,7 +26,7 @@ import java.util.logging.Logger;
 
 import static java.lang.System.*;
 
-public class CLIInput {
+public class CLIInput extends Observable<Response> implements ClientView {
     private final int playerID;
     private List<String> playerNames;
     private ModelView board;
@@ -31,13 +36,33 @@ public class CLIInput {
     private final PrintStream printStream;
     private final Scanner scanner;
     private boolean stopAction;
+    private ClientConnection clientConnection;
 
-    CLIInput(int playerID) {
+    public CLIInput(int playerID) {
         scanner = new Scanner(System.in);
         this.playerID = playerID;
         printStream = new PrintStream(out);
         stopAction = false;
     }
+
+    @Override
+    //receives input from the network, called by class clientConnection
+    public void handleNetworkInput(Response response) {
+        notify(response);
+    }
+
+    public void handleNetworkOutput(Message message) {
+        clientConnection.sendMessage(message);
+    }
+
+    public void stopConnection() {
+        clientConnection.stop();
+    }
+
+    public void setClientConnection(ClientConnection clientConnection) {
+        this.clientConnection = clientConnection;
+    }
+
 
     List<ToolCard> getToolCards() {
         return toolCards;
@@ -80,7 +105,7 @@ public class CLIInput {
         return board;
     }
 
-    int takeInput() throws HaltException {
+    int takeInput(int bottom, int top) throws HaltException {
         boolean iterate = true;
         int res=0;
         try {
@@ -93,7 +118,7 @@ public class CLIInput {
         do {
             try {
                 res = scanner.nextInt();
-                iterate = false;
+                if (res <= top && res >= bottom) iterate = false;
             } catch (InputMismatchException e) {
                 printStream.println("Input is invalid");
                 scanner.nextLine();
@@ -111,15 +136,15 @@ public class CLIInput {
         printYourWindow();
         while (row < 0 || row > 3) {
             printStream.println("Choose the row");
-            row = takeInput();
+            row = takeInput(0, 3);
         }
         while (col < 0 || col > 4) {
             printStream.println("Choose the column");
-            col = takeInput();
+            col = takeInput(0, 4);
         }
         while (choice < 1 || choice > 3) {
             printStream.println("You chose the position. Press: \n [1] to accept \n [2] to change [3] to do another action");
-            choice = takeInput();
+            choice = takeInput(1, 3);
             switch(choice) {
                 case 1 : return new Coordinate(row,col);
                 case 2 : return getCoordinate();
@@ -138,12 +163,12 @@ public class CLIInput {
         while (choice == 1) {
             while (turn < 0 || turn > 9) {
                 printStream.println("Choose the turn. Insert a number from 0 to 9");
-                turn = takeInput();
+                turn = takeInput(0, 9);
                 while (pos < 0 || pos > board.getRoundTracker().get(turn).size() && pos != 9 && pos!=8) {
                     printStream.println("Choose the position. Insert a number from 0 to " + board.getRoundTracker().get(turn).size());
                     printStream.println("[8] to choose another turn");
                     printStream.println("[9] to change action");
-                    pos = takeInput();
+                    pos = takeInput(0, board.getRoundTracker().get(turn).size());
                 }
                 if (pos == 8) turn = -1;
             }
@@ -154,8 +179,8 @@ public class CLIInput {
             else {
                 printStream.print("You selected this die: ");
                 printDraftPoolDice(board.getRoundTracker().get(turn).get(pos));
-                printStream.println("Are you sure? \n [1] Yes  [2]-[9] No");
-                choice = takeInput();
+                printStream.println("Are you sure? \n [1] Yes  [2] No");
+                choice = takeInput(1, 2);
             }
         }
         return new Coordinate(turn, pos);
@@ -168,7 +193,7 @@ public class CLIInput {
         printStream.println("[3] Choose another action");
         printStream.println("[4] Print the state of the game");
         while (choice != 3 && (choice < 0 || choice > toolCards.size()+1 || !board.getToolCardUsability().get(choice))) {
-            choice = takeInput();
+            choice = takeInput(0, 4);
             if (choice == 4) printModel();
             if (choice >= 0 && choice < 3 && !board.getToolCardUsability().get(choice)) {
                 printStream.println("You can't use the chosen tool card. Please choose another one.");
@@ -181,7 +206,7 @@ public class CLIInput {
         int val = 0;
         while (val < 1 || val > 6) {
             printStream.print("Choose the value of the die (value goes from 1 to 6)");
-            val = takeInput();
+            val = takeInput(1, 6);
         }
         return val;
     }
@@ -192,13 +217,13 @@ public class CLIInput {
         printStream.print("Select the index of the die to choose. ");
         while (choice < 0 || choice >= board.getDraftPool().size()) {
             printDraftPool();
-            choice = takeInput();
+            choice = takeInput(0, board.getRoundTracker().size());
         }
         while (confirm < 0 || confirm > 3) {
             printStream.println("You selected this die: ");
             printDraftPoolDice(board.getDraftPool().get(choice));
             printStream.println("Are you sure? \n [1] to accept  [2] to change \n [3] to choose another action");
-            confirm = takeInput();
+            confirm = takeInput(0, 3);
         }
         switch(confirm) {
             case 1: return choice;
@@ -211,7 +236,7 @@ public class CLIInput {
         int choice = -1;
         while (choice < 0 || choice > 1) {
             printStream.println("0 to decrease, 1 to increase.");
-            choice = takeInput();
+            choice = takeInput(0, 1);
         }
         return choice == 0 ? -1:1;
     }

@@ -3,6 +3,7 @@ package it.polimi.se2018.client;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
+import it.polimi.se2018.client.view.cli.CLIInput;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.client.view.ClientView;
@@ -84,7 +85,7 @@ public class Client {
                 setup = manager.checkName(playerID, playerName);
                 output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
             }
-            clientView = new CLIClientView(playerID);
+            clientView = new CLIInput(playerID);
             clientConnection = new RMIClientConnection(clientView);
             manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
             RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
@@ -111,7 +112,7 @@ public class Client {
                 setup = (boolean) in.readObject();
                 output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
             }
-            clientView = new CLIClientView(playerID);
+            clientView = new CLIInput(playerID);
             clientConnection = new SocketClientConnection(socket, clientView,in,out);
         }
         catch(IOException | ClassNotFoundException e) {

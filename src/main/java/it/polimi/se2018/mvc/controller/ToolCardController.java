@@ -280,32 +280,43 @@ public class ToolCardController implements ToolCardHandler{
     @Override
     public Response useCard(TapWheel toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
+        boolean twoDice = true;
+        Square squareTwo = null;
+        Die dieTwo = null;
+        Coordinate finalPositionTwo = null;
         boolean diceGoInAdjacentPosition = false; //this cheeck if die go to adjacent position
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
-        Square squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));
         Die dieOne = squareOne.popDie();
-        Die dieTwo = squareTwo.popDie();
         Coordinate indexRoundTracker = toolCardMessage.getRoundTrackerPosition();
         Die dieRoundTracker = board.getRoundTracker().getDie(indexRoundTracker.getRow(), indexRoundTracker.getCol());
-        if (dieOne.getColor() != dieTwo.getColor()) {
-            throw new ToolCardException("I due dadi non sono dello stesso colore!");
-        }
-        if (dieTwo.getColor() != dieRoundTracker.getColor()) {
+        if (dieOne.getColor() != dieRoundTracker.getColor()) {
             throw new ToolCardException("I due dadi non sono dello stesso colore del dado sul RoundTracker");
         }
-        if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) {
-            diceGoInAdjacentPosition = true;
+        if (toolCardMessage.getStartingPosition().get(1).equals(new Coordinate(-2, -2))) {
+            twoDice = false;
         }
-        if (diceGoInAdjacentPosition) {
-            throw new ToolCardException("I due dadi non possono essere spostati insieme");
+        if (twoDice) {
+            squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));
+            dieTwo = squareTwo.popDie();
+            if (dieOne.getColor() != dieTwo.getColor()) {
+                throw new ToolCardException("I due dadi non sono dello stesso colore!");
+            }
+            if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) {
+                diceGoInAdjacentPosition = true;
+            }
+            if (diceGoInAdjacentPosition) {
+                throw new ToolCardException("I due dadi non possono essere spostati insieme");
+            }
         }
         try {
             Coordinate finalPositionOne = toolCardMessage.getFinalPosition().get(0);
-            Coordinate finalPositionTwo = toolCardMessage.getFinalPosition().get(1);
             DiePlacerNoValue placerOne = new DiePlacerNoValue(dieOne, finalPositionOne, player.getWindow());
             placerOne.placeDie();
-            DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, finalPositionTwo, player.getWindow());
-            placerTwo.placeDie();
+            if (twoDice) {
+                finalPositionTwo = toolCardMessage.getFinalPosition().get(1);
+                DiePlacerNoValue placerTwo = new DiePlacerNoValue(dieTwo, finalPositionTwo, player.getWindow());
+                placerTwo.placeDie();
+            }
             updateToolCard(toolCardMessage);
             ModelViewResponse modelViewResponse = new ModelViewResponse(board.modelViewCopy());
             modelViewResponse.setDescription(PLAYER + player.getName() + " used Tap Wheel: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + FROM + squareOne.getDescription() + " to " + finalPositionOne.getDescription() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor() + FROM + squareTwo.getDescription() + " to " + finalPositionTwo.getDescription());
@@ -313,7 +324,7 @@ public class ToolCardController implements ToolCardHandler{
         }
         catch (InvalidPlacementException e) {
             squareOne.setDie(dieOne);
-            squareTwo.setDie(dieTwo);
+            if (twoDice) squareTwo.setDie(dieTwo);
             throw new ToolCardException("Uno spostamento selezionato non è valido");
         }
     }
