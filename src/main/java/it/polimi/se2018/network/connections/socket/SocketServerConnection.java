@@ -41,7 +41,7 @@ public class SocketServerConnection extends ServerConnection implements Runnable
     private void setup() {
         try {
             boolean setup = true;
-            /*String email = (String) in.readObject();
+            String email = (String) in.readObject();
             playerID = server.checkEmail(email);
             if (playerID != -1) {
                 setup = false;
@@ -51,8 +51,8 @@ public class SocketServerConnection extends ServerConnection implements Runnable
                 out.writeObject(setup);
                 playerID = Server.generateID();
                 server.writePlayerID(email, playerID);
-            }*/
-            playerID = Server.generateID();
+            }
+            //playerID = Server.generateID();
             out.writeObject(playerID);
             while (setup) {
                 playerName = (String) in.readObject();
@@ -106,7 +106,10 @@ public class SocketServerConnection extends ServerConnection implements Runnable
             try {
                 if(isDisconnected()) this.wait();
                 Message message = (Message) in.readObject();
-                if (message != null) serverView.handleNetworkInput(message);
+                if (message != null) {
+                    System.out.println("ricevuto" + message.getPlayerID());
+                    serverView.handleNetworkInput(message);
+                }
             }
             catch (ClassNotFoundException e) {
                 Logger logger = Logger.getAnonymousLogger();

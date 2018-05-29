@@ -46,8 +46,8 @@ public class Client {
     }
 
     private void chooseConnection() {
-        //output.println("Give your email");
-        //email = input.next();
+        output.println("Give your email");
+        email = input.next();
         boolean connection = true;
         output.println("What type of connection do you want to use?");
         do {
@@ -102,9 +102,9 @@ public class Client {
             socket = new Socket(HOST, PORT);
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            //out.writeObject(email);
+            out.writeObject(email);
+            setup = (boolean) in.readObject();
             playerID = (int) in.readObject();
-            //setup = (boolean) in.readObject();
             while (setup) {
                 playerName = getPlayerName();
                 out.writeObject(playerName);

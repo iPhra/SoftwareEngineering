@@ -33,7 +33,7 @@ public class Server implements Stopper {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(15);
+        Duration timeout = Duration.ofSeconds(1500);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -148,7 +148,7 @@ public class Server implements Stopper {
         }
     }
 
-    /*public int checkEmail(String email) {
+    public int checkEmail(String email) {
         int playerID = -1;
         String filename = "resources\\setting.txt";
         BufferedReader br = null;
@@ -160,8 +160,9 @@ public class Server implements Stopper {
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
                 String[] parsedLine = sCurrentLine.split(" ");
-                if (parsedLine[0] == email) {
-                    if (parsedLine.length < 2) {
+                if (parsedLine[0].equals(email)) {
+                    System.out.println(parsedLine[0]);
+                    if (parsedLine.length > 1 && parsedLine[1].equals(" ")) {
                         break;
                     }
                     else {
@@ -211,9 +212,9 @@ public class Server implements Stopper {
             }
             if (!find){
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+                    System.out.println(email + " " + playerID);
                     writer.append(email + " " + playerID);
                     writer.append("\r\n");
-                    writer.close();
                 }
             }
         } catch (IOException e) {
@@ -228,7 +229,7 @@ public class Server implements Stopper {
                 ex.printStackTrace();
             }
         }
-    }*/
+    }
 
 
     public static void main(String[] args) {
