@@ -116,6 +116,7 @@ public class Client {
         }
         clientView.setClientConnection(clientConnection);
         new Thread((SocketClientConnection) clientConnection).start();
+        ((CLIView) clientView).start();
     }
 
 

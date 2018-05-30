@@ -37,6 +37,8 @@ public class CLIView extends Observable<Response> implements ClientView {
     private final Scanner scanner;
     private boolean stopAction;
     private ClientConnection clientConnection;
+    private final List<Response> events;
+    private boolean isOpen;
 
     public CLIView(int playerID) {
         register(new CLIController(playerID,this));
@@ -44,16 +46,46 @@ public class CLIView extends Observable<Response> implements ClientView {
         this.playerID = playerID;
         printStream = new PrintStream(out);
         stopAction = false;
+        events = new ArrayList<>();
+        isOpen = true;
+    }
+
+    public void setIsOpen(Boolean value) {
+        isOpen = value;
     }
 
     @Override
     //receives input from the network, called by class clientConnection
     public void handleNetworkInput(Response response) {
-        notify(response);
+        synchronized (events) {
+            events.add(response);
+            events.notifyAll();
+        }
+    }
+
+    public void start() {
+        while(isOpen) {
+            wakeUp();
+        }
+    }
+
+    private void wakeUp() {
+        synchronized (events) {
+            while (events.isEmpty()) {
+                try {
+                    events.wait();
+                } catch(InterruptedException e){
+                    Thread.currentThread().interrupt();
+                }
+            }
+            Response response = events.remove(0);
+            notify(response);
+        }
     }
 
     public void handleNetworkOutput(Message message) {
         clientConnection.sendMessage(message);
+        wakeUp();
     }
 
     public void stopConnection() {
@@ -177,22 +209,6 @@ public class CLIView extends Observable<Response> implements ClientView {
         return new Coordinate(turn, pos);
     }
 
-    int getToolCard() throws HaltException {
-        int choice = 4;
-        printToolCards();
-        printStream.println("Select the tool card");
-        printStream.println("[3] Choose another action");
-        printStream.println("[4] Print the state of the game");
-        while (choice == 4 || (choice != 3 && !board.getToolCardUsability().get(choice))) {
-            choice = takeInput(0, 4);
-            if (choice == 4) printModel();
-            if (choice >= 0 && choice < 3 && !board.getToolCardUsability().get(choice)) {
-                printStream.println("You can't use the chosen tool card. Please choose another one.");
-            }
-        }
-        return  choice;
-    }
-
     int getDieValue() throws HaltException {
         int val = 0;
         printStream.print("Choose the value of the die (value goes from 1 to 6)");
@@ -246,10 +262,11 @@ public class CLIView extends Observable<Response> implements ClientView {
         printStream.println("\n");
     }
 
-    private void printYourWindow() {
+    public void printYourWindow() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
         Square[][] window = board.getPlayerWindow().get(yourIndex);
         StringBuilder builder;
+        printStream.println("Your window is:\n");
         for (Square[] row : window) {
             builder = new StringBuilder();
             for (Square square : row) {
@@ -258,6 +275,7 @@ public class CLIView extends Observable<Response> implements ClientView {
             printStream.print(builder);
             printStream.print("\n");
         }
+        printStream.print("\n");
     }
 
     private void printWindows(List<Square[][]> windows) {
@@ -301,9 +319,8 @@ public class CLIView extends Observable<Response> implements ClientView {
         return result;
     }
 
-    private void printPlayersWindows() {
+    public void printPlayersWindows() {
         printStream.println("Windows:");
-        printWindows(board.getPlayerWindow());
         StringBuilder builder = new StringBuilder();
         String tmp;
         for(String playerName: playerNames) {
@@ -311,6 +328,7 @@ public class CLIView extends Observable<Response> implements ClientView {
             builder.append(tmp);
         }
         printStream.println(builder);
+        printWindows(board.getPlayerWindow());
     }
 
     public void printDraftPoolDice(Die die) {
@@ -326,7 +344,7 @@ public class CLIView extends Observable<Response> implements ClientView {
         printStream.print(result);
     }
 
-    private void printToolCards() {
+    public void printToolCards() {
         printStream.println("Tool Cards:");
         StringBuilder result;
         for (int i = 0; i < toolCards.size(); i++) {
@@ -345,19 +363,19 @@ public class CLIView extends Observable<Response> implements ClientView {
         printStream.print("\n");
     }
 
-    private void printFavorPoints() {
+    public void printFavorPoints() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
         printStream.println("Favor points left: " + board.getPlayerFavorPoint().get(yourIndex));
         printStream.println("\n");
     }
 
-    void printPrivateObjective() {
+    public void printPrivateObjective() {
         printStream.print("\n");
         printStream.println(privateObjective);
         printStream.println("\n");
     }
 
-    void printPublicObjective() {
+    public void printPublicObjective() {
         printStream.println("Public Objectives: ");
         for (PublicObjective obj : publicObjectives) {
             printStream.print(obj);

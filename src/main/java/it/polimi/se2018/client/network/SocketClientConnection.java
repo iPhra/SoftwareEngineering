@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.network;
 
+import it.polimi.se2018.client.view.cli.CLIView;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.client.view.ClientView;
@@ -56,7 +57,9 @@ public class SocketClientConnection implements ClientConnection, Runnable {
         while(isOpen){
             try{
                 Response response = (Response) in.readObject();
-                if (response != null) clientView.handleNetworkInput(response);
+                if (response != null) {
+                    clientView.handleNetworkInput(response);
+                }
             }
             catch(ClassNotFoundException | IOException e) {
                 //riconnettiti

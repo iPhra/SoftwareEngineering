@@ -45,7 +45,6 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
     @Override
     public void handleResponse(ModelViewResponse modelViewResponse) {
         cliView.setBoard(modelViewResponse.getModelView());
-        cliView.printDraftPool();
         if (playerID == cliView.getBoard().getCurrentPlayerID()) {
             startTimer(6000);
             try {
@@ -57,6 +56,8 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         }
         else  {
             cliView.print("\n" + modelViewResponse.getDescription());
+            cliView.printDraftPool();
+            cliView.printPlayersWindows();
             cliView.print("It's not your turn. You can't do anything!");
         }
     }
@@ -109,9 +110,9 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         int windowNumber;
         try {
             windowNumber = selectWindow(setupResponse.getWindows())-1;
-            cliView.handleNetworkOutput(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
             clock.interrupt();
             cliView.print("Window sent. Waiting for other players to choose." + "\n");
+            cliView.handleNetworkOutput(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
         } catch (HaltException e) {
             cliView.setStopAction(false);
         }
@@ -181,6 +182,7 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         try {
             int choice = -1;
             List<Integer> choosable = actionPossible();
+            cliView.printYourWindow();
             cliView.print("It's your turn, choose your action");
             if (cliView.getBoard().hasDieInHand()) {
                 cliView.print("You have this die in your hand:");
@@ -190,7 +192,7 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
             while (!choosable.contains(choice)) {
                 printActionPermitted(choosable);
                 choice = cliView.takeInput(0, 10);
-                if (choice == 1) cliView.printModel();
+                if (choice == 1) askInformation();
             }
             switch (choice) {
                 case 2:
@@ -215,6 +217,38 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         }
     }
 
+    public void askInformation() throws HaltException {
+        int choice = -1;
+        int top = 8;
+        StringBuilder result = new StringBuilder();
+        result.append("[1] to see all information\n");
+        result.append("[2] to see your window\n");
+        result.append("[3] to see draftpool\n");
+        result.append("[4] to see tool card\n");
+        result.append("[5] to see your private objective\n");
+        result.append("[6] to see public objectives\n");
+        result.append("[7] to see all windows\n");
+        result.append("[8] to see your favor points");
+        if (cliView.getBoard().hasDieInHand()) {
+            result.append("[9] to see die in your hand");
+            top = 9;
+        }
+        cliView.print(String.valueOf(result));
+        choice = cliView.takeInput(1, top);
+        switch (choice) {
+            case 1: cliView.printModel(); break;
+            case 2: cliView.printYourWindow(); break;
+            case 3: cliView.printDraftPool(); break;
+            case 4: cliView.printToolCards(); break;
+            case 5: cliView.printPrivateObjective(); break;
+            case 6: cliView.printPublicObjective(); break;
+            case 7: cliView.printPlayersWindows(); break;
+            case 8: cliView.printFavorPoints(); break;
+            case 9: cliView.printDraftPoolDice(cliView.getBoard().getDieInHand()); break;
+            default: break;
+        }
+    }
+
     private int selectWindow(List<Window> windows) throws HaltException {
         int choice;
         boolean iterate = true;
@@ -235,14 +269,32 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
     }
 
     private void draftDie() throws RemoteException, HaltException {
+        cliView.printYourWindow();
         cliView.print("Choose the die to draft.");
         int index = cliView.getDraftPoolPosition();
         if (index != -1) cliView.handleNetworkOutput(new DraftMessage(playerID, cliView.getBoard().getStateID(),index));
         else chooseAction();
     }
 
+    int getToolCard() throws HaltException {
+        int choice = 4;
+        while (choice == 4 || (choice != 3 && !cliView.getBoard().getToolCardUsability().get(choice))) {
+            cliView.printToolCards();
+            cliView.print("Select the tool card");
+            cliView.print("[3] Choose another action");
+            cliView.print("[4] Print the state of the game");
+            choice = cliView.takeInput(0, 4);
+            if (choice == 4) askInformation();
+            if (choice >= 0 && choice < 3 && !cliView.getBoard().getToolCardUsability().get(choice)) {
+                cliView.print("You can't use the chosen tool card. Please choose another one.");
+            }
+        }
+        return  choice;
+    }
+
     private void selectToolCard() throws HaltException {
-        int toolCard = cliView.getToolCard();
+        cliView.printYourWindow();
+        int toolCard = getToolCard();
         if (toolCard != 3)
             cliView.handleNetworkOutput(new ToolCardRequestMessage(playerID, cliView.getBoard().getStateID(), toolCard));
         else{
@@ -256,6 +308,7 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
     }
 
     private void useToolCard(int indexOfToolCard) throws RemoteException {
+        cliView.printYourWindow();
         ToolCard toolCard = cliView.getToolCards().get(indexOfToolCard);
         try {
             ToolCardMessage toolCardMessage = toolCard.handleView(toolCardPlayerInput, indexOfToolCard);
