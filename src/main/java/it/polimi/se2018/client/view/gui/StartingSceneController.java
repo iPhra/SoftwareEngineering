@@ -31,7 +31,7 @@ public class StartingSceneController implements SceneController {
     }
 
     private void changeScene(Button button){
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/playerNameScene.fxml")));
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/playerNameScene.fxml")));
         try{
             Parent root = loader.load();
             SceneController sceneController = loader.getController();

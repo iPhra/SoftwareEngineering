@@ -2,6 +2,7 @@ package it.polimi.se2018.mvc.controller;
 
 import it.polimi.se2018.mvc.controller.placementlogic.DiePlacer;
 import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerFirst;
+import it.polimi.se2018.mvc.view.ServerView;
 import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.utils.*;
 import it.polimi.se2018.utils.exceptions.*;
@@ -21,12 +22,14 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Controller implements Observer<Message>, MessageHandler, Stopper {
     private static final String PLAYER = "Player ";
     private Board model;
+    private final ServerView view;
     private ToolCardController toolCardController;
     private final GameManager gameManager;
     private final ReentrantLock lock;
 
-    public Controller(GameManager gameManager) {
+    public Controller(GameManager gameManager, ServerView view) {
         super();
+        this.view = view;
         this.gameManager = gameManager;
         lock = new ReentrantLock();
     }
@@ -84,7 +87,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         lock.lock();
         Player player = model.getPlayerByID(message.getPlayerID());
         if (!(model.getRound().isYourTurn(player) || message.getStateID()==model.getStateID()))
-            model.notify(new TextResponse(message.getPlayerID(),"It's not your turn"));
+            view.handleNetworkOutput(new TextResponse(message.getPlayerID(),"It's not your turn"));
         else message.handle(this);
         lock.unlock();
     }
@@ -100,7 +103,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     void endMatch() {
         List<Player> scoreBoard = playersScoreBoard();
         for(Player player : model.getPlayers())
-            model.notify(new ScoreBoardResponse(player.getId(),scoreBoard));
+            view.handleNetworkOutput(new ScoreBoardResponse(player.getId(),scoreBoard));
         gameManager.endGame();
     }
 
@@ -123,7 +126,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         try {
             ToolCard toolCard = model.getToolCards()[player.getCardInUse()];
             Response response = toolCard.handle(toolCardController,toolCardMessage);
-            model.notify(response);
+            view.handleNetworkOutput(response);
         }
         catch (ToolCardException e) {model.notify(new TextResponse(toolCardMessage.getPlayerID(),e.getMessage()));}
         finally {lock.unlock();}
@@ -139,7 +142,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             modelViewResponse.setDescription(PLAYER + player.getName() + " used Flux Remover: \nhe/she moved the drafted die to the bag and received " + player.getDieInHand().getValue()+ " " + player.getDieInHand().getColor());
             model.notify(modelViewResponse);
         } catch (DieException e) {
-            model.notify(new TextResponse(inputMessage.getPlayerID(), e.getMessage()));
+            view.handleNetworkOutput(new TextResponse(inputMessage.getPlayerID(), e.getMessage()));
         }
         finally {lock.unlock();}
     }
@@ -153,9 +156,9 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             ToolCard toolCard = model.getToolCards()[toolCardRequestMessage.getToolCardNumber()];
             if (toolCard.handleCheck(new ToolCardChecker(model), model.getToolCardsUsage()[toolCardRequestMessage.getToolCardNumber()], player)) {
                 player.setCardInUse(toolCardRequestMessage.getToolCardNumber());
-                model.notify(new ToolCardResponse(toolCardRequestMessage.getPlayerID(), toolCardRequestMessage.getToolCardNumber()));
+                view.handleNetworkOutput(new ToolCardResponse(toolCardRequestMessage.getPlayerID(), toolCardRequestMessage.getToolCardNumber()));
             }
-            else model.notify(new TextResponse(toolCardRequestMessage.getPlayerID(),"You can't use that Tool Card!"));
+            else view.handleNetworkOutput(new TextResponse(toolCardRequestMessage.getPlayerID(),"You can't use that Tool Card!"));
         }
         lock.unlock();
     }
@@ -181,7 +184,8 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
                 modelViewResponse.setDescription(PLAYER + player.getName() + " placed the drafted die in " + placeMessage.getFinalPosition().getDescription());
                 model.notify(modelViewResponse);
             }
-            catch(InvalidPlacementException e) {model.notify(new TextResponse(placeMessage.getPlayerID(),"You can't place the die there"));}
+            catch(InvalidPlacementException e) {
+                view.handleNetworkOutput(new TextResponse(placeMessage.getPlayerID(),"You can't place the die there"));}
         }
         lock.unlock();
     }
@@ -199,7 +203,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
                 modelViewResponse.setDescription(PLAYER + player.getName() + " drafted the die " + modelViewResponse.getModelView().getDieInHand().getValue() + " " + modelViewResponse.getModelView().getDieInHand().getColor());
                 model.notify(modelViewResponse);
             } catch (NoDieException e) {
-                model.notify(new TextResponse(draftMessage.getPlayerID(),"The die you want to draft does not exit"));
+                view.handleNetworkOutput(new TextResponse(draftMessage.getPlayerID(),"The die you want to draft does not exit"));
             }
         }
         lock.unlock();

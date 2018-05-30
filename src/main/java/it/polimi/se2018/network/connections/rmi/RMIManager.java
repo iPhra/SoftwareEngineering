@@ -20,7 +20,7 @@ public class RMIManager implements RemoteManager {
     }
 
     public boolean checkName(int playerID, String playerName) {
-        return server.checkName(playerID,playerName);
+        return true;//server.checkName(playerID,playerName);
     }
 
     public void addClient(int playerID, String playerName, RemoteConnection clientConnection) {
@@ -29,7 +29,6 @@ public class RMIManager implements RemoteManager {
             registry.rebind("ServerConnection"+playerID, UnicastRemoteObject.exportObject((RemoteConnection) serverConnection,0));
         }
         catch (RemoteException e) {
-            Server.decrementID();
             closeConnection();
         }
         Thread thread = new Thread((RMIServerConnection)serverConnection);

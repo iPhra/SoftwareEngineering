@@ -3,23 +3,23 @@ package it.polimi.se2018.client.view.cli;
 import it.polimi.se2018.network.messages.responses.DisconnectionResponse;
 
 public class AsyncPrinter implements Runnable {
-    private CLIInput cliInput;
-    private CLIClientView cliClientView;
-    private DisconnectionResponse disconnectionResponse;
+    private final CLIView cliView;
+    private final CLIController cliController;
+    private final DisconnectionResponse disconnectionResponse;
 
-    AsyncPrinter(CLIInput cliInput, CLIClientView cliClientView, DisconnectionResponse disconnectionResponse) {
-        this.cliInput = cliInput;
+    AsyncPrinter(CLIView cliView, CLIController cliController, DisconnectionResponse disconnectionResponse) {
+        this.cliView = cliView;
         this.disconnectionResponse = disconnectionResponse;
-        this.cliClientView = cliClientView;
+        this.cliController = cliController;
     }
 
     @Override
     public void run() {
-        cliInput.print("");
-        cliInput.print("Player " + disconnectionResponse.getPlayerName() + " has disconnected!");
+        cliView.print("");
+        cliView.print("Player " + disconnectionResponse.getPlayerName() + " has disconnected!");
         if(disconnectionResponse.getMessage()!=null) {
-            cliInput.print(disconnectionResponse.getMessage() + "\n");
-            cliClientView.halt("Game is over");
+            cliView.print(disconnectionResponse.getMessage() + "\n");
+            cliController.halt("Game is over");
         }
     }
 }

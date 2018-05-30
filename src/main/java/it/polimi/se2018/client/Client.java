@@ -3,16 +3,12 @@ package it.polimi.se2018.client;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
-import it.polimi.se2018.client.view.cli.CLIInput;
+import it.polimi.se2018.client.view.cli.CLIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.client.view.ClientView;
-import it.polimi.se2018.client.view.cli.CLIClientView;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.rmi.Naming;
@@ -28,12 +24,11 @@ public class Client {
     private ClientView clientView;
     private ClientConnection clientConnection;
     private int playerID;
-    private String playerName;
+    private String nickname;
     private Socket socket;
     private boolean setup;
     private final Scanner input;
     private final PrintStream output;
-    private String email;
 
     private Client() {
         setup = true;
@@ -41,14 +36,12 @@ public class Client {
         output = new PrintStream(System.out);
     }
 
-    private String getPlayerName() {
+    private String getNickname() {
         output.println("Choose your nickname");
         return input.nextLine();
     }
 
     private void chooseConnection() {
-        output.println("Give your email");
-        email = input.next();
         boolean connection = true;
         output.println("What type of connection do you want to use?");
         do {
@@ -81,13 +74,13 @@ public class Client {
             RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
             playerID = manager.getID();
             while (setup) {
-                playerName = getPlayerName();
-                setup = manager.checkName(playerID, playerName);
+                nickname = getNickname();
+                setup = manager.checkName(playerID, nickname);
                 output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
             }
-            clientView = new CLIInput(playerID);
+            clientView = new CLIView(playerID);
             clientConnection = new RMIClientConnection(clientView);
-            manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
+            manager.addClient(playerID, nickname, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
             RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
             ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
         }
@@ -103,17 +96,20 @@ public class Client {
             socket = new Socket(HOST, PORT);
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            out.writeObject(email);
-            setup = (boolean) in.readObject();
-            playerID = (int) in.readObject();
             while (setup) {
-                playerName = getPlayerName();
-                out.writeObject(playerName);
+                nickname = getNickname();
+                out.writeObject(nickname);
                 setup = (boolean) in.readObject();
-                output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
+                if(!setup) {
+                    output.println("Your nickname is ok");
+                    playerID = (int) in.readObject();
+                }
+                else {
+                    output.println("This nickname is already taken, please choose another one");
+                }
             }
-            clientView = new CLIInput(playerID);
-            clientConnection = new SocketClientConnection(socket, clientView,in,out);
+            clientView = new CLIView(playerID);
+            clientConnection = new SocketClientConnection(socket, clientView, in, out);
         }
         catch(IOException | ClassNotFoundException e) {
             System.exit(1);

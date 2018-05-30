@@ -45,6 +45,10 @@ public class ClientGUI extends Application{
         return null;
     }
 
+    public ClientView getClientView() {
+        return clientView;
+    }
+
     void createRMIConnection(){
         try {
             RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
@@ -100,11 +104,11 @@ public class ClientGUI extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception{
         ClientGUI clientGUI = new ClientGUI();
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/startingScene.fxml")));
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/startingScene.fxml")));
         Parent root = loader.load();
         SceneController sceneController = loader.getController();
         sceneController.setClientGUI(clientGUI);
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 600, 623));
         primaryStage.show();
 

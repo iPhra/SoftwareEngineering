@@ -50,6 +50,11 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(DisconnectionResponse disconnectionResponse) {fail();}
+
+            @Override
+            public void handleResponse(ReconnectionResponse reconnectionResponse) {
+                fail();
+            }
         });
     }
 }

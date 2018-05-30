@@ -7,9 +7,14 @@ import it.polimi.se2018.network.messages.responses.*;
 public class GUIClientView implements ResponseHandler, ClientView{
     private final int playerID;
     private ClientConnection clientConnection;
+    private SceneController sceneController;
 
     public GUIClientView(int playerID){
         this.playerID = playerID;
+    }
+
+    public void setSceneController(SceneController sceneController){
+        this.sceneController = sceneController;
     }
 
     @Override
@@ -61,5 +66,15 @@ public class GUIClientView implements ResponseHandler, ClientView{
     @Override
     public void handleResponse(DisconnectionResponse disconnectionResponse) {
         //to be implemented
+    }
+
+    /**
+     * This method is used by the Server to communicate that a specific player has disconnected
+     *
+     * @param reconnectionResponse contains a notification message
+     */
+    @Override
+    public void handleResponse(ReconnectionResponse reconnectionResponse) {
+        //implementa
     }
 }

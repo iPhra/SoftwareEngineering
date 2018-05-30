@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 public class SocketServerConnection extends ServerConnection implements Runnable{
     private final Server server;
     private final Socket socket;
-    private String playerName;
     private int playerID;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -41,30 +40,30 @@ public class SocketServerConnection extends ServerConnection implements Runnable
     private void setup() {
         try {
             boolean setup = true;
-            String email = (String) in.readObject();
-            playerID = server.checkEmail(email);
-            if (playerID != -1) {
-                setup = false;
-                out.writeObject(setup);
-            }
-            else {
-                out.writeObject(setup);
-                playerID = Server.generateID();
-                server.writePlayerID(email, playerID);
-            }
-            //playerID = Server.generateID();
-            out.writeObject(playerID);
             while (setup) {
-                playerName = (String) in.readObject();
-                setup = server.checkName(playerID, playerName);
-                out.writeObject(setup);
+                String nickname = (String) in.readObject();
+                if (server.checkRegistration(nickname)) { //if he's not registered
+                    setup = false;
+                    out.writeObject(false);
+                    playerID = Server.generateID();
+                    out.writeObject(playerID);
+                    server.setPlayer(playerID, nickname, this);
+                }
+                else if (server.checkDisconnection(nickname)) { //if he's reconnecting
+                    setup = false;
+                    out.writeObject(false);
+                    playerID = server.getPlayerID(nickname);
+                    out.writeObject(playerID);
+                    server.handleReconnection(server.getPlayerID(nickname), this);
+                }
+                else {
+                    out.writeObject(true);
+                }
             }
         }
         catch(IOException | ClassNotFoundException e) {
-            Server.decrementID();
             stop();
         }
-        server.setPlayer(playerID, playerName, this);
     }
 
     private void closeConnection(){
@@ -107,7 +106,6 @@ public class SocketServerConnection extends ServerConnection implements Runnable
                 if(isDisconnected()) this.wait();
                 Message message = (Message) in.readObject();
                 if (message != null) {
-                    System.out.println("ricevuto" + message.getPlayerID());
                     serverView.handleNetworkInput(message);
                 }
             }
