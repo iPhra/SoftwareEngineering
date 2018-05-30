@@ -50,4 +50,10 @@ public interface ResponseHandler {
      * @param disconnectionResponse contains a notification message
      */
     void handleResponse(DisconnectionResponse disconnectionResponse);
+
+    /**
+     * This method is used by the Server to communicate that a specific player has disconnected
+     * @param reconnectionResponse contains a notification message
+     */
+    void handleResponse(ReconnectionResponse reconnectionResponse);
 }

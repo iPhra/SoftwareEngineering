@@ -3,10 +3,10 @@ package it.polimi.se2018.client;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
+import it.polimi.se2018.client.view.cli.CLIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.client.view.ClientView;
-import it.polimi.se2018.client.view.cli.CLIClientView;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -78,7 +78,7 @@ public class Client {
                 setup = manager.checkName(playerID, nickname);
                 output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
             }
-            clientView = new CLIClientView(playerID);
+            clientView = new CLIView(playerID);
             clientConnection = new RMIClientConnection(clientView);
             manager.addClient(playerID, nickname, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
             RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
@@ -108,7 +108,7 @@ public class Client {
                     output.println("This nickname is already taken, please choose another one");
                 }
             }
-            clientView = new CLIClientView(playerID);
+            clientView = new CLIView(playerID);
             clientConnection = new SocketClientConnection(socket, clientView, in, out);
         }
         catch(IOException | ClassNotFoundException e) {

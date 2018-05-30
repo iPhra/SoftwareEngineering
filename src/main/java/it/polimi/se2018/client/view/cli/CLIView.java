@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 import static java.lang.System.*;
 
-public class CLIInput extends Observable<Response> implements ClientView {
+public class CLIView extends Observable<Response> implements ClientView {
     private final int playerID;
     private List<String> playerNames;
     private ModelView board;
@@ -38,7 +38,8 @@ public class CLIInput extends Observable<Response> implements ClientView {
     private boolean stopAction;
     private ClientConnection clientConnection;
 
-    public CLIInput(int playerID) {
+    public CLIView(int playerID) {
+        register(new CLIController(playerID,this));
         scanner = new Scanner(System.in);
         this.playerID = playerID;
         printStream = new PrintStream(out);
@@ -62,7 +63,6 @@ public class CLIInput extends Observable<Response> implements ClientView {
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
     }
-
 
     List<ToolCard> getToolCards() {
         return toolCards;
