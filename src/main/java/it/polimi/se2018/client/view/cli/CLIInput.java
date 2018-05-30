@@ -134,23 +134,17 @@ public class CLIInput extends Observable<Response> implements ClientView {
         int col = -1;
         int choice = -1;
         printYourWindow();
-        while (row < 0 || row > 3) {
-            printStream.println("Choose the row");
-            row = takeInput(0, 3);
-        }
-        while (col < 0 || col > 4) {
-            printStream.println("Choose the column");
-            col = takeInput(0, 4);
-        }
-        while (choice < 1 || choice > 3) {
-            printStream.println("You chose the position. Press: \n [1] to accept \n [2] to change [3] to do another action");
-            choice = takeInput(1, 3);
-            switch(choice) {
-                case 1 : return new Coordinate(row,col);
-                case 2 : return getCoordinate();
-                case 3 : new Coordinate(-1,-1); break;
-                default : break;
-            }
+        printStream.println("Choose the row");
+        row = takeInput(0, 3);
+        printStream.println("Choose the column");
+        col = takeInput(0, 4);
+        printStream.println("You chose the position. Press: \n [1] to accept \n [2] to change [3] to do another action");
+        choice = takeInput(1, 3);
+        switch(choice) {
+            case 1 : return new Coordinate(row,col);
+            case 2 : return getCoordinate();
+            case 3 : new Coordinate(-1,-1); break;
+            default : break;
         }
         return new Coordinate(-1, -1);
     }
@@ -158,21 +152,18 @@ public class CLIInput extends Observable<Response> implements ClientView {
     Coordinate getRoundTrackPosition() throws HaltException {
         int turn = -1;
         int pos = -1;
-        int choice = 1;
+        int choice = 2;
         printRoundTracker();
-        while (choice == 1) {
-            while (turn < 0 || turn > 9) {
-                printStream.println("Choose the turn. Insert a number from 0 to 9");
-                turn = takeInput(0, 9);
-                while (pos < 0 || pos > board.getRoundTracker().get(turn).size() && pos != 9 && pos!=8) {
-                    printStream.println("Choose the position. Insert a number from 0 to " + board.getRoundTracker().get(turn).size());
-                    printStream.println("[8] to choose another turn");
-                    printStream.println("[9] to change action");
-                    pos = takeInput(0, board.getRoundTracker().get(turn).size());
-                }
-                if (pos == 8) turn = -1;
-            }
-            if (pos == 9) {
+        while (choice == 2) {
+            printStream.println("Choose the turn. Insert a number from 0 to 9");
+            turn = takeInput(0, 9);
+            int size = board.getRoundTracker().get(turn).size();
+            printStream.println("Choose the position. Insert a number from 0 to " + size);
+            printStream.println("[" + size + "] to choose another turn");
+            printStream.println("[" + (size + 1) + "] to change action");
+            pos = takeInput(0, board.getRoundTracker().get(turn).size() + 1);
+            if (pos == size) turn = -1;
+            else if (pos == (size + 1)) {
                 choice = 1;
                 turn = -1;
             }
@@ -187,12 +178,12 @@ public class CLIInput extends Observable<Response> implements ClientView {
     }
 
     int getToolCard() throws HaltException {
-        int choice = -1;
+        int choice = 4;
         printToolCards();
         printStream.println("Select the tool card");
         printStream.println("[3] Choose another action");
         printStream.println("[4] Print the state of the game");
-        while (choice != 3 && (choice < 0 || choice > toolCards.size()+1 || !board.getToolCardUsability().get(choice))) {
+        while (choice == 4 || (choice != 3 && !board.getToolCardUsability().get(choice))) {
             choice = takeInput(0, 4);
             if (choice == 4) printModel();
             if (choice >= 0 && choice < 3 && !board.getToolCardUsability().get(choice)) {
@@ -204,10 +195,8 @@ public class CLIInput extends Observable<Response> implements ClientView {
 
     int getDieValue() throws HaltException {
         int val = 0;
-        while (val < 1 || val > 6) {
-            printStream.print("Choose the value of the die (value goes from 1 to 6)");
-            val = takeInput(1, 6);
-        }
+        printStream.print("Choose the value of the die (value goes from 1 to 6)");
+        val = takeInput(1, 6);
         return val;
     }
 
@@ -215,16 +204,12 @@ public class CLIInput extends Observable<Response> implements ClientView {
         int choice = -1;
         int confirm = -1;
         printStream.print("Select the index of the die to choose. ");
-        while (choice < 0 || choice >= board.getDraftPool().size()) {
-            printDraftPool();
-            choice = takeInput(0, board.getRoundTracker().size());
-        }
-        while (confirm < 0 || confirm > 3) {
-            printStream.println("You selected this die: ");
-            printDraftPoolDice(board.getDraftPool().get(choice));
-            printStream.println("Are you sure? \n [1] to accept  [2] to change \n [3] to choose another action");
-            confirm = takeInput(0, 3);
-        }
+        printDraftPool();
+        choice = takeInput(0, board.getRoundTracker().size() - 1);
+        printStream.println("You selected this die: ");
+        printDraftPoolDice(board.getDraftPool().get(choice));
+        printStream.println("Are you sure? \n [1] to accept  [2] to change \n [3] to choose another action");
+        confirm = takeInput(0, 3);
         switch(confirm) {
             case 1: return choice;
             case 2: return getDraftPoolPosition();
@@ -234,10 +219,8 @@ public class CLIInput extends Observable<Response> implements ClientView {
 
     int getIncrementOrDecrement() throws HaltException {
         int choice = -1;
-        while (choice < 0 || choice > 1) {
-            printStream.println("0 to decrease, 1 to increase.");
-            choice = takeInput(0, 1);
-        }
+        printStream.println("0 to decrease, 1 to increase.");
+        choice = takeInput(0, 1);
         return choice == 0 ? -1:1;
     }
 
