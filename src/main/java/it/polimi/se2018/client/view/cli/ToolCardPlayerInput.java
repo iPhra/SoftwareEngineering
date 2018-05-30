@@ -139,13 +139,22 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
         }
         toolCardMessage.addStartingPosition(startingCoordinateOne);
         toolCardMessage.addFinalPosition(finalPositionOne);
-        Coordinate startingCoordinateTwo = cliInput.getCoordinate();
-        if (checkPosition(startingCoordinateTwo,toolCardMessage)) {
-            return toolCardMessage;
+        cliInput.print("Do you want to move another die? [1] yes [2] no");
+        int choice = cliInput.takeInput(1, 2);
+        Coordinate startingCoordinateTwo = null;
+        if (choice == 1) {
+            startingCoordinateTwo = cliInput.getCoordinate();
+            if (checkPosition(startingCoordinateTwo, toolCardMessage)) {
+                return toolCardMessage;
+            }
+            Coordinate finalPositionTwo = cliInput.getCoordinate();
+            if ((checkPosition(finalPositionTwo, toolCardMessage))) {
+                return toolCardMessage;
+            }
+            toolCardMessage.addFinalPosition(finalPositionTwo);
         }
-        Coordinate finalPositionTwo = cliInput.getCoordinate();
-        if ((checkPosition(finalPositionTwo,toolCardMessage))) {
-            return toolCardMessage;
+        else {
+            startingCoordinateTwo = new Coordinate(-1, -1);
         }
         Coordinate positionRoundTrack = cliInput.getRoundTrackPosition();
         if (positionRoundTrack.getRow() == -1) {
@@ -153,7 +162,6 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
             return toolCardMessage;
         }
         toolCardMessage.addStartingPosition(startingCoordinateTwo);
-        toolCardMessage.addFinalPosition(finalPositionTwo);
         toolCardMessage.addRoundTrackerPosition(positionRoundTrack);
         return  toolCardMessage;
     }

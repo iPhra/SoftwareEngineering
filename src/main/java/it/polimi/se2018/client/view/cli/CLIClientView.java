@@ -2,11 +2,10 @@ package it.polimi.se2018.client.view.cli;
 
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
-import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.*;
-import it.polimi.se2018.client.view.ClientView;
+import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.Stopper;
 import it.polimi.se2018.utils.WaitingThread;
 import it.polimi.se2018.utils.exceptions.HaltException;
@@ -17,9 +16,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CLIClientView implements ResponseHandler, ClientView, Stopper {
+public class CLIClientView implements ResponseHandler, Observer<Response>, Stopper {
     private final int playerID;
-    private ClientConnection clientConnection;
+
     private final CLIInput cliInput;
     private final ToolCardPlayerInput toolCardPlayerInput;
     private WaitingThread clock;
@@ -36,13 +35,9 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
         clock.start();
     }
 
-    public void setClientConnection(ClientConnection clientConnection) {
-        this.clientConnection = clientConnection;
-    }
-
     @Override
     //receives input from the network, called by class clientConnection
-    public void handleNetworkInput(Response response) {
+    public void update(Response response) {
         response.handle(this);
     }
 
@@ -83,7 +78,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
         cliInput.print("Color of the die is " + inputResponse.getColor());
         try {
             int choice = cliInput.getDieValue();
-            clientConnection.sendMessage(new InputMessage(playerID, cliInput.getBoard().getStateID(), choice));
+            cliInput.handleNetworkOutput(new InputMessage(playerID, cliInput.getBoard().getStateID(), choice));
         }
         catch (HaltException e) {
             cliInput.setStopAction(false);
@@ -114,7 +109,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
         int windowNumber;
         try {
             windowNumber = selectWindow(setupResponse.getWindows())-1;
-            clientConnection.sendMessage(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
+            cliInput.handleNetworkOutput(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
             clock.interrupt();
             cliInput.print("Window sent. Waiting for other players to choose." + "\n");
         } catch (HaltException e) {
@@ -128,7 +123,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
         for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
             cliInput.print(i+1 + "  Player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "     Score: " + scoreBoardResponse.getSortedPlayersScores().get(i));
         }
-        clientConnection.stop();
+        cliInput.stopConnection();
     }
 
     /**
@@ -184,7 +179,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
             cliInput.print("\n");
             while (!choosable.contains(choice)) {
                 printActionPermitted(choosable);
-                choice = cliInput.takeInput();
+                choice = cliInput.takeInput(0, 10);
                 if (choice == 1) cliInput.printModel();
             }
             switch (choice) {
@@ -215,7 +210,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
         boolean iterate = true;
         cliInput.printSetupWindows(windows);
         do {
-            choice = cliInput.takeInput();
+            choice = cliInput.takeInput(1, 4);
             if (choice<1 || choice>4) cliInput.print("Type a number between 1 and 4");
             else iterate = false;
         }
@@ -226,20 +221,20 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
 
     private void passTurn() {
         clock.interrupt();
-        clientConnection.sendMessage(new PassMessage(playerID,cliInput.getBoard().getStateID()));
+        cliInput.handleNetworkOutput(new PassMessage(playerID,cliInput.getBoard().getStateID()));
     }
 
     private void draftDie() throws RemoteException, HaltException {
         cliInput.print("Choose the die to draft.");
         int index = cliInput.getDraftPoolPosition();
-        if (index != -1) clientConnection.sendMessage(new DraftMessage(playerID, cliInput.getBoard().getStateID(),index));
+        if (index != -1) cliInput.handleNetworkOutput(new DraftMessage(playerID, cliInput.getBoard().getStateID(),index));
         else chooseAction();
     }
 
     private void selectToolCard() throws HaltException {
         int toolCard = cliInput.getToolCard();
         if (toolCard != 3)
-            clientConnection.sendMessage(new ToolCardRequestMessage(playerID, cliInput.getBoard().getStateID(), toolCard));
+            cliInput.handleNetworkOutput(new ToolCardRequestMessage(playerID, cliInput.getBoard().getStateID(), toolCard));
         else{
             try{
                 chooseAction();
@@ -254,7 +249,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
         ToolCard toolCard = cliInput.getToolCards().get(indexOfToolCard);
         try {
             ToolCardMessage toolCardMessage = toolCard.handleView(toolCardPlayerInput, indexOfToolCard);
-            if (!toolCardMessage.isToDismiss()) clientConnection.sendMessage(toolCardMessage);
+            if (!toolCardMessage.isToDismiss()) cliInput.handleNetworkOutput(toolCardMessage);
             else chooseAction();
         }
         catch (HaltException e) {
@@ -266,7 +261,7 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
         cliInput.print("Choose the position where you want to put the drafted die");
         Coordinate coordinate = cliInput.getCoordinate();
         if (!coordinate.equals(new Coordinate(-1, -1))) {
-            clientConnection.sendMessage(new PlaceMessage(playerID, cliInput.getBoard().getStateID(), coordinate));
+            cliInput.handleNetworkOutput(new PlaceMessage(playerID, cliInput.getBoard().getStateID(), coordinate));
         }
         else { chooseAction(); }
     }
@@ -276,4 +271,5 @@ public class CLIClientView implements ResponseHandler, ClientView, Stopper {
         cliInput.setStopAction(true);
         cliInput.print(message + ", press 1 to continue" + "\n");
     }
+
 }
