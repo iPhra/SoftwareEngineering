@@ -17,7 +17,7 @@ public class ServerView extends Observable<Message> implements Observer<Response
         playerConnections = new HashMap<>();
     }
 
-    private void handleNetworkOutput(Response response) {
+    public void handleNetworkOutput(Response response) {
         if (response instanceof ModelViewResponse) {
             for (ServerConnection connection : playerConnections.values()) {
                 connection.sendResponse(response);

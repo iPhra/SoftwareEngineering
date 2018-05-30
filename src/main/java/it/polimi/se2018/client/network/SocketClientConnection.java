@@ -40,7 +40,6 @@ public class SocketClientConnection implements ClientConnection, Runnable {
     @Override
     public void sendMessage(Message message){
         try{
-            System.out.println(message.getPlayerID());
             out.writeObject(message);
         }catch(IOException e){
             //riconnettiti

@@ -3,9 +3,9 @@ package it.polimi.se2018.client.view.cli;
 import it.polimi.se2018.network.messages.responses.DisconnectionResponse;
 
 public class AsyncPrinter implements Runnable {
-    private CLIInput cliInput;
-    private CLIClientView cliClientView;
-    private DisconnectionResponse disconnectionResponse;
+    private final CLIInput cliInput;
+    private final CLIClientView cliClientView;
+    private final DisconnectionResponse disconnectionResponse;
 
     AsyncPrinter(CLIInput cliInput, CLIClientView cliClientView, DisconnectionResponse disconnectionResponse) {
         this.cliInput = cliInput;

@@ -130,21 +130,13 @@ public class GameManager implements Stopper {
         return matchPlaying;
     }
 
-    //called by server
-    public boolean checkName(String playerName){
-        for(Map.Entry<Integer,String> entry : playerNames.entrySet()) {
-            if (playerName.equals(playerNames.get(entry.getKey()))) return false;
-        }
-        return true;
-    }
-
     //called by server, it can be called even if there are not all the players still
     public int playersNumber(){
         return playerIDs.size();
     }
 
     public void startSetup(){
-        controller = new Controller(this);
+        controller = new Controller(this,serverView);
         serverView.register(controller);
         createPublicObjectives();
         createToolCards();
@@ -177,9 +169,16 @@ public class GameManager implements Stopper {
         }
     }
 
-    public void setReconnected(int playerID) {
-        disconnectedPlayers.remove(playerID);
-        serverConnections.get(playerID).setReconnected();
+    public boolean isDisconnected(int playerID) {
+        return disconnectedPlayers.contains(playerID);
+    }
+
+    public void setReconnected(int playerID, ServerConnection serverConnection) {
+        serverConnections.get(playerID).stop();
+        serverConnection.setServerView(serverView);
+        serverConnections.put(playerID,serverConnection);
+        disconnectedPlayers.remove(disconnectedPlayers.indexOf(playerID));
+        serverView.addServerConnection(playerID,serverConnection);
     }
 
     //when a player sends the map he chose

@@ -24,16 +24,18 @@ public class Server implements Stopper {
     private static int matchID = 1;
     private static int playerNumber = 0; //identifies just the player, without the match
     private final Map<Integer, GameManager> matches;
+    private final Map<String, Integer> nicknames;
     private WaitingThread clock;
     private RMIManager remoteManager;
     private SocketHandler socketHandler;
 
     private Server() {
         matches = new HashMap<>();
+        nicknames = new HashMap<>();
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(1500);
+        Duration timeout = Duration.ofSeconds(30);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -104,14 +106,24 @@ public class Server implements Stopper {
         remoteManager.closeConnection();
     }
 
-    public void setPlayer(int playerID, String playerName, ServerConnection serverConnection) {
+    public int getPlayerID(String nickname) {
+        return nicknames.get(nickname);
+    }
+
+    public void setPlayer(int playerID, String nickname, ServerConnection serverConnection) {
+        nicknames.put(nickname,playerID);
         int match = playerID/1000;
         GameManager manager;
         if(matches.get(match)==null) manager = createManager(match);
         else manager = matches.get(match);
-        addPlayer(manager,playerID,playerName,serverConnection);
+        addPlayer(manager,playerID,nickname,serverConnection);
         if (manager.playersNumber() == 2) startTimer();
         if (isMatchFull()) startGame(manager);
+    }
+
+    public synchronized void handleReconnection(int playerID, ServerConnection serverConnection) {
+        GameManager manager = matches.get(playerID/1000);
+        manager.setReconnected(playerID, serverConnection);
     }
 
     public synchronized void handleDisconnection(int playerID) {
@@ -127,8 +139,12 @@ public class Server implements Stopper {
         }
     }
 
-    public boolean checkName(int playerID, String playerName) {
-        return !(matches.get(playerID/1000)==null || matches.get(playerID/1000).checkName(playerName));
+    public boolean checkDisconnection(String playerName) {
+        return matches.get(nicknames.get(playerName)/1000).isDisconnected(nicknames.get(playerName));
+    }
+
+    public boolean checkRegistration(String nickname) {
+        return !nicknames.containsKey(nickname);
     }
 
     public static int generateID() {
@@ -136,98 +152,11 @@ public class Server implements Stopper {
         return (matchID*1000)+playerNumber;
     }
 
-    public static void decrementID() {
-        playerNumber--;
-    }
-
     @Override
     public void halt(String message) {
         if (matches.get(matchID).playersNumber() >= 2) {
             matches.get(matchID).sendWindows();
             incrementMatchID();
-        }
-    }
-
-    public int checkEmail(String email) {
-        int playerID = -1;
-        String filename = "resources\\setting.txt";
-        BufferedReader br = null;
-        FileReader fr = null;
-        try {
-            //br = new BufferedReader(new FileReader(filename));
-            fr = new FileReader(filename);
-            br = new BufferedReader(fr);
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                String[] parsedLine = sCurrentLine.split(" ");
-                if (parsedLine[0].equals(email)) {
-                    System.out.println(parsedLine[0]);
-                    if (parsedLine.length > 1 && parsedLine[1].equals(" ")) {
-                        break;
-                    }
-                    else {
-                        playerID = Integer.parseInt(parsedLine[1]);
-                        break;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null)
-                    br.close();
-                if (fr != null)
-                    fr.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        return playerID;
-    }
-
-    public void writePlayerID(String email, int playerID) {
-        String filename = "resources\\setting.txt";
-        BufferedReader br = null;
-        FileReader fr = null;
-
-        boolean find = false;
-        try {
-            //br = new BufferedReader(new FileReader(FILENAME));
-            fr = new FileReader(filename);
-            br = new BufferedReader(fr);
-            String sCurrentLine;
-            while ((sCurrentLine = br.readLine()) != null) {
-                String[] parsedLine = sCurrentLine.split(" ");
-                if (parsedLine[0].equals(email)) {
-                    find = true;
-                    if (parsedLine.length > 1) {
-                        break;
-                    }
-                    else {
-                        playerID = Integer.parseInt(parsedLine[1]);
-                        break;
-                    }
-                }
-            }
-            if (!find){
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
-                    System.out.println(email + " " + playerID);
-                    writer.append(email + " " + playerID);
-                    writer.append("\r\n");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null)
-                    br.close();
-                if (fr != null)
-                    fr.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
