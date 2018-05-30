@@ -32,12 +32,19 @@ public class SetupResponse extends Response{
      */
     private final PrivateObjective privateObjective;
 
-    public SetupResponse(int player, List<Window> windows, List<PublicObjective> publicObjectives, PrivateObjective privateObjective, List<ToolCard> toolCards) {
+    private final int playersNumber;
+
+    public SetupResponse(int player, List<Window> windows, List<PublicObjective> publicObjectives, PrivateObjective privateObjective, List<ToolCard> toolCards, int playersNumber) {
         super(player);
         this.windows = windows;
         this.privateObjective = privateObjective;
         this.publicObjectives = publicObjectives;
         this.toolCards = toolCards;
+        this.playersNumber = playersNumber;
+    }
+
+    public int getPlayersNumber() {
+        return playersNumber;
     }
 
     /**

@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 
 public class CLIController implements ResponseHandler, Observer<Response>, Stopper {
     private final int playerID;
-
     private final CLIView cliView;
     private final ToolCardPlayerInput toolCardPlayerInput;
     private WaitingThread clock;
@@ -104,6 +103,7 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         cliView.setPrivateObjective(setupResponse.getPrivateObjective());
         cliView.setPublicObjectives(setupResponse.getPublicObjectives());
         cliView.setToolCards(setupResponse.getToolCards());
+        cliView.setPlayersNumber(setupResponse.getPlayersNumber());
         cliView.print("");
         cliView.printPrivateObjective();
         cliView.printPublicObjective();
@@ -127,24 +127,13 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         cliView.stopConnection();
     }
 
-    /**
-     * This method is used by the Server to notify that a player has disconnected
-     *
-     * @param disconnectionResponse contains a notification message
-     */
-    @Override
-    public void handleResponse(DisconnectionResponse disconnectionResponse) {
-        new Thread(new AsyncPrinter(cliView,this,disconnectionResponse)).start();
-    }
-
-    /**
-     * This method is used by the Server to communicate that a specific player has disconnected
-     *
-     * @param reconnectionResponse contains a notification message
-     */
     @Override
     public void handleResponse(ReconnectionResponse reconnectionResponse) {
-        //implementa
+        cliView.setPrivateObjective(reconnectionResponse.getPrivateObjective());
+        cliView.setPublicObjectives(reconnectionResponse.getPublicObjectives());
+        cliView.setToolCards(reconnectionResponse.getToolCards());
+        cliView.setPlayersNumber(reconnectionResponse.getPlayersNumber());
+        handleResponse(new ModelViewResponse(reconnectionResponse.getModelView()));
     }
 
     private List<Integer> actionPossible() {
@@ -163,7 +152,7 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
     }
 
     private void printActionPermitted(List<Integer> choosable) {
-        cliView.print("[1] Print the state of the game");
+        cliView.print("[1] Ask for informations");
         for (int i : choosable) {
             if (i==2) {
                 cliView.print("[2] Draft a die");
@@ -217,20 +206,20 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         }
     }
 
-    public void askInformation() throws HaltException {
+    private void askInformation() throws HaltException {
         int choice = -1;
         int top = 8;
         StringBuilder result = new StringBuilder();
-        result.append("[1] to see all information\n");
-        result.append("[2] to see your window\n");
-        result.append("[3] to see draftpool\n");
-        result.append("[4] to see tool card\n");
-        result.append("[5] to see your private objective\n");
-        result.append("[6] to see public objectives\n");
-        result.append("[7] to see all windows\n");
-        result.append("[8] to see your favor points");
+        result.append("\n[1] Print the entire state of the game\n");
+        result.append("[2] Show your window\n");
+        result.append("[3] Show all Windows\n");
+        result.append("[4] Show all Tool Cards\n");
+        result.append("[5] Show your Private Objective\n");
+        result.append("[6] Show all Public Ojectives\n");
+        result.append("[7] Show the Draft Pool\n");
+        result.append("[8] Show your Favor Points");
         if (cliView.getBoard().hasDieInHand()) {
-            result.append("[9] to see die in your hand");
+            result.append("[9] Show the die in your hand");
             top = 9;
         }
         cliView.print(String.valueOf(result));
@@ -238,11 +227,11 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         switch (choice) {
             case 1: cliView.printModel(); break;
             case 2: cliView.printYourWindow(); break;
-            case 3: cliView.printDraftPool(); break;
+            case 3: cliView.printPlayersWindows(); break;
             case 4: cliView.printToolCards(); break;
             case 5: cliView.printPrivateObjective(); break;
             case 6: cliView.printPublicObjective(); break;
-            case 7: cliView.printPlayersWindows(); break;
+            case 7: cliView.printDraftPool(); break;
             case 8: cliView.printFavorPoints(); break;
             case 9: cliView.printDraftPoolDice(cliView.getBoard().getDieInHand()); break;
             default: break;

@@ -27,7 +27,9 @@ import java.util.logging.Logger;
 import static java.lang.System.*;
 
 public class CLIView extends Observable<Response> implements ClientView {
+    private CLIController cliController;
     private final int playerID;
+    private int playersNumber;
     private List<String> playerNames;
     private ModelView board;
     private List<ToolCard> toolCards;
@@ -41,7 +43,8 @@ public class CLIView extends Observable<Response> implements ClientView {
     private boolean isOpen;
 
     public CLIView(int playerID) {
-        register(new CLIController(playerID,this));
+        CLIController controller = new CLIController(playerID,this);
+        register(controller);
         scanner = new Scanner(System.in);
         this.playerID = playerID;
         printStream = new PrintStream(out);
@@ -83,32 +86,38 @@ public class CLIView extends Observable<Response> implements ClientView {
         }
     }
 
-    public void handleNetworkOutput(Message message) {
+    void handleNetworkOutput(Message message) {
         clientConnection.sendMessage(message);
         wakeUp();
     }
 
-    public void stopConnection() {
+    void stopConnection() {
         clientConnection.stop();
     }
 
+    @Override
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
+        clientConnection.setCLIController(cliController);
+    }
+
+    void setPlayersNumber(int playersNumber) {
+        this.playersNumber=playersNumber;
     }
 
     List<ToolCard> getToolCards() {
         return toolCards;
     }
 
-    public List<PublicObjective> getPublicObjectives() {
+    List<PublicObjective> getPublicObjectives() {
         return publicObjectives;
     }
 
-    public void setToolCards(List<ToolCard> toolCards) {
+    void setToolCards(List<ToolCard> toolCards) {
         this.toolCards = toolCards;
     }
 
-    public void setPrivateObjective(PrivateObjective privateObjective) {
+    void setPrivateObjective(PrivateObjective privateObjective) {
         this.privateObjective = privateObjective;
     }
 
@@ -161,7 +170,7 @@ public class CLIView extends Observable<Response> implements ClientView {
         return res;
     }
 
-    public Coordinate getCoordinate() throws HaltException {
+    Coordinate getCoordinate() throws HaltException {
         int row = -1;
         int col = -1;
         int choice = -1;
@@ -262,35 +271,73 @@ public class CLIView extends Observable<Response> implements ClientView {
         printStream.println("\n");
     }
 
-    public void printYourWindow() {
+    private StringBuilder generateUpperDashes() {
+        StringBuilder result = new StringBuilder();
+        result.append("╔");
+        for(int i=0; i<15; i++) {
+            result.append("═");
+        }
+        result.append("╗");
+        return result;
+    }
+
+    private StringBuilder generateLowerDashes() {
+        StringBuilder result = new StringBuilder();
+        result.append("╚");
+        for(int i=0; i<15; i++) {
+            result.append("═");
+        }
+        result.append("╝");
+        return result;
+    }
+
+    private StringBuilder generateAllDashes(boolean upper, int windowsNumber) {
+        StringBuilder builder = new StringBuilder();
+        for(int i=0; i<windowsNumber; i++) {
+            if(upper) builder.append(generateUpperDashes());
+            else builder.append(generateLowerDashes());
+            builder.append(generateSpaces(23));
+        }
+        return builder;
+    }
+
+    void printYourWindow() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
         Square[][] window = board.getPlayerWindow().get(yourIndex);
-        StringBuilder builder;
         printStream.println("Your window is:\n");
+        StringBuilder builder = generateUpperDashes();
+        printStream.print(builder+"\n");
         for (Square[] row : window) {
             builder = new StringBuilder();
+            builder.append("║");
             for (Square square : row) {
                 builder.append(square);
             }
+            builder.append("║");
             printStream.print(builder);
             printStream.print("\n");
         }
-        printStream.print("\n");
+        builder = generateLowerDashes();
+        printStream.print(builder+"\n");
     }
 
-    private void printWindows(List<Square[][]> windows) {
-        StringBuilder builder;
+     private void printWindows(List<Square[][]> windows, int windowsNumber) {
+        StringBuilder builder = generateAllDashes(true,windowsNumber);
+        printStream.println(builder);
         for(int i=0; i<4; i++) {
             builder = new StringBuilder();
             for(Square[][] window : windows) {
+                builder.append("║");
                 for(Square square : window[i]) {
-                    builder.append(square.toString());
-                    builder.append(" ");
+                    builder.append(square);
                 }
-                builder.append(generateSpaces(20));
+                builder.append("║");
+                builder.append(generateSpaces(23));
             }
             printStream.println(builder);
         }
+        builder = generateAllDashes(false,windowsNumber);
+        printStream.println(builder);
     }
 
     void printSetupWindows(List<Window> windows) {
@@ -302,7 +349,7 @@ public class CLIView extends Observable<Response> implements ClientView {
             titles.append(tmp);
         }
         printStream.println(titles);
-        printWindows(getPatterns(windows));
+        printWindows(getPatterns(windows),4);
         StringBuilder levels = new StringBuilder();
         for(Window window : windows) {
             tmp = "Level: "+window.getLevel() + generateSpaces(32);
@@ -319,7 +366,7 @@ public class CLIView extends Observable<Response> implements ClientView {
         return result;
     }
 
-    public void printPlayersWindows() {
+    void printPlayersWindows() {
         printStream.println("Windows:");
         StringBuilder builder = new StringBuilder();
         String tmp;
@@ -328,10 +375,10 @@ public class CLIView extends Observable<Response> implements ClientView {
             builder.append(tmp);
         }
         printStream.println(builder);
-        printWindows(board.getPlayerWindow());
+        printWindows(board.getPlayerWindow(),playersNumber);
     }
 
-    public void printDraftPoolDice(Die die) {
+    void printDraftPoolDice(Die die) {
         StringBuilder result = new StringBuilder();
         String color = die.getColor().toString();
         result.append("COLOR: ");
@@ -344,7 +391,7 @@ public class CLIView extends Observable<Response> implements ClientView {
         printStream.print(result);
     }
 
-    public void printToolCards() {
+    void printToolCards() {
         printStream.println("Tool Cards:");
         StringBuilder result;
         for (int i = 0; i < toolCards.size(); i++) {
@@ -363,19 +410,19 @@ public class CLIView extends Observable<Response> implements ClientView {
         printStream.print("\n");
     }
 
-    public void printFavorPoints() {
+    void printFavorPoints() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
         printStream.println("Favor points left: " + board.getPlayerFavorPoint().get(yourIndex));
         printStream.println("\n");
     }
 
-    public void printPrivateObjective() {
+    void printPrivateObjective() {
         printStream.print("\n");
         printStream.println(privateObjective);
         printStream.println("\n");
     }
 
-    public void printPublicObjective() {
+    void printPublicObjective() {
         printStream.println("Public Objectives: ");
         for (PublicObjective obj : publicObjectives) {
             printStream.print(obj);
@@ -383,7 +430,7 @@ public class CLIView extends Observable<Response> implements ClientView {
         printStream.println("\n");
     }
 
-    public void printModel() {
+    void printModel() {
         printPrivateObjective();
         printPublicObjective();
         printFavorPoints();

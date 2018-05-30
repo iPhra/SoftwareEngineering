@@ -29,6 +29,6 @@ public class DisconnectionResponse extends Response{
      */
     @Override
     public void handle(ResponseHandler responseHandler) {
-        responseHandler.handleResponse(this);
+        //not implemented
     }
 }

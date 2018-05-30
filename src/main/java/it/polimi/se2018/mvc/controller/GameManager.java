@@ -9,6 +9,8 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.DisconnectionResponse;
+import it.polimi.se2018.network.messages.responses.ReconnectionNotificationResponse;
+import it.polimi.se2018.network.messages.responses.ReconnectionResponse;
 import it.polimi.se2018.network.messages.responses.SetupResponse;
 import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.utils.Stopper;
@@ -95,6 +97,17 @@ public class GameManager implements Stopper {
         return 0;
     }
 
+    private void notifyReconnection(int playerID) {
+        for(int id : playerIDs) {
+            if(id!=playerID) {
+                serverView.update(new ReconnectionNotificationResponse(id,playerNames.get(playerID)));
+            }
+            else {
+                serverView.update(new ReconnectionResponse(id,model.modelViewCopy(),model.getPlayerByID(id).getPrivateObjective(),publicObjectives,toolCards,playerIDs.size()));
+            }
+        }
+    }
+
     public ServerConnection getServerConnection(int playerID) {
         return serverConnections.get(playerID);
     }
@@ -152,7 +165,7 @@ public class GameManager implements Stopper {
                 windowsSetup.get(playerIDs.get(i)).add(windows.get(j));
             }
             serverView.update(new SetupResponse(
-                    playerIDs.get(i),windowsSetup.get(playerIDs.get(i)),publicObjectives,privateObjectives.get(i),toolCards));
+                    playerIDs.get(i),windowsSetup.get(playerIDs.get(i)),publicObjectives,privateObjectives.get(i),toolCards,playerIDs.size()));
         }
         startTimer();
     }
@@ -179,6 +192,7 @@ public class GameManager implements Stopper {
         serverConnections.put(playerID,serverConnection);
         disconnectedPlayers.remove(disconnectedPlayers.indexOf(playerID));
         serverView.addServerConnection(playerID,serverConnection);
+        notifyReconnection(playerID);
     }
 
     //when a player sends the map he chose

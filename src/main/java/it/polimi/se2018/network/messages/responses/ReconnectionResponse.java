@@ -13,25 +13,32 @@ public class ReconnectionResponse extends Response {
     /**
      * These are the {@link PublicObjective} extracted on the Board
      */
-    private List<PublicObjective> publicObjectives;
+    private final List<PublicObjective> publicObjectives;
 
     /**
      * These are the {@link ToolCard} extracted on the Board
      */
-    private List<ToolCard> toolCards;
+    private final List<ToolCard> toolCards;
 
     /**
      * This is the {@link PrivateObjective} belonging to the player this message will be sent to
      */
-    private PrivateObjective privateObjective;
+    private final PrivateObjective privateObjective;
+
+    private final int playersNumber;
 
 
-    public ReconnectionResponse(int playerID, ModelView modelView, PrivateObjective privateObjective, List<ToolCard> toolCards, List<PublicObjective> publicObjectives ) {
+    public ReconnectionResponse(int playerID, ModelView modelView, PrivateObjective privateObjective, List<PublicObjective> publicObjectives, List<ToolCard> toolCards, int playersNumber) {
         super(playerID);
         this.modelView = modelView;
         this.privateObjective = privateObjective;
         this.publicObjectives = publicObjectives;
         this.toolCards = toolCards;
+        this.playersNumber=playersNumber;
+    }
+
+    public int getPlayersNumber() {
+        return playersNumber;
     }
 
     public ModelView getModelView() {

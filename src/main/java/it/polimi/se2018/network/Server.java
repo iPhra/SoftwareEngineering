@@ -16,6 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +36,7 @@ public class Server implements Stopper {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(30);
+        Duration timeout = Duration.ofSeconds(10);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -166,5 +167,8 @@ public class Server implements Stopper {
         server.startSocketConnection();
         server.createRMIRegistry();
         new PrintStream(System.out).println("Listening...");
+        Scanner scanner = new Scanner(System.in);
+        while(!scanner.nextLine().startsWith("exit"));
+        server.close();
     }
 }

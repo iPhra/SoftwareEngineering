@@ -65,6 +65,7 @@ public class RMIServerConnection extends ServerConnection implements RemoteConne
 
     @Override
     public void getMessage(Message message) {
+
         synchronized (events) {
             events.add(message);
             events.notifyAll();

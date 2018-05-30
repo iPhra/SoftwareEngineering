@@ -72,11 +72,16 @@ public class Client {
     private void createRMIConnection() {
         try {
             RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
-            playerID = manager.getID();
             while (setup) {
                 nickname = getNickname();
-                setup = manager.checkName(playerID, nickname);
-                output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
+                setup = manager.checkName(nickname);
+                if(!setup) {
+                    output.println("Your nickname is ok");
+                    playerID = manager.getID(nickname);
+                }
+                else {
+                    output.println("This nickname is already taken, please choose another one");
+                }
             }
             clientView = new CLIView(playerID);
             clientConnection = new RMIClientConnection(clientView);
@@ -89,6 +94,7 @@ public class Client {
         }
         clientView.setClientConnection(clientConnection);
         new Thread((RMIClientConnection) clientConnection).start();
+        ((CLIView) clientView).start();
     }
 
     private void createSocketConnection(){

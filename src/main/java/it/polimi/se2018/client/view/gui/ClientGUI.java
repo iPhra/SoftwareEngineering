@@ -1,11 +1,8 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.network.ClientConnection;
-import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.ClientView;
-import it.polimi.se2018.network.connections.rmi.RemoteConnection;
-import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,12 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.MalformedURLException;
 import java.net.Socket;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +28,7 @@ public class ClientGUI extends Application{
     private boolean setup;
     private InputStream playerNameStream;
 
-    public ClientGUI() {
+    private ClientGUI() {
         setup = true;
     }
 
@@ -50,28 +42,32 @@ public class ClientGUI extends Application{
     }
 
     void createRMIConnection(){
+        /*
         try {
             RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
-            playerID = manager.getID();
             while (setup) {
-                playerName = getPlayerName();  //not ok
-                setup = manager.checkName(playerID, playerName);
-                //here i must write the output that in ClientCLI is:
-                //output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
+                nickname = getNickname();
+                setup = manager.checkName(nickname);
+                if(!setup) {
+                    output.println("Your nickname is ok");
+                    playerID = manager.getID(nickname);
+                }
+                else {
+                    output.println("This nickname is already taken, please choose another one");
+                }
             }
-            clientView = new GUIClientView(playerID);
+            clientView = new CLIView(playerID);
             clientConnection = new RMIClientConnection(clientView);
-            manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
+            manager.addClient(playerID, nickname, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
             RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
             ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
-            clientView.setClientConnection(clientConnection);
-            new Thread((RMIClientConnection) clientConnection).start();
         }
         catch(RemoteException | NotBoundException | MalformedURLException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            System.exit(1);
         }
-
+        clientView.setClientConnection(clientConnection);
+        new Thread((RMIClientConnection) clientConnection).start();
+        */
     }
 
     void createSocketConnection(){

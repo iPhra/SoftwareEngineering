@@ -19,11 +19,12 @@ public class RMIManager implements RemoteManager {
         this.registry = registry;
     }
 
-    public boolean checkName(int playerID, String playerName) {
-        return true;//server.checkName(playerID,playerName);
+    //false if he's not registered or reconnecting
+    public boolean checkName(String nickname) {
+        return !(server.checkRegistration(nickname) || server.checkDisconnection(nickname));
     }
 
-    public void addClient(int playerID, String playerName, RemoteConnection clientConnection) {
+    public void addClient(int playerID, String nickname, RemoteConnection clientConnection) {
         ServerConnection serverConnection = new RMIServerConnection(clientConnection, this, playerID);
         try {
             registry.rebind("ServerConnection"+playerID, UnicastRemoteObject.exportObject((RemoteConnection) serverConnection,0));
@@ -33,11 +34,12 @@ public class RMIManager implements RemoteManager {
         }
         Thread thread = new Thread((RMIServerConnection)serverConnection);
         thread.start();
-        server.setPlayer(playerID,playerName,serverConnection);
+        if(server.checkRegistration(nickname)) server.setPlayer(playerID,nickname,serverConnection);
+        else server.handleReconnection(playerID,serverConnection);
     }
 
-    public int getID() {
-        return Server.generateID();
+    public int getID(String nickname) {
+        return server.checkRegistration(nickname)? Server.generateID() : server.getPlayerID(nickname);
     }
 
     public synchronized void closePlayerConnection(int playerID, ServerConnection serverConnection) {
@@ -56,9 +58,10 @@ public class RMIManager implements RemoteManager {
             registry.unbind("RemoteManager");
             UnicastRemoteObject.unexportObject(this, true);
             UnicastRemoteObject.unexportObject(registry, true);
-        } catch (RemoteException | NotBoundException e) {
+        }
+        catch (RemoteException | NotBoundException e) {
             Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            logger.log(Level.SEVERE,"error while closing",e);
         }
     }
 }

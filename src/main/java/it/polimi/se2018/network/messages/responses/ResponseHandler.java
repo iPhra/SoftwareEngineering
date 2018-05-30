@@ -46,14 +46,8 @@ public interface ResponseHandler {
     void handleResponse(ScoreBoardResponse scoreBoardResponse);
 
     /**
-     * This method is used by the Server to communicate that a specific player has disconnected
-     * @param disconnectionResponse contains a notification message
-     */
-    void handleResponse(DisconnectionResponse disconnectionResponse);
-
-    /**
-     * This method is used by the Server to communicate that a specific player has disconnected
-     * @param reconnectionResponse contains a notification message
+     * This method is used by the Server to communicate objects to a player that has reconnected
+     * @param reconnectionResponse contains all useful objects for reconnection
      */
     void handleResponse(ReconnectionResponse reconnectionResponse);
 }

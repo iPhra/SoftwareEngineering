@@ -61,16 +61,6 @@ public class GUIClientView implements ResponseHandler, ClientView{
     /**
      * This method is used by the Server to communicate that a specific player has disconnected
      *
-     * @param disconnectionResponse contains a notification message
-     */
-    @Override
-    public void handleResponse(DisconnectionResponse disconnectionResponse) {
-        //to be implemented
-    }
-
-    /**
-     * This method is used by the Server to communicate that a specific player has disconnected
-     *
      * @param reconnectionResponse contains a notification message
      */
     @Override

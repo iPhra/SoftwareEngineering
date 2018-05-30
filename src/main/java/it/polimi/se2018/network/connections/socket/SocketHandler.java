@@ -26,6 +26,13 @@ public class SocketHandler implements Runnable {
 
     public void stop() {
         isOpen = false;
+        pool.shutdown();
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
     }
 
     public void run() {
@@ -35,9 +42,8 @@ public class SocketHandler implements Runnable {
                 ServerConnection socketServerConnection = new SocketServerConnection(client, server);
                 pool.submit((SocketServerConnection) socketServerConnection);
             }
-            serverSocket.close();
-            pool.shutdown();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }
