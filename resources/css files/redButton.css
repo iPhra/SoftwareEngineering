@@ -1,0 +1,4 @@
+.redButton {
+	-fx-graphic:url('/other images/redButton.png');
+    -fx-background-color: transparent;
+}
