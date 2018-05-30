@@ -7,9 +7,14 @@ import it.polimi.se2018.network.messages.responses.*;
 public class GUIClientView implements ResponseHandler, ClientView{
     private final int playerID;
     private ClientConnection clientConnection;
+    private SceneController sceneController;
 
     public GUIClientView(int playerID){
         this.playerID = playerID;
+    }
+
+    public void setSceneController(SceneController sceneController){
+        this.sceneController = sceneController;
     }
 
     @Override
