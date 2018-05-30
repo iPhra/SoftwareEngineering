@@ -136,6 +136,16 @@ public class CLIController implements ResponseHandler, Observer<Response>, Stopp
         new Thread(new AsyncPrinter(cliView,this,disconnectionResponse)).start();
     }
 
+    /**
+     * This method is used by the Server to communicate that a specific player has disconnected
+     *
+     * @param reconnectionResponse contains a notification message
+     */
+    @Override
+    public void handleResponse(ReconnectionResponse reconnectionResponse) {
+        //implementa
+    }
+
     private List<Integer> actionPossible() {
         List<Integer> choosable = new ArrayList<>();
         if (!cliView.getBoard().hasDraftedDie()) {
