@@ -27,14 +27,31 @@ public class ClientGUI extends Application{
     private Socket socket;
     private boolean setup;
     private InputStream playerNameStream;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
+    private boolean isSocket;
 
-    private ClientGUI() {
+    public ClientGUI() {
         setup = true;
     }
 
+    public boolean isSocket() {
+        return isSocket;
+    }
+
     //has to be implemented
-    private String getPlayerName(){
-        return null;
+    public boolean getPlayerNameSocket(String playerName){
+        if (setup) {
+            this.playerName = playerName;
+            try{
+                out.writeObject(playerName);
+                setup = (boolean) in.readObject();
+            }catch(IOException | ClassNotFoundException  e){
+                Logger logger = Logger.getAnonymousLogger();
+                logger.log(Level.ALL,e.getMessage());
+            }
+        }
+        return setup;
     }
 
     public ClientView getClientView() {
@@ -73,11 +90,12 @@ public class ClientGUI extends Application{
     void createSocketConnection(){
         try{
             socket = new Socket(HOST, PORT);
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
             playerID = (int) in.readObject();
+            isSocket = true;
             while (setup) {
-                playerName = getPlayerName();  //not ok
+                //playerName = getPlayerName();  //not ok
                 out.writeObject(playerName);
                 setup = (boolean) in.readObject();
                 //here i must write the output that in ClientCLI is:
