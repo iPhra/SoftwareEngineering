@@ -15,8 +15,14 @@ public class PlayerNameSceneController implements SceneController{
     private TextField nickTextField;
 
     public void onReturnHandler(){
-        System.out.println(nickTextField.getText()); //will remove this line of code, it's just to debug
-        changeScene(nickTextField); //this shouldn't be here, it should be called if nickname is ok and when clientView was created on clientGUI
+        if (clientGUI.isSocket()){
+            if (clientGUI.getPlayerNameSocket(nickTextField.getText())){
+                changeScene(nickTextField);
+            }
+            //here i need the else that prints that nick is not ok
+        }
+        //here i need the else for the RMI connection
+
     }
 
     @Override
