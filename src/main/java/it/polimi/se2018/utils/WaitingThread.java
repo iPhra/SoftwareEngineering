@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public class WaitingThread extends Thread {
 
-    private Duration timeout;
+    private final Duration timeout;
     private final Stopper caller;
     private Boolean stopped = false;
 
@@ -15,15 +15,12 @@ public class WaitingThread extends Thread {
         this.caller = caller;
     }
 
-    public void setTimeout(Duration timeout) {
-        this.timeout = timeout;
-    }
-
     @Override
     public void run() {
         try {
             Thread.sleep(timeout.toMillis());
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             stopped = true;
             Thread.currentThread().interrupt();
         }
@@ -33,5 +30,4 @@ public class WaitingThread extends Thread {
             caller.halt("Time is up");
         }
     }
-
 }

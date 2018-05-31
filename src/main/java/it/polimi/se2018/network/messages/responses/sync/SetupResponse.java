@@ -1,4 +1,4 @@
-package it.polimi.se2018.network.messages.responses;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
@@ -11,7 +11,7 @@ import java.util.List;
  * This is the class containing the setup of the game, sent by the Server to the Client
  * @author Francesco Lorenzo
  */
-public class SetupResponse extends Response{
+public class SetupResponse extends SyncResponse {
     /**
      * These are the {@link Window} a user can choose from
      */
@@ -77,10 +77,10 @@ public class SetupResponse extends Response{
 
     /**
      * Uses the handler to handle this specific setup response
-     * @param responseHandler is the object who will handle this response
+     * @param syncResponseHandler is the object who will handle this response
      */
     @Override
-    public void handle(ResponseHandler responseHandler){
-        responseHandler.handleResponse(this);
+    public void handle(SyncResponseHandler syncResponseHandler){
+        syncResponseHandler.handleResponse(this);
     }
 }

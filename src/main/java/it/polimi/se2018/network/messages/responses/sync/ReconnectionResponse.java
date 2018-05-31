@@ -1,4 +1,4 @@
-package it.polimi.se2018.network.messages.responses;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
@@ -7,7 +7,7 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
 import java.util.List;
 
-public class ReconnectionResponse extends Response {
+public class ReconnectionResponse extends SyncResponse {
     private final ModelView modelView;
 
     /**
@@ -25,20 +25,26 @@ public class ReconnectionResponse extends Response {
      */
     private final PrivateObjective privateObjective;
 
-    private final int playersNumber;
+    /**
+     * This is the number of players in the current match
+     */
+    private int playersNumber;
 
-
-    public ReconnectionResponse(int playerID, ModelView modelView, PrivateObjective privateObjective, List<PublicObjective> publicObjectives, List<ToolCard> toolCards, int playersNumber) {
+    public ReconnectionResponse(int playerID, ModelView modelView, PrivateObjective privateObjective, List<PublicObjective> publicObjectives, List<ToolCard> toolCards) {
         super(playerID);
         this.modelView = modelView;
         this.privateObjective = privateObjective;
         this.publicObjectives = publicObjectives;
         this.toolCards = toolCards;
-        this.playersNumber=playersNumber;
     }
+
 
     public int getPlayersNumber() {
         return playersNumber;
+    }
+
+    public void setPlayersNumber(int playersNumber) {
+        this.playersNumber = playersNumber;
     }
 
     public ModelView getModelView() {
@@ -60,10 +66,10 @@ public class ReconnectionResponse extends Response {
     /**
      * Uses the handler to handle this specific disconnection response
      *
-     * @param responseHandler is the object who will handle this response
+     * @param syncResponseHandler is the object who will handle this response
      */
     @Override
-    public void handle(ResponseHandler responseHandler) {
-        responseHandler.handleResponse(this);
+    public void handle(SyncResponseHandler syncResponseHandler) {
+        syncResponseHandler.handleResponse(this);
     }
 }

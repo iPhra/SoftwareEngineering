@@ -1,10 +1,13 @@
 package it.polimi.se2018.network.messages.responses;
 
+import it.polimi.se2018.network.messages.responses.Response;
+import it.polimi.se2018.network.messages.responses.ResponseHandler;
+
 /**
  * This is the class containing a response from the Server containing a notification that a player has disconnected
  * @author Francesco Lorenzo
  */
-public class DisconnectionResponse extends Response{
+public class DisconnectionResponse extends Response {
     private final String message;
     private final String playerName;
 
@@ -22,13 +25,8 @@ public class DisconnectionResponse extends Response{
         return playerName;
     }
 
-    /**
-     * Uses the handler to handle this specific disconnection response
-     *
-     * @param responseHandler is the object who will handle this response
-     */
     @Override
-    public void handle(ResponseHandler responseHandler) {
-        //not implemented
+    public void handleClass(ResponseHandler responseHandler) {
+        responseHandler.handleResponse(this);
     }
 }

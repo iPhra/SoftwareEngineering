@@ -48,7 +48,7 @@ public class Server implements Stopper {
     }
 
     private GameManager createManager(int match) {
-        GameManager manager = new GameManager();
+        GameManager manager = new GameManager(this);
         manager.setServerView(new ServerView());
         manager.startSetup();
         matches.put(match,manager);
@@ -94,8 +94,7 @@ public class Server implements Stopper {
         try{
             ServerSocket serverSocket = new ServerSocket(PORT);
             socketHandler = new SocketHandler(this,serverSocket);
-            Thread thread = new Thread(socketHandler);
-            thread.start();
+            new Thread(socketHandler).start();
         }catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
@@ -105,6 +104,8 @@ public class Server implements Stopper {
     private void close() {
         socketHandler.stop();
         remoteManager.closeConnection();
+        nicknames.clear();
+        matches.clear();
     }
 
     public int getPlayerID(String nickname) {
@@ -146,6 +147,14 @@ public class Server implements Stopper {
 
     public boolean checkRegistration(String nickname) {
         return !nicknames.containsKey(nickname);
+    }
+
+    public void deregisterPlayer(String nickname) {
+        nicknames.remove(nickname);
+    }
+
+    public void deregisterMatch(int matchID) {
+        matches.remove(matchID);
     }
 
     public static int generateID() {

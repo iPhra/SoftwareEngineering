@@ -58,7 +58,7 @@ public class Round {
     /**
      * @return the index of the array playersOrder
      */
-    public int getCurrentPlayerIndex() {return playersOrder.get(currentPlayerIndex);}
+    public int getCurrentPlayerID() {return playersOrder.get(currentPlayerIndex);}
 
     /**
      * @return the number of this round

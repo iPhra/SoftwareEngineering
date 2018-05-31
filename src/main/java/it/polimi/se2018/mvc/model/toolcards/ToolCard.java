@@ -3,7 +3,7 @@ package it.polimi.se2018.mvc.model.toolcards;
 import it.polimi.se2018.mvc.controller.ToolCardHandler;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.controller.ToolCardCheckerHandler;
-import it.polimi.se2018.network.messages.responses.Response;
+import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
 import it.polimi.se2018.utils.exceptions.HaltException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
@@ -23,7 +23,7 @@ public abstract class ToolCard implements Serializable {
 
     public String getDescription() { return description; }
 
-    public abstract Response handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
+    public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 
     public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws HaltException;
 

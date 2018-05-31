@@ -9,13 +9,13 @@ public interface ToolCardPlayerInputHandler {
     ToolCardMessage getPlayerRequests(CopperFoilBurnisher toolCard, int toolCardNumber) throws HaltException;
     ToolCardMessage getPlayerRequests(CorkBackedStraightedge toolCard, int toolCardNumber) throws HaltException;
     ToolCardMessage getPlayerRequests(EglomiseBrush toolCard, int toolCardNumber) throws HaltException;
-    ToolCardMessage getPlayerRequests(FluxBrush toolCard, int toolCardNumber) throws HaltException;
-    ToolCardMessage getPlayerRequests(FluxRemover toolCard, int toolCardNumber) throws HaltException;
-    ToolCardMessage getPlayerRequests(GlazingHammer toolCard, int toolCardNumber) throws HaltException;
-    ToolCardMessage getPlayerRequests(GrindingStone toolCard, int toolCardNumber) throws HaltException;
+    ToolCardMessage getPlayerRequests(FluxBrush toolCard, int toolCardNumber);
+    ToolCardMessage getPlayerRequests(FluxRemover toolCard, int toolCardNumber);
+    ToolCardMessage getPlayerRequests(GlazingHammer toolCard, int toolCardNumber);
+    ToolCardMessage getPlayerRequests(GrindingStone toolCard, int toolCardNumber);
     ToolCardMessage getPlayerRequests(GrozingPliers toolCard, int toolCardNumber) throws HaltException;
     ToolCardMessage getPlayerRequests(Lathekin toolCard, int toolCardNumber) throws HaltException;
     ToolCardMessage getPlayerRequests(LensCutter toolCard, int toolCardNumber) throws HaltException;
-    ToolCardMessage getPlayerRequests(RunningPliers toolCard, int toolCardNumber) throws HaltException;
+    ToolCardMessage getPlayerRequests(RunningPliers toolCard, int toolCardNumber);
     ToolCardMessage getPlayerRequests(TapWheel toolCard, int toolCardNumber) throws HaltException;
 }

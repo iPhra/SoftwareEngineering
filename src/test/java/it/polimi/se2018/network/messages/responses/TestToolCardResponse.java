@@ -1,6 +1,6 @@
 package it.polimi.se2018.network.messages.responses;
 
-import org.junit.Assert;
+import it.polimi.se2018.network.messages.responses.sync.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class TestToolCardResponse {
 
     @Test
     public void testHandle() {
-        toolCardResponse.handle(new ResponseHandler() {
+        toolCardResponse.handle(new SyncResponseHandler() {
             @Override
             public void handleResponse(ModelViewResponse modelViewResponse) {
                 fail();

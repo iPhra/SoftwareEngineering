@@ -16,9 +16,9 @@ public class AsyncPrinter implements Runnable {
 
     @Override
     public void run() {
-        cliView.print(message);
+        cliView.print("\n"+message);
         if(halt) {
-            cliController.halt("Stopped");
+            cliController.halt("");
         }
     }
 }

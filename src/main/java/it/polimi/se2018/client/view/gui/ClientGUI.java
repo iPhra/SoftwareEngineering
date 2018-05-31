@@ -84,7 +84,7 @@ public class ClientGUI extends Application{
                 //output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
             }
             clientView = new GUIClientView(playerID);
-            clientConnection = new SocketClientConnection(socket, clientView,in,out);
+            clientConnection = new SocketClientConnection(clientView, socket,in,out);
             clientView.setClientConnection(clientConnection);
             new Thread((SocketClientConnection) clientConnection).start();
         } catch(IOException | ClassNotFoundException e){

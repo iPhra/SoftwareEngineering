@@ -130,31 +130,31 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.InputResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/InputResponse.html" title="class in it.polimi.se2018.network.messages.responses">InputResponse</a>&nbsp;inputResponse)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.sync.InputResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/InputResponse.html" title="class in it.polimi.se2018.network.messages.responses">InputResponse</a>&nbsp;inputResponse)</code>
 <div class="block">This method is used by the Server to communicate a specific color for <a href="../../../../../../it/polimi/se2018/model/toolcards/ToolCard.html" title="class in it.polimi.se2018.model.toolcards"><code>ToolCard</code></a></div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.ModelViewResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ModelViewResponse.html" title="class in it.polimi.se2018.network.messages.responses">ModelViewResponse</a>&nbsp;modelViewResponse)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.sync.ModelViewResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ModelViewResponse.html" title="class in it.polimi.se2018.network.messages.responses">ModelViewResponse</a>&nbsp;modelViewResponse)</code>
 <div class="block">This method updates the state of the game client-side</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.SetupResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/SetupResponse.html" title="class in it.polimi.se2018.network.messages.responses">SetupResponse</a>&nbsp;setupResponse)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.sync.SetupResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/SetupResponse.html" title="class in it.polimi.se2018.network.messages.responses">SetupResponse</a>&nbsp;setupResponse)</code>
 <div class="block">This method is used by the Server during the setup of the game</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.TextResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/TextResponse.html" title="class in it.polimi.se2018.network.messages.responses">TextResponse</a>&nbsp;textResponse)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.sync.TextResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/TextResponse.html" title="class in it.polimi.se2018.network.messages.responses">TextResponse</a>&nbsp;textResponse)</code>
 <div class="block">This method is used to inform the Client of textual messages from the Server, such as Exceptions</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.ToolCardResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ToolCardResponse.html" title="class in it.polimi.se2018.network.messages.responses">ToolCardResponse</a>&nbsp;toolCardResponse)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html#handleResponse-it.polimi.se2018.network.messages.responses.sync.ToolCardResponse-">handleResponse</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ToolCardResponse.html" title="class in it.polimi.se2018.network.messages.responses">ToolCardResponse</a>&nbsp;toolCardResponse)</code>
 <div class="block">This method is used to notify the client that he can use the Tool Card he selected</div>
 </td>
 </tr>
@@ -203,7 +203,7 @@ var activeTableTab = "activeTableTab";
 <div class="block">This method is used to inform the Client of textual messages from the Server, such as Exceptions</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>textResponse</code> - is the response containing the message</dd>
+<dd><code>textResponse</code> - is the syncResponse containing the message</dd>
 </dl>
 </li>
 </ul>
@@ -217,7 +217,7 @@ var activeTableTab = "activeTableTab";
 <div class="block">This method notifies a client that his turn just started</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>turnStartResponse</code> - is an empty response</dd>
+<dd><code>turnStartResponse</code> - is an empty syncResponse</dd>
 </dl>
 </li>
 </ul>

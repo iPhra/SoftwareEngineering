@@ -99,7 +99,7 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>it.polimi.se2018.network.messages.responses.Response</li>
+<li>it.polimi.se2018.network.messages.responses.sync.SyncResponse</li>
 </ul>
 </li>
 </ul>
@@ -119,13 +119,13 @@ var activeTableTab = "activeTableTab";
 <pre>public abstract class <span class="typeNameLabel">Response</span>
 extends java.lang.Object
 implements java.io.Serializable</pre>
-<div class="block">This is the abstract class representing a response from the Server to the Client
+<div class="block">This is the abstract class representing a syncResponse from the Server to the Client
  For more details, check Visitor pattern</div>
 <dl>
 <dt><span class="simpleTagLabel">Author:</span></dt>
 <dd>Francesco Lorenzo</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../../../serialized-form.html#it.polimi.se2018.network.messages.responses.Response">Serialized Form</a></dd>
+<dd><a href="../../../../../../serialized-form.html#it.polimi.se2018.network.messages.responses.sync.SyncResponse">Serialized Form</a></dd>
 </dl>
 </li>
 </ul>
@@ -170,8 +170,8 @@ implements java.io.Serializable</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html#handle-it.polimi.se2018.network.messages.responses.ResponseHandler-">handle</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html" title="interface in it.polimi.se2018.network.messages.responses">ResponseHandler</a>&nbsp;responseHandler)</code>
-<div class="block">Uses the handler to handle this specific response
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html#handle-it.polimi.se2018.network.messages.responses.sync.SyncResponseHandler-">handle</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html" title="interface in it.polimi.se2018.network.messages.responses">ResponseHandler</a>&nbsp;syncResponseHandler)</code>
+<div class="block">Uses the handler to handle this specific syncResponse
  Implemented by each specific Response subclass</div>
 </td>
 </tr>
@@ -233,12 +233,12 @@ implements java.io.Serializable</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>handle</h4>
-<pre>public abstract&nbsp;void&nbsp;handle(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html" title="interface in it.polimi.se2018.network.messages.responses">ResponseHandler</a>&nbsp;responseHandler)</pre>
-<div class="block">Uses the handler to handle this specific response
+<pre>public abstract&nbsp;void&nbsp;handle(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html" title="interface in it.polimi.se2018.network.messages.responses">ResponseHandler</a>&nbsp;syncResponseHandler)</pre>
+<div class="block">Uses the handler to handle this specific syncResponse
  Implemented by each specific Response subclass</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>responseHandler</code> - is the object who will handle this response</dd>
+<dd><code>syncResponseHandler</code> - is the object who will handle this syncResponse</dd>
 </dl>
 </li>
 </ul>

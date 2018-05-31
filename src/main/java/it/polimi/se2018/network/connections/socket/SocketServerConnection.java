@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SocketServerConnection extends ServerConnection implements Runnable{
+public class SocketServerConnection implements ServerConnection, Runnable{
     private final Server server;
     private final Socket socket;
     private int playerID;
@@ -66,22 +66,10 @@ public class SocketServerConnection extends ServerConnection implements Runnable
         }
     }
 
-    private void closeConnection(){
-        try{
-            in.close();
-            out.close();
-            socket.close();
-        }
-        catch(IOException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
-        }
-    }
-
     @Override
     public void sendResponse(Response response){
         try{
-            if(!isDisconnected()) out.writeObject(response);
+            out.writeObject(response);
         }
         catch(IOException e){
             server.handleDisconnection(playerID);
@@ -96,6 +84,14 @@ public class SocketServerConnection extends ServerConnection implements Runnable
     @Override
     public void stop(){
         isOpen = false;
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
     }
 
     @Override
@@ -103,7 +99,6 @@ public class SocketServerConnection extends ServerConnection implements Runnable
         setup();
         while (isOpen) {
             try {
-                if(isDisconnected()) this.wait();
                 Message message = (Message) in.readObject();
                 if (message != null) {
                     serverView.handleNetworkInput(message);
@@ -116,10 +111,6 @@ public class SocketServerConnection extends ServerConnection implements Runnable
             catch (IOException e) {
                 server.handleDisconnection(playerID);
             }
-            catch(InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
-        closeConnection();
     }
 }

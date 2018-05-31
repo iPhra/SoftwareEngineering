@@ -99,10 +99,10 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html" title="class in it.polimi.se2018.network.messages.responses">it.polimi.se2018.network.messages.responses.Response</a></li>
+<li><a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html" title="class in it.polimi.se2018.network.messages.responses">it.polimi.se2018.network.messages.responses.sync.SyncResponse</a></li>
 <li>
 <ul class="inheritance">
-<li>it.polimi.se2018.network.messages.responses.ModelViewResponse</li>
+<li>it.polimi.se2018.network.messages.responses.sync.ModelViewResponse</li>
 </ul>
 </li>
 </ul>
@@ -119,12 +119,12 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre>public class <span class="typeNameLabel">ModelViewResponse</span>
 extends <a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html" title="class in it.polimi.se2018.network.messages.responses">Response</a></pre>
-<div class="block">This is the class containing a response from the Server containing an updated copy of the state of the game</div>
+<div class="block">This is the class containing a syncResponse from the Server containing an updated copy of the state of the game</div>
 <dl>
 <dt><span class="simpleTagLabel">Author:</span></dt>
 <dd>Francesco Lorenzo</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../../../../serialized-form.html#it.polimi.se2018.network.messages.responses.ModelViewResponse">Serialized Form</a></dd>
+<dd><a href="../../../../../../serialized-form.html#it.polimi.se2018.network.messages.responses.sync.ModelViewResponse">Serialized Form</a></dd>
 </dl>
 </li>
 </ul>
@@ -167,13 +167,13 @@ extends <a href="../../../../../../it/polimi/se2018/network/messages/responses/R
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ModelViewResponse.html#handle-it.polimi.se2018.network.messages.responses.ResponseHandler-">handle</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html" title="interface in it.polimi.se2018.network.messages.responses">ResponseHandler</a>&nbsp;responseHandler)</code>
-<div class="block">Uses the handler to handle this specific <a href="../../../../../../it/polimi/se2018/model/ModelView.html" title="class in it.polimi.se2018.model"><code>ModelView</code></a> response</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../it/polimi/se2018/network/messages/responses/ModelViewResponse.html#handle-it.polimi.se2018.network.messages.responses.sync.SyncResponseHandler-">handle</a></span>(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html" title="interface in it.polimi.se2018.network.messages.responses">ResponseHandler</a>&nbsp;syncResponseHandler)</code>
+<div class="block">Uses the handler to handle this specific <a href="../../../../../../it/polimi/se2018/model/ModelView.html" title="class in it.polimi.se2018.model"><code>ModelView</code></a> syncResponse</div>
 </td>
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.it.polimi.se2018.network.messages.responses.Response">
+<li class="blockList"><a name="methods.inherited.from.class.it.polimi.se2018.network.messages.responses.sync.SyncResponse">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;it.polimi.se2018.network.messages.responses.<a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html" title="class in it.polimi.se2018.network.messages.responses">Response</a></h3>
@@ -236,13 +236,13 @@ extends <a href="../../../../../../it/polimi/se2018/network/messages/responses/R
 <ul class="blockListLast">
 <li class="blockList">
 <h4>handle</h4>
-<pre>public&nbsp;void&nbsp;handle(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html" title="interface in it.polimi.se2018.network.messages.responses">ResponseHandler</a>&nbsp;responseHandler)</pre>
-<div class="block">Uses the handler to handle this specific <a href="../../../../../../it/polimi/se2018/model/ModelView.html" title="class in it.polimi.se2018.model"><code>ModelView</code></a> response</div>
+<pre>public&nbsp;void&nbsp;handle(<a href="../../../../../../it/polimi/se2018/network/messages/responses/ResponseHandler.html" title="interface in it.polimi.se2018.network.messages.responses">ResponseHandler</a>&nbsp;syncResponseHandler)</pre>
+<div class="block">Uses the handler to handle this specific <a href="../../../../../../it/polimi/se2018/model/ModelView.html" title="class in it.polimi.se2018.model"><code>ModelView</code></a> syncResponse</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html#handle-it.polimi.se2018.network.messages.responses.ResponseHandler-">handle</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html" title="class in it.polimi.se2018.network.messages.responses">Response</a></code></dd>
+<dd><code><a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html#handle-it.polimi.se2018.network.messages.responses.sync.SyncResponseHandler-">handle</a></code>&nbsp;in class&nbsp;<code><a href="../../../../../../it/polimi/se2018/network/messages/responses/Response.html" title="class in it.polimi.se2018.network.messages.responses">Response</a></code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>responseHandler</code> - is the object who will handle this response</dd>
+<dd><code>syncResponseHandler</code> - is the object who will handle this syncResponse</dd>
 </dl>
 </li>
 </ul>

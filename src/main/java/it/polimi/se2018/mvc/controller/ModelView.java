@@ -61,7 +61,7 @@ public class ModelView implements Serializable{
     }
 
     private void setCurrentPlayer(Board board) {
-        Player currentPlayer = board.getPlayerByID(board.getRound().getCurrentPlayerIndex());
+        Player currentPlayer = board.getPlayerByID(board.getRound().getCurrentPlayerID());
         currentPlayerID = currentPlayer.getId();
         hasDieInHand = currentPlayer.hasDieInHand();
         hasDraftedDie = currentPlayer.hasDraftedDie();

@@ -1,11 +1,11 @@
-package it.polimi.se2018.network.messages.responses;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
 /**
  * This class represents an ack from the Server to the Client relative to using a {@link ToolCard}
  */
-public class ToolCardResponse extends Response{
+public class ToolCardResponse extends SyncResponse {
     /**
      * This is the number of the {@link ToolCard} to be used
      */
@@ -25,8 +25,9 @@ public class ToolCardResponse extends Response{
 
     /**
      * Uses the handler to handle this specific Tool Card response
-     * @param responseHandler is the object who will handle this response
+     * @param syncResponseHandler is the object who will handle this response
      */
     @Override
-    public void handle(ResponseHandler responseHandler) {responseHandler.handleResponse(this);}
+    public void handle(SyncResponseHandler syncResponseHandler) {
+        syncResponseHandler.handleResponse(this);}
 }

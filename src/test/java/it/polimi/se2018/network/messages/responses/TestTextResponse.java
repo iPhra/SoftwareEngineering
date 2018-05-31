@@ -1,5 +1,6 @@
 package it.polimi.se2018.network.messages.responses;
 
+import it.polimi.se2018.network.messages.responses.sync.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class TestTextResponse {
 
     @Test
     public void testHandle() {
-        textResponse.handle(new ResponseHandler() {
+        textResponse.handle(new SyncResponseHandler() {
             @Override
             public void handleResponse(ModelViewResponse modelViewResponse) {
                 fail();

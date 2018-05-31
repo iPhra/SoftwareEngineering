@@ -7,10 +7,12 @@ import it.polimi.se2018.utils.exceptions.HaltException;
 
 public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
     private final int playerID;
+    private final CLIModel cliModel;
     private final CLIView cliView;
 
-    ToolCardPlayerInput (int playerID, CLIView cliView) {
+    ToolCardPlayerInput (int playerID, CLIView cliView, CLIModel cliModel) {
         this.playerID=playerID;
+        this.cliModel = cliModel;
         this.cliView = cliView;
     }
 
@@ -23,7 +25,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
     }
 
     private ToolCardMessage getToolCardMessage(int toolCardNumber) throws HaltException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolCardNumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolCardNumber);
         Coordinate startingCoordinate = cliView.getCoordinate();
         if (checkPosition(startingCoordinate,toolCardMessage)) {
             return toolCardMessage;
@@ -49,7 +51,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(CorkBackedStraightedge toolCard, int toolcardnumber) throws HaltException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
         Coordinate finalPosition = cliView.getCoordinate();
         if (checkPosition(finalPosition,toolCardMessage)) {
             return toolCardMessage;
@@ -59,36 +61,36 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
     }
 
     @Override
-    public ToolCardMessage getPlayerRequests(FluxBrush toolCard, int toolcardnumber) throws HaltException {
-        return new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+    public ToolCardMessage getPlayerRequests(FluxBrush toolCard, int toolcardnumber) {
+        return new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
-    public ToolCardMessage getPlayerRequests(FluxRemover toolCard, int toolcardnumber) throws HaltException {
-        return new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+    public ToolCardMessage getPlayerRequests(FluxRemover toolCard, int toolcardnumber) {
+        return new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
-    public ToolCardMessage getPlayerRequests(GlazingHammer toolCard, int toolcardnumber) throws HaltException {
-        return new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+    public ToolCardMessage getPlayerRequests(GlazingHammer toolCard, int toolcardnumber) {
+        return new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
-    public ToolCardMessage getPlayerRequests(GrindingStone toolCard, int toolcardnumber) throws HaltException {
-        return new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+    public ToolCardMessage getPlayerRequests(GrindingStone toolCard, int toolcardnumber) {
+        return new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(GrozingPliers toolCard, int toolcardnumber) throws HaltException {
         int choice = cliView.getIncrementOrDecrement();
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
         toolCardMessage.addValue(choice);
         return  toolCardMessage;
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(Lathekin toolCard, int toolcardnumber) throws HaltException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
         Coordinate startingCoordinateOne = cliView.getCoordinate();
         if ((checkPosition(startingCoordinateOne,toolCardMessage))) {
             return toolCardMessage;
@@ -114,7 +116,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
 
     @Override
     public ToolCardMessage getPlayerRequests(LensCutter toolCard, int toolcardnumber) throws HaltException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliView.getBoard().getStateID(), toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliModel.getBoard().getStateID(), toolcardnumber);
         Coordinate positionRoundTrack = cliView.getRoundTrackPosition();
         if (positionRoundTrack.getRow() == -1) toolCardMessage.setToDismiss(true);
         toolCardMessage.addRoundTrackerPosition(positionRoundTrack);
@@ -122,13 +124,13 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
     }
 
     @Override
-    public ToolCardMessage getPlayerRequests(RunningPliers toolCard, int toolcardnumber) throws HaltException {
-        return new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+    public ToolCardMessage getPlayerRequests(RunningPliers toolCard, int toolcardnumber) {
+        return new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
     }
 
     @Override
     public ToolCardMessage getPlayerRequests(TapWheel toolCard, int toolcardnumber) throws HaltException {
-        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliView.getBoard().getStateID(),toolcardnumber);
+        ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolcardnumber);
         Coordinate startingCoordinateOne = cliView.getCoordinate();
         if ((checkPosition(startingCoordinateOne,toolCardMessage))) {
             return toolCardMessage;
@@ -141,7 +143,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
         toolCardMessage.addFinalPosition(finalPositionOne);
         cliView.print("Do you want to move another die? [1] yes [2] no");
         int choice = cliView.takeInput(1, 2);
-        Coordinate startingCoordinateTwo = null;
+        Coordinate startingCoordinateTwo;
         if (choice == 1) {
             startingCoordinateTwo = cliView.getCoordinate();
             if (checkPosition(startingCoordinateTwo, toolCardMessage)) {

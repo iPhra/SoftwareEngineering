@@ -1,9 +1,9 @@
-package it.polimi.se2018.network.messages.responses;
+package it.polimi.se2018.network.messages.responses.sync;
 
 /**
  * This is the class containing a textual response from the Server to the Client
  */
-public class TextResponse extends Response {
+public class TextResponse extends SyncResponse {
     private final String message;
 
     public TextResponse(int player, String message){
@@ -18,10 +18,11 @@ public class TextResponse extends Response {
 
     /**
      * Uses the handler to handle this specific textual response
-     * @param responseHandler is the object who will handle this response
+     * @param syncResponseHandler is the object who will handle this response
      */
     @Override
-    public void handle(ResponseHandler responseHandler) {responseHandler.handleResponse(this);}
+    public void handle(SyncResponseHandler syncResponseHandler) {
+        syncResponseHandler.handleResponse(this);}
 
 
 }

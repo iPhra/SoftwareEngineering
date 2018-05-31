@@ -3,16 +3,10 @@ package it.polimi.se2018.network.messages.responses;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.network.messages.responses.ResponseHandler;
 
-public class ReconnectionNotificationResponse extends Response {
-    private final String playerName;
+public class TurnEndResponse extends Response {
 
-    public ReconnectionNotificationResponse(int playerID, String playerName) {
+    public TurnEndResponse(int playerID) {
         super(playerID);
-        this.playerName = playerName;
-    }
-
-    public String getPlayerName() {
-        return playerName;
     }
 
     @Override

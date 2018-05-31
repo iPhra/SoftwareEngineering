@@ -34,8 +34,8 @@ public class TestRound {
 
     @Test
     public void testGetCurrentPlayerIndex(){
-        Assert.assertNotEquals(playersOrder.size(),round.getCurrentPlayerIndex());
-        Assert.assertNotEquals(-12,round.getCurrentPlayerIndex());
+        Assert.assertNotEquals(playersOrder.size(),round.getCurrentPlayerID());
+        Assert.assertNotEquals(-12,round.getCurrentPlayerID());
     }
 
     @Test

@@ -1,11 +1,11 @@
-package it.polimi.se2018.network.messages.responses;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.model.Color;
 
 /**
  * This class represents a response from the Server to the Client containing the color extracted for a die
  */
-public class InputResponse extends Response {
+public class InputResponse extends SyncResponse {
     /**
      * This is the color extracted
      */
@@ -25,7 +25,7 @@ public class InputResponse extends Response {
 
     /**
      * Uses the handler to handle this specific input response
-     * @param responseHandler is the object who will handle this response
+     * @param syncResponseHandler is the object who will handle this response
      */
-    public void handle(ResponseHandler responseHandler) { responseHandler.handleResponse(this);}
+    public void handle(SyncResponseHandler syncResponseHandler) { syncResponseHandler.handleResponse(this);}
 }

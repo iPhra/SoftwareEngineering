@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RMIServerConnection extends ServerConnection implements RemoteConnection, Runnable {
+public class RMIServerConnection implements ServerConnection, RemoteConnection, Runnable {
     private ServerView serverView;
     private final RemoteConnection clientConnection;
     private final List<Message> events;
@@ -60,12 +60,12 @@ public class RMIServerConnection extends ServerConnection implements RemoteConne
     }
 
     @Override
-    public void getResponse(Response response) { //not implemented server-side
+    public void getResponse(Response response) {
+        //not implemented server-side
     }
 
     @Override
     public void getMessage(Message message) {
-
         synchronized (events) {
             events.add(message);
             events.notifyAll();

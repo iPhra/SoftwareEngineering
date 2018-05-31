@@ -115,7 +115,7 @@ public class Client {
                 }
             }
             clientView = new CLIView(playerID);
-            clientConnection = new SocketClientConnection(socket, clientView, in, out);
+            clientConnection = new SocketClientConnection(clientView, socket, in, out);
         }
         catch(IOException | ClassNotFoundException e) {
             System.exit(1);

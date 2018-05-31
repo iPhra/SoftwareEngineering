@@ -2,9 +2,9 @@ package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.view.ClientView;
-import it.polimi.se2018.network.messages.responses.*;
+import it.polimi.se2018.network.messages.responses.sync.*;
 
-public class GUIClientView implements ResponseHandler, ClientView{
+public class GUIClientView implements SyncResponseHandler, ClientView{
     private final int playerID;
     private ClientConnection clientConnection;
     private SceneController sceneController;
@@ -18,8 +18,8 @@ public class GUIClientView implements ResponseHandler, ClientView{
     }
 
     @Override
-    public void handleNetworkInput(Response response) {
-        response.handle(this);
+    public void handleNetworkInput(SyncResponse syncResponse) {
+        syncResponse.handle(this);
     }
 
     @Override

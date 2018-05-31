@@ -1,11 +1,11 @@
-package it.polimi.se2018.network.messages.responses;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoreBoardResponse extends Response{
+public class ScoreBoardResponse extends SyncResponse {
     private final List<String> sortedPlayersNames;
     private final List<Integer> sortedPlayersScores;
 
@@ -28,7 +28,7 @@ public class ScoreBoardResponse extends Response{
     }
 
     @Override
-    public void handle(ResponseHandler responseHandler){
-        responseHandler.handleResponse(this);
+    public void handle(SyncResponseHandler syncResponseHandler){
+        syncResponseHandler.handleResponse(this);
     }
 }
