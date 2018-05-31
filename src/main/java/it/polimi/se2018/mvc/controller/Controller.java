@@ -27,6 +27,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     private ToolCardController toolCardController;
     private final GameManager gameManager;
     private final ReentrantLock lock;
+    private WaitingThread alarm;
 
     public Controller(GameManager gameManager, ServerView view) {
         super();
@@ -36,8 +37,8 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(6000);
-        WaitingThread alarm = new WaitingThread(timeout, this);
+        Duration timeout = Duration.ofSeconds(120);
+        alarm = new WaitingThread(timeout, this);
         alarm.start();
     }
 
@@ -171,7 +172,6 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         lock.unlock();
     }
 
-    //place a die
     @Override
     public void handleMove(PlaceMessage placeMessage) {
         lock.lock();
@@ -196,7 +196,6 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         lock.unlock();
     }
 
-    //draft a die
     @Override
     public void handleMove(DraftMessage draftMessage) {
         lock.lock();
@@ -214,10 +213,10 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         lock.unlock();
     }
 
-    //endTurn
     @Override
     public void handleMove(PassMessage passMessage) {
         lock.lock();
+        alarm.interrupt();
         Player player = model.getPlayerByID(passMessage.getPlayerID());
         if (model.getRound().getRoundNumber()!= Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
             endRound(player);
