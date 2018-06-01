@@ -14,9 +14,9 @@ import java.util.Random;
 import static org.junit.Assert.fail;
 
 public class TestBag {
-    public int colorsNumber = 5;
-    public int diceNumer = 90;
-    public Bag bag;
+    private final int colorsNumber = 5;
+    private final int diceNumer = 90;
+    private Bag bag;
 
     @Before
     public void init() {

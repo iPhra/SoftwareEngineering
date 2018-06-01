@@ -16,7 +16,7 @@ public class TestRowColorVarietyObjective {
     private Square[][] matrix;
     private Database database;
     private RowColorVarietyObjective rowColorVarietyObjective;
-    ShadesOfGreenObjective shadesOfGreenObjective;
+    private ShadesOfGreenObjective shadesOfGreenObjective;
     private Player player;
 
     @Before

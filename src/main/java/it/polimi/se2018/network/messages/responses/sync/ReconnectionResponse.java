@@ -8,36 +8,55 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import java.util.List;
 
 public class ReconnectionResponse extends SyncResponse {
-    private final ModelView modelView;
+    private ModelView modelView;
 
     /**
      * These are the {@link PublicObjective} extracted on the Board
      */
-    private final List<PublicObjective> publicObjectives;
+    private List<PublicObjective> publicObjectives;
 
     /**
      * These are the {@link ToolCard} extracted on the Board
      */
-    private final List<ToolCard> toolCards;
+    private List<ToolCard> toolCards;
 
     /**
      * This is the {@link PrivateObjective} belonging to the player this message will be sent to
      */
-    private final PrivateObjective privateObjective;
+    private PrivateObjective privateObjective;
 
     /**
      * This is the number of players in the current match
      */
     private int playersNumber;
 
-    public ReconnectionResponse(int playerID, ModelView modelView, PrivateObjective privateObjective, List<PublicObjective> publicObjectives, List<ToolCard> toolCards) {
+    private final boolean windowsChosen;
+
+    public ReconnectionResponse(int playerID, boolean windowsChosen) {
         super(playerID);
+        this.windowsChosen = windowsChosen;
+    }
+
+    public boolean isWindowsChosen() {
+        return windowsChosen;
+    }
+
+    public void setModelView(ModelView modelView) {
         this.modelView = modelView;
-        this.privateObjective = privateObjective;
+    }
+
+
+    public void setPublicObjectives(List<PublicObjective> publicObjectives) {
         this.publicObjectives = publicObjectives;
+    }
+
+    public void setToolCards(List<ToolCard> toolCards) {
         this.toolCards = toolCards;
     }
 
+    public void setPrivateObjective(PrivateObjective privateObjective) {
+        this.privateObjective = privateObjective;
+    }
 
     public int getPlayersNumber() {
         return playersNumber;

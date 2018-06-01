@@ -37,12 +37,12 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(120);
+        Duration timeout = Duration.ofSeconds(3200);
         alarm = new WaitingThread(timeout, this);
         alarm.start();
     }
 
-    private void endRound(Player player) {
+    private void endRound(Player player,boolean stopped) {
         model.setRound(model.getRound().changeRound());
         model.getRoundTracker().updateRoundTracker(model.getDraftPool().getAllDice());
         model.getDraftPool().fillDraftPool(model.getBag().drawDice(model.getPlayersNumber()));
@@ -50,12 +50,12 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         player.setHasDraftedDie(false);
         model.incrementStateID();
         int round = model.getRound().getRoundNumber() - 1;
-        view.handleNetworkOutput(new TurnEndResponse(player.getId()));
+        if(stopped) view.handleNetworkOutput(new TurnEndResponse(player.getId()));
         createModelViews(PLAYER + player.getName() + " passed the turn. Round " + round + " ends");
         startTimer();
     }
 
-    private void endTurn(Player player) {
+    private void endTurn(Player player, boolean stopped) {
         model.getRound().changeTurn();
         player.setHasUsedCard(false);
         player.setHasDraftedDie(false);
@@ -65,9 +65,8 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             model.getDraftPool().addToDraftPool(die);
         }
         model.incrementStateID();
-        view.handleNetworkOutput(new TurnEndResponse(player.getId()));
+        if(stopped) view.handleNetworkOutput(new TurnEndResponse(player.getId()));
         createModelViews(PLAYER + player.getName() + " passed the turn.");
-
         startTimer();
     }
 
@@ -219,13 +218,13 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         alarm.interrupt();
         Player player = model.getPlayerByID(passMessage.getPlayerID());
         if (model.getRound().getRoundNumber()!= Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
-            endRound(player);
+            endRound(player,passMessage.isHalt());
         }
         else if (model.getRound().getRoundNumber() == Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
             endMatch();
         }
         else {
-            endTurn(player);
+            endTurn(player,passMessage.isHalt());
         }
         lock.unlock();
     }
@@ -255,7 +254,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     @Override
     public void halt(String message) {
         lock.lock();
-        handleMove(new PassMessage(model.getRound().getCurrentPlayerID(),model.getStateID()));
+        handleMove(new PassMessage(model.getRound().getCurrentPlayerID(),model.getStateID(),true));
         lock.unlock();
     }
 }

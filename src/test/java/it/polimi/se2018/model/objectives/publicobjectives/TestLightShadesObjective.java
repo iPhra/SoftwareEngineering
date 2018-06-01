@@ -16,7 +16,7 @@ public class TestLightShadesObjective {
     private Square[][] matrix;
     private Database database;
     private LightShadesObjective lightShadesObjective;
-    ShadesOfGreenObjective shadesOfGreenObjective;
+    private ShadesOfGreenObjective shadesOfGreenObjective;
     private Player player;
 
     @Before

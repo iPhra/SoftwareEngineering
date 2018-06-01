@@ -24,7 +24,7 @@ public class TestToolCardMessage {
         toolCardMessage.addRoundTrackerPosition(new Coordinate(3,1245));
         toolCardMessage.addStartingPosition(new Coordinate(-23532,3244444));
         toolCardMessage.addStartingPosition(new Coordinate(-22,0));
-        toolCardMessage.addValue(325);
+        toolCardMessage.setIncrement(true);
     }
 
     @Test
@@ -33,8 +33,6 @@ public class TestToolCardMessage {
         Assert.assertNotEquals(-5,toolCardMessage.getDraftPoolPosition());
         Assert.assertEquals(toolCardNumber,toolCardMessage.getToolCardNumber());
         Assert.assertNotEquals(toolCardNumber/2,toolCardMessage.getToolCardNumber());
-        Assert.assertEquals(325,toolCardMessage.getValue());
-        Assert.assertNotEquals(342454353,toolCardMessage.getValue());
         Assert.assertEquals(new Coordinate(5,-235),toolCardMessage.getFinalPosition().get(0));
         Assert.assertNotEquals(new Coordinate(5,-233),toolCardMessage.getFinalPosition().get(0));
         Assert.assertEquals(new Coordinate(12,-32),toolCardMessage.getFinalPosition().get(1));

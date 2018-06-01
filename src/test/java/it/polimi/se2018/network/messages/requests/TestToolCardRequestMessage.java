@@ -8,7 +8,7 @@ import static junit.framework.TestCase.fail;
 
 public class TestToolCardRequestMessage {
 
-    ToolCardRequestMessage toolCardRequestMessage;
+    private ToolCardRequestMessage toolCardRequestMessage;
 
     @Before
     public void init() {

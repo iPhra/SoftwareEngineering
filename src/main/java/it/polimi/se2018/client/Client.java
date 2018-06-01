@@ -18,7 +18,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Client {
+class Client {
     private static final int PORT = 1234;
     private static final String HOST = "127.0.0.1";
     private ClientView clientView;

@@ -2,7 +2,6 @@ package it.polimi.se2018.model;
 
 import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
-import it.polimi.se2018.mvc.model.Round;
 import it.polimi.se2018.mvc.model.RoundTracker;
 import org.junit.Assert;
 import org.junit.Before;

@@ -7,6 +7,7 @@ import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.Stopper;
+import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 
 import java.rmi.RemoteException;
@@ -119,26 +120,23 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
 
     @Override
     public void handleResponse(ReconnectionResponse reconnectionResponse) {
-        cliModel.setPrivateObjective(reconnectionResponse.getPrivateObjective());
-        cliModel.setPublicObjectives(reconnectionResponse.getPublicObjectives());
-        cliModel.setToolCards(reconnectionResponse.getToolCards());
         cliModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
-        ModelViewResponse response = new ModelViewResponse(reconnectionResponse.getModelView(),reconnectionResponse.getPlayer());
-        response.setDescription("Reconnected\n");
-        handleResponse(response);
+        if(reconnectionResponse.isWindowsChosen()) {
+            cliModel.setPrivateObjective(reconnectionResponse.getPrivateObjective());
+            cliModel.setPublicObjectives(reconnectionResponse.getPublicObjectives());
+            cliModel.setToolCards(reconnectionResponse.getToolCards());
+            ModelViewResponse response = new ModelViewResponse(reconnectionResponse.getModelView(),reconnectionResponse.getPlayer());
+            response.setDescription("Reconnected, wait for your turn");
+            handleResponse(response);
+        }
+        else cliView.print("\nReconnected, wait for other players to choose their Windows\n\n");
     }
 
     private List<Integer> actionPossible() {
         List<Integer> choosable = new ArrayList<>();
-        if (!cliModel.getBoard().hasDraftedDie()) {
-            choosable.add(2);
-        }
-        if (cliModel.getBoard().hasDieInHand()) {
-            choosable.add(3);
-        }
-        if (!cliModel.getBoard().hasUsedCard()) {
-            choosable.add(4);
-        }
+        if (!cliModel.getBoard().hasDraftedDie()) choosable.add(2);
+        if (cliModel.getBoard().hasDieInHand()) choosable.add(3);
+        if (!cliModel.getBoard().hasUsedCard()) choosable.add(4);
         choosable.add(5);
         return choosable;
     }
@@ -146,15 +144,9 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     private void printActionPermitted(List<Integer> choosable) {
         cliView.print("[1] Ask for informations\n");
         for (int i : choosable) {
-            if (i==2) {
-                cliView.print("[2] Draft a die\n");
-            }
-            if (i==3) {
-                cliView.print("[3] Place the drafted die\n");
-            }
-            if (i==4) {
-                cliView.print("[4] Select a Tool Card\n");
-            }
+            if (i==2) cliView.print("[2] Draft a die\n");
+            if (i==3) cliView.print("[3] Place the drafted die\n");
+            if (i==4) cliView.print("[4] Select a Tool Card\n");
             if (i==5) cliView.print("[5] Pass\n");
         }
     }
@@ -175,21 +167,11 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
                 if (choice == 1) askInformation();
             }
             switch (choice) {
-                case 2:
-                    draftDie();
-                    break;
-                case 3:
-                    placeDie();
-                    break;
-                case 4:
-                    selectToolCard();
-                    break;
-                case 5:
-                    passTurn();
-                    break;
-                default:
-                    cliView.print("Error!");
-                    break;
+                case 2: draftDie(); break;
+                case 3: placeDie(); break;
+                case 4: selectToolCard(); break;
+                case 5: passTurn(); break;
+                default: cliView.print("Error!"); break;
             }
         }
         catch (HaltException e) {
@@ -218,7 +200,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             result.append("[9] Show the die in your hand\n");
             top = 9;
         }
-        cliView.print(String.valueOf(result));
+        cliView.print(result.toString());
         choice = cliView.takeInput(1, top);
         switch (choice) {
             case 1: cliModel.showModel(); break;
@@ -249,69 +231,75 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     }
 
     private void passTurn() {
-        cliView.handleNetworkOutput(new PassMessage(playerID, cliModel.getBoard().getStateID()));
+        cliView.handleNetworkOutput(new PassMessage(playerID, cliModel.getBoard().getStateID(),false));
     }
 
     private void draftDie() throws RemoteException, HaltException {
         cliModel.showYourWindow();
         cliView.print("Choose the die to draft\n");
-        int index = cliView.getDraftPoolPosition();
-        if (index != -1) cliView.handleNetworkOutput(new DraftMessage(playerID, cliModel.getBoard().getStateID(),index));
-        else chooseAction();
+        try {
+            int index = cliView.getDraftPoolPosition();
+            cliView.handleNetworkOutput(new DraftMessage(playerID, cliModel.getBoard().getStateID(), index));
+        }
+        catch (ChangeActionException e) {
+            chooseAction();
+        }
     }
 
-    int getToolCard() throws HaltException {
-        int choice = 4;
-        while (choice == 4 || (choice != 3 && !cliModel.getBoard().getToolCardUsability().get(choice))) {
+    private int getToolCard() throws HaltException, ChangeActionException {
+        int choice = -1;
+        boolean loop = true;
+        while (loop) {
             cliModel.showToolCards();
             cliView.print("Select the tool card\n");
             cliView.print("[3] Choose another action\n");
             cliView.print("[4] Print the state of the game\n");
             choice = cliView.takeInput(0, 4);
-            if (choice == 4) askInformation();
-            if (choice >= 0 && choice < 3 && !cliModel.getBoard().getToolCardUsability().get(choice)) {
+            if (choice == 3) throw new ChangeActionException();
+            else if (choice == 4) askInformation();
+            else if (!cliModel.getBoard().getToolCardUsability().get(choice))
                 cliView.print("You can't use the chosen tool card. Please choose another one.\n");
-            }
+            else loop = false;
         }
-        return  choice;
+        return choice;
     }
 
-    private void selectToolCard() throws HaltException {
+    private void selectToolCard() throws RemoteException, HaltException {
         cliModel.showYourWindow();
-        int toolCard = getToolCard();
-        if (toolCard != 3)
-            cliView.handleNetworkOutput(new ToolCardRequestMessage(playerID, cliModel.getBoard().getStateID(), toolCard));
-        else{
-            try{
-                chooseAction();
-            }catch(RemoteException e){
-                Logger logger = Logger.getAnonymousLogger();
-                logger.log(Level.ALL,e.getMessage());
-            }
-        }
-    }
-
-    private void useToolCard(int indexOfToolCard) throws RemoteException {
-        cliModel.showYourWindow();
-        ToolCard toolCard = cliModel.getToolCards().get(indexOfToolCard);
         try {
-            ToolCardMessage toolCardMessage = toolCard.handleView(toolCardPlayerInput, indexOfToolCard);
-            if (!toolCardMessage.isToDismiss()) cliView.handleNetworkOutput(toolCardMessage);
-            else chooseAction();
+            int toolCard = getToolCard();
+            cliView.handleNetworkOutput(new ToolCardRequestMessage(playerID, cliModel.getBoard().getStateID(), toolCard));
+        }
+        catch(ChangeActionException e) {
+            chooseAction();
+        }
+    }
+
+    private void useToolCard(int toolCardIndex) throws RemoteException {
+        cliModel.showYourWindow();
+        ToolCard toolCard = cliModel.getToolCards().get(toolCardIndex);
+        try {
+            ToolCardMessage toolCardMessage = toolCard.handleView(toolCardPlayerInput, toolCardIndex);
+            cliView.handleNetworkOutput(toolCardMessage);
         }
         catch (HaltException e) {
             cliView.setStopAction(false);
+        }
+        catch (ChangeActionException e) {
+            chooseAction();
         }
     }
 
     private void placeDie() throws RemoteException, HaltException {
         showDieInHand();
         cliView.print("\nChoose the position where you want to put the drafted die\n\n");
-        Coordinate coordinate = cliView.getCoordinate();
-        if (!coordinate.equals(new Coordinate(-1, -1))) {
+        try {
+            Coordinate coordinate = cliView.getCoordinate();
             cliView.handleNetworkOutput(new PlaceMessage(playerID, cliModel.getBoard().getStateID(), coordinate));
         }
-        else { chooseAction(); }
+        catch (ChangeActionException e) {
+            chooseAction();
+        }
     }
 
     @Override

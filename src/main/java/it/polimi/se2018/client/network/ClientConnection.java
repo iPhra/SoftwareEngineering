@@ -16,7 +16,7 @@ public abstract class ClientConnection implements ResponseHandler {
     private final ClientView clientView;
     private CLIController cliController;
 
-    public ClientConnection(ClientView clientView) {
+    ClientConnection(ClientView clientView) {
         this.clientView = clientView;
     }
 

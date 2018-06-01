@@ -5,9 +5,15 @@ package it.polimi.se2018.network.messages.requests;
  * @author Francesco Lorenzo
  */
 public class PassMessage extends Message {
+    private final boolean halt;
 
-    public PassMessage(int playerID, int stateID) {
+    public PassMessage(int playerID, int stateID, boolean halt) {
         super(playerID,stateID);
+        this.halt = halt;
+    }
+
+    public boolean isHalt() {
+        return halt;
     }
 
     /**

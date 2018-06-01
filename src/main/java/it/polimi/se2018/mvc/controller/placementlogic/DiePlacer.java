@@ -10,14 +10,12 @@ import java.util.List;
 
 @SuppressWarnings("SimplifiableIfStatement")
 public abstract class DiePlacer {
-    protected final Die die;
-    protected final Coordinate coordinate;
-    protected final Square square;
-    protected final Window window;
+    final Die die;
+    final Square square;
+    final Window window;
 
-    protected DiePlacer(Die die, Coordinate coordinate, Window window) {
+    DiePlacer(Die die, Coordinate coordinate, Window window) {
         this.die = die;
-        this.coordinate = coordinate;
         this.window = window;
         this.square = window.getSquare(coordinate);
     }
@@ -25,7 +23,7 @@ public abstract class DiePlacer {
     protected abstract boolean checkCondition ();
 
     //used by method checkCondition in order to check if you can place die without "violating" adjacent dice color
-    protected boolean isColorOk() {
+    boolean isColorOk() {
         List<Die> adjacent = window.adjacentDice(new Coordinate(square.getRow(), square.getCol()));
         for (Die near : adjacent){
             if (die.getColor().equals(near.getColor())){
@@ -36,7 +34,7 @@ public abstract class DiePlacer {
     }
 
     //used by method placeDie in order to check if you can place die without "violating" adjacent dice value
-    protected boolean isValueOk() {
+    boolean isValueOk() {
         List<Die> adjacent= window.adjacentDice(new Coordinate(square.getRow(),square.getCol()));
         for (Die near : adjacent){
             if (die.getValue() == near.getValue()){
@@ -47,7 +45,7 @@ public abstract class DiePlacer {
     }
 
     //all dice in diagonal and adjacent to a given die
-    protected boolean hasSurroundingDice() {
+    boolean hasSurroundingDice() {
         List<Die> surrounding = window.adjacentDice(new Coordinate(square.getRow(), square.getCol()));
         if (!surrounding.isEmpty()) return true;
         if (square.getRow() > 0 && square.getCol() > 0 && !window.getSquare(new Coordinate(square.getRow() - 1, square.getCol() - 1)).isEmpty())

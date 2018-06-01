@@ -16,13 +16,13 @@ public class TestColumnColorVarietyObjective {
     private Square[][] matrix;
     private Database database;
     private ColumnColorVarietyObjective columnColorVarietyObjective;
-    ShadesOfGreenObjective shadesOfGreenObjective;
+    private ShadesOfGreenObjective shadesOfGreenObjective;
     private Player player;
 
     @Before
     public void init(){
         database = new Database();
-        database.standardWhiteMatrix();;
+        database.standardWhiteMatrix();
         matrix = database.getMatrix();
         columnColorVarietyObjective = ColumnColorVarietyObjective.instance("title");
         columnColorVarietyObjective = ColumnColorVarietyObjective.instance("title");

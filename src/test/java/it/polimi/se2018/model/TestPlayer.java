@@ -3,8 +3,6 @@ package it.polimi.se2018.model;
 import it.polimi.se2018.mvc.model.*;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
-import it.polimi.se2018.mvc.model.toolcards.Lathekin;
-import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Assert;
@@ -125,7 +123,7 @@ public class TestPlayer {
 
     @Test
     public void testDropCardInUse() {
-        player.dropCardInUse();;
+        player.dropCardInUse();
         try {
             player.getCardInUse();
         }

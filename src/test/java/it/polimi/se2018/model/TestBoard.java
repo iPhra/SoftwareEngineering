@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 public class TestBoard {
@@ -29,7 +28,6 @@ public class TestBoard {
     private ToolCard[] toolCards;
     private PublicObjective[] publicObjectives;
     private Board board;
-    private Player player1;
     private Player player2;
 
     @Before
@@ -39,7 +37,7 @@ public class TestBoard {
         Square[][] matrix = database.getMatrix();
         ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         Window window = new Window("BasicMap",0,matrix);
-        player1 = new Player("player1",1, window,shadesOfGreenObjective);
+        Player player1 = new Player("player1",1, window,shadesOfGreenObjective);
         player2 = new Player("player2",2, window,shadesOfGreenObjective);
         players = new ArrayList<>();
         players.add(player1);

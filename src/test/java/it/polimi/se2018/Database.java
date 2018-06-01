@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Database {
     private Square[][] matrix;
-    private List<Pair<Window,Window>> defaultMaps;
+    private final List<Pair<Window,Window>> defaultMaps;
 
     public Database() {
         defaultMaps = WindowBuilder.create();

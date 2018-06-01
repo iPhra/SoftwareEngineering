@@ -11,7 +11,7 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CLIModel {
+class CLIModel {
     private final CLIView cliView;
     private final int playerID;
     private int playersNumber;
@@ -115,10 +115,6 @@ public class CLIModel {
 
     void setToolCards(List<ToolCard> toolCards) {
         this.toolCards = toolCards;
-    }
-
-    PrivateObjective getPrivateObjective() {
-        return privateObjective;
     }
 
     void setPrivateObjective(PrivateObjective privateObjective) {

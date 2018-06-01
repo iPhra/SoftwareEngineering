@@ -14,12 +14,13 @@ import java.util.List;
  */
 public class ToolCardMessage extends Message {
 
-    private boolean toDismiss;
     /**
      * This is the value a player wants to give to a Die drafted from the Dice Bag
      * Used by {@link FluxRemover}
      */
-    private int value;
+    private boolean increment;
+
+    private boolean twoDice;
 
     /**
      * This is the number of the Tool Card as displayed on the array in {@link Board}
@@ -112,15 +113,15 @@ public class ToolCardMessage extends Message {
     /**
      * @return the value used by {@link FluxRemover}
      */
-    public int getValue() {
-        return value;
+    public boolean getIncrement() {
+        return increment;
     }
 
     /**
-     * @param value is the value you want to set for {@link FluxRemover}
+     * @param increment is the value you want to set for {@link FluxRemover}
      */
-    public void addValue(int value) {
-        this.value = value;
+    public void setIncrement(boolean increment) {
+        this.increment = increment;
     }
 
     /**
@@ -130,12 +131,12 @@ public class ToolCardMessage extends Message {
         return toolCardNumber;
     }
 
-    public boolean isToDismiss() {
-        return toDismiss;
+    public boolean isTwoDice() {
+        return twoDice;
     }
 
-    public void setToDismiss(boolean toDismiss) {
-        this.toDismiss = toDismiss;
+    public void setTwoDice(boolean twoDice) {
+        this.twoDice = twoDice;
     }
 
     @Override

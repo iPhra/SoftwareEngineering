@@ -10,8 +10,8 @@ import java.util.List;
 import static org.junit.Assert.fail;
 
 public class TestToolCardResponse {
-    List<String> playerRequests;
-    ToolCardResponse toolCardResponse;
+    private List<String> playerRequests;
+    private ToolCardResponse toolCardResponse;
 
     @Before
     public void init() {

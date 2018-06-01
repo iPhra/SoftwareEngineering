@@ -8,8 +8,8 @@ import org.junit.Test;
 import static org.junit.Assert.fail;
 
 public class TestTextResponse {
-    TextResponse textResponse;
-    String message;
+    private TextResponse textResponse;
+    private String message;
 
     @Before
     public void init() {

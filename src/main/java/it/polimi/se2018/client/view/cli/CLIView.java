@@ -6,6 +6,7 @@ import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
 import it.polimi.se2018.utils.Observable;
+import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     private boolean stopAction;
     private ClientConnection clientConnection;
     private final List<SyncResponse> events;
-    private boolean isOpen;
+    private final boolean isOpen;
 
     public CLIView(int playerID) {
         cliModel = new CLIModel(this,playerID);
@@ -79,6 +80,7 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
             try {
                 res = scanner.nextInt();
                 if (res <= top && res >= bottom) iterate = false;
+                else throw new InputMismatchException();
             } catch (InputMismatchException e) {
                 printStream.println("Input is invalid");
                 scanner.nextLine();
@@ -89,27 +91,23 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
         return res;
     }
 
-    Coordinate getCoordinate() throws HaltException {
-        int row;
-        int col;
-        int choice;
+    Coordinate getCoordinate() throws HaltException, ChangeActionException {
         cliModel.showYourWindow();
         printStream.println("Choose the row");
-        row = takeInput(0, 3);
+        int row = takeInput(0, 3);
         printStream.println("Choose the column");
-        col = takeInput(0, 4);
+        int col = takeInput(0, 4);
         printStream.println("You chose the position. Press: \n [1] to accept \n [2] to change [3] to do another action");
-        choice = takeInput(1, 3);
+        int choice = takeInput(1, 3);
         switch(choice) {
             case 1 : return new Coordinate(row,col);
             case 2 : return getCoordinate();
-            case 3 : new Coordinate(-1,-1); break;
             default : break;
         }
-        return new Coordinate(-1, -1);
+        throw new ChangeActionException();
     }
 
-    Coordinate getRoundTrackPosition() throws HaltException {
+    Coordinate getRoundTrackPosition() throws HaltException, ChangeActionException {
         int turn = -1;
         int pos = -1;
         int choice = 2;
@@ -122,11 +120,7 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
             printStream.println("[" + size + "] to choose another turn");
             printStream.println("[" + (size + 1) + "] to change action");
             pos = takeInput(0, cliModel.getBoard().getRoundTracker().get(turn).size() + 1);
-            if (pos == size) turn = -1;
-            else if (pos == (size + 1)) {
-                choice = 1;
-                turn = -1;
-            }
+            if (pos == size || pos==(size+1)) throw new ChangeActionException();
             else {
                 printStream.print("You selected this die: ");
                 cliModel.showExtendedDice(cliModel.getBoard().getRoundTracker().get(turn).get(pos));
@@ -137,19 +131,12 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
         return new Coordinate(turn, pos);
     }
 
-    int getDieValue() throws HaltException {
-        int val;
-        printStream.print("Choose the value of the die (value goes from 1 to 6)");
-        val = takeInput(1, 6);
-        return val;
-    }
-
-    int getDraftPoolPosition() throws HaltException {
+    int getDraftPoolPosition() throws HaltException, ChangeActionException {
         int choice;
         int confirm;
         printStream.print("Select the index of the die to choose. ");
         cliModel.showDraftPool();
-        choice = takeInput(0, cliModel.getBoard().getRoundTracker().size() - 1);
+        choice = takeInput(0, cliModel.getBoard().getDraftPool().size() - 1);
         printStream.println("You selected this die: ");
         cliModel.showExtendedDice(cliModel.getBoard().getDraftPool().get(choice));
         printStream.println("Are you sure? \n [1] to accept  [2] to change \n [3] to choose another action");
@@ -157,23 +144,22 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
         switch(confirm) {
             case 1: return choice;
             case 2: return getDraftPoolPosition();
-            default: return -1;
+            default: throw new ChangeActionException();
         }
     }
 
+    int getDieValue() throws HaltException {
+        printStream.print("Choose the value of the die (value goes from 1 to 6)");
+        return takeInput(1,6);
+    }
+
     int getIncrementOrDecrement() throws HaltException {
-        int choice;
         printStream.println("0 to decrease, 1 to increase.");
-        choice = takeInput(0, 1);
-        return choice == 0 ? -1:1;
+        return takeInput(0,1);
     }
 
     public void setStopAction(boolean stopAction) {
         this.stopAction = stopAction;
-    }
-
-    public void setIsOpen(Boolean value) {
-        isOpen = value;
     }
 
     public void start() {

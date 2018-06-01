@@ -13,7 +13,7 @@ public abstract class ObjectiveCard implements Serializable{
     /**
      * This is the title of the card
      */
-    protected final String title;
+    private final String title;
 
     /**
      * This is the description of the card
@@ -27,14 +27,14 @@ public abstract class ObjectiveCard implements Serializable{
     /**
      * @return the title of this card
      */
-    public String getTitle() {
+    protected String getTitle() {
         return title;
     }
 
     /**
      * @return the description of this card
      */
-    public String getDescription() {
+    protected String getDescription() {
         return description;
     }
 

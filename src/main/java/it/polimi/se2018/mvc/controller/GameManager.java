@@ -21,7 +21,6 @@ import it.polimi.se2018.mvc.view.ServerView;
 
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 
 public class GameManager implements Stopper {
@@ -58,7 +57,7 @@ public class GameManager implements Stopper {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(30);
+        Duration timeout = Duration.ofSeconds(60);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -89,6 +88,15 @@ public class GameManager implements Stopper {
         controller.startMatch();
     }
 
+    //returns the list of players who haven't chosen a map yet
+    private List<Integer> getMissingPlayers() {
+        List<Integer> missingPlayers = new ArrayList<>(playerIDs);
+        for(Player player : players) {
+            missingPlayers.remove(missingPlayers.indexOf(player.getId()));
+        }
+        return missingPlayers;
+    }
+
     //create 4 "faces" of window for each player (does not assign them to the players,
     // note that players must choose their own window
     private void createWindows(){
@@ -101,17 +109,33 @@ public class GameManager implements Stopper {
         return 0;
     }
 
-    private void notifyReconnection(int playerID) {
+    private void notifyReconnection(int playerID, boolean setup) {
+        notifyOtherPlayers(playerID);
+        ReconnectionResponse response = new ReconnectionResponse(playerID,!setup);
+        if(!setup) {
+            response.setModelView(model.modelViewCopy());
+            response.setPublicObjectives(publicObjectives);
+            response.setPrivateObjective(model.getPlayerByID(playerID).getPrivateObjective());
+            response.setToolCards(toolCards);
+        }
+        response.setPlayersNumber(playerIDs.size());
+        serverView.update(response);
+    }
+
+    private void notifyOtherPlayers(int playerID) {
         for(int id : playerIDs) {
-            if(id!=playerID) {
-                serverView.update(new ReconnectionNotificationResponse(id,playerNames.get(playerID)));
-            }
-            else {
-                ReconnectionResponse response = new ReconnectionResponse(id, model.modelViewCopy(), model.getPlayerByID(id).getPrivateObjective(), publicObjectives, toolCards);
-                response.setPlayersNumber(playerIDs.size());
-                serverView.update(response);
+            if (id != playerID) {
+                serverView.update(new ReconnectionNotificationResponse(id, playerNames.get(playerID)));
             }
         }
+    }
+
+    private void reconnect(int playerID, ServerConnection serverConnection, boolean setup) {
+        serverConnection.setServerView(serverView);
+        serverConnections.put(playerID,serverConnection);
+        disconnectedPlayers.remove(disconnectedPlayers.indexOf(playerID));
+        serverView.addServerConnection(playerID,serverConnection);
+        notifyReconnection(playerID, setup);
     }
 
     public ServerConnection getServerConnection(int playerID) {
@@ -122,7 +146,7 @@ public class GameManager implements Stopper {
         this.serverConnections.put(playerID, serverConnection);
     }
 
-    public void addPlayerName( int playerID, String playerName) {
+    public void addPlayerName(int playerID, String playerName) {
         playerNames.put(playerID,playerName);
     }
 
@@ -176,6 +200,10 @@ public class GameManager implements Stopper {
         startTimer();
     }
 
+    public boolean isDisconnected(int playerID) {
+        return disconnectedPlayers.contains(playerID);
+    }
+
     public void setDisconnected(int playerID) {
         disconnectedPlayers.add(playerID);
         serverView.removePlayerConnection(playerID);
@@ -186,20 +214,16 @@ public class GameManager implements Stopper {
             controller.endMatch();
         }
         else {
-            for (Player player : players) model.notify(new DisconnectionResponse(player.getId(), null, playerNames.get(playerID)));
+            for (int id : playerIDs) serverView.handleNetworkOutput(new DisconnectionResponse(id, null, playerNames.get(playerID)));
         }
     }
 
-    public boolean isDisconnected(int playerID) {
-        return disconnectedPlayers.contains(playerID);
-    }
-
     public void setReconnected(int playerID, ServerConnection serverConnection) {
-        serverConnection.setServerView(serverView);
-        serverConnections.put(playerID,serverConnection);
-        disconnectedPlayers.remove(disconnectedPlayers.indexOf(playerID));
-        serverView.addServerConnection(playerID,serverConnection);
-        notifyReconnection(playerID);
+        if(getMissingPlayers().contains(playerID)) {
+            reconnect(playerID,serverConnection,true);
+            createPlayer(new SetupMessage(playerID,0,windowsSetup.get(playerID).get(new Random().nextInt(4))));
+        }
+        else reconnect(playerID, serverConnection,false);
     }
 
     //when a player sends the map he chose
@@ -227,11 +251,8 @@ public class GameManager implements Stopper {
 
     @Override
     public void halt(String message) {
-        List<Integer> missingPlayers = playerIDs;
         Random random = new Random();
-        for(Player player : players) {
-            missingPlayers.remove(missingPlayers.indexOf(player.getId()));
-        }
+        List<Integer> missingPlayers = getMissingPlayers();
         for(int id : missingPlayers) {
             players.add(new Player(playerNames.get(id),id,windowsSetup.get(id).get(random.nextInt(4)),privateObjectives.get(setupsCompleted)));
             setupsCompleted++;

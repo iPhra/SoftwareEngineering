@@ -8,7 +8,7 @@ public abstract class Response implements Serializable{
      */
     private final int playerID;
 
-    public Response(int playerID) {
+    protected Response(int playerID) {
         this.playerID = playerID;
     }
 

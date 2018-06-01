@@ -3,8 +3,6 @@ package it.polimi.se2018.mvc.model.toolcards;
 import it.polimi.se2018.mvc.controller.ToolCardHandler;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.controller.ToolCardCheckerHandler;
-import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
-import it.polimi.se2018.utils.exceptions.HaltException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
@@ -26,7 +24,7 @@ public class FluxBrush extends ToolCard {
         handler.useCard(this, message);
     }
     @Override
-    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) throws HaltException {
+    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) {
         return handler.getPlayerRequests(this, toolcardnumber);
     }
 

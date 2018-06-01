@@ -10,9 +10,9 @@ import java.util.Random;
 import static junit.framework.TestCase.fail;
 
 public class TestPlaceMessage {
-    PlaceMessage placeMessage;
-    Coordinate coordinate;
-    Random random;
+    private PlaceMessage placeMessage;
+    private Coordinate coordinate;
+    private Random random;
 
     @Before
     public void init() {

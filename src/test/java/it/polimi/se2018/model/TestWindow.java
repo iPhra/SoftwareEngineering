@@ -15,7 +15,7 @@ import java.util.Random;
 public class TestWindow {
     private String title;
     private int level;
-    private Square[][] matrix = new Square[4][5];
+    private final Square[][] matrix = new Square[4][5];
     private Window window;
 
     @Before
