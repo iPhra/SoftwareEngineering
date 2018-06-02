@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class ClientGUI extends Application{
     private static final int PORT = 1234;
     private static final String HOST = "127.0.0.1";
-    private ClientView clientView;
+    private GUIClientView guiClientView;
     private ClientConnection clientConnection;
     private int playerID;
     private String playerName;
@@ -47,7 +47,7 @@ public class ClientGUI extends Application{
                 out.writeObject(playerName);
                 setup = (boolean) in.readObject();
                 if (!setup) {
-                    clientView = new GUIClientView(playerID);
+                    guiClientView = new GUIClientView(playerID);
                 }
             }catch(IOException | ClassNotFoundException  e){
                 Logger logger = Logger.getAnonymousLogger();
@@ -57,8 +57,8 @@ public class ClientGUI extends Application{
         return setup;
     }
 
-    public ClientView getClientView() {
-        return clientView;
+    public ClientView getGUIClientView() {
+        return guiClientView;
     }
 
     void createRMIConnection(){
@@ -98,8 +98,8 @@ public class ClientGUI extends Application{
             playerID = (int) in.readObject();
             isSocket = true;
 
-            clientConnection = new SocketClientConnection(clientView, socket,in,out);
-            clientView.setClientConnection(clientConnection);
+            clientConnection = new SocketClientConnection(guiClientView, socket,in,out);
+            guiClientView.setClientConnection(clientConnection);
             new Thread((SocketClientConnection) clientConnection).start();
         } catch(IOException | ClassNotFoundException e){
             Logger logger = Logger.getAnonymousLogger();

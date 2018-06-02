@@ -48,5 +48,4 @@ public class StartingSceneController implements SceneController {
             logger.log(Level.ALL,e.getMessage());
         }
     }
-
 }

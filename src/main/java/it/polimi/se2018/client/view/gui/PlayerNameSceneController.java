@@ -22,7 +22,7 @@ public class PlayerNameSceneController implements SceneController{
     public void onReturnHandler(){
         if (clientGUI.isSocket()){
             if (!clientGUI.getPlayerNameSocket(nickTextField.getText())){
-                ((GUIClientView) clientGUI.getClientView()).setSceneController(this);
+                ((GUIClientView) clientGUI.getGUIClientView()).setSceneController(this);
                 label.setText("Your nickname is ok. Waiting for other players");
             }
             //here i need the else that prints that nick is not ok
@@ -47,7 +47,7 @@ public class PlayerNameSceneController implements SceneController{
             Parent root = loader.load();
             SelectWindowSceneController selectWindowSceneController = loader.getController();
             selectWindowSceneController.setClientGUI(clientGUI);
-            ((GUIClientView) clientGUI.getClientView()).setSceneController(selectWindowSceneController);
+            ((GUIClientView) clientGUI.getGUIClientView()).setSceneController(selectWindowSceneController);
             scene.setRoot(root);
         } catch (IOException e) {
             Logger logger = Logger.getAnonymousLogger();

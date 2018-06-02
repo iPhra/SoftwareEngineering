@@ -2,8 +2,11 @@ package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.view.ClientView;
+import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.responses.sync.*;
+import it.polimi.se2018.network.messages.requests.Message;
+import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.network.messages.responses.*;
@@ -14,6 +17,7 @@ public class GUIClientView implements SyncResponseHandler, ClientView{
     private final int playerID;
     private ClientConnection clientConnection;
     private SceneController sceneController;
+    private ModelView board;
     private int playersNumber;
     private PrivateObjective privateObjective;
     private List<PublicObjective> publicObjectives;
@@ -21,6 +25,14 @@ public class GUIClientView implements SyncResponseHandler, ClientView{
 
     public GUIClientView(int playerID){
         this.playerID = playerID;
+    }
+
+    public ModelView getBoard() {
+        return board;
+    }
+
+    public void setBoard(ModelView modelView) {
+        this.board = modelView;
     }
 
     public void setPlayersNumber(int playersNumber) {
@@ -52,6 +64,10 @@ public class GUIClientView implements SyncResponseHandler, ClientView{
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
 
+    }
+
+    public void handleNetworkOutput(Message message) {
+        clientConnection.sendMessage(message);
     }
 
     @Override

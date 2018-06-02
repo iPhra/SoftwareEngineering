@@ -34,4 +34,9 @@ public class SelectWindowSceneController implements SceneController{
     public void changeScene(Scene scene){
 
     }
+
+    @Override
+    public Scene getScene() {
+        return null;
+    }
 }
