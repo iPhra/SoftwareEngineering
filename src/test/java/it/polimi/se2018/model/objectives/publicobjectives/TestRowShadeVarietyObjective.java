@@ -7,6 +7,7 @@ import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.RowShadeVarietyObjective;
+import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class TestRowShadeVarietyObjective {
         matrix = database.getMatrix();
         rowShadeVarietyObjective = RowShadeVarietyObjective.instance("title");
         rowShadeVarietyObjective = RowShadeVarietyObjective.instance("title");
-        Window window = new Window("BasicMap",0, matrix);
+        Window window = new Window("BasicMap",0, matrix,WindowBuilder.getLevelPaths().get(0));
         shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
@@ -36,12 +37,12 @@ public class TestRowShadeVarietyObjective {
         assertEquals(0, rowShadeVarietyObjective.evalPoints(player));
         database.sixSameColoredDice(Color.GREEN);
         matrix = database.getMatrix();
-        Window window1 = new Window("sixSameColoredDiceMap",0, matrix);
+        Window window1 = new Window("sixSameColoredDiceMap",0, matrix, WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window1,shadesOfGreenObjective);
         assertEquals(0, rowShadeVarietyObjective.evalPoints(player));
         database.initMatrixFullOfDice();
         matrix = database.getMatrix();
-        Window window2 = new Window("FullOfDiceMap",0, matrix);
+        Window window2 = new Window("FullOfDiceMap",0, matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window2,shadesOfGreenObjective);
         assertEquals(20, rowShadeVarietyObjective.evalPoints(player));
     }

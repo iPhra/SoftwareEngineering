@@ -6,6 +6,7 @@ import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.Database;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
+import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ public class TestShadesOfGreenObjective {
         matrix = database.getMatrix();
         shadesOfGreenObjective=ShadesOfGreenObjective.instance("title");
         shadesOfGreenObjective=ShadesOfGreenObjective.instance("title");
-        Window window = new Window("BasicMap",0,matrix);
+        Window window = new Window("BasicMap",0,matrix, WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 
@@ -33,7 +34,7 @@ public class TestShadesOfGreenObjective {
         assertEquals(0,shadesOfGreenObjective.evalPoints(player));
         database.sixSameColoredDice(Color.GREEN);
         matrix = database.getMatrix();
-        Window window = new Window("sixSameColoredDiceMap",0,matrix);
+        Window window = new Window("sixSameColoredDiceMap",0,matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window,shadesOfGreenObjective);
         assertEquals(21,shadesOfGreenObjective.evalPoints(player));
     }

@@ -11,6 +11,7 @@ import it.polimi.se2018.mvc.model.toolcards.EglomiseBrush;
 import it.polimi.se2018.mvc.model.toolcards.FluxBrush;
 import it.polimi.se2018.mvc.model.toolcards.TapWheel;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
+import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class TestBoard {
         database.standardWhiteMatrix();
         Square[][] matrix = database.getMatrix();
         ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
-        Window window = new Window("BasicMap",0,matrix);
+        Window window = new Window("BasicMap",0,matrix, WindowBuilder.getLevelPaths().get(0));
         Player player1 = new Player("player1",1, window,shadesOfGreenObjective);
         player2 = new Player("player2",2, window,shadesOfGreenObjective);
         players = new ArrayList<>();

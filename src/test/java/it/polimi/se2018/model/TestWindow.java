@@ -33,7 +33,7 @@ public class TestWindow {
                 matrix[i][j] = square;
             }
         }
-        window = new Window(title, level, matrix);
+        window = new Window(title, level, matrix,WindowBuilder.getLevelPaths().get(level));
     }
 
     @Test

@@ -34,7 +34,7 @@ public class TestPlayer {
         Square[][] matrix = new Square[1][1];
         matrix[0][0] = new Square(Color.BLUE, 0, new Coordinate(2, 3), WindowBuilder.getColorPaths().get("B"));
         mapLevel = random.nextInt(3) + 1;
-        window = new Window("title", mapLevel, matrix);
+        window = new Window("title", mapLevel, matrix,WindowBuilder.getLevelPaths().get(mapLevel));
         privateObjective = ShadesOfGreenObjective.instance("title");
         player = new Player(name, id, window, privateObjective);
     }

@@ -26,6 +26,8 @@ public class Window implements Iterable<Square>, Serializable {
      */
     private final Square[][] matrix;
 
+    private final String levelPath;
+
     private class SquareIterator implements Iterator<Square> {
         private int row;
         private int col;
@@ -52,10 +54,11 @@ public class Window implements Iterable<Square>, Serializable {
 
     }
 
-    public Window(String title, int level, Square[][] matrix) {
+    public Window(String title, int level, Square[][] matrix, String levelPath) {
         this.title = title;
         this.level = level;
         this.matrix = matrix;
+        this.levelPath = levelPath;
     }
 
     public String getTitle() {
