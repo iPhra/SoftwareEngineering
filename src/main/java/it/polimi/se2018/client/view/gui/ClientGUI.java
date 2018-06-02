@@ -46,6 +46,9 @@ public class ClientGUI extends Application{
             try{
                 out.writeObject(playerName);
                 setup = (boolean) in.readObject();
+                if (!setup) {
+                    clientView = new GUIClientView(playerID);
+                }
             }catch(IOException | ClassNotFoundException  e){
                 Logger logger = Logger.getAnonymousLogger();
                 logger.log(Level.ALL,e.getMessage());
@@ -94,14 +97,7 @@ public class ClientGUI extends Application{
             out = new ObjectOutputStream(socket.getOutputStream());
             playerID = (int) in.readObject();
             isSocket = true;
-            while (setup) {
-                //playerName = getPlayerName();  //not ok
-                out.writeObject(playerName);
-                setup = (boolean) in.readObject();
-                //here i must write the output that in ClientCLI is:
-                //output.println(setup ? "This nickname is already taken, please choose another one" : "Your nickname is ok");
-            }
-            clientView = new GUIClientView(playerID);
+
             clientConnection = new SocketClientConnection(clientView, socket,in,out);
             clientView.setClientConnection(clientConnection);
             new Thread((SocketClientConnection) clientConnection).start();
@@ -120,8 +116,8 @@ public class ClientGUI extends Application{
         ClientGUI clientGUI = new ClientGUI();
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/startingScene.fxml")));
         Parent root = loader.load();
-        SceneController sceneController = loader.getController();
-        sceneController.setClientGUI(clientGUI);
+        StartingSceneController startingSceneController = loader.getController();
+        startingSceneController.setClientGUI(clientGUI);
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 600, 623));
         primaryStage.show();

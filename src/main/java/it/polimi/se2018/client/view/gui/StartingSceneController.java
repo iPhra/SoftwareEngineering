@@ -3,6 +3,7 @@ package it.polimi.se2018.client.view.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -17,26 +18,31 @@ public class StartingSceneController implements SceneController {
 
     public void socketButtonClicked(){
         clientGUI.createSocketConnection();
-        changeScene(socketButton);
+        changeScene(getScene());
     }
 
     public void rmiButtonClicked(){
         clientGUI.createRMIConnection();
-        changeScene(rmiButton);
+        changeScene(getScene());
     }
 
-    @Override
     public void setClientGUI(ClientGUI clientGUI){
         this.clientGUI = clientGUI;
     }
 
-    private void changeScene(Button button){
+    @Override
+    public Scene getScene(){
+        return socketButton.getScene();
+    }
+
+    @Override
+    public void changeScene(Scene scene){
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/playerNameScene.fxml")));
         try{
             Parent root = loader.load();
-            SceneController sceneController = loader.getController();
-            sceneController.setClientGUI(clientGUI);
-            button.getScene().setRoot(root);
+            PlayerNameSceneController playerNameSceneController = loader.getController();
+            playerNameSceneController.setClientGUI(clientGUI);
+            scene.setRoot(root);
         }catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
