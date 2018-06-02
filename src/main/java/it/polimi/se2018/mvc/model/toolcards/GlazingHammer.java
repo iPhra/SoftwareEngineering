@@ -1,5 +1,6 @@
 package it.polimi.se2018.mvc.model.toolcards;
 
+import it.polimi.se2018.client.view.gui.ToolCardGUIHandler;
 import it.polimi.se2018.mvc.controller.ToolCardHandler;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.controller.ToolCardCheckerHandler;
@@ -33,5 +34,10 @@ public class GlazingHammer extends ToolCard {
     @Override
     public Boolean handleCheck(ToolCardCheckerHandler handler, boolean isUsed, Player player){
         return handler.checkUsability(this, isUsed, player);
+    }
+
+    @Override
+    public void handleGUI(ToolCardGUIHandler handler, int toolcardnumber) {
+        handler.getPlayerRequests(this, toolcardnumber);
     }
 }

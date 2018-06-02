@@ -1,5 +1,6 @@
 package it.polimi.se2018.mvc.model.toolcards;
 
+import it.polimi.se2018.client.view.gui.ToolCardGUIHandler;
 import it.polimi.se2018.mvc.controller.ToolCardHandler;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.controller.ToolCardCheckerHandler;
@@ -28,6 +29,8 @@ public abstract class ToolCard implements Serializable {
     public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws HaltException, ChangeActionException;
 
     public abstract Boolean handleCheck(ToolCardCheckerHandler handler, boolean isUsed, Player player);
+
+    public abstract void handleGUI(ToolCardGUIHandler handler, int toolCardNumber) throws ChangeActionException, HaltException;
 
     @Override
     public String toString() {
