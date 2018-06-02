@@ -23,7 +23,7 @@ public abstract class PrivateObjective extends ObjectiveCard {
 
     /**
      * The points are evaluated as it follows: all the values of the colored dice in the player's window are added. The
-     * result number represents the points given to the player by this objective
+     * result value represents the points given to the player by this objective
      * @param player the player whose points must be evaluated
      * @return the points given by this card to the player
      */

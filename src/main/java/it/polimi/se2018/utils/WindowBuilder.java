@@ -13,19 +13,38 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 public class WindowBuilder {
+    private static Map<String,String> colorPaths;
+    private static Map<Integer,String> valuePaths;
 
     private WindowBuilder() {
     }
 
+    private static void generatePaths() {
+        colorPaths = new HashMap<>();
+        valuePaths = new HashMap<>();
+        for(int i=1; i<=6; i++) {
+            valuePaths.put(i,"resources/constraints/value"+i);
+        }
+        for(String abbreviation: Color.getAllAbbreviations()) {
+            colorPaths.put(abbreviation,"resources/constraints/color/"+abbreviation);
+        }
+    }
+
+    public static Map<String, String> getColorPaths() {
+        return colorPaths;
+    }
+
+    public static Map<Integer, String> getValuePaths() {
+        return valuePaths;
+    }
+
     @SuppressWarnings("WhileLoopReplaceableByForEach")
     public static List<Pair<Window,Window>> create() {
+        generatePaths();
         JSONParser parser = new JSONParser();
         List<Pair<Window,Window>> windows = new ArrayList<>();
         try {
@@ -64,10 +83,10 @@ public class WindowBuilder {
         int col =0;
         for(String token: tokens) {
             try {
-                squares[row][col]=new Square(Color.WHITE,Integer.parseInt(token),new Coordinate(row,col));
+                squares[row][col]=new Square(Color.WHITE,Integer.parseInt(token),new Coordinate(row,col), valuePaths.get(Integer.parseInt(token)));
             }
             catch(NumberFormatException e) {
-                squares[row][col]=new Square(Color.fromAbbreviation(token),0,new Coordinate(row,col));
+                squares[row][col]=new Square(Color.fromAbbreviation(token),0,new Coordinate(row,col),colorPaths.get(token));
             }
             if (col<4) col++;
             else if (col==4 && row<3) {

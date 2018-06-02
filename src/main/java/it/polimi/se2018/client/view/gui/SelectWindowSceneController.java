@@ -6,9 +6,6 @@ import java.awt.*;
 
 public class SelectWindowSceneController implements SceneController{
 
-
-
-
     public void windowOneChosen(){
 
     }
@@ -33,5 +30,10 @@ public class SelectWindowSceneController implements SceneController{
     @Override
     public void changeScene(Scene scene){
 
+    }
+
+    @Override
+    public Scene getScene() {
+        return null;
     }
 }

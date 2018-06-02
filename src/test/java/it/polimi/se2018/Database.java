@@ -28,7 +28,7 @@ public class Database {
         matrix = new Square[4][5];
         for(int row=0;row<4;row++){
             for(int col=0;col<5;col++){
-                matrix[row][col] = new Square(Color.WHITE,0,new Coordinate(row,col));
+                matrix[row][col] = new Square(Color.WHITE,0,new Coordinate(row,col),WindowBuilder.getColorPaths().get("W"));
             }
         }
     }

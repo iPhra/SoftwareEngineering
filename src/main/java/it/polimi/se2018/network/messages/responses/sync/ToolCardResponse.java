@@ -7,7 +7,7 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
  */
 public class ToolCardResponse extends SyncResponse {
     /**
-     * This is the number of the {@link ToolCard} to be used
+     * This is the value of the {@link ToolCard} to be used
      */
     private final int toolCardNumber;
 
@@ -17,7 +17,7 @@ public class ToolCardResponse extends SyncResponse {
     }
 
     /**
-     * @return the number of the {@link ToolCard} to be used
+     * @return the value of the {@link ToolCard} to be used
      */
     public int getToolCardNumber() {
         return toolCardNumber;

@@ -31,7 +31,7 @@ public class Player {
     private final PrivateObjective privateObjective;
 
     /**
-     * This number identifies how many favor points the player has left
+     * This value identifies how many favor points the player has left
      */
     private int favorPoints;
 
@@ -51,7 +51,7 @@ public class Player {
     private Die dieInHand;
 
     /**
-     * This number identifies what tool card is the player using
+     * This value identifies what tool card is the player using
      */
     private int cardInUse;
 
@@ -84,15 +84,15 @@ public class Player {
     }
 
     /**
-     * @return the number of favor points of the player
+     * @return the value of favor points of the player
      */
     public int getFavorPoints() {
         return favorPoints;
     }
 
     /**
-     * sets the number of favor points of the player
-     * @param favorPoints it's the new number of favor points the this player will have after calling this method
+     * sets the value of favor points of the player
+     * @param favorPoints it's the new value of favor points the this player will have after calling this method
      */
     public void setFavorPoints(int favorPoints) {
         this.favorPoints = favorPoints;
@@ -212,7 +212,7 @@ public class Player {
 
     /**
      * Used by {@link Controller} when it's received a ToolCardMessage message
-     * @return a number indicating what tool card is the player using
+     * @return a value indicating what tool card is the player using
      * @throws ToolCardException if the player hasn't selected any tool card
      */
     public int getCardInUse() throws ToolCardException {
@@ -221,8 +221,8 @@ public class Player {
     }
 
     /**
-     * Sets the number indicating what tool card is in use
-     * @param cardInUse it's the number indicating the tool card in use that has to be setted
+     * Sets the value indicating what tool card is in use
+     * @param cardInUse it's the value indicating the tool card in use that has to be setted
      */
     public void setCardInUse(int cardInUse) {
         this.cardInUse = cardInUse;

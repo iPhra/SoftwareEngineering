@@ -155,7 +155,7 @@ public class ToolCardController implements ToolCardHandler{
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             Die dieToGive = new Die(player.getDieInHand().getValue(), player.getDieInHand().getColor());
-            dieToGive.setValue(dieToGive.getValue() + (toolCardMessage.getIncrement()? 1:-1));
+            dieToGive.setValue(dieToGive.getValue() + (toolCardMessage.isCondition()? 1:-1));
             player.setDieInHand(dieToGive);
             updateToolCard(toolCardMessage);
         }
@@ -213,7 +213,7 @@ public class ToolCardController implements ToolCardHandler{
     @Override
     public void useCard(TapWheel toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
-        boolean twoDice = toolCardMessage.isTwoDice();
+        boolean twoDice = toolCardMessage.isCondition();
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         Die dieOne = squareOne.popDie();
         Coordinate roundTrackerIndex = toolCardMessage.getRoundTrackerPosition();

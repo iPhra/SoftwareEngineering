@@ -24,7 +24,7 @@ public class TestToolCardMessage {
         toolCardMessage.addRoundTrackerPosition(new Coordinate(3,1245));
         toolCardMessage.addStartingPosition(new Coordinate(-23532,3244444));
         toolCardMessage.addStartingPosition(new Coordinate(-22,0));
-        toolCardMessage.setIncrement(true);
+        toolCardMessage.setCondition(true);
     }
 
     @Test

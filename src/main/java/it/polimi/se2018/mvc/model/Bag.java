@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This class represent the bag of the game. It contains the number of die of
+ * This class represent the bag of the game. It contains the value of die of
  * each (@link Color). It generate new die each round and fill the (@link DraftPool)
  * @author Edoardo Lamonaca
  */
 public class Bag {
     /**
-     * This list of initeger represent the number of remaining dice for each color
+     * This list of initeger represent the value of remaining dice for each color
      */
     private final ArrayList<Integer> remainingColors;
 
     /**
-     * This is the total number of dice in the bag
+     * This is the total value of dice in the bag
      */
     private int diceNumber;
 
@@ -65,7 +65,7 @@ public class Bag {
 
     /**
      * draws 2n+1 dice putting them in a arraylist, used by Board
-     * @param playersNumber number of player in the game. It's used to decide the number of die to extract
+     * @param playersNumber value of player in the game. It's used to decide the value of die to extract
      * @return The die created in a List. It's used to fill the (@link DraftPool)
      */
     public List<Die> drawDice(int playersNumber) {

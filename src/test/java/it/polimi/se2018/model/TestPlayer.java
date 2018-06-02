@@ -4,6 +4,7 @@ import it.polimi.se2018.mvc.model.*;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
 import it.polimi.se2018.network.messages.Coordinate;
+import it.polimi.se2018.utils.WindowBuilder;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,7 +32,7 @@ public class TestPlayer {
         Random random = new Random();
         id = random.nextInt();
         Square[][] matrix = new Square[1][1];
-        matrix[0][0] = new Square(Color.BLUE, 5, new Coordinate(2, 3));
+        matrix[0][0] = new Square(Color.BLUE, 0, new Coordinate(2, 3), WindowBuilder.getColorPaths().get("B"));
         mapLevel = random.nextInt(3) + 1;
         window = new Window("title", mapLevel, matrix);
         privateObjective = ShadesOfGreenObjective.instance("title");

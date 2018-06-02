@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class DraftPool {
     /**
-     * This List contains 2n+1 dice, where n is the number of players in the game
+     * This List contains 2n+1 dice, where n is the value of players in the game
      */
     private List<Die> dice;
 

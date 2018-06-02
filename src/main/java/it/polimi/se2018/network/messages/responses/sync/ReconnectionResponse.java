@@ -26,7 +26,7 @@ public class ReconnectionResponse extends SyncResponse {
     private PrivateObjective privateObjective;
 
     /**
-     * This is the number of players in the current match
+     * This is the value of players in the current match
      */
     private int playersNumber;
 

@@ -16,7 +16,7 @@ public class Window implements Iterable<Square>, Serializable {
     private final String title;
 
     /**
-     * This is the number of favour points that give to the Player
+     * This is the value of favour points that give to the Player
      * if he chooses this window. It's the level of difficulty
      */
     private final int level;
@@ -93,7 +93,7 @@ public class Window implements Iterable<Square>, Serializable {
 
     /**
      *
-     * @return return number of empty slot in a window
+     * @return return value of empty slot in a window
      */
     public int countEmptySlots() {
         int countSlot = 0;

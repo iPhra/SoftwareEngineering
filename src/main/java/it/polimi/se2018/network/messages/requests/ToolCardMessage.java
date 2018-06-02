@@ -15,15 +15,13 @@ import java.util.List;
 public class ToolCardMessage extends Message {
 
     /**
-     * This is the value a player wants to give to a Die drafted from the Dice Bag
-     * Used by {@link FluxRemover}
+     * This represents a condition from Tool Cards that let the player choose between two options
+     * Used by {@link FluxRemover} and {@link it.polimi.se2018.mvc.model.toolcards.GrozingPliers}
      */
-    private boolean increment;
-
-    private boolean twoDice;
+    private boolean condition;
 
     /**
-     * This is the number of the Tool Card as displayed on the array in {@link Board}
+     * This is the value of the Tool Card as displayed on the array in {@link Board}
      */
     private final int toolCardNumber;
 
@@ -111,32 +109,18 @@ public class ToolCardMessage extends Message {
     }
 
     /**
-     * @return the value used by {@link FluxRemover}
-     */
-    public boolean getIncrement() {
-        return increment;
-    }
-
-    /**
-     * @param increment is the value you want to set for {@link FluxRemover}
-     */
-    public void setIncrement(boolean increment) {
-        this.increment = increment;
-    }
-
-    /**
-     * @return the number of the Tool Card
+     * @return the value of the Tool Card
      */
     public int getToolCardNumber() {
         return toolCardNumber;
     }
 
-    public boolean isTwoDice() {
-        return twoDice;
+    public boolean isCondition() {
+        return condition;
     }
 
-    public void setTwoDice(boolean twoDice) {
-        this.twoDice = twoDice;
+    public void setCondition(boolean condition) {
+        this.condition = condition;
     }
 
     @Override

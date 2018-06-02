@@ -44,7 +44,7 @@ public class RoundTracker {
 
     /**
      *
-     * @return the number of the current round
+     * @return the value of the current round
      */
     public int getRound() {
         return round;

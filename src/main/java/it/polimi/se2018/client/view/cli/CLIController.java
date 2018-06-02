@@ -222,7 +222,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         cliModel.showSetupWindows(windows);
         do {
             choice = cliView.takeInput(1, 4);
-            if (choice<1 || choice>4) cliView.print("Type a number between 1 and 4\n");
+            if (choice<1 || choice>4) cliView.print("Type a value between 1 and 4\n");
             else iterate = false;
         }
         while(iterate);

@@ -5,6 +5,7 @@ import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.network.messages.Coordinate;
+import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class TestWindow {
                 Color color = Color.values()[random.nextInt(6)];
                 int value = random.nextInt(6)+1;
                 Coordinate coordinate = new Coordinate(i, j);
-                Square square = new Square(color, value, coordinate);
+                Square square = new Square(color, value, coordinate, WindowBuilder.getValuePaths().get(value));
                 matrix[i][j] = square;
             }
         }

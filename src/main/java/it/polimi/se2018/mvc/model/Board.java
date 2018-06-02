@@ -16,21 +16,21 @@ import java.util.List;
  */
 public class Board extends Observable<Response> {
     /**
-     * number of colors in the game, 5 in our instance
+     * value of colors in the game, 5 in our instance
      */
     private static final int COLORSNUMBER = 5;
 
     /**
-     * number of dice in the game, 90 in our instance
+     * value of dice in the game, 90 in our instance
      */
     private static final int DICENUMBER = 90;
 
     /**
-     * number of rounds in one game
+     * value of rounds in one game
      */
     public static final int ROUNDSNUMBER = 2;
     /**
-     * number of tool cards in one game
+     * value of tool cards in one game
      */
     private static final int TOOLCARDSNUMBER = 3;
     private Round round;

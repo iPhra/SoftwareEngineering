@@ -8,7 +8,7 @@ import it.polimi.se2018.mvc.model.Board;
  */
 public class ToolCardRequestMessage extends Message {
     /**
-     * This is the number of the Tool Card as displayed on the array in {@link Board}
+     * This is the value of the Tool Card as displayed on the array in {@link Board}
      */
     private final int toolCardNumber;
 
@@ -18,7 +18,7 @@ public class ToolCardRequestMessage extends Message {
     }
 
     /**
-     * @return the integer representing the number of the Tool Card you want to use
+     * @return the integer representing the value of the Tool Card you want to use
      */
     public int getToolCardNumber() {
         return toolCardNumber;

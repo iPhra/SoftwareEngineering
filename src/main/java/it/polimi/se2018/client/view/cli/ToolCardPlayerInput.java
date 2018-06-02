@@ -64,7 +64,7 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
     @Override
     public ToolCardMessage getPlayerRequests(GrozingPliers toolCard, int toolCardNumber) throws HaltException {
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolCardNumber);
-        toolCardMessage.setIncrement(cliView.getIncrementOrDecrement()!=0);
+        toolCardMessage.setCondition(cliView.getIncrementOrDecrement()!=0);
         return  toolCardMessage;
     }
 
@@ -100,9 +100,9 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
         if (choice == 1) {
             toolCardMessage.addStartingPosition(cliView.getCoordinate());
             toolCardMessage.addFinalPosition(cliView.getCoordinate());
-            toolCardMessage.setTwoDice(true);
+            toolCardMessage.setCondition(true);
         }
-        else toolCardMessage.setTwoDice(false);
+        else toolCardMessage.setCondition(false);
         Coordinate roundTrackPosition = cliView.getRoundTrackPosition();
         toolCardMessage.addRoundTrackerPosition(roundTrackPosition);
         return toolCardMessage;

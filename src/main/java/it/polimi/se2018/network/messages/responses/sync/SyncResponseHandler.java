@@ -23,7 +23,7 @@ public interface SyncResponseHandler {
 
     /**
      * This method is used to notify the client that he can use the Tool Card he selected
-     * @param toolCardResponse contains the number of the Tool Card to be used
+     * @param toolCardResponse contains the value of the Tool Card to be used
      */
     void handleResponse(ToolCardResponse toolCardResponse);
 
