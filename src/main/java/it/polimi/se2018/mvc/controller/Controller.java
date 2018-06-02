@@ -51,7 +51,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         model.incrementStateID();
         int round = model.getRound().getRoundNumber() - 1;
         if(stopped) view.handleNetworkOutput(new TurnEndResponse(player.getId()));
-        createModelViews(PLAYER + player.getName() + " passed the turn. Round " + round + " ends");
+        model.createModelViews(PLAYER + player.getName() + " passed the turn. Round " + round + " ends");
         startTimer();
     }
 
@@ -66,7 +66,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         }
         model.incrementStateID();
         if(stopped) view.handleNetworkOutput(new TurnEndResponse(player.getId()));
-        createModelViews(PLAYER + player.getName() + " passed the turn.");
+        model.createModelViews(PLAYER + player.getName() + " passed the turn.");
         startTimer();
     }
 
@@ -85,9 +85,12 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     //reads player, checks if it's his turn, call handleMove
     private void checkInput(Message message){
         lock.lock();
-        Player player = model.getPlayerByID(message.getPlayerID());
-        if (!(model.getRound().isYourTurn(player) || message.getStateID()==model.getStateID()))
-            view.handleNetworkOutput(new TextResponse(message.getPlayerID(),"It's not your turn"));
+        if(gameManager.isMatchStarted()) {
+            Player player = model.getPlayerByID(message.getPlayerID());
+            if (!(model.getRound().isYourTurn(player) || message.getStateID() == model.getStateID()))
+                view.handleNetworkOutput(new TextResponse(message.getPlayerID(), "It's not your turn"));
+            else message.handle(this);
+        }
         else message.handle(this);
         lock.unlock();
     }
@@ -107,14 +110,6 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         gameManager.endGame();
     }
 
-    void createModelViews(String description) {
-        for(Player player: model.getPlayers()) {
-            ModelViewResponse modelViewResponse = new ModelViewResponse(model.modelViewCopy(),player.getId());
-            modelViewResponse.setDescription(description);
-            model.notify(modelViewResponse);
-        }
-    }
-
     void setModel(Board model) {
         this.model = model;
     }
@@ -132,7 +127,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         Player player = model.getPlayerByID(inputMessage.getPlayerID());
         try {
             player.getDieInHand().setValue(inputMessage.getDieValue());
-            createModelViews(PLAYER + player.getName() + " used Flux Remover: \nhe/she moved the drafted die to the bag and received " + player.getDieInHand().getValue()+ " " + player.getDieInHand().getColor());
+            model.createModelViews(PLAYER + player.getName() + " used Flux Remover: \nhe/she moved the drafted die to the bag and received " + player.getDieInHand().getValue()+ " " + player.getDieInHand().getColor());
         } catch (DieException e) {
             view.handleNetworkOutput(new TextResponse(inputMessage.getPlayerID(), e.getMessage()));
         }
@@ -187,7 +182,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
                     placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getWindow()));
                 }
                 player.dropDieInHand();
-                createModelViews(PLAYER + player.getName() + " placed the drafted die in " + placeMessage.getFinalPosition().getDescription());
+                model.createModelViews(PLAYER + player.getName() + " placed the drafted die in " + placeMessage.getFinalPosition().getDescription());
             }
             catch(InvalidPlacementException e) {
                 view.handleNetworkOutput(new TextResponse(placeMessage.getPlayerID(),"You can't place the die there"));}
@@ -204,7 +199,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             try {
                 draft(draftMessage);
                 Die die= model.getPlayerByID(model.getRound().getCurrentPlayerID()).getDieInHand();
-                createModelViews(PLAYER + player.getName() + " drafted the die " + die.getValue() + " " + die.getColor());
+                model.createModelViews(PLAYER + player.getName() + " drafted the die " + die.getValue() + " " + die.getColor());
             } catch (NoDieException e) {
                 view.handleNetworkOutput(new TextResponse(draftMessage.getPlayerID(),"The die you want to draft does not exit"));
             }
@@ -239,16 +234,13 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             description.append(" ");
         }
         description.append("\n\n");
-        createModelViews(description.toString());
+        model.createModelViews(description.toString());
         startTimer();
     }
 
     @Override
     public void update(Message input) {
-        if (input instanceof SetupMessage)
-            input.handle(this);
-        else
-            checkInput(input);
+        checkInput(input);
     }
 
     @Override

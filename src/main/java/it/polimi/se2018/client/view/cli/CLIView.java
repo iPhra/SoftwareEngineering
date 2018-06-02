@@ -28,7 +28,7 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     private boolean stopAction;
     private ClientConnection clientConnection;
     private final List<SyncResponse> events;
-    private final boolean isOpen;
+    private boolean isOpen;
 
     public CLIView(int playerID) {
         cliModel = new CLIModel(this,playerID);
@@ -166,6 +166,11 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
         while(isOpen) {
             wakeUp();
         }
+    }
+
+    @Override
+    public void stop() {
+        isOpen=false;
     }
 
     @Override

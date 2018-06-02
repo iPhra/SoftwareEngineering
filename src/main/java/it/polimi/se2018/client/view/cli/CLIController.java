@@ -98,7 +98,6 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         cliModel.setPlayersNumber(setupResponse.getPlayersNumber());
         cliView.print("");
         cliModel.showPrivateObjective();
-        cliModel.showPublicObjective();
         int windowNumber;
         try {
             windowNumber = selectWindow(setupResponse.getWindows())-1;
@@ -126,7 +125,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             cliModel.setPublicObjectives(reconnectionResponse.getPublicObjectives());
             cliModel.setToolCards(reconnectionResponse.getToolCards());
             ModelViewResponse response = new ModelViewResponse(reconnectionResponse.getModelView(),reconnectionResponse.getPlayer());
-            response.setDescription("Reconnected, wait for your turn");
+            response.setDescription("Reconnected, wait for your turn\n");
             handleResponse(response);
         }
         else cliView.print("\nReconnected, wait for other players to choose their Windows\n\n");

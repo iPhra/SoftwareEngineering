@@ -132,24 +132,4 @@ public class TestBoard {
         }
         fail();
     }
-
-    @Test
-    public void testModelViewCopy(){
-        ModelView modelView = new ModelView(board);
-        Assert.assertTrue(modelView.getDraftPool().containsAll(board.modelViewCopy().getDraftPool()) &&
-                board.modelViewCopy().getDraftPool().containsAll(modelView.getDraftPool()));
-        Assert.assertTrue(modelView.getPlayerFavorPoint().containsAll(board.modelViewCopy().getPlayerFavorPoint()) &&
-                board.modelViewCopy().getPlayerFavorPoint().containsAll(modelView.getPlayerFavorPoint()));
-        Assert.assertTrue((modelView.getRoundTracker().containsAll(board.modelViewCopy().getRoundTracker()))&& board.modelViewCopy().getRoundTracker().containsAll(modelView.getRoundTracker()));
-        Assert.assertTrue(modelView.getUsedToolCards().containsAll(board.modelViewCopy().getUsedToolCards()) &&
-                board.modelViewCopy().getUsedToolCards().containsAll(modelView.getUsedToolCards()));
-        Assert.assertEquals(modelView.getRound(),board.modelViewCopy().getRound());
-        for(int i=0; i<modelView.getPlayerWindow().size(); i++) {
-            for(int j=0; j<modelView.getPlayerWindow().get(i).length; j++) {
-                Assert.assertTrue(Arrays.equals(modelView.getPlayerWindow().get(i)[j],board.modelViewCopy().getPlayerWindow().get(i)[j]));
-            }
-
-        }
-
-    }
 }

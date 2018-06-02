@@ -10,7 +10,7 @@ import it.polimi.se2018.network.messages.responses.*;
 
 import java.util.List;
 
-public class GUIClientView implements SyncResponseHandler, ClientView{
+public class GUIClientView implements SyncResponseHandler, ClientView {
     private final int playerID;
     private ClientConnection clientConnection;
     private SceneController sceneController;
@@ -52,6 +52,10 @@ public class GUIClientView implements SyncResponseHandler, ClientView{
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
 
+    }
+
+    @Override
+    public void stop() {
     }
 
     @Override

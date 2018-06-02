@@ -14,4 +14,8 @@ public class GUIClientView implements ClientView, Serializable {
     @Override
     public void setClientConnection(ClientConnection clientConnection) { //to be implemented
     }
+
+    @Override
+    public void stop() {
+    }
 }

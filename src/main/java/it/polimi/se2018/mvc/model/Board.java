@@ -4,6 +4,7 @@ import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
+import it.polimi.se2018.network.messages.responses.sync.ModelViewResponse;
 import it.polimi.se2018.utils.Observable;
 
 import java.security.InvalidParameterException;
@@ -127,13 +128,13 @@ public class Board extends Observable<Response> {
         throw new InvalidParameterException();
     }
 
-    /**
-     * Used by {@link ModelView}, in the constructor, when it's needed to copy the whole Board
-     * to send it to a client
-     * @return a copy of this Board
-     */
-    public ModelView modelViewCopy() {
-        return new ModelView(this);
+
+    public void createModelViews(String description) {
+        for(Player player: players) {
+            ModelViewResponse modelViewResponse = new ModelViewResponse(new ModelView(this),player.getId());
+            modelViewResponse.setDescription(description);
+            notify(modelViewResponse);
+        }
     }
 
     /**
