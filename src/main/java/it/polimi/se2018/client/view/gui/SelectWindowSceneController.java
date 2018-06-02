@@ -6,9 +6,6 @@ import java.awt.*;
 
 public class SelectWindowSceneController implements SceneController{
 
-
-
-
     public void windowOneChosen(){
 
     }

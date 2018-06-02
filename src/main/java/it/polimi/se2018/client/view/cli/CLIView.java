@@ -28,7 +28,7 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     private boolean stopAction;
     private ClientConnection clientConnection;
     private final List<SyncResponse> events;
-    private final boolean isOpen;
+    private boolean isOpen;
 
     public CLIView(int playerID) {
         cliModel = new CLIModel(this,playerID);
@@ -113,10 +113,10 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
         int choice = 2;
         cliModel.showRoundTracker();
         while (choice == 2) {
-            printStream.println("Choose the turn. Insert a number from 0 to 9");
+            printStream.println("Choose the turn. Insert a value from 0 to 9");
             turn = takeInput(0, 9);
             int size = cliModel.getBoard().getRoundTracker().get(turn).size();
-            printStream.println("Choose the position. Insert a number from 0 to " + size);
+            printStream.println("Choose the position. Insert a value from 0 to " + size);
             printStream.println("[" + size + "] to choose another turn");
             printStream.println("[" + (size + 1) + "] to change action");
             pos = takeInput(0, cliModel.getBoard().getRoundTracker().get(turn).size() + 1);
@@ -166,6 +166,11 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
         while(isOpen) {
             wakeUp();
         }
+    }
+
+    @Override
+    public void stop() {
+        isOpen=false;
     }
 
     @Override

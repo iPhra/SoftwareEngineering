@@ -19,7 +19,7 @@ public class Round {
     private final List<Integer> playersOrder;
 
     /**
-     * This is the number of unique players who still haven't played in the round. it's 0 when you are in the middle of the array (every played played once)
+     * This is the value of unique players who still haven't played in the round. it's 0 when you are in the middle of the array (every played played once)
      */
     private int missingPlayers;
 
@@ -34,7 +34,7 @@ public class Round {
     private int currentPlayerIndex;
 
     /**
-     * This is the number of this round, it goes from 1 to 10
+     * This is the value of this round, it goes from 1 to 10
      */
     private final int roundNumber;
 
@@ -61,7 +61,7 @@ public class Round {
     public int getCurrentPlayerID() {return playersOrder.get(currentPlayerIndex);}
 
     /**
-     * @return the number of this round
+     * @return the value of this round
      */
     public int getRoundNumber () {
         return roundNumber;

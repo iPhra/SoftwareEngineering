@@ -35,7 +35,7 @@ public interface MessageHandler {
 
     /**
      * This method checks if you can use a specific Tool Card
-     * @param toolCardRequestMessage contains the number of the tool card you want to use
+     * @param toolCardRequestMessage contains the value of the tool card you want to use
      */
     void handleMove(ToolCardRequestMessage toolCardRequestMessage);
 

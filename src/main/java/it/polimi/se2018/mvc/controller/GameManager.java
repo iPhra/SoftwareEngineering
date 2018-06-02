@@ -40,7 +40,8 @@ public class GameManager implements Stopper {
     private List<ToolCard> toolCards;
     private List<Window> windows;
     private int setupsCompleted;
-    private boolean matchPlaying;
+    private boolean matchCreated;
+    private boolean matchStarted;
     private WaitingThread clock;
 
     public GameManager(Server server){
@@ -53,7 +54,8 @@ public class GameManager implements Stopper {
         players = new ArrayList<>();
         disconnectedPlayers = new ArrayList<>();
         setupsCompleted = 0;
-        matchPlaying = false;
+        matchCreated = false;
+        matchStarted = false;
     }
 
     private void startTimer() {
@@ -81,6 +83,7 @@ public class GameManager implements Stopper {
     }
 
     private void createMVC() {
+        matchStarted = true;
         Collections.shuffle(players);
         model = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
         model.register(serverView);
@@ -113,7 +116,7 @@ public class GameManager implements Stopper {
         notifyOtherPlayers(playerID);
         ReconnectionResponse response = new ReconnectionResponse(playerID,!setup);
         if(!setup) {
-            response.setModelView(model.modelViewCopy());
+            response.setModelView(new ModelView(model));
             response.setPublicObjectives(publicObjectives);
             response.setPrivateObjective(model.getPlayerByID(playerID).getPrivateObjective());
             response.setToolCards(toolCards);
@@ -169,8 +172,12 @@ public class GameManager implements Stopper {
         serverView.removePlayerConnection(playerID);
     }
 
-    public boolean isMatchPlaying() {
-        return matchPlaying;
+    public boolean isMatchCreated() {
+        return matchCreated;
+    }
+
+    public boolean isMatchStarted() {
+        return matchStarted;
     }
 
     //called by server, it can be called even if there are not all the players still
@@ -186,7 +193,7 @@ public class GameManager implements Stopper {
     }
 
     public void sendWindows(){
-        matchPlaying = true;
+        matchCreated = true;
         createPrivateObjectives();
         createWindows();
         for(int i=0;i<playerIDs.size();i++) {
@@ -239,7 +246,8 @@ public class GameManager implements Stopper {
     }
 
     public void endGame() {
-        matchPlaying = false;
+        matchCreated = false;
+        matchStarted = false;
         for (ServerConnection connection : serverConnections.values()) {
             connection.stop();
         }

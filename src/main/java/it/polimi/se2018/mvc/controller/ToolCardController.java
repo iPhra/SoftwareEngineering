@@ -63,7 +63,7 @@ public class ToolCardController implements ToolCardHandler{
             placer.placeDie();
             player.dropDieInHand();
             updateToolCard(toolCardMessage);
-            controller.createModelViews(PLAYER + player.getName() + " used Cork Backed Straightedge: \nhw/she placed the drafted die on " + toolCardMessage.getFinalPosition().get(0).getDescription());
+            board.createModelViews(PLAYER + player.getName() + " used Cork Backed Straightedge: \nhw/she placed the drafted die on " + toolCardMessage.getFinalPosition().get(0).getDescription());
         }
         catch (InvalidPlacementException e) {
             throw new ToolCardException(INVALID_POSITION);
@@ -79,7 +79,7 @@ public class ToolCardController implements ToolCardHandler{
         try {
             new DiePlacerNoValue(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow()).placeDie();
             updateToolCard(toolCardMessage);
-            controller.createModelViews(PLAYER + player.getName() + " used Copper Foil Burnisher: \nhe/she moved the die " + dieToMove.getValue() + " " + dieToMove.getColor() + FROM + squareStart.getDescription() + " to " +squareStart.getDescription());
+            board.createModelViews(PLAYER + player.getName() + " used Copper Foil Burnisher: \nhe/she moved the die " + dieToMove.getValue() + " " + dieToMove.getColor() + FROM + squareStart.getDescription() + " to " +squareStart.getDescription());
         }
         catch (InvalidPlacementException e) {
             revertSquare(squareStart, dieToMove);
@@ -95,7 +95,7 @@ public class ToolCardController implements ToolCardHandler{
         try {
             new DiePlacerNoColor(dieToMove, toolCardMessage.getFinalPosition().get(0), player.getWindow()).placeDie();
             updateToolCard(toolCardMessage);
-            controller.createModelViews(PLAYER + player.getName() + " used Eglomise Brush: \nhe/she moved the die " + dieToMove.getValue() + " " + dieToMove.getColor() + FROM + squareStart.getDescription() + " to " +squareStart.getDescription());
+            board.createModelViews(PLAYER + player.getName() + " used Eglomise Brush: \nhe/she moved the die " + dieToMove.getValue() + " " + dieToMove.getColor() + FROM + squareStart.getDescription() + " to " +squareStart.getDescription());
         }
         catch (InvalidPlacementException e) {
             revertSquare(squareStart, dieToMove);
@@ -109,7 +109,7 @@ public class ToolCardController implements ToolCardHandler{
         dieToGive.rollDie();
         player.setDieInHand(dieToGive);
         updateToolCard(toolCardMessage);
-        controller.createModelViews(PLAYER + player.getName() + " used Flux Brush: \nhe/she re-rolled the drafted die");
+        board.createModelViews(PLAYER + player.getName() + " used Flux Brush: \nhe/she re-rolled the drafted die");
     }
 
     @Override
@@ -137,7 +137,7 @@ public class ToolCardController implements ToolCardHandler{
         board.getDraftPool().fillDraftPool(diceReRolled);
         updateToolCard(toolCardMessage);
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
-        controller.createModelViews(PLAYER + player.getName() + " used Glazing Hammer: \nhe/she re-rolled all dice in the draft pool");
+        board.createModelViews(PLAYER + player.getName() + " used Glazing Hammer: \nhe/she re-rolled all dice in the draft pool");
     }
 
     @Override
@@ -147,7 +147,7 @@ public class ToolCardController implements ToolCardHandler{
         dieToGive.flipDie();
         player.setDieInHand(dieToGive);
         updateToolCard(toolCardMessage);
-        controller.createModelViews(PLAYER + player.getName() + " used Grinding Stone: \nhe/she flipped the drafted die");
+        board.createModelViews(PLAYER + player.getName() + " used Grinding Stone: \nhe/she flipped the drafted die");
     }
 
     @Override
@@ -155,14 +155,14 @@ public class ToolCardController implements ToolCardHandler{
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             Die dieToGive = new Die(player.getDieInHand().getValue(), player.getDieInHand().getColor());
-            dieToGive.setValue(dieToGive.getValue() + (toolCardMessage.getIncrement()? 1:-1));
+            dieToGive.setValue(dieToGive.getValue() + (toolCardMessage.isCondition()? 1:-1));
             player.setDieInHand(dieToGive);
             updateToolCard(toolCardMessage);
         }
         catch (DieException e) {
             throw new ToolCardException("Invalid value, you can't increase a 6 or decrease a 1");
         }
-        controller.createModelViews(PLAYER + player.getName() + " used GrozingPliers: \nhe/she increased/decresed the drafted die");
+        board.createModelViews(PLAYER + player.getName() + " used GrozingPliers: \nhe/she increased/decresed the drafted die");
     }
 
     @Override
@@ -173,7 +173,7 @@ public class ToolCardController implements ToolCardHandler{
         player.setDieInHand(dieFromRoundTrack);
         board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().getRow(), dieDrafted);
         updateToolCard(toolCardMessage);
-        controller.createModelViews(PLAYER + player.getName() + " used Lens Cutter: \nhw/she swapped the drafted die with the die " + dieFromRoundTrack.getValue() + " " + dieFromRoundTrack.getColor() + " from round track");
+        board.createModelViews(PLAYER + player.getName() + " used Lens Cutter: \nhw/she swapped the drafted die with the die " + dieFromRoundTrack.getValue() + " " + dieFromRoundTrack.getColor() + " from round track");
     }
 
     @Override
@@ -182,7 +182,7 @@ public class ToolCardController implements ToolCardHandler{
         player.setHasDraftedDie(false);
         board.getRound().denyNextTurn();
         updateToolCard(toolCardMessage);
-        controller.createModelViews(PLAYER + player.getName() + " used Running Pliers");
+        board.createModelViews(PLAYER + player.getName() + " used Running Pliers");
     }
 
     @Override
@@ -201,7 +201,7 @@ public class ToolCardController implements ToolCardHandler{
             new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), player.getWindow()).placeDie();
             new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow()).placeDie();
             updateToolCard(toolCardMessage);
-            controller.createModelViews(PLAYER + player.getName() + " used Lathekin: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor());
+            board.createModelViews(PLAYER + player.getName() + " used Lathekin: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor());
         }
         catch (InvalidPlacementException e) {
             squareOne.setDie(dieOne);
@@ -213,7 +213,7 @@ public class ToolCardController implements ToolCardHandler{
     @Override
     public void useCard(TapWheel toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
-        boolean twoDice = toolCardMessage.isTwoDice();
+        boolean twoDice = toolCardMessage.isCondition();
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         Die dieOne = squareOne.popDie();
         Coordinate roundTrackerIndex = toolCardMessage.getRoundTrackerPosition();
@@ -242,6 +242,6 @@ public class ToolCardController implements ToolCardHandler{
             }
         }
         updateToolCard(toolCardMessage);
-        controller.createModelViews(PLAYER + player.getName() + " used Tap Wheel: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + FROM + squareOne.getDescription() + " to " + finalPositionOne.getDescription() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor() + FROM + squareTwo.getDescription() + " to " + finalPositionTwo.getDescription());
+        board.createModelViews(PLAYER + player.getName() + " used Tap Wheel: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + FROM + squareOne.getDescription() + " to " + finalPositionOne.getDescription() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor() + FROM + squareTwo.getDescription() + " to " + finalPositionTwo.getDescription());
     }
 }

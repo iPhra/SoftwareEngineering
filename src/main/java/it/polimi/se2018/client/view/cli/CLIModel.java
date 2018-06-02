@@ -129,22 +129,39 @@ class CLIModel {
         this.publicObjectives = publicObjectives;
     }
 
+    private StringBuilder createRowIndex() {
+        StringBuilder result = new StringBuilder();
+        result.append(generateSpaces(4));
+        for(int i=0; i<5; i++) {
+            result.append(i);
+            result.append("  ");
+        }
+        result.append("\n");
+        return result;
+    }
+
     void showYourWindow() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
         Square[][] window = board.getPlayerWindow().get(yourIndex);
-        cliView.print("Your window is:\n");
-        StringBuilder builder = generateUpperDashes();
+        cliView.print("\n\nYour window is:\n\n");
+        StringBuilder builder = createRowIndex();
+        builder.append("  ");
+        builder.append(generateUpperDashes());
         cliView.print(builder.toString()+"\n");
+        int col = 0;
         for (Square[] row : window) {
             builder = new StringBuilder();
-            builder.append("║");
+            builder.append(col);
+            builder.append(" ║");
             for (Square square : row) {
                 builder.append(square);
             }
             builder.append("║");
             cliView.print(builder.toString()+"\n");
+            col++;
         }
-        builder = generateLowerDashes();
+        builder = new StringBuilder().append("  ");
+        builder.append(generateLowerDashes());
         cliView.print(builder.toString()+"\n\n");
     }
 

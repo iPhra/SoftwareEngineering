@@ -74,7 +74,7 @@ public class ColorDiagonalsObjective extends PublicObjective {
 
     /**
      * The points are evaluated as it follows: all diagonally adjacent dice with the same color are counted. The result
-     * number represents the points given to the player by this objective
+     * value represents the points given to the player by this objective
      * @param player the player whose points must be evaluated
      * @return the points given by this card to the player
      */

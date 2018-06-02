@@ -1,6 +1,8 @@
 package it.polimi.se2018.mvc.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Enumeration for all the colors of {@link Die} and {@link Square}
@@ -16,6 +18,17 @@ public enum Color implements Serializable {
 
     public String getAbbreviation() {
         return abbreviation;
+    }
+
+    public static List<String> getAllAbbreviations() {
+        List<String> result = new ArrayList<>();
+        result.add("W");
+        result.add("R");
+        result.add("G");
+        result.add("B");
+        result.add("Y");
+        result.add("P");
+        return result;
     }
 
     /**

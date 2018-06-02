@@ -4,6 +4,7 @@ import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.network.messages.Coordinate;
+import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class TestSquare {
         color = Color.values()[random.nextInt(6)];
         value = random.nextInt(6)+1;
         coordinate = new Coordinate(random.nextInt((5)), random.nextInt(4));
-        square = new Square(color, value, coordinate);
+        square = new Square(color, value, coordinate,WindowBuilder.getColorPaths().get(color.getAbbreviation()));
     }
 
     @Test
@@ -58,7 +59,7 @@ public class TestSquare {
         Random random = new Random();
         int valueDie = random.nextInt(6)+1;
         color = Color.values()[random.nextInt(5)];
-        square = new Square(color, value, coordinate);
+        square = new Square(color, value, coordinate,WindowBuilder.getColorPaths().get(color.getAbbreviation()));
         Die dieOne = new Die(valueDie, color);
         Die dieTwo;
         if (Color.fromColor(color) < 3) {
@@ -71,7 +72,7 @@ public class TestSquare {
         }
         Assert.assertTrue(square.sameColor(dieOne));
         Assert.assertFalse(square.sameColor(dieTwo));
-        Square squareWhite = new Square(Color.WHITE, value, coordinate);
+        Square squareWhite = new Square(Color.WHITE, value, coordinate,WindowBuilder.getValuePaths().get(value));
         Assert.assertTrue(squareWhite.sameColor(dieOne));
     }
 
@@ -89,9 +90,9 @@ public class TestSquare {
         }
         Assert.assertTrue(square.sameValue(dieOne));
         Assert.assertFalse(square.sameValue(dieTwo));
-        Square squareNoValue = new Square(color, 0, coordinate);
+        Square squareNoValue = new Square(color, 0, coordinate,WindowBuilder.getColorPaths().get(color.getAbbreviation()));
         Assert.assertFalse(square.sameValue(dieTwo));
-        Square squareZero = new Square(color, 0, coordinate);
+        Square squareZero = new Square(color, 0, coordinate, WindowBuilder.getColorPaths().get(color.getAbbreviation()));
         Assert.assertTrue(squareZero.sameValue(dieOne));
     }
 

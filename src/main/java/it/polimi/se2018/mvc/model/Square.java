@@ -38,11 +38,14 @@ public class Square implements Serializable{
      */
     private final int col;
 
-    public Square(Color color, int value, Coordinate coordinate) {
+    private final String constraintPath;
+
+    public Square(Color color, int value, Coordinate coordinate, String constraintPath) {
         this.color = color;
         this.value = value;
         this.row=coordinate.getRow();
         this.col=coordinate.getCol();
+        this.constraintPath = constraintPath;
         die=null;
     }
 
@@ -71,6 +74,10 @@ public class Square implements Serializable{
     public int getCol() {return col; }
 
     public int getRow() {return row; }
+
+    public String getConstraintPath() {
+        return constraintPath;
+    }
 
     public String getDescription() {
         return ("row " + row + " col " + col);
@@ -101,7 +108,7 @@ public class Square implements Serializable{
     }
 
     public Square modelViewCopy() {
-        Square result = new Square(color,value,new Coordinate(row,col));
+        Square result = new Square(color,value,new Coordinate(row,col),constraintPath);
         result.setDie(die == null ? null:die.modelViewCopy());
         return result;
     }

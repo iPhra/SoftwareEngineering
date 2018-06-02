@@ -11,6 +11,7 @@ import it.polimi.se2018.mvc.model.toolcards.EglomiseBrush;
 import it.polimi.se2018.mvc.model.toolcards.FluxBrush;
 import it.polimi.se2018.mvc.model.toolcards.TapWheel;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
+import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class TestBoard {
         database.standardWhiteMatrix();
         Square[][] matrix = database.getMatrix();
         ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
-        Window window = new Window("BasicMap",0,matrix);
+        Window window = new Window("BasicMap",0,matrix, WindowBuilder.getLevelPaths().get(0));
         Player player1 = new Player("player1",1, window,shadesOfGreenObjective);
         player2 = new Player("player2",2, window,shadesOfGreenObjective);
         players = new ArrayList<>();
@@ -130,25 +131,5 @@ public class TestBoard {
             return;
         }
         fail();
-    }
-
-    @Test
-    public void testModelViewCopy(){
-        ModelView modelView = new ModelView(board);
-        Assert.assertTrue(modelView.getDraftPool().containsAll(board.modelViewCopy().getDraftPool()) &&
-                board.modelViewCopy().getDraftPool().containsAll(modelView.getDraftPool()));
-        Assert.assertTrue(modelView.getPlayerFavorPoint().containsAll(board.modelViewCopy().getPlayerFavorPoint()) &&
-                board.modelViewCopy().getPlayerFavorPoint().containsAll(modelView.getPlayerFavorPoint()));
-        Assert.assertTrue((modelView.getRoundTracker().containsAll(board.modelViewCopy().getRoundTracker()))&& board.modelViewCopy().getRoundTracker().containsAll(modelView.getRoundTracker()));
-        Assert.assertTrue(modelView.getUsedToolCards().containsAll(board.modelViewCopy().getUsedToolCards()) &&
-                board.modelViewCopy().getUsedToolCards().containsAll(modelView.getUsedToolCards()));
-        Assert.assertEquals(modelView.getRound(),board.modelViewCopy().getRound());
-        for(int i=0; i<modelView.getPlayerWindow().size(); i++) {
-            for(int j=0; j<modelView.getPlayerWindow().get(i).length; j++) {
-                Assert.assertTrue(Arrays.equals(modelView.getPlayerWindow().get(i)[j],board.modelViewCopy().getPlayerWindow().get(i)[j]));
-            }
-
-        }
-
     }
 }

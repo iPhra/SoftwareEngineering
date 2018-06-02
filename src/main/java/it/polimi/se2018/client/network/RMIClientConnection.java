@@ -5,9 +5,14 @@ import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.Response;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RMIClientConnection extends ClientConnection implements RemoteConnection, Runnable {
     private final List<Response> events;
@@ -63,6 +68,13 @@ public class RMIClientConnection extends ClientConnection implements RemoteConne
     @Override
     public void stop() {
         isOpen = false;
+        try {
+            UnicastRemoteObject.unexportObject(this,true);
+        }
+        catch (RemoteException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
     }
 
     @Override

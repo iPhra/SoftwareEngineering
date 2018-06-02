@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.Client;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.ClientView;
@@ -17,7 +18,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ClientGUI extends Application{
+public class ClientGUI extends Application implements Client{
     private static final int PORT = 1234;
     private static final String HOST = "127.0.0.1";
     private GUIClientView guiClientView;
@@ -124,4 +125,7 @@ public class ClientGUI extends Application{
 
     }
 
+    @Override
+    public void handleDisconnection() {
+    }
 }

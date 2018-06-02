@@ -131,7 +131,7 @@ public class Server implements Stopper {
     public synchronized void handleDisconnection(int playerID) {
         int match = playerID/1000;
         GameManager manager = matches.get(match);
-        if(manager.isMatchPlaying()) {
+        if(manager.isMatchCreated()) {
             manager.setDisconnected(playerID);
         }
         else {

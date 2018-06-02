@@ -4,6 +4,7 @@ import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
+import it.polimi.se2018.network.messages.responses.sync.ModelViewResponse;
 import it.polimi.se2018.utils.Observable;
 
 import java.security.InvalidParameterException;
@@ -16,21 +17,21 @@ import java.util.List;
  */
 public class Board extends Observable<Response> {
     /**
-     * number of colors in the game, 5 in our instance
+     * value of colors in the game, 5 in our instance
      */
     private static final int COLORSNUMBER = 5;
 
     /**
-     * number of dice in the game, 90 in our instance
+     * value of dice in the game, 90 in our instance
      */
     private static final int DICENUMBER = 90;
 
     /**
-     * number of rounds in one game
+     * value of rounds in one game
      */
     public static final int ROUNDSNUMBER = 2;
     /**
-     * number of tool cards in one game
+     * value of tool cards in one game
      */
     private static final int TOOLCARDSNUMBER = 3;
     private Round round;
@@ -127,13 +128,13 @@ public class Board extends Observable<Response> {
         throw new InvalidParameterException();
     }
 
-    /**
-     * Used by {@link ModelView}, in the constructor, when it's needed to copy the whole Board
-     * to send it to a client
-     * @return a copy of this Board
-     */
-    public ModelView modelViewCopy() {
-        return new ModelView(this);
+
+    public void createModelViews(String description) {
+        for(Player player: players) {
+            ModelViewResponse modelViewResponse = new ModelViewResponse(new ModelView(this),player.getId());
+            modelViewResponse.setDescription(description);
+            notify(modelViewResponse);
+        }
     }
 
     /**
