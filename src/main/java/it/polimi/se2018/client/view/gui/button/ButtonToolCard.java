@@ -1,8 +1,6 @@
 package it.polimi.se2018.client.view.gui.button;
 
-import it.polimi.se2018.client.view.gui.stateGUI.State;
-import it.polimi.se2018.mvc.controller.ModelView;
-import javafx.scene.control.Button;
+import it.polimi.se2018.client.view.gui.stategui.State;
 
 public class ButtonToolCard extends ButtonGame {
     private final int playerID;

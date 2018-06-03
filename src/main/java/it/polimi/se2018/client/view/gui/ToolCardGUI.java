@@ -1,13 +1,11 @@
 package it.polimi.se2018.client.view.gui;
 
-import it.polimi.se2018.client.view.gui.stateGUI.State;
-import it.polimi.se2018.client.view.gui.stateGUI.StateRoundTracker;
-import it.polimi.se2018.client.view.gui.stateGUI.StateTurn;
-import it.polimi.se2018.client.view.gui.stateGUI.stateWindow.StateWindowEnd;
-import it.polimi.se2018.client.view.gui.stateGUI.stateWindow.StateWindowPlace;
-import it.polimi.se2018.client.view.gui.stateGUI.stateWindow.StateWindowStart;
+import it.polimi.se2018.client.view.gui.stategui.State;
+import it.polimi.se2018.client.view.gui.stategui.StateRoundTracker;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowEnd;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowPlace;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowStart;
 import it.polimi.se2018.mvc.model.toolcards.*;
-import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 

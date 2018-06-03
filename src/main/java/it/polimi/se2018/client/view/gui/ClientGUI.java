@@ -98,8 +98,7 @@ public class ClientGUI extends Application implements Client{
             out = new ObjectOutputStream(socket.getOutputStream());
             playerID = (int) in.readObject();
             isSocket = true;
-            //TODO qui sotto risolvere il problema
-            //clientConnection = new SocketClientConnection(guiClientView, socket,in,out);
+            clientConnection = new SocketClientConnection(this,guiClientView, socket,in,out);
             guiClientView.setClientConnection(clientConnection);
             new Thread((SocketClientConnection) clientConnection).start();
         } catch(IOException | ClassNotFoundException e){

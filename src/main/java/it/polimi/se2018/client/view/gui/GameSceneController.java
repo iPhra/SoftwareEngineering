@@ -2,8 +2,8 @@ package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.view.gui.button.ButtonCheckUsability;
 import it.polimi.se2018.client.view.gui.button.ButtonGame;
-import it.polimi.se2018.client.view.gui.stateGUI.State;
-import it.polimi.se2018.client.view.gui.stateGUI.StateTurn;
+import it.polimi.se2018.client.view.gui.stategui.State;
+import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.requests.Message;

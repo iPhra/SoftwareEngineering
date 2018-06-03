@@ -1,11 +1,7 @@
 package it.polimi.se2018.client.view.gui.button;
 
-import it.polimi.se2018.client.view.gui.stateGUI.State;
-import it.polimi.se2018.mvc.controller.ModelView;
-import it.polimi.se2018.mvc.model.Player;
-import it.polimi.se2018.mvc.model.Square;
+import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.network.messages.Coordinate;
-import javafx.scene.control.Button;
 
 public class ButtonSquare extends ButtonGame {
     private final int playerID;

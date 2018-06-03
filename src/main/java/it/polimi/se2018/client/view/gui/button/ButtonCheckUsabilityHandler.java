@@ -1,12 +1,12 @@
 package it.polimi.se2018.client.view.gui.button;
 
-import it.polimi.se2018.client.view.gui.stateGUI.State;
-import it.polimi.se2018.client.view.gui.stateGUI.StateRoundTracker;
-import it.polimi.se2018.client.view.gui.stateGUI.StateTurn;
-import it.polimi.se2018.client.view.gui.stateGUI.stateDraftPool.StateToolCardDraft;
-import it.polimi.se2018.client.view.gui.stateGUI.stateWindow.StateWindowEnd;
-import it.polimi.se2018.client.view.gui.stateGUI.stateWindow.StateWindowPlace;
-import it.polimi.se2018.client.view.gui.stateGUI.stateWindow.StateWindowStart;
+import it.polimi.se2018.client.view.gui.stategui.State;
+import it.polimi.se2018.client.view.gui.stategui.StateRoundTracker;
+import it.polimi.se2018.client.view.gui.stategui.StateTurn;
+import it.polimi.se2018.client.view.gui.stategui.statedraftpool.StateToolCardDraft;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowEnd;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowPlace;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowStart;
 
 public interface ButtonCheckUsabilityHandler {
     public Boolean checkUsability(ButtonSquare buttonSquare, StateToolCardDraft stateToolCardDraft);

@@ -1,12 +1,12 @@
-package it.polimi.se2018.client.view.gui.stateGUI;
+package it.polimi.se2018.client.view.gui.stategui;
 
 import it.polimi.se2018.client.view.gui.GameSceneController;
 
 import java.util.List;
 
 public abstract class State {
-    public GameSceneController gameSceneController;
-    public List<State> nextState;
+    protected GameSceneController gameSceneController;
+    protected List<State> nextState;
 
     public void setNextState(List<State> nextState) {
         this.nextState = nextState;
@@ -17,5 +17,7 @@ public abstract class State {
         gameSceneController.setAllButton();
     }
 
-    void setButton(GameSceneController gameSceneController){};
+    void setButton(GameSceneController gameSceneController){
+        //TODO (è astratto?)
+    }
 }

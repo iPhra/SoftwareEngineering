@@ -1,11 +1,9 @@
-package it.polimi.se2018.client.view.gui.stateGUI.stateDraftPool;
+package it.polimi.se2018.client.view.gui.stategui.statedraftpool;
 
 import it.polimi.se2018.client.view.gui.GameSceneController;
-import it.polimi.se2018.client.view.gui.stateGUI.State;
-import it.polimi.se2018.client.view.gui.stateGUI.StateTurn;
+import it.polimi.se2018.client.view.gui.stategui.State;
+import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-
-import java.util.List;
 
 public class StateToolCardDraft extends StateDraftPool {
 

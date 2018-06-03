@@ -1,7 +1,6 @@
 package it.polimi.se2018.client.view.gui.button;
 
-import it.polimi.se2018.client.view.gui.stateGUI.State;
-import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.client.view.gui.stategui.State;
 import javafx.scene.control.Button;
 
 public abstract class ButtonGame extends Button {

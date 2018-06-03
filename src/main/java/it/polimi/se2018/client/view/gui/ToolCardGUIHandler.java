@@ -1,7 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.mvc.model.toolcards.*;
-import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 

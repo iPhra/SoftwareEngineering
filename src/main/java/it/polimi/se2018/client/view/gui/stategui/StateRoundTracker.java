@@ -1,10 +1,8 @@
-package it.polimi.se2018.client.view.gui.stateGUI;
+package it.polimi.se2018.client.view.gui.stategui;
 
 import it.polimi.se2018.client.view.gui.GameSceneController;
-import it.polimi.se2018.client.view.gui.stateGUI.stateWindow.StateWindow;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindow;
 import it.polimi.se2018.network.messages.Coordinate;
-
-import java.util.List;
 
 public class StateRoundTracker extends StateWindow {
 
