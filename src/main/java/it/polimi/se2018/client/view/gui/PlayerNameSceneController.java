@@ -20,15 +20,12 @@ public class PlayerNameSceneController implements SceneController{
     private Label label;
 
     public void onReturnHandler(){
-        if (clientGUI.isSocket()){
-            if (!clientGUI.getPlayerNameSocket(nickTextField.getText())){
-                ((GUIClientView) clientGUI.getGUIClientView()).setSceneController(this);
-                label.setText("Your nickname is ok. Waiting for other players");
-            }
+        if (clientGUI.isSocket() && !clientGUI.getPlayerNameSocket(nickTextField.getText())) {
+            ((GUIClientView) clientGUI.getGUIClientView()).setSceneController(this);
+            label.setText("Your nickname is ok. Waiting for other players");
             //here i need the else that prints that nick is not ok
         }
         //here i need the else for the RMI connection
-
     }
 
     public void setClientGUI(ClientGUI clientGUI) {

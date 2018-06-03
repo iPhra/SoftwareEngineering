@@ -126,5 +126,6 @@ public class ClientGUI extends Application implements Client{
 
     @Override
     public void handleDisconnection() {
+        //implement
     }
 }

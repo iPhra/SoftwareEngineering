@@ -72,6 +72,7 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
 
     @Override
     public void stop() {
+        //implement
     }
 
     @Override

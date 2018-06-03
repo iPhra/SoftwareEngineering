@@ -5,6 +5,6 @@ import javafx.scene.control.Button;
 
 public abstract class ButtonGame extends Button {
 
-    //TODO aggiungere i booleani che servono per checkCondition (stai draftando, mettendo una roba nella window etc)
+    //aggiungere i booleani che servono per checkCondition (stai draftando, mettendo una roba nella window etc)
     public void checkCondition(ButtonCheckUsabilityHandler handler, State currentState){}
 }

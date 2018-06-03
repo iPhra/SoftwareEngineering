@@ -111,11 +111,11 @@ public class ButtonCheckUsability implements ButtonCheckUsabilityHandler {
     }
 
 
-    //TODO capire se funziona questo visitor. Ha oltre al modelli che usiamo solitamente anche lo state come parametro. Non passeremo mai State, ma solo figli
+    //capire se funziona questo visitor. Ha oltre al modelli che usiamo solitamente anche lo state come parametro. Non passeremo mai State, ma solo figli
     //Quindi questo metodo non dovrebbe mai essere eseguito
     @Override
     public Boolean checkUsability(ButtonDraftPool buttonDraftPool, State currentState) {
-        return null;
+        return false;
     }
 
     @Override
@@ -123,15 +123,15 @@ public class ButtonCheckUsability implements ButtonCheckUsabilityHandler {
         return checkTurn();
     }
 
-    //TODO stesso di prima
+    //stesso di prima
     @Override
     public Boolean checkUsability(ButtonSquare buttonSquare, State currentState) {
-        return null;
+        return false;
     }
 
-    //TODO come sopra
+    //come sopra
     @Override
     public Boolean checkUsability(ButtonToolCard buttonToolCard, State currentState) {
-        return null;
+        return false;
     }
 }

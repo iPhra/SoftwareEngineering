@@ -5,7 +5,6 @@ import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
-import it.polimi.se2018.utils.exceptions.ToolCardException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ public class ModelView implements Serializable{
     private final List<Integer> playerFavorPoint;
     private final List<Die> draftPool;
     private final List<List<Die>> roundTracker;
-    private final List<Boolean> usedToolCard;
     private final int round;
     private final List<Boolean> toolCardUsability;
     private final int stateID;
@@ -26,11 +24,9 @@ public class ModelView implements Serializable{
     private boolean hasDieInHand;
     private boolean hasDraftedDie;
     private boolean hasUsedCard;
-    private int cardInUse;
     private Die dieInHand;
 
     public ModelView(Board board) {
-        this.usedToolCard = new ArrayList<>();
         playerWindow = new ArrayList<>();
         playerFavorPoint = new ArrayList<>();
         playerNames = new ArrayList<>();
@@ -40,15 +36,8 @@ public class ModelView implements Serializable{
         draftPool = board.getDraftPool().modelViewCopy();
         roundTracker = board.getRoundTracker().modelViewCopy();
         stateID = board.getStateID();
-        setToolCards(board);
         setCurrentPlayer(board);
         setPlayers(board);
-    }
-
-    private void setToolCards(Board board) {
-        for (boolean b : board.getToolCardsUsage()) {
-            this.usedToolCard.add(b);
-        }
     }
 
     private void setPlayers(Board board) {
@@ -66,11 +55,6 @@ public class ModelView implements Serializable{
         hasDieInHand = currentPlayer.hasDieInHand();
         hasDraftedDie = currentPlayer.hasDraftedDie();
         hasUsedCard = currentPlayer.hasUsedCard();
-        try {
-            cardInUse = currentPlayer.getCardInUse();
-        } catch (ToolCardException e) {
-            cardInUse = -1;
-        }
         if (hasDieInHand) dieInHand = board.getPlayerByID(currentPlayerID).getDieInHand();
         for (int i = 0; i < board.getToolCards().length; i++) {
             ToolCard toolCard = board.getToolCards()[i];
@@ -114,10 +98,6 @@ public class ModelView implements Serializable{
         return roundTracker;
     }
 
-    public List<Boolean> getUsedToolCards() {
-        return usedToolCard;
-    }
-
     public int getRound() {
         return round;
     }
@@ -132,9 +112,5 @@ public class ModelView implements Serializable{
 
     public boolean hasUsedCard() {
         return hasUsedCard;
-    }
-
-    public int getCardInUse() {
-        return cardInUse;
     }
 }

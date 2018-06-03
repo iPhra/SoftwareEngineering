@@ -4,6 +4,9 @@ import it.polimi.se2018.mvc.model.Color;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestColor {
 
     @Test
@@ -36,5 +39,17 @@ public class TestColor {
         Assert.assertEquals("P", Color.PURPLE.getAbbreviation());
         Assert.assertEquals("W", Color.WHITE.getAbbreviation());
         Assert.assertEquals("Y", Color.YELLOW.getAbbreviation());
+    }
+
+    @Test
+    public void testGetAllAbbreviations() {
+        List<String> result = new ArrayList<>();
+        result.add("G");
+        result.add("Y");
+        result.add("B");
+        result.add("P");
+        result.add("R");
+        result.add("W");
+        Assert.assertTrue(result.containsAll(Color.getAllAbbreviations()) && Color.getAllAbbreviations().containsAll(result));
     }
 }

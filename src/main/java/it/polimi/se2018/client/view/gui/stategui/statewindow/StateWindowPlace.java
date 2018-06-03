@@ -12,8 +12,8 @@ public class StateWindowPlace extends StateWindow {
 
     @Override
     public void doActionWindow(Coordinate coordinate) {
-        PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), coordinate);
-        //TODO send message
+        //PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), coordinate);
+        //send message
         changeState(new StateTurn(gameSceneController));
         gameSceneController.disableAllButton();
     }

@@ -31,11 +31,12 @@ public class WindowSceneController implements SceneController, Initializable {
 
     @Override
     public void setClientGUI(ClientGUI clientGUI) {
+        //implement
     }
 
     @Override
     public void changeScene(Scene scene) {
-
+        //implement
     }
 
     @Override

@@ -16,7 +16,7 @@ public class StateToolCardDraft extends StateDraftPool {
         ToolCardMessage toolCardMessage = (ToolCardMessage) gameSceneController.getMessage();
         toolCardMessage.addDraftPoolPosition(draftPoolPosition);
         if (nextState.isEmpty()){
-            //TODO game manager send ToolCardMessage
+            //game manager send ToolCardMessage
             changeState(new StateTurn(gameSceneController));
             gameSceneController.disableAllButton();
         }

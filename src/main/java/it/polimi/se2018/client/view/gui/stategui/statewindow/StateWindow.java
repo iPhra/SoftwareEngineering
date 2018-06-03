@@ -5,5 +5,7 @@ import it.polimi.se2018.network.messages.Coordinate;
 
 public abstract class StateWindow extends State {
 
-    public void doActionWindow(Coordinate coordinate){};
+    public void doActionWindow(Coordinate coordinate){
+        //implement
+    }
 }

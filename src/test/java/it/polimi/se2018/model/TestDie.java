@@ -102,4 +102,10 @@ public class TestDie {
         }
         Assert.assertNotEquals(die,new Object());
     }
+
+    @Test
+    public void testToString() {
+        String result = value + color.getAbbreviation() + " ";
+        Assert.assertEquals(result,die.toString());
+    }
 }

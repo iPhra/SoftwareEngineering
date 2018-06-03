@@ -18,6 +18,6 @@ public abstract class State {
     }
 
     void setButton(GameSceneController gameSceneController){
-        //TODO (è astratto?)
+        //implement (è astratto?)
     }
 }

@@ -14,7 +14,7 @@ public class StateWindowEnd extends StateWindow {
     public void doActionWindow(Coordinate coordinate) {
         gameSceneController.getToolCardMessage().addFinalPosition(coordinate);
         if (nextState.isEmpty()){
-            //TODO game manager send ToolCardMessage
+            //game manager send ToolCardMessage
             changeState(new StateTurn(gameSceneController));
             gameSceneController.disableAllButton();
         }

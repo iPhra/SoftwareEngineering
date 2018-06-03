@@ -17,5 +17,6 @@ public class GUIClientView implements ClientView, Serializable {
 
     @Override
     public void stop() {
+        //implement
     }
 }

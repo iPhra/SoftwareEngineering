@@ -86,7 +86,7 @@ public class GameSceneController implements SceneController{
         toolCardMessage = null;
     }
 
-    //TODO togliere le eccezioni e capire se servono o come gestirle
+    //togliere le eccezioni e capire se servono o come gestirle
     public void useToolCard(int toolCardIndex) throws ChangeActionException, HaltException {
         ToolCard toolCard = toolCards.get(toolCardIndex);
         toolCardMessage = new ToolCardMessage(playerID, stateID, toolCardIndex);
@@ -99,6 +99,7 @@ public class GameSceneController implements SceneController{
     }
 
     public void buttonSquareClicked() {
+        //implement
     }
 
     public void setClientGUI(GUIClientView guiClientView) {
@@ -107,11 +108,13 @@ public class GameSceneController implements SceneController{
 
     @Override
     public void setClientGUI(ClientGUI clientGUI) {
+        //implement
 
     }
 
     @Override
     public void changeScene(Scene scene) {
+        //implement
 
     }
 

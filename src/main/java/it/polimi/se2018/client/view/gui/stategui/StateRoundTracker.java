@@ -11,14 +11,14 @@ public class StateRoundTracker extends StateWindow {
     }
 
     public void doAction(Coordinate coordinate){
-
+        //implement
     }
 
     @Override
     public void doActionWindow(Coordinate coordinate) {
         gameSceneController.getToolCardMessage().addRoundTrackerPosition(coordinate);
         if (nextState.isEmpty()){
-            //TODO game manager send ToolCardMessage
+            //game manager send ToolCardMessage
             changeState(new StateTurn(gameSceneController));
             gameSceneController.disableAllButton();
         }

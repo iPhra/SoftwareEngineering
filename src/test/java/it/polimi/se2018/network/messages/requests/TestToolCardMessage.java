@@ -79,4 +79,11 @@ public class TestToolCardMessage {
             public void handleMove(InputMessage inputMessage) {fail();}
         });
     }
+
+    @Test
+    public void testIsCondition() {
+        Assert.assertTrue(toolCardMessage.isCondition());
+        toolCardMessage.setCondition(false);
+        Assert.assertFalse(toolCardMessage.isCondition());
+    }
 }

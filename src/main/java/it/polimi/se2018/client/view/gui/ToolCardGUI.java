@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToolCardGUI implements ToolCardGUIHandler {
-    private final int playerID;
+    //private final int playerID;
     private GameSceneController gameSceneController;
 
-    public ToolCardGUI(int playerID, GameSceneController gameSceneController) {
-        this.playerID = playerID;
+    ToolCardGUI(int playerID, GameSceneController gameSceneController) {
+        //this.playerID = playerID;
         this.gameSceneController = gameSceneController;
     }
 
@@ -55,7 +55,7 @@ public class ToolCardGUI implements ToolCardGUIHandler {
 
     @Override
     public void getPlayerRequests(FluxRemover toolCard, int toolCardNumber) {
-        //TODO
+        //implement
     }
 
     @Override
@@ -70,8 +70,7 @@ public class ToolCardGUI implements ToolCardGUIHandler {
 
     @Override
     public void getPlayerRequests(GrozingPliers toolCard, int toolCardNumber) throws HaltException {
-        //TODO
-
+        //implement
     }
 
     @Override
