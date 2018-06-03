@@ -31,13 +31,13 @@ public class WindowBuilder {
         valuePaths = new HashMap<>();
         levelPaths = new HashMap<>();
         for(int i=1; i<=6; i++) {
-            valuePaths.put(i,"resources/constraints/value"+i);
+            valuePaths.put(i,"/constraints/value/"+i+".png");
         }
         for(String abbreviation: Color.getAllAbbreviations()) {
-            colorPaths.put(abbreviation,"resources/constraints/color/"+abbreviation);
+            colorPaths.put(abbreviation,"/constraints/color/"+abbreviation+".png");
         }
         for(int i=3; i<=6; i++) {
-            levelPaths.put(i,"resources/windows_levels/level_"+i);
+            levelPaths.put(i,"/windows_levels/level_"+i+".png");
         }
     }
 

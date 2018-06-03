@@ -20,6 +20,11 @@ public abstract class ObjectiveCard implements Serializable{
      */
     protected String description;
 
+    /**
+     * This is the imagePath of the card
+     */
+    protected String imagePath;
+
     protected ObjectiveCard(String title) {
         this.title=title;
     }
@@ -37,6 +42,11 @@ public abstract class ObjectiveCard implements Serializable{
     protected String getDescription() {
         return description;
     }
+
+    /**
+     * @return the imagePath of this card
+     */
+    protected String getImagePath() {return imagePath;}
 
     /**
      * Evaluates points based on the effect of the card

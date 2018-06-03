@@ -120,6 +120,7 @@ public class ClientGUI extends Application implements Client{
         startingSceneController.setClientGUI(clientGUI);
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 600, 623));
+        startingSceneController.setStage(primaryStage);
         primaryStage.show();
 
     }

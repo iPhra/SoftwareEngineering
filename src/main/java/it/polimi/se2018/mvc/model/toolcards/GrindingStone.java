@@ -11,13 +11,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class GrindingStone extends ToolCard {
     private static GrindingStone instance = null;
 
-    public static GrindingStone instance(){
-        if (instance==null) instance = new GrindingStone();
+    public static GrindingStone instance(String imagePath){
+        if (instance==null) instance = new GrindingStone(imagePath);
         return instance;
     }
 
-    private GrindingStone() {
+    private GrindingStone(String imagePath) {
         super("Grinding Stone", "After drafting, flip the die to its opposite side");
+        this.imagePath = imagePath;
     }
 
     @Override

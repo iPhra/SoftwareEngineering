@@ -11,13 +11,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class FluxBrush extends ToolCard {
     private static FluxBrush instance = null;
 
-    public static FluxBrush instance(){
-        if (instance==null) instance = new FluxBrush();
+    public static FluxBrush instance(String imagePath){
+        if (instance==null) instance = new FluxBrush(imagePath);
         return instance;
     }
 
-    private FluxBrush() {
+    private FluxBrush(String imagePath) {
         super("Flux Brush", "After drafting, re-roll the drafted die");
+        this.imagePath = imagePath;
     }
 
     @Override

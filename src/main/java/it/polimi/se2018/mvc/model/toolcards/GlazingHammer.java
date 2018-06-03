@@ -10,15 +10,16 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class GlazingHammer extends ToolCard {
     private static GlazingHammer instance = null;
 
-    public static GlazingHammer instance(){
-        if (instance==null) instance = new GlazingHammer();
+    public static GlazingHammer instance(String imagePath){
+        if (instance==null) instance = new GlazingHammer(imagePath);
         return instance;
     }
 
     private
-    GlazingHammer() {
+    GlazingHammer(String imagePath) {
         super("Glazing Hammer",
                 "Re-roll all dice in the Draft Pool, (you can only in second turn of the round and before drafting)");
+        this.imagePath = imagePath;
     }
 
     @Override

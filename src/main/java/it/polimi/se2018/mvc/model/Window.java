@@ -75,6 +75,10 @@ public class Window implements Iterable<Square>, Serializable {
 
     public int getCols() { return matrix[0].length; }
 
+    public String getLevelPath() {
+        return levelPath;
+    }
+
     public Square[][] modelViewCopy() {
         Square[][] result = new Square[getRows()][getCols()];
         for(int i=0; i<getRows(); i++) {

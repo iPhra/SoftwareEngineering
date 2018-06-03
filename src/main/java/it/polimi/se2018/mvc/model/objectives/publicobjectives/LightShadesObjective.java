@@ -16,9 +16,10 @@ import java.util.stream.StreamSupport;
 public class LightShadesObjective extends PublicObjective {
     private static LightShadesObjective instance = null;
 
-    private LightShadesObjective(String title){
+    private LightShadesObjective(String title, String imagePath){
         super(title);
         description = "2 points for each set of 1 & 2 anywhere";
+        this.imagePath = imagePath;
     }
 
     /**
@@ -26,8 +27,8 @@ public class LightShadesObjective extends PublicObjective {
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static LightShadesObjective instance(String title){
-        if (instance==null) instance = new LightShadesObjective(title);
+    public static LightShadesObjective instance(String title, String imagePath){
+        if (instance==null) instance = new LightShadesObjective(title,imagePath);
         return instance;
     }
 

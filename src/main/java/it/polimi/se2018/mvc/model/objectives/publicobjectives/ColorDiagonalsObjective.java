@@ -22,9 +22,10 @@ public class ColorDiagonalsObjective extends PublicObjective {
      */
     private final boolean[][] alreadyCounted;
 
-    private ColorDiagonalsObjective(String title){
+    private ColorDiagonalsObjective(String title, String imagePath){
         super(title);
         description = "Number of diagonally adjacent dice with the same color";
+        this.imagePath = imagePath;
         alreadyCounted = new boolean[4][5];
         resetAlreadyCounted();
     }
@@ -34,8 +35,8 @@ public class ColorDiagonalsObjective extends PublicObjective {
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static ColorDiagonalsObjective instance(String title){
-        if (instance==null) instance = new ColorDiagonalsObjective(title);
+    public static ColorDiagonalsObjective instance(String title, String imagePath){
+        if (instance==null) instance = new ColorDiagonalsObjective(title,imagePath);
         return instance;
     }
 

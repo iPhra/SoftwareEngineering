@@ -14,13 +14,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class Lathekin extends ToolCard {
     private static Lathekin instance = null;
 
-    public static Lathekin instance(){
-        if (instance==null) instance = new Lathekin();
+    public static Lathekin instance(String imagePath){
+        if (instance==null) instance = new Lathekin(imagePath);
         return instance;
     }
 
-    private Lathekin() {
+    private Lathekin(String imagePath) {
         super("Lathekin", "Move exactly two dice, obeying all placement restrictions");
+        this.imagePath = imagePath;
     }
 
     @Override

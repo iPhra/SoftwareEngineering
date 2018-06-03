@@ -12,6 +12,7 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class GameSceneController implements SceneController{
     private ToolCardGUI toolCardGUI;
     private State currentState;
     private ButtonCheckUsability buttonCheckUsability;
+    private Stage stage;
 
     public GameSceneController(GUIClientView guiClientView, int playerID) {
         this.guiClientView = guiClientView;
@@ -35,6 +37,10 @@ public class GameSceneController implements SceneController{
         toolCardGUI = new ToolCardGUI(playerID, this);
         currentState = new StateTurn(this);
         buttonCheckUsability = new ButtonCheckUsability(this);
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     public ModelView getModelView() {
@@ -106,7 +112,6 @@ public class GameSceneController implements SceneController{
         this.guiClientView = guiClientView;
     }
 
-    @Override
     public void setClientGUI(ClientGUI clientGUI) {
         //implement
 

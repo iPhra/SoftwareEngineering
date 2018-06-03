@@ -29,7 +29,6 @@ public class WindowSceneController implements SceneController, Initializable {
         return buttonSquares;
     }
 
-    @Override
     public void setClientGUI(ClientGUI clientGUI) {
         //implement
     }

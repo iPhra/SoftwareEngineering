@@ -15,6 +15,7 @@ import java.io.Serializable;
 public abstract class ToolCard implements Serializable {
     private final String title;
     private final String description;
+    protected String imagePath;
 
     ToolCard(String title, String description) {
         this.title = title;
@@ -23,6 +24,10 @@ public abstract class ToolCard implements Serializable {
     private String getTitle() { return title; }
 
     private String getDescription() { return description; }
+
+    public String getImagePath() {
+        return imagePath;
+    }
 
     public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 

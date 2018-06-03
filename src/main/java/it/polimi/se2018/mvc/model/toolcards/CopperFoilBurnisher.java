@@ -13,13 +13,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class CopperFoilBurnisher extends ToolCard {
     private static CopperFoilBurnisher instance = null;
 
-    public static CopperFoilBurnisher instance(){
-        if (instance==null) instance = new CopperFoilBurnisher();
+    public static CopperFoilBurnisher instance(String imagePath){
+        if (instance==null) instance = new CopperFoilBurnisher(imagePath);
         return instance;
     }
 
-    private CopperFoilBurnisher() {
+    private CopperFoilBurnisher(String imagePath) {
         super("Copper Foil Burnisher", "Move any one die in your window ignoring value restrictions");
+        this.imagePath = imagePath;
     }
 
     @Override

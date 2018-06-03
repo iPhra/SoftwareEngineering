@@ -13,13 +13,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class CorkBackedStraightedge extends ToolCard {
     private static CorkBackedStraightedge instance = null;
 
-    public static CorkBackedStraightedge instance(){
-        if (instance==null) instance = new CorkBackedStraightedge();
+    public static CorkBackedStraightedge instance(String imagePath){
+        if (instance==null) instance = new CorkBackedStraightedge(imagePath);
         return instance;
     }
 
-    private CorkBackedStraightedge() {
+    private CorkBackedStraightedge(String imagePath) {
         super("Cork Backed Straightedge", "After drafting, place the die in a spot that is not adjacent to another die");
+        this.imagePath = imagePath;
     }
 
     @Override

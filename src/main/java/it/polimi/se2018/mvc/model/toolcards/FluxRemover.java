@@ -11,13 +11,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class FluxRemover extends ToolCard {
     private static FluxRemover instance = null;
 
-    public static FluxRemover instance(){
-        if (instance==null) instance = new FluxRemover();
+    public static FluxRemover instance(String imagePath){
+        if (instance==null) instance = new FluxRemover(imagePath);
         return instance;
     }
 
-    private FluxRemover() {
+    private FluxRemover(String imagePath) {
         super("Flux Remover", "After drafting, return the die to the Dice Bag and pull 1 die from the bag");
+        this.imagePath = imagePath;
     }
 
     @Override

@@ -24,8 +24,8 @@ public class TestShadesOfYellowObjective {
         database = new Database();
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
-        shadesOfYellowObjective = ShadesOfYellowObjective.instance("Shades of yellow");
-        shadesOfYellowObjective = ShadesOfYellowObjective.instance("Shades of yellow");
+        shadesOfYellowObjective =ShadesOfYellowObjective.instance("Shades of yellow", "imagePath");
+        shadesOfYellowObjective =ShadesOfYellowObjective.instance("Shades of yellow", "imagePath");
         Window window = new Window("BasicMap",0,matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window, shadesOfYellowObjective);
     }

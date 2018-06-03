@@ -17,9 +17,10 @@ import java.util.stream.StreamSupport;
 public class RowShadeVarietyObjective  extends PublicObjective{
     private static RowShadeVarietyObjective instance = null;
 
-    private RowShadeVarietyObjective(String title){
+    private RowShadeVarietyObjective(String title, String imagePath){
         super(title);
         description = "5 points for each row with no repeated value";
+        this.imagePath = imagePath;
     }
 
     /**
@@ -27,8 +28,8 @@ public class RowShadeVarietyObjective  extends PublicObjective{
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static RowShadeVarietyObjective instance(String title){
-        if (instance==null) instance = new RowShadeVarietyObjective(title);
+    public static RowShadeVarietyObjective instance(String title, String imagePath){
+        if (instance==null) instance = new RowShadeVarietyObjective(title, imagePath);
         return instance;
     }
 

@@ -25,10 +25,10 @@ public class TestColumnColorVarietyObjective {
         database = new Database();
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
-        columnColorVarietyObjective = ColumnColorVarietyObjective.instance("title");
-        columnColorVarietyObjective = ColumnColorVarietyObjective.instance("title");
+        columnColorVarietyObjective = ColumnColorVarietyObjective.instance("title", "imagePath");
+        columnColorVarietyObjective = ColumnColorVarietyObjective.instance("title", "imagePath");
         Window window = new Window("BasicMap",0, matrix,WindowBuilder.getLevelPaths().get(0));
-        shadesOfGreenObjective= ShadesOfGreenObjective.instance("title");
+        shadesOfGreenObjective= ShadesOfGreenObjective.instance("title", "imagePath");
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 

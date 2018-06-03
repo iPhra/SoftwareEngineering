@@ -13,13 +13,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class EglomiseBrush extends ToolCard {
     private static EglomiseBrush instance = null;
 
-    public static EglomiseBrush instance(){
-        if (instance==null) instance = new EglomiseBrush();
+    public static EglomiseBrush instance(String imagePath){
+        if (instance==null) instance = new EglomiseBrush(imagePath);
         return instance;
     }
 
-    private EglomiseBrush() {
+    private EglomiseBrush(String imagePath) {
         super("Eglomise Brush", "Move any one die in your window ignoring color restrictions");
+        this.imagePath = imagePath;
     }
 
     @Override

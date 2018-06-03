@@ -3,7 +3,9 @@ package it.polimi.se2018.client.view.gui;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
+import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.*;
@@ -18,6 +20,8 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
     private ClientConnection clientConnection;
     private SceneController sceneController;
     private ModelView board;
+    private List<Window> windows;
+    private boolean isGameStarted;
     private int playersNumber;
     private PrivateObjective privateObjective;
     private List<PublicObjective> publicObjectives;
@@ -25,6 +29,11 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
 
     public GUIClientView(int playerID){
         this.playerID = playerID;
+        isGameStarted = false;
+    }
+
+    public int getPlayerID() {
+        return playerID;
     }
 
     public ModelView getBoard() {
@@ -55,6 +64,15 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
         this.sceneController = sceneController;
     }
 
+    public void setWindows(List<Window> windows) {
+        this.windows = windows;
+    }
+
+    //called by SelectWindowSceneController when a window is chosen
+    public void setWindowNumber(int windowNumber){
+        handleNetworkOutput(new SetupMessage(playerID,0,windows.get(windowNumber)));
+    }
+
     @Override
     public void handleNetworkInput(SyncResponse syncResponse) {
         syncResponse.handle(this);
@@ -77,7 +95,12 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
 
     @Override
     public void handleResponse(ModelViewResponse modelViewResponse) {
-        //to be implemented
+        if (!isGameStarted){
+            isGameStarted = true;
+            //change the scene from SelectWindowScene to GameScene
+            sceneController.changeScene(sceneController.getScene());
+        }
+        //the rest needs to be implemented
     }
 
     @Override
@@ -96,9 +119,10 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
         setPublicObjectives(setupResponse.getPublicObjectives());
         setToolCards(setupResponse.getToolCards());
         setPlayersNumber(setupResponse.getPlayersNumber());
+        setWindows(setupResponse.getWindows());
         //change from PlayerNameScene to SelectWindowScene
+        ((PlayerNameSceneController) sceneController).setWindows(windows);
         sceneController.changeScene(sceneController.getScene());
-        //to be implemented the part in the gui
     }
 
     @Override

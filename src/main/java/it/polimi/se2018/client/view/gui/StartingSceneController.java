@@ -5,12 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StartingSceneController implements SceneController {
     private ClientGUI clientGUI;
+    private Stage stage;
     @FXML
     private Button socketButton;
     @FXML
@@ -30,6 +33,10 @@ public class StartingSceneController implements SceneController {
         this.clientGUI = clientGUI;
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     @Override
     public Scene getScene(){
         return socketButton.getScene();
@@ -42,6 +49,7 @@ public class StartingSceneController implements SceneController {
             Parent root = loader.load();
             PlayerNameSceneController playerNameSceneController = loader.getController();
             playerNameSceneController.setClientGUI(clientGUI);
+            playerNameSceneController.setStage(stage);
             scene.setRoot(root);
         }catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();

@@ -13,13 +13,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class LensCutter extends ToolCard {
     private static LensCutter instance = null;
 
-    public static LensCutter instance(){
-        if (instance==null) instance = new LensCutter();
+    public static LensCutter instance(String imagePath){
+        if (instance==null) instance = new LensCutter(imagePath);
         return instance;
     }
 
-    private LensCutter() {
+    private LensCutter(String imagePath) {
         super("Lens Cutter", "After drafting, swap the drafted die with a die from the Round Track");
+        this.imagePath = imagePath;
     }
 
     @Override

@@ -15,13 +15,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class TapWheel extends ToolCard {
     private static TapWheel instance = null;
 
-    public static TapWheel instance(){
-        if (instance==null) instance = new TapWheel();
+    public static TapWheel instance(String imagePath){
+        if (instance==null) instance = new TapWheel(imagePath);
         return instance;
     }
 
-    private TapWheel() {
+    private TapWheel(String imagePath) {
         super("Tap Wheel", "Move up to two dice of the same color that match the color of a die on the Round Track");
+        this.imagePath = imagePath;
     }
 
     @Override

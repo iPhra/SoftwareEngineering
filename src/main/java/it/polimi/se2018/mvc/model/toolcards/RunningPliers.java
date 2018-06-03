@@ -11,13 +11,14 @@ import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 public class RunningPliers extends ToolCard {
     private static RunningPliers instance = null;
 
-    public static RunningPliers instance(){
-        if (instance==null) instance = new RunningPliers();
+    public static RunningPliers instance(String imagePath){
+        if (instance==null) instance = new RunningPliers(imagePath);
         return instance;
     }
 
-    private RunningPliers() {
+    private RunningPliers(String imagePath) {
         super("Running Pliers", "After your first turn, immediately draft a die");
+        this.imagePath = imagePath;
     }
 
     @Override
