@@ -31,12 +31,11 @@ public class PlayerNameSceneController implements SceneController{
     }
 
     public void onReturnHandler(){
-        if (GUIClient.isSocket() && !GUIClient.getPlayerNameSocket(nickTextField.getText())) {
+        if (!GUIClient.getPlayerName(nickTextField.getText())) {
             ((GUIClientView) GUIClient.getGUIClientView()).setSceneController(this);
             label.setText("Your nickname is ok. Waiting for other players");
-            //here i need the else that prints that nick is not ok
-        }
-        //here i need the else for the RMI connection
+            nickTextField.setEditable(false);
+        }else label.setText("This nickname is already taken, please choose another one");
     }
 
     public void setGUIClient(GUIClient GUIClient) {

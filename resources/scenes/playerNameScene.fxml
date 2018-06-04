@@ -19,7 +19,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="31.0" prefWidth="450.0" text="Choose your nickname!" GridPane.columnIndex="1">
+      <Label fx:id="label" alignment="CENTER" contentDisplay="RIGHT" prefHeight="31.0" prefWidth="450.0" text="Choose your nickname!" GridPane.columnIndex="1">
          <font>
             <Font size="21.0" />
          </font>
