@@ -1,9 +1,10 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client;
 
-import it.polimi.se2018.client.Client;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.ClientView;
+import it.polimi.se2018.client.view.gui.GUIClientView;
+import it.polimi.se2018.client.view.gui.StartingSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +19,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ClientGUI extends Application implements Client{
+public class GUIClient extends Application implements Client{
     private static final int PORT = 1234;
     private static final String HOST = "127.0.0.1";
     private GUIClientView guiClientView;
@@ -32,7 +33,7 @@ public class ClientGUI extends Application implements Client{
     private ObjectOutputStream out;
     private boolean isSocket;
 
-    public ClientGUI() {
+    public GUIClient() {
         setup = true;
     }
 
@@ -62,7 +63,7 @@ public class ClientGUI extends Application implements Client{
         return guiClientView;
     }
 
-    void createRMIConnection(){
+    public void createRMIConnection(){
         /*
         try {
             RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
@@ -91,7 +92,7 @@ public class ClientGUI extends Application implements Client{
         */
     }
 
-    void createSocketConnection(){
+    public void createSocketConnection(){
         try{
             socket = new Socket(HOST, PORT);
             in = new ObjectInputStream(socket.getInputStream());
@@ -113,11 +114,11 @@ public class ClientGUI extends Application implements Client{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        ClientGUI clientGUI = new ClientGUI();
+        GUIClient guiClient = new GUIClient();
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/startingScene.fxml")));
         Parent root = loader.load();
         StartingSceneController startingSceneController = loader.getController();
-        startingSceneController.setClientGUI(clientGUI);
+        startingSceneController.setGUIClient(guiClient);
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 600, 623));
         startingSceneController.setStage(primaryStage);
@@ -127,6 +128,11 @@ public class ClientGUI extends Application implements Client{
 
     @Override
     public void handleDisconnection() {
+        //implement
+    }
+
+    @Override
+    public void startNewGame() {
         //implement
     }
 }

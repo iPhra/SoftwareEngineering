@@ -3,9 +3,9 @@ package it.polimi.se2018.network.messages.responses;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.network.messages.responses.ResponseHandler;
 
-public class TurnEndResponse extends Response {
+public class TimeUpResponse extends Response {
 
-    public TurnEndResponse(int playerID) {
+    public TimeUpResponse(int playerID) {
         super(playerID);
     }
 

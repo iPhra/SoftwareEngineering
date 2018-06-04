@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.GUIClient;
 import it.polimi.se2018.client.view.gui.button.ButtonCheckUsability;
 import it.polimi.se2018.client.view.gui.button.ButtonGame;
 import it.polimi.se2018.client.view.gui.stategui.State;
@@ -112,7 +113,7 @@ public class GameSceneController implements SceneController{
         this.guiClientView = guiClientView;
     }
 
-    public void setClientGUI(ClientGUI clientGUI) {
+    public void setClientGUI(GUIClient GUIClient) {
         //implement
 
     }

@@ -1,9 +1,9 @@
-package it.polimi.se2018.client.view.cli;
+package it.polimi.se2018.client;
 
-import it.polimi.se2018.client.Client;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
+import it.polimi.se2018.client.view.cli.CLIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
 import it.polimi.se2018.client.view.ClientView;
@@ -165,8 +165,8 @@ public class CLIClient implements Client {
                     output.println("This nickname is already taken, please choose another one");
                 }
             }
-            clientView = new CLIView(playerID);
-            clientConnection = new RMIClientConnection(clientView);
+            clientView = new CLIView(this,playerID);
+            clientConnection = new RMIClientConnection(this,clientView);
             manager.addClient(playerID, nickname, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
             RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
             ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
@@ -196,7 +196,7 @@ public class CLIClient implements Client {
                     output.println("This nickname is already taken, please choose another one");
                 }
             }
-            clientView = new CLIView(playerID);
+            clientView = new CLIView(this,playerID);
             clientConnection = new SocketClientConnection(this, clientView, socket, in, out);
         }
         catch(IOException | ClassNotFoundException e) {
@@ -215,6 +215,14 @@ public class CLIClient implements Client {
         chooseConnection();
     }
 
+    @Override
+    public void startNewGame() {
+        setup = true;
+        output.println("\nInsert [1] to start another game, anything else to quit");
+        int choice = input.nextInt();
+        if(choice==1) chooseConnection();
+        else System.exit(0);
+    }
 
 
     public static void main(String[] args) {

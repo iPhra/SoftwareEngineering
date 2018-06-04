@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.cli;
 
+import it.polimi.se2018.client.Client;
 import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.network.messages.Coordinate;
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
 import static java.lang.System.*;
 
 public class CLIView extends Observable<SyncResponse> implements ClientView {
+    private final Client client;
     private final CLIController cliController;
     private final CLIModel cliModel;
     private final PrintStream printStream;
@@ -30,7 +32,8 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     private final List<SyncResponse> events;
     private boolean isOpen;
 
-    public CLIView(int playerID) {
+    public CLIView(Client client, int playerID) {
+        this.client = client;
         cliModel = new CLIModel(this,playerID);
         cliController = new CLIController(this, cliModel, playerID);
         register(cliController);
@@ -60,8 +63,10 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
         wakeUp();
     }
 
-    void stopConnection() {
+    void endGame() {
+        stop();
         clientConnection.stop();
+        client.startNewGame();
     }
 
     void print(String string) { printStream.print(string); }

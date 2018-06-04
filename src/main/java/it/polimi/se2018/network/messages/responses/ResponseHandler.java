@@ -9,7 +9,7 @@ public interface ResponseHandler {
 
     void handleResponse(ReconnectionNotificationResponse reconnectionNotificationResponse);
 
-    void handleResponse(TurnEndResponse turnEndResponse);
+    void handleResponse(TimeUpResponse timeUpResponse);
 
     void handleResponse(SyncResponse syncResponse);
 }

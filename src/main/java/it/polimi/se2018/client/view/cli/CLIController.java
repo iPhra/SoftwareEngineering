@@ -114,7 +114,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
             cliView.print(i+1 + "  Player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "     Score: " + scoreBoardResponse.getSortedPlayersScores().get(i)+"\n");
         }
-        cliView.stopConnection();
+        cliView.endGame();
     }
 
     @Override

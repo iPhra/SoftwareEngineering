@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.GUIClient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StartingSceneController implements SceneController {
-    private ClientGUI clientGUI;
+    private GUIClient GUIClient;
     private Stage stage;
     @FXML
     private Button socketButton;
@@ -20,17 +21,17 @@ public class StartingSceneController implements SceneController {
     private Button rmiButton;
 
     public void socketButtonClicked(){
-        clientGUI.createSocketConnection();
+        GUIClient.createSocketConnection();
         changeScene(getScene());
     }
 
     public void rmiButtonClicked(){
-        clientGUI.createRMIConnection();
+        GUIClient.createRMIConnection();
         changeScene(getScene());
     }
 
-    public void setClientGUI(ClientGUI clientGUI){
-        this.clientGUI = clientGUI;
+    public void setGUIClient(GUIClient GUIClient){
+        this.GUIClient = GUIClient;
     }
 
     public void setStage(Stage stage) {
@@ -48,7 +49,7 @@ public class StartingSceneController implements SceneController {
         try{
             Parent root = loader.load();
             PlayerNameSceneController playerNameSceneController = loader.getController();
-            playerNameSceneController.setClientGUI(clientGUI);
+            playerNameSceneController.setGUIClient(GUIClient);
             playerNameSceneController.setStage(stage);
             scene.setRoot(root);
         }catch(IOException e){

@@ -8,7 +8,7 @@ import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.DisconnectionResponse;
 import it.polimi.se2018.network.messages.responses.ReconnectionNotificationResponse;
 import it.polimi.se2018.network.messages.responses.ResponseHandler;
-import it.polimi.se2018.network.messages.responses.TurnEndResponse;
+import it.polimi.se2018.network.messages.responses.TimeUpResponse;
 import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
 
 
@@ -51,7 +51,7 @@ public abstract class ClientConnection implements ResponseHandler {
     }
 
     @Override
-    public void handleResponse(TurnEndResponse turnEndResponse) {
-        new Thread(new AsyncStopper((CLIView)clientView,cliController,"Your turn is over",true)).start();
+    public void handleResponse(TimeUpResponse timeUpResponse) {
+        new Thread(new AsyncStopper((CLIView)clientView,cliController,"Time is up",true)).start();
     }
 }

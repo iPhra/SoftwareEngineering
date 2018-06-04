@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.GUIClient;
 import it.polimi.se2018.mvc.model.Window;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlayerNameSceneController implements SceneController{
-    private ClientGUI clientGUI;
+    private GUIClient GUIClient;
     private Stage stage;
     private List<Window> windows;
 
@@ -30,16 +31,16 @@ public class PlayerNameSceneController implements SceneController{
     }
 
     public void onReturnHandler(){
-        if (clientGUI.isSocket() && !clientGUI.getPlayerNameSocket(nickTextField.getText())) {
-            ((GUIClientView) clientGUI.getGUIClientView()).setSceneController(this);
+        if (GUIClient.isSocket() && !GUIClient.getPlayerNameSocket(nickTextField.getText())) {
+            ((GUIClientView) GUIClient.getGUIClientView()).setSceneController(this);
             label.setText("Your nickname is ok. Waiting for other players");
             //here i need the else that prints that nick is not ok
         }
         //here i need the else for the RMI connection
     }
 
-    public void setClientGUI(ClientGUI clientGUI) {
-        this.clientGUI = clientGUI;
+    public void setGUIClient(GUIClient GUIClient) {
+        this.GUIClient = GUIClient;
     }
 
     public void setStage(Stage stage) {
@@ -55,10 +56,10 @@ public class PlayerNameSceneController implements SceneController{
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
-            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, (GUIClientView) clientGUI.getGUIClientView());
+            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, (GUIClientView) GUIClient.getGUIClientView());
             loader.setController(selectWindowSceneController);
             Parent root = loader.load();
-            ((GUIClientView) clientGUI.getGUIClientView()).setSceneController(selectWindowSceneController);
+            ((GUIClientView) GUIClient.getGUIClientView()).setSceneController(selectWindowSceneController);
             stage.setWidth(1000);
             stage.setHeight(700);
             selectWindowSceneController.setStage(stage);

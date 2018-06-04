@@ -10,6 +10,7 @@ import it.polimi.se2018.network.Server;
 import it.polimi.se2018.network.connections.ServerConnection;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.DisconnectionResponse;
+import it.polimi.se2018.network.messages.responses.TimeUpResponse;
 import it.polimi.se2018.network.messages.responses.ReconnectionNotificationResponse;
 import it.polimi.se2018.network.messages.responses.sync.ReconnectionResponse;
 import it.polimi.se2018.network.messages.responses.sync.SetupResponse;
@@ -59,7 +60,7 @@ public class GameManager implements Stopper {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(60);
+        Duration timeout = Duration.ofSeconds(10);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -217,7 +218,6 @@ public class GameManager implements Stopper {
         serverConnections.get(playerID).stop();
         serverConnections.remove(playerID);
         if (disconnectedPlayers.size() == playerIDs.size() - 1) {
-            model.notify(new DisconnectionResponse(getLastPlayer(),"You are the last player remaining, you win!",playerNames.get(playerID)));
             controller.endMatch();
         }
         else {
@@ -262,6 +262,7 @@ public class GameManager implements Stopper {
         Random random = new Random();
         List<Integer> missingPlayers = getMissingPlayers();
         for(int id : missingPlayers) {
+            serverView.handleNetworkOutput(new TimeUpResponse(id));
             players.add(new Player(playerNames.get(id),id,windowsSetup.get(id).get(random.nextInt(4)),privateObjectives.get(setupsCompleted)));
             setupsCompleted++;
         }

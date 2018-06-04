@@ -18,6 +18,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
     private boolean isOpen;
+    private boolean matchPlaying;
 
     public SocketClientConnection(Client client, ClientView clientView, Socket socket, ObjectInputStream in, ObjectOutputStream out){
         super(clientView);
@@ -26,6 +27,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         this.in = in;
         this.out = out;
         isOpen = true;
+        matchPlaying = true;
     }
 
     @Override
@@ -40,6 +42,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
     @Override
     public void stop(){
         isOpen = false;
+        matchPlaying = false;
         try {
             in.close();
             out.close();
@@ -62,7 +65,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                 logger.log(Level.ALL,e.getMessage());
             }
             catch (IOException e) {
-                client.handleDisconnection();
+                if(matchPlaying) client.handleDisconnection();
             }
         }
     }

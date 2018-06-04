@@ -10,5 +10,5 @@ public interface RemoteConnection extends Remote{
 
     void getResponse(Response response) throws RemoteException;
     void getMessage(Message message) throws RemoteException;
-    void updateView() throws RemoteException;
+    void ping() throws RemoteException;
 }

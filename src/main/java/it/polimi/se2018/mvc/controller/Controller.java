@@ -3,7 +3,7 @@ package it.polimi.se2018.mvc.controller;
 import it.polimi.se2018.mvc.controller.placementlogic.DiePlacer;
 import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerFirst;
 import it.polimi.se2018.mvc.view.ServerView;
-import it.polimi.se2018.network.messages.responses.TurnEndResponse;
+import it.polimi.se2018.network.messages.responses.TimeUpResponse;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.utils.*;
 import it.polimi.se2018.utils.exceptions.*;
@@ -50,7 +50,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         player.setHasDraftedDie(false);
         model.incrementStateID();
         int round = model.getRound().getRoundNumber() - 1;
-        if(stopped) view.handleNetworkOutput(new TurnEndResponse(player.getId()));
+        if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
         model.createModelViews(PLAYER + player.getName() + " passed the turn. Round " + round + " ends");
         startTimer();
     }
@@ -65,7 +65,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             model.getDraftPool().addToDraftPool(die);
         }
         model.incrementStateID();
-        if(stopped) view.handleNetworkOutput(new TurnEndResponse(player.getId()));
+        if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
         model.createModelViews(PLAYER + player.getName() + " passed the turn.");
         startTimer();
     }

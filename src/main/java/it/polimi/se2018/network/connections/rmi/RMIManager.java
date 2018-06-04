@@ -7,10 +7,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.rmi.server.Unreferenced;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RMIManager implements RemoteManager {
+public class RMIManager implements RemoteManager, Unreferenced {
     private final Server server;
     private final Registry registry;
 
@@ -25,7 +26,7 @@ public class RMIManager implements RemoteManager {
     }
 
     public void addClient(int playerID, String nickname, RemoteConnection clientConnection) {
-        ServerConnection serverConnection = new RMIServerConnection(clientConnection, this, playerID);
+        ServerConnection serverConnection = new RMIServerConnection(server, clientConnection, this, playerID);
         try {
             registry.rebind("ServerConnection"+playerID, UnicastRemoteObject.exportObject((RemoteConnection) serverConnection,0));
         }
@@ -63,5 +64,17 @@ public class RMIManager implements RemoteManager {
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.SEVERE,"error while closing",e);
         }
+    }
+
+    /**
+     * Called by the RMI runtime sometime after the runtime determines that
+     * the reference list, the list of clients referencing the remote object,
+     * becomes empty.
+     *
+     * @since JDK1.1
+     */
+    @Override
+    public void unreferenced() {
+        System.out.println("bella emilio soppracilio");
     }
 }

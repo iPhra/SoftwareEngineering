@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.GUIClient;
 import it.polimi.se2018.client.view.gui.button.ButtonSquare;
 import it.polimi.se2018.network.messages.Coordinate;
 import javafx.fxml.FXML;
@@ -29,7 +30,7 @@ public class WindowSceneController implements SceneController, Initializable {
         return buttonSquares;
     }
 
-    public void setClientGUI(ClientGUI clientGUI) {
+    public void setClientGUI(GUIClient GUIClient) {
         //implement
     }
 
