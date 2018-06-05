@@ -108,11 +108,6 @@ public class GameManager implements Stopper {
         windows = WindowBuilder.extractWindows(playerIDs.size());
     }
 
-    private int getLastPlayer() {
-        for(Player player: players) if(!disconnectedPlayers.contains(player.getId())) return player.getId();
-        return 0;
-    }
-
     private void notifyReconnection(int playerID, boolean setup) {
         notifyOtherPlayers(playerID);
         ReconnectionResponse response = new ReconnectionResponse(playerID,!setup);
@@ -140,6 +135,10 @@ public class GameManager implements Stopper {
         disconnectedPlayers.remove(disconnectedPlayers.indexOf(playerID));
         serverView.addServerConnection(playerID,serverConnection);
         notifyReconnection(playerID, setup);
+    }
+
+    public String getNicknameById(int playerID) {
+        return playerNames.get(playerID);
     }
 
     public ServerConnection getServerConnection(int playerID) {
@@ -177,6 +176,7 @@ public class GameManager implements Stopper {
         return matchCreated;
     }
 
+    //true if windows were sent
     public boolean isMatchStarted() {
         return matchStarted;
     }

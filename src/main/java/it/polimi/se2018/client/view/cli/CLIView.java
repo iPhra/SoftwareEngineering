@@ -181,7 +181,6 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     @Override
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
-        clientConnection.setCLIController(cliController);
     }
 
     @Override
@@ -192,4 +191,13 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
             events.notifyAll();
         }
     }
+
+    @Override
+    public synchronized void handleAsyncEvent(boolean halt, String message) {
+        out.println("\n"+message);
+        if(halt) {
+            cliController.halt("");
+        }
+    }
+
 }

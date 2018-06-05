@@ -69,6 +69,7 @@ public class Server implements Stopper {
         if(manager.playersNumber()==2) {
             clock.interrupt();
         }
+        nicknames.remove(manager.getNicknameById(playerID));
         manager.removePlayer(playerID);
     }
 
@@ -177,7 +178,7 @@ public class Server implements Stopper {
         server.createRMIRegistry();
         new PrintStream(System.out).println("Listening...");
         Scanner scanner = new Scanner(System.in);
-        while(!scanner.nextLine().startsWith("exit"));
+        while(!scanner.nextLine().startsWith("exit"))
         server.close();
     }
 }

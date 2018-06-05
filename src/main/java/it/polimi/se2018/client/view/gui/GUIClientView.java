@@ -144,4 +144,11 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
     public void handleResponse(ReconnectionResponse reconnectionResponse) {
         //implementa
     }
+
+    @Override
+    public synchronized void handleAsyncEvent(boolean halt, String message) {
+        //halt è true se è la fine del turno, quindi devo fermare il client
+        //message è il messaggio da pritnare a schermo, tipo "Player a si è disconnesso"
+        //questo metodo viene chiamato da AsyncStopper
+    }
 }

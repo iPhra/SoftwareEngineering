@@ -14,7 +14,6 @@ import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
 
 public abstract class ClientConnection implements ResponseHandler {
     private final ClientView clientView;
-    private CLIController cliController;
 
     ClientConnection(ClientView clientView) {
         this.clientView = clientView;
@@ -23,10 +22,6 @@ public abstract class ClientConnection implements ResponseHandler {
     public abstract void sendMessage(Message message);
 
     public abstract void stop();
-
-    public void setCLIController(CLIController cliController) {
-        this.cliController = cliController;
-    }
 
     @Override
     public void handleResponse(SyncResponse syncResponse) {
@@ -38,20 +33,20 @@ public abstract class ClientConnection implements ResponseHandler {
         String message;
         message = "\nPlayer " + disconnectionResponse.getPlayerName() + " has disconnected!\n";
         if(disconnectionResponse.getMessage()!= null) {
-            new Thread(new AsyncStopper((CLIView)clientView,cliController,message+disconnectionResponse.getMessage() + "\n\n",true)).start();
+            new Thread(new AsyncStopper(clientView,message+disconnectionResponse.getMessage() + "\n\n",true)).start();
         }
-        else new Thread(new AsyncStopper((CLIView)clientView,cliController,message,false)).start();
+        else new Thread(new AsyncStopper(clientView,message,false)).start();
     }
 
     @Override
     public void handleResponse(ReconnectionNotificationResponse reconnectionNotificationResponse) {
         String message;
         message = "\nPlayer " + reconnectionNotificationResponse.getPlayerName() + " has reconnected!\n";
-        new Thread(new AsyncStopper((CLIView)clientView,cliController,message,false)).start();
+        new Thread(new AsyncStopper(clientView,message,false)).start();
     }
 
     @Override
     public void handleResponse(TimeUpResponse timeUpResponse) {
-        new Thread(new AsyncStopper((CLIView)clientView,cliController,"Time is up",true)).start();
+        new Thread(new AsyncStopper(clientView,"Time is up",true)).start();
     }
 }

@@ -8,4 +8,5 @@ public interface ClientView {
     void handleNetworkInput(SyncResponse syncResponse);
     void setClientConnection(ClientConnection clientConnection);
     void stop();
+    void handleAsyncEvent(boolean halt, String message);
 }

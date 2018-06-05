@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 public class CLIClient implements Client {
     private int port;
-    private String host;
+    private String ip;
     private ClientView clientView;
     private ClientConnection clientConnection;
     private int playerID;
@@ -60,67 +60,22 @@ public class CLIClient implements Client {
         return input.nextLine();
     }
 
-    private void getParams() {
-        boolean condition = true;
-        do {
-            try {
-                output.println("\n[1] for default IP/PORT configs [2] to change configs");
-                int choice = input.nextInt();
-                switch (choice) {
-                    case 1:
-                        condition = false;
-                        input.nextLine();
-                        setDefaultConfig();
-                        break;
-                    case 2:
-                        condition = false;
-                        input.nextLine();
-                        setOtherConfig();
-                        break;
-                    default:
-                        break;
-                }
+    private void getParams(boolean isSocket) {
+        try(BufferedReader br = new BufferedReader(new FileReader("resources/NetworkProperties.txt"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
             }
-            catch(InputMismatchException e) {
-                output.println("Input is invalid \n");
-                input.nextLine();
-            }
+            String[] tokens = sb.toString().split(";");
+            ip = tokens[0].split(":")[1];
+            port = Integer.valueOf((isSocket? tokens[2].split(":")[1] : tokens[1].split(":")[1]));
         }
-        while(condition);
-    }
-
-    private void setDefaultConfig() {
-        try {
-            host = "127.0.0.1";
-            port = 1234;
-            socket = new Socket(host, port);
-        }
-        catch(IOException e) {
+        catch (IOException e) {
             System.exit(1);
         }
-    }
-
-    private void setOtherConfig() {
-        boolean condition = true;
-        do {
-            try {
-                output.println("Insert IP");
-                host = input.nextLine();
-                output.println("Insert Port");
-                port = input.nextInt();
-                socket = new Socket(host, port);
-                condition = false;
-            }
-            catch (InputMismatchException e) {
-                output.println("Port is invalid \n");
-                input.nextLine();
-            }
-            catch (IOException e) {
-                output.println("Unable to connect to "+host+":"+port);
-                input.nextLine();
-            }
-        }
-        while(condition);
     }
 
     private void chooseConnection() {
@@ -153,7 +108,8 @@ public class CLIClient implements Client {
 
     private void createRMIConnection() {
         try {
-            RemoteManager manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
+            getParams(false);
+            RemoteManager manager = (RemoteManager) Naming.lookup("//"+ ip +":"+port+"/RemoteManager");
             while (setup) {
                 nickname = getNickname();
                 setup = manager.checkName(nickname);
@@ -162,13 +118,13 @@ public class CLIClient implements Client {
                     playerID = manager.getID(nickname);
                 }
                 else {
-                    output.println("This nickname is already taken, please choose another one");
+                    output.println("This nickname is already take , please choose another one");
                 }
             }
             clientView = new CLIView(this,playerID);
             clientConnection = new RMIClientConnection(this,clientView);
             manager.addClient(playerID, nickname, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
-            RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
+            RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//"+ ip +":"+port+"/ServerConnection" + playerID);
             ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
         }
         catch(RemoteException | NotBoundException | MalformedURLException e) {
@@ -181,7 +137,8 @@ public class CLIClient implements Client {
 
     private void createSocketConnection(){
         try {
-            getParams();
+            getParams(true);
+            socket = new Socket(ip, port);
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             while (setup) {

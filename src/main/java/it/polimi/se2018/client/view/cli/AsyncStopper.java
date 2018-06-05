@@ -1,24 +1,21 @@
 package it.polimi.se2018.client.view.cli;
 
 
+import it.polimi.se2018.client.view.ClientView;
+
 public class AsyncStopper implements Runnable {
-    private final CLIView cliView;
-    private final CLIController cliController;
+    private final ClientView clientView;
     private final String message;
     private final boolean halt;
 
-    public AsyncStopper(CLIView cliView, CLIController cliController, String message, boolean halt) {
-        this.cliView = cliView;
-        this.cliController = cliController;
+    public AsyncStopper(ClientView clientView, String message, boolean halt) {
+        this.clientView = clientView;
         this.message = message;
         this.halt = halt;
     }
 
     @Override
     public void run() {
-        cliView.print("\n"+message);
-        if(halt) {
-            cliController.halt("");
-        }
+        clientView.handleAsyncEvent(halt,message);
     }
 }
