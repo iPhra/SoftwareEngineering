@@ -142,7 +142,7 @@ class CLIModel {
 
     void showYourWindow() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
-        Square[][] window = board.getPlayerWindow().get(yourIndex);
+        Square[][] window = board.getPlayerWindows().get(yourIndex);
         cliView.print("\n\nYour window is:\n\n");
         StringBuilder builder = createRowIndex();
         builder.append("  ");
@@ -192,7 +192,7 @@ class CLIModel {
             builder.append(tmp);
         }
         cliView.print(builder.toString()+"\n");
-        showWindows(board.getPlayerWindow(),playersNumber);
+        showWindows(board.getPlayerWindows(),playersNumber);
         cliView.print("\n");
     }
 

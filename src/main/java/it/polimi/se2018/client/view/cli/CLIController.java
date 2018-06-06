@@ -1,10 +1,12 @@
 package it.polimi.se2018.client.view.cli;
 
+import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.sync.*;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.Stopper;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
@@ -28,6 +30,23 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         toolCardPlayerInput = new ToolCardPlayerInput(playerID, cliView, cliModel);
     }
 
+    private void checkTurn(String description) {
+        if (playerID == cliModel.getBoard().getCurrentPlayerID()) {
+            try {
+                chooseAction();
+            } catch (RemoteException e) {
+                Logger logger = Logger.getAnonymousLogger();
+                logger.log(Level.ALL,e.getMessage());
+            }
+        }
+        else  {
+            cliView.print("\n" + description+"\n");
+            cliModel.showDraftPool();
+            cliModel.showPlayersWindows();
+            cliView.print("It's not your turn. You can't do anything!\n");
+        }
+    }
+
     @Override
     //receives input from the network, called by class clientConnection
     public void update(SyncResponse syncResponse) {
@@ -38,20 +57,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     @Override
     public void handleResponse(ModelViewResponse modelViewResponse) {
         cliModel.setBoard(modelViewResponse.getModelView());
-        if (playerID == cliModel.getBoard().getCurrentPlayerID()) {
-            try {
-                chooseAction();
-            } catch (RemoteException e) {
-                Logger logger = Logger.getAnonymousLogger();
-                logger.log(Level.ALL,e.getMessage());
-            }
-        }
-        else  {
-            cliView.print("\n" + modelViewResponse.getDescription()+"\n");
-            cliModel.showDraftPool();
-            cliModel.showPlayersWindows();
-            cliView.print("It's not your turn. You can't do anything!\n");
-        }
+        checkTurn(modelViewResponse.getDescription());
     }
 
     //prints the text message
@@ -104,7 +110,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             cliView.print("Window sent. Waiting for other players to choose.\n");
             cliView.handleNetworkOutput(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
         } catch (HaltException e) {
-            cliView.setStopAction(false);
+            cliView.endGame();
         }
     }
 
@@ -129,6 +135,65 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             handleResponse(response);
         }
         else cliView.print("\nReconnected, wait for other players to choose their Windows\n\n");
+    }
+
+    @Override
+    public void handleResponse(DraftPoolResponse draftPoolResponse) {
+        ModelView modelView = cliModel.getBoard();
+        modelView.setHasDieInHand(draftPoolResponse.hasDieInHand());
+        modelView.setHasDraftedDie(draftPoolResponse.hasDraftedDie());
+        modelView.setHasUsedCard(draftPoolResponse.hasUsedCard());
+        modelView.setDieInHand(draftPoolResponse.getDieInHand());
+        modelView.setToolCardUsability(draftPoolResponse.getToolCardUsability());
+        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(draftPoolResponse.getCurrentPlayerID()),draftPoolResponse.getFavorPoints());
+        modelView.setStateID(draftPoolResponse.getStateID());
+        modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
+        modelView.setDraftPool(draftPoolResponse.getDraftPool());
+        checkTurn(draftPoolResponse.getDescription());
+    }
+
+    @Override
+    public void handleResponse(RoundTrackerResponse roundTrackerResponse) {
+        ModelView modelView = cliModel.getBoard();
+        modelView.setHasDieInHand(roundTrackerResponse.hasDieInHand());
+        modelView.setHasDraftedDie(roundTrackerResponse.hasDraftedDie());
+        modelView.setHasUsedCard(roundTrackerResponse.hasUsedCard());
+        modelView.setDieInHand(roundTrackerResponse.getDieInHand());
+        modelView.setToolCardUsability(roundTrackerResponse.getToolCardUsability());
+        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(roundTrackerResponse.getCurrentPlayerID()),roundTrackerResponse.getFavorPoints());
+        modelView.setStateID(roundTrackerResponse.getStateID());
+        modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
+        modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
+        checkTurn(roundTrackerResponse.getDescription());
+    }
+
+    @Override
+    public void handleResponse(WindowResponse windowResponse) {
+        ModelView modelView = cliModel.getBoard();
+        modelView.setHasDieInHand(windowResponse.hasDieInHand());
+        modelView.setHasDraftedDie(windowResponse.hasDraftedDie());
+        modelView.setHasUsedCard(windowResponse.hasUsedCard());
+        modelView.setDieInHand(windowResponse.getDieInHand());
+        modelView.setToolCardUsability(windowResponse.getToolCardUsability());
+        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getFavorPoints());
+        modelView.setStateID(windowResponse.getStateID());
+        modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
+        modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
+        checkTurn(windowResponse.getDescription());
+    }
+
+    @Override
+    public void handleResponse(ModelUpdateResponse modelUpdateResponse) {
+        ModelView modelView = cliModel.getBoard();
+        modelView.setHasDieInHand(modelUpdateResponse.hasDieInHand());
+        modelView.setHasDraftedDie(modelUpdateResponse.hasDraftedDie());
+        modelView.setHasUsedCard(modelUpdateResponse.hasUsedCard());
+        modelView.setDieInHand(modelUpdateResponse.getDieInHand());
+        modelView.setToolCardUsability(modelUpdateResponse.getToolCardUsability());
+        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
+        modelView.setStateID(modelUpdateResponse.getStateID());
+        modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
+        checkTurn(modelUpdateResponse.getDescription());
     }
 
     private List<Integer> actionPossible() {
@@ -306,5 +371,4 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         cliView.setStopAction(true);
         cliView.print("\nPress 1 to continue\n\n");
     }
-
 }

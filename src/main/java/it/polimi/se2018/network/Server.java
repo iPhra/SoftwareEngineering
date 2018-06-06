@@ -178,7 +178,7 @@ public class Server implements Stopper {
         server.createRMIRegistry();
         new PrintStream(System.out).println("Listening...");
         Scanner scanner = new Scanner(System.in);
-        while(!scanner.nextLine().startsWith("exit"))
-        server.close();
+        //while(!scanner.nextLine().startsWith("exit"))
+        //server.close();
     }
 }

@@ -7,7 +7,7 @@ import it.polimi.se2018.mvc.model.toolcards.*;
 public class ToolCardChecker implements ToolCardCheckerHandler {
     private final Board board;
 
-    ToolCardChecker(Board board) {
+    public ToolCardChecker(Board board) {
         this.board = board;
     }
 

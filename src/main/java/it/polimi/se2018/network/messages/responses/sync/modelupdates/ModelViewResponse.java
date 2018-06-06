@@ -1,6 +1,8 @@
-package it.polimi.se2018.network.messages.responses.sync;
+package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
 import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
+import it.polimi.se2018.network.messages.responses.sync.SyncResponseHandler;
 
 /**
  * This is the class containing a response from the Server containing an updated copy of the state of the game

@@ -8,10 +8,9 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.requests.Message;
-import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
-import it.polimi.se2018.network.messages.responses.*;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 
 import java.util.List;
 
@@ -146,9 +145,29 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
     }
 
     @Override
+    public void handleResponse(DraftPoolResponse draftPoolResponse) {
+
+    }
+
+    @Override
+    public void handleResponse(RoundTrackerResponse roundTrackerResponse) {
+
+    }
+
+    @Override
+    public void handleResponse(WindowResponse windowResponse) {
+
+    }
+
+    @Override
+    public void handleResponse(ModelUpdateResponse modelUpdateResponse) {
+
+    }
+
+    @Override
     public synchronized void handleAsyncEvent(boolean halt, String message) {
         //halt è true se è la fine del turno, quindi devo fermare il client
         //message è il messaggio da pritnare a schermo, tipo "Player a si è disconnesso"
-        //questo metodo viene chiamato da AsyncStopper
+        //questo metodo viene chiamato da TimeStopper
     }
 }

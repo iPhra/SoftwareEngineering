@@ -23,6 +23,8 @@ import it.polimi.se2018.mvc.view.ServerView;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager implements Stopper {
     private final Server server;
@@ -60,7 +62,7 @@ public class GameManager implements Stopper {
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(10);
+        Duration timeout = Duration.ofSeconds(20);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -108,15 +110,17 @@ public class GameManager implements Stopper {
         windows = WindowBuilder.extractWindows(playerIDs.size());
     }
 
-    private void notifyReconnection(int playerID, boolean setup) {
+    private void notifyReconnection(int playerID, boolean isWindowSelection) {
         notifyOtherPlayers(playerID);
-        ReconnectionResponse response = new ReconnectionResponse(playerID,!setup);
-        if(!setup) {
+        ReconnectionResponse response;
+        if(!isWindowSelection) {
+            response = new ReconnectionResponse(playerID,true);
             response.setModelView(new ModelView(model));
             response.setPublicObjectives(publicObjectives);
             response.setPrivateObjective(model.getPlayerByID(playerID).getPrivateObjective());
             response.setToolCards(toolCards);
         }
+        else response = new ReconnectionResponse(playerID,false);
         response.setPlayersNumber(playerIDs.size());
         serverView.update(response);
     }
@@ -129,12 +133,12 @@ public class GameManager implements Stopper {
         }
     }
 
-    private void reconnect(int playerID, ServerConnection serverConnection, boolean setup) {
+    private void reconnect(int playerID, ServerConnection serverConnection, boolean isWindowSelection) {
         serverConnection.setServerView(serverView);
         serverConnections.put(playerID,serverConnection);
         disconnectedPlayers.remove(disconnectedPlayers.indexOf(playerID));
         serverView.addServerConnection(playerID,serverConnection);
-        notifyReconnection(playerID, setup);
+        notifyReconnection(playerID, isWindowSelection);
     }
 
     public String getNicknameById(int playerID) {
@@ -218,10 +222,13 @@ public class GameManager implements Stopper {
         serverConnections.get(playerID).stop();
         serverConnections.remove(playerID);
         if (disconnectedPlayers.size() == playerIDs.size() - 1) {
-            controller.endMatch();
+            clock.interrupt();
+            serverView.handleNetworkOutput(new DisconnectionResponse(playerIDs.get(0),"You are the last player, you win!",playerNames.get(playerID),true));
+            if (matchStarted) controller.endMatch();
+            else endGame();
         }
         else {
-            for (int id : playerIDs) serverView.handleNetworkOutput(new DisconnectionResponse(id, null, playerNames.get(playerID)));
+            for (int id : playerIDs) serverView.handleNetworkOutput(new DisconnectionResponse(id, null, playerNames.get(playerID),false));
         }
     }
 

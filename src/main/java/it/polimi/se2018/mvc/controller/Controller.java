@@ -51,7 +51,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         model.incrementStateID();
         int round = model.getRound().getRoundNumber() - 1;
         if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
-        model.createModelViews(PLAYER + player.getName() + " passed the turn. Round " + round + " ends");
+        model.createModelUpdateResponse(PLAYER + player.getName() + " passed the turn. Round " + round + " ends");
         startTimer();
     }
 
@@ -66,7 +66,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         }
         model.incrementStateID();
         if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
-        model.createModelViews(PLAYER + player.getName() + " passed the turn.");
+        model.createDraftPoolResponse(PLAYER + player.getName() + " passed the turn.");
         startTimer();
     }
 
@@ -127,7 +127,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         Player player = model.getPlayerByID(inputMessage.getPlayerID());
         try {
             player.getDieInHand().setValue(inputMessage.getDieValue());
-            model.createModelViews(PLAYER + player.getName() + " used Flux Remover: \nhe/she moved the drafted die to the bag and received " + player.getDieInHand().getValue()+ " " + player.getDieInHand().getColor());
+            model.createModelUpdateResponse(PLAYER + player.getName() + " used Flux Remover: \nhe/she moved the drafted die to the bag and received " + player.getDieInHand().getValue()+ " " + player.getDieInHand().getColor()+"\n");
         } catch (DieException e) {
             view.handleNetworkOutput(new TextResponse(inputMessage.getPlayerID(), e.getMessage()));
         }
@@ -143,7 +143,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             model.getToolCards()[player.getCardInUse()].handle(toolCardController,toolCardMessage);
         }
         catch (ToolCardException e) {
-            model.notify(new TextResponse(toolCardMessage.getPlayerID(),e.getMessage()));
+            view.handleNetworkOutput(new TextResponse(toolCardMessage.getPlayerID(),e.getMessage()));
         }
         finally {
             lock.unlock();
@@ -182,7 +182,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
                     placeDie(new DiePlacerNormal(die,placeMessage.getFinalPosition(),player.getWindow()));
                 }
                 player.dropDieInHand();
-                model.createModelViews(PLAYER + player.getName() + " placed the drafted die in " + placeMessage.getFinalPosition().getDescription());
+                model.createWindowResponse(PLAYER + player.getName() + " placed the drafted die in " + placeMessage.getFinalPosition().getDescription(),player.getId());
             }
             catch(InvalidPlacementException e) {
                 view.handleNetworkOutput(new TextResponse(placeMessage.getPlayerID(),"You can't place the die there"));}
@@ -199,7 +199,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             try {
                 draft(draftMessage);
                 Die die= model.getPlayerByID(model.getRound().getCurrentPlayerID()).getDieInHand();
-                model.createModelViews(PLAYER + player.getName() + " drafted the die " + die.getValue() + " " + die.getColor());
+                model.createDraftPoolResponse(PLAYER + player.getName() + " drafted the die " + die.getValue() + " " + die.getColor());
             } catch (NoDieException e) {
                 view.handleNetworkOutput(new TextResponse(draftMessage.getPlayerID(),"The die you want to draft does not exit"));
             }
@@ -225,7 +225,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     public void startMatch() {
-        toolCardController = new ToolCardController(model,this);
+        toolCardController = new ToolCardController(model);
         model.incrementStateID();
         StringBuilder description = new StringBuilder();
         description.append("List of player is: ");

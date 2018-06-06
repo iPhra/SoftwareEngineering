@@ -1,6 +1,8 @@
-package it.polimi.se2018.network.messages.responses.sync;
+package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
 import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
+import it.polimi.se2018.network.messages.responses.sync.SyncResponseHandler;
 
 /**
  * This class represents a response from the Server to the Client containing the color extracted for a die

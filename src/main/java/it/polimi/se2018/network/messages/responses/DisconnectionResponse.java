@@ -10,11 +10,17 @@ import it.polimi.se2018.network.messages.responses.ResponseHandler;
 public class DisconnectionResponse extends Response {
     private final String message;
     private final String playerName;
+    private final boolean halt;
 
-    public DisconnectionResponse(int playerID, String message, String playerName) {
+    public DisconnectionResponse(int playerID, String message, String playerName, boolean halt) {
         super(playerID);
         this.message = message;
         this.playerName = playerName;
+        this.halt = halt;
+    }
+
+    public boolean isHalt() {
+        return halt;
     }
 
     public String getMessage() {

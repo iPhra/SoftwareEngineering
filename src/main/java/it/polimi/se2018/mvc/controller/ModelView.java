@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelView implements Serializable{
-    private final List<String> playerNames;
-    private final List<Integer> playerID;
-    private final List<Square[][]> playerWindow;
-    private final List<Integer> playerFavorPoint;
-    private final List<Die> draftPool;
-    private final List<List<Die>> roundTracker;
-    private final int round;
-    private final List<Boolean> toolCardUsability;
-    private final int stateID;
+    private List<String> playerNames;
+    private List<Integer> playerID;
+    private List<Square[][]> playerWindows;
+    private List<Integer> playerFavorPoint;
+    private List<Die> draftPool;
+    private List<List<Die>> roundTracker;
+    private int round;
+    private List<Boolean> toolCardUsability;
+    private int stateID;
     private int currentPlayerID;
     private boolean hasDieInHand;
     private boolean hasDraftedDie;
@@ -27,7 +27,7 @@ public class ModelView implements Serializable{
     private Die dieInHand;
 
     public ModelView(Board board) {
-        playerWindow = new ArrayList<>();
+        playerWindows = new ArrayList<>();
         playerFavorPoint = new ArrayList<>();
         playerNames = new ArrayList<>();
         playerID = new ArrayList<>();
@@ -42,7 +42,7 @@ public class ModelView implements Serializable{
 
     private void setPlayers(Board board) {
         for (Player player : board.getPlayers()) {
-            playerWindow.add(player.getWindow().modelViewCopy());
+            playerWindows.add(player.getWindow().modelViewCopy());
             playerFavorPoint.add(player.getFavorPoints());
             playerNames.add(player.getName());
             playerID.add(player.getId());
@@ -60,6 +60,62 @@ public class ModelView implements Serializable{
             ToolCard toolCard = board.getToolCards()[i];
             toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(board), board.getToolCardsUsage()[i], currentPlayer));
         }
+    }
+
+    public void setPlayerNames(List<String> playerNames) {
+        this.playerNames = playerNames;
+    }
+
+    public void setPlayerID(List<Integer> playerID) {
+        this.playerID = playerID;
+    }
+
+    public void setPlayerWindow(int playerID, Square[][] playerWindow) {
+        playerWindows.set(playerID,playerWindow);
+    }
+
+    public void setPlayerFavorPoint(int playerID, int favorPoints) {
+        playerFavorPoint.set(playerID,favorPoints);
+    }
+
+    public void setDraftPool(List<Die> draftPool) {
+        this.draftPool = draftPool;
+    }
+
+    public void setRoundTracker(List<List<Die>> roundTracker) {
+        this.roundTracker = roundTracker;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public void setToolCardUsability(List<Boolean> toolCardUsability) {
+        this.toolCardUsability = toolCardUsability;
+    }
+
+    public void setStateID(int stateID) {
+        this.stateID = stateID;
+    }
+
+    public void setCurrentPlayerID(int currentPlayerID) {
+        this.currentPlayerID = currentPlayerID;
+    }
+
+    public void setHasDieInHand(boolean hasDieInHand) {
+        this.hasDieInHand = hasDieInHand;
+    }
+
+    public void setHasDraftedDie(boolean hasDraftedDie) {
+        this.hasDraftedDie = hasDraftedDie;
+    }
+
+    public void setHasUsedCard(boolean hasUsedCard) {
+        this.hasUsedCard = hasUsedCard;
+    }
+
+    public void setDieInHand(Die dieInHand) {
+        this.dieInHand = dieInHand;
     }
 
     public int getStateID() {return stateID;}
@@ -82,8 +138,8 @@ public class ModelView implements Serializable{
         return playerID;
     }
 
-    public List<Square[][]> getPlayerWindow() {
-        return playerWindow;
+    public List<Square[][]> getPlayerWindows() {
+        return playerWindows;
     }
 
     public List<Integer> getPlayerFavorPoint() {

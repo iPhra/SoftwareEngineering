@@ -195,9 +195,6 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     @Override
     public synchronized void handleAsyncEvent(boolean halt, String message) {
         out.println("\n"+message);
-        if(halt) {
-            cliController.halt("");
-        }
+        if(halt) cliController.halt("");
     }
-
 }

@@ -4,7 +4,11 @@ import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
-import it.polimi.se2018.network.messages.responses.sync.ModelViewResponse;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelViewResponse;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.DraftPoolResponse;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelUpdateResponse;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.RoundTrackerResponse;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.WindowResponse;
 import it.polimi.se2018.utils.Observable;
 
 import java.security.InvalidParameterException;
@@ -131,9 +135,41 @@ public class Board extends Observable<Response> {
 
     public void createModelViews(String description) {
         for(Player player: players) {
-            ModelViewResponse modelViewResponse = new ModelViewResponse(new ModelView(this),player.getId());
-            modelViewResponse.setDescription(description);
-            notify(modelViewResponse);
+            ModelViewResponse response = new ModelViewResponse(new ModelView(this),player.getId());
+            response.setDescription(description);
+            notify(response);
+        }
+    }
+
+    public void createDraftPoolResponse(String description) {
+        for(Player player: players) {
+            DraftPoolResponse response = new DraftPoolResponse(player.getId(),this);
+            response.setDescription(description);
+            notify(response);
+        }
+    }
+
+    public void createRoundTrackerResponse(String description) {
+        for(Player player: players) {
+            RoundTrackerResponse response = new RoundTrackerResponse(player.getId(),this);
+            response.setDescription(description);
+            notify(response);
+        }
+    }
+
+    public void createWindowResponse(String description, int playerWindowID) {
+        for(Player player: players) {
+            WindowResponse response = new WindowResponse(player.getId(),this,playerWindowID);
+            response.setDescription(description);
+            notify(response);
+        }
+    }
+
+    public void createModelUpdateResponse(String description) {
+        for(Player player: players) {
+            ModelUpdateResponse response = new ModelUpdateResponse(player.getId(),stateID,this);
+            response.setDescription(description);
+            notify(response);
         }
     }
 

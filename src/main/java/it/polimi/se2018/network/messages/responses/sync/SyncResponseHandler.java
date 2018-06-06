@@ -2,6 +2,7 @@ package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 
 /**
  * This is the interface implemented by the clas handling the responses
@@ -50,4 +51,12 @@ public interface SyncResponseHandler {
      * @param reconnectionResponse contains all useful objects for reconnection
      */
     void handleResponse(ReconnectionResponse reconnectionResponse);
+
+    void handleResponse(DraftPoolResponse draftPoolResponse);
+
+    void handleResponse(RoundTrackerResponse roundTrackerResponse);
+
+    void handleResponse(WindowResponse windowResponse);
+
+    void handleResponse(ModelUpdateResponse modelUpdateResponse);
 }
