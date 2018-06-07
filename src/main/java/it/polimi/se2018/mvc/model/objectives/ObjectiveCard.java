@@ -46,7 +46,7 @@ public abstract class ObjectiveCard implements Serializable{
     /**
      * @return the imagePath of this card
      */
-    protected String getImagePath() {return imagePath;}
+    public String getImagePath() {return imagePath;}
 
     /**
      * Evaluates points based on the effect of the card

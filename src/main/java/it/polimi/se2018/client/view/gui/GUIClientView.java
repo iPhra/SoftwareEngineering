@@ -121,6 +121,7 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
         setWindows(setupResponse.getWindows());
         //change from PlayerNameScene to SelectWindowScene
         ((PlayerNameSceneController) sceneController).setWindows(windows);
+        ((PlayerNameSceneController) sceneController).setPrivateObjective(privateObjective);
         sceneController.changeScene(sceneController.getScene());
     }
 

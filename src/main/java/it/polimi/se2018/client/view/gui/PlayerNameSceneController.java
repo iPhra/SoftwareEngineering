@@ -2,6 +2,7 @@ package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.GUIClient;
 import it.polimi.se2018.mvc.model.Window;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +20,7 @@ public class PlayerNameSceneController implements SceneController{
     private GUIClient GUIClient;
     private Stage stage;
     private List<Window> windows;
+    private PrivateObjective privateObjective;
 
     @FXML
     private TextField nickTextField;
@@ -28,6 +30,10 @@ public class PlayerNameSceneController implements SceneController{
 
     public void setWindows(List<Window> windows) {
         this.windows = windows;
+    }
+
+    public void setPrivateObjective(PrivateObjective privateObjective) {
+        this.privateObjective = privateObjective;
     }
 
     public void onReturnHandler(){
@@ -55,7 +61,7 @@ public class PlayerNameSceneController implements SceneController{
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
-            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, (GUIClientView) GUIClient.getGUIClientView());
+            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (GUIClientView) GUIClient.getGUIClientView());
             loader.setController(selectWindowSceneController);
             Parent root = loader.load();
             ((GUIClientView) GUIClient.getGUIClientView()).setSceneController(selectWindowSceneController);

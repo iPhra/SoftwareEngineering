@@ -1,6 +1,8 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.GUIClient;
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.utils.WindowBuilder;
 import javafx.application.Application;
@@ -35,7 +37,17 @@ public class MainTest extends Application{
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        List<String> sortedPlayersNames = Arrays.asList("Emilio", "Cristiano", "Francesco Lorenzo");
+       List<List<Die>> roundTracker = Arrays.asList(Arrays.asList(new Die(2, Color.BLUE), new Die(5,Color.PURPLE)),Arrays.asList(new Die(4,Color.GREEN)));
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/RoundTrackerScene.fxml")));
+        RoundTrackerSceneController roundTrackerSceneController = new RoundTrackerSceneController(roundTracker);
+        loader.setController(roundTrackerSceneController);
+        Parent root = loader.load();
+        primaryStage.setTitle("Sagrada Online");
+        primaryStage.setScene(new Scene(root, 1892, 396));
+        primaryStage.show();
+
+
+        /*List<String> sortedPlayersNames = Arrays.asList("Emilio", "Cristiano", "Francesco Lorenzo");
         List<Integer> sortedPlayersScores = Arrays.asList(69,42,7);
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/scoreBoardScene.fxml")));
         ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames,sortedPlayersScores);
@@ -45,7 +57,7 @@ public class MainTest extends Application{
         Parent root = loader.load();
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 600, 623));
-        primaryStage.show();
+        primaryStage.show(); */
 
     }
 }
