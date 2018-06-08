@@ -93,16 +93,18 @@ public class RMIClientConnection extends ClientConnection implements RemoteConne
             serverConnection.getMessage(message);
         }
         catch(RemoteException e) {
-            client.handleDisconnection();
-            clock.interrupt();
+            if(isOpen) {
+                client.handleDisconnection();
+                clock.interrupt();
+            }
         }
     }
 
     @Override
     public void stop() {
+        clock.interrupt();
         isOpen = false;
         matchPlaying = false;
-        clock.interrupt();
         try {
             UnicastRemoteObject.unexportObject(this,true);
         }

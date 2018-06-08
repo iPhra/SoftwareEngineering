@@ -27,10 +27,10 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     private final CLIModel cliModel;
     private final PrintStream printStream;
     private final Scanner scanner;
-    private boolean stopAction;
     private ClientConnection clientConnection;
     private final List<SyncResponse> events;
     private boolean isOpen;
+    private boolean stopAction;
 
     public CLIView(Client client, int playerID) {
         this.client = client;
@@ -39,9 +39,9 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
         register(cliController);
         scanner = new Scanner(System.in);
         printStream = new PrintStream(out);
-        stopAction = false;
         events = new ArrayList<>();
         isOpen = true;
+        stopAction = false;
     }
 
     private void wakeUp() {
@@ -65,7 +65,6 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
 
     void endGame() {
         stop();
-        clientConnection.stop();
         client.startNewGame();
     }
 
@@ -176,6 +175,7 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     @Override
     public void stop() {
         isOpen=false;
+        stopAction = false;
     }
 
     @Override
@@ -193,7 +193,7 @@ public class CLIView extends Observable<SyncResponse> implements ClientView {
     }
 
     @Override
-    public synchronized void handleAsyncEvent(boolean halt, String message) {
+    public void handleAsyncEvent(boolean halt, String message) {
         out.println("\n"+message);
         if(halt) cliController.halt("");
     }

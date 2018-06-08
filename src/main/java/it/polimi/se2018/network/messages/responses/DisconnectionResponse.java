@@ -8,23 +8,11 @@ import it.polimi.se2018.network.messages.responses.ResponseHandler;
  * @author Francesco Lorenzo
  */
 public class DisconnectionResponse extends Response {
-    private final String message;
     private final String playerName;
-    private final boolean halt;
 
-    public DisconnectionResponse(int playerID, String message, String playerName, boolean halt) {
+    public DisconnectionResponse(int playerID, String playerName) {
         super(playerID);
-        this.message = message;
         this.playerName = playerName;
-        this.halt = halt;
-    }
-
-    public boolean isHalt() {
-        return halt;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     public String getPlayerName() {

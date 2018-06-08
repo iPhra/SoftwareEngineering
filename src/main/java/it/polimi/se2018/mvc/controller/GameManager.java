@@ -21,6 +21,9 @@ import it.polimi.se2018.utils.WindowBuilder;
 import it.polimi.se2018.mvc.view.ServerView;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
@@ -46,9 +49,11 @@ public class GameManager implements Stopper {
     private boolean matchCreated;
     private boolean matchStarted;
     private WaitingThread clock;
+    private Duration timeout;
 
     public GameManager(Server server){
         this.server = server;
+        getDuration();
         windowsSetup = new HashMap<>();
         deckBuilder = new DeckBuilder();
         playerIDs = new ArrayList<>();
@@ -61,8 +66,24 @@ public class GameManager implements Stopper {
         matchStarted = false;
     }
 
+    private void getDuration() {
+        try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String[] tokens = sb.toString().split(";");
+            timeout = Duration.ofSeconds(Integer.parseInt(tokens[1].split(":")[1]));
+        }
+        catch (IOException e) {
+        System.exit(1);
+        }
+    }
+
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(20);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -131,6 +152,13 @@ public class GameManager implements Stopper {
                 serverView.update(new ReconnectionNotificationResponse(id, playerNames.get(playerID)));
             }
         }
+    }
+
+    private int getLastPlayerID() {
+        for(int id : playerIDs) {
+            if (!disconnectedPlayers.contains(id)) return id;
+        }
+        return 0;
     }
 
     private void reconnect(int playerID, ServerConnection serverConnection, boolean isWindowSelection) {
@@ -223,12 +251,10 @@ public class GameManager implements Stopper {
         serverConnections.remove(playerID);
         if (disconnectedPlayers.size() == playerIDs.size() - 1) {
             clock.interrupt();
-            serverView.handleNetworkOutput(new DisconnectionResponse(playerIDs.get(0),"You are the last player, you win!",playerNames.get(playerID),true));
-            if (matchStarted) controller.endMatch();
-            else endGame();
+            controller.endMatch(true,!matchStarted,getLastPlayerID());
         }
         else {
-            for (int id : playerIDs) serverView.handleNetworkOutput(new DisconnectionResponse(id, null, playerNames.get(playerID),false));
+            for (int id : playerIDs) serverView.handleNetworkOutput(new DisconnectionResponse(id, playerNames.get(playerID)));
         }
     }
 

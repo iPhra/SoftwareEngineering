@@ -29,14 +29,32 @@ public class Server implements Stopper {
     private WaitingThread clock;
     private RMIManager remoteManager;
     private SocketHandler socketHandler;
+    private Duration timeout;
 
     private Server() {
+        getDuration();
         matches = new HashMap<>();
         nicknames = new HashMap<>();
     }
 
+    private void getDuration() {
+        try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String[] tokens = sb.toString().split(";");
+            timeout = Duration.ofSeconds(Integer.parseInt(tokens[0].split(":")[1]));
+        }
+        catch (IOException e) {
+            System.exit(1);
+        }
+    }
+
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(10);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
@@ -177,8 +195,5 @@ public class Server implements Stopper {
         server.startSocketConnection();
         server.createRMIRegistry();
         new PrintStream(System.out).println("Listening...");
-        Scanner scanner = new Scanner(System.in);
-        //while(!scanner.nextLine().startsWith("exit"))
-        //server.close();
     }
 }

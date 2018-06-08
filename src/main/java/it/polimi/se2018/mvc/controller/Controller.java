@@ -3,6 +3,7 @@ package it.polimi.se2018.mvc.controller;
 import it.polimi.se2018.mvc.controller.placementlogic.DiePlacer;
 import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerFirst;
 import it.polimi.se2018.mvc.view.ServerView;
+import it.polimi.se2018.network.messages.responses.EndGameResponse;
 import it.polimi.se2018.network.messages.responses.TimeUpResponse;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.utils.*;
@@ -14,7 +15,11 @@ import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerNormal;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -27,19 +32,37 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     private ToolCardController toolCardController;
     private final GameManager gameManager;
     private final ReentrantLock lock;
-    private WaitingThread alarm;
+    private WaitingThread clock;
+    private Duration timeout;
 
     public Controller(GameManager gameManager, ServerView view) {
         super();
         this.view = view;
         this.gameManager = gameManager;
         lock = new ReentrantLock();
+        getDuration();
+    }
+
+    private void getDuration() {
+        try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String[] tokens = sb.toString().split(";");
+            timeout = Duration.ofSeconds(Integer.parseInt(tokens[2].split(":")[1]));
+        }
+        catch (IOException e) {
+            System.exit(1);
+        }
     }
 
     private void startTimer() {
-        Duration timeout = Duration.ofSeconds(3200);
-        alarm = new WaitingThread(timeout, this);
-        alarm.start();
+        clock = new WaitingThread(timeout, this);
+        clock.start();
     }
 
     private void endRound(Player player,boolean stopped) {
@@ -103,10 +126,22 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     //called by endTurn method when match ends
-    void endMatch() {
-        List<Player> scoreBoard = playersScoreBoard();
-        for(Player player : model.getPlayers())
-            view.handleNetworkOutput(new ScoreBoardResponse(player.getId(),scoreBoard));
+    void endMatch(boolean lastPlayer, boolean playerPlaying, int lastPlayerID) {
+        EndGameResponse endGameResponse = null;
+        if(lastPlayer) {
+            endGameResponse = new EndGameResponse(lastPlayerID);
+            endGameResponse.setScoreBoardResponse(new ArrayList<>(),true);
+            endGameResponse.setPlayerPlaying(playerPlaying || model.getRound().getCurrentPlayerID()==lastPlayerID);
+        }
+        else {
+            for(Player player : model.getPlayers()) {
+                endGameResponse = new EndGameResponse(player.getId());
+                List<Player> scoreBoard = playersScoreBoard();
+                endGameResponse.setScoreBoardResponse(scoreBoard,false);
+                endGameResponse.setPlayerPlaying(false);
+            }
+        }
+        view.handleNetworkOutput(endGameResponse);
         gameManager.endGame();
     }
 
@@ -210,13 +245,13 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     @Override
     public void handleMove(PassMessage passMessage) {
         lock.lock();
-        alarm.interrupt();
+        clock.interrupt();
         Player player = model.getPlayerByID(passMessage.getPlayerID());
         if (model.getRound().getRoundNumber()!= Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
             endRound(player,passMessage.isHalt());
         }
         else if (model.getRound().getRoundNumber() == Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
-            endMatch();
+            endMatch(false, false,0);
         }
         else {
             endTurn(player,passMessage.isHalt());

@@ -5,6 +5,7 @@ import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.*;
+import it.polimi.se2018.network.messages.responses.sync.ScoreBoardResponse;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import it.polimi.se2018.utils.Observer;
@@ -110,15 +111,17 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             cliView.print("Window sent. Waiting for other players to choose.\n");
             cliView.handleNetworkOutput(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
         } catch (HaltException e) {
-            cliView.endGame();
+            cliView.setStopAction(false);
         }
     }
 
     @Override
     public void handleResponse(ScoreBoardResponse scoreBoardResponse){
-        cliView.print("\nFinal score:\n");
-        for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
-            cliView.print(i+1 + "  Player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "     Score: " + scoreBoardResponse.getSortedPlayersScores().get(i)+"\n");
+        if(!scoreBoardResponse.isLastPlayer()) {
+            cliView.print("\nFinal score:\n");
+            for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
+                cliView.print(i + 1 + "  Player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "     Score: " + scoreBoardResponse.getSortedPlayersScores().get(i) + "\n");
+            }
         }
         cliView.endGame();
     }

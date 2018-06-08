@@ -12,4 +12,6 @@ public interface ResponseHandler {
     void handleResponse(TimeUpResponse timeUpResponse);
 
     void handleResponse(SyncResponse syncResponse);
+
+    void handleResponse(EndGameResponse endGameResponse);
 }

@@ -38,7 +38,7 @@ public class WindowImageSceneController implements Initializable{
                 gridPane.add(gridImageView[x][y],y,x);
                 GridPane.setHalignment(gridImageView[x][y], HPos.CENTER);
                 GridPane.setValignment(gridImageView[x][y], VPos.CENTER);
-                gridPane.setMargin(gridImageView[x][y], new Insets(0,19,20,0));
+                GridPane.setMargin(gridImageView[x][y], new Insets(0,19,20,0));
             }
         }
         gridPane.setStyle("-fx-background-image: url('"+ window.getLevelPath() + "')");
