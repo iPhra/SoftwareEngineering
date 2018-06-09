@@ -24,9 +24,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SelectWindowSceneController implements SceneController, Initializable{
-    private GUIClientView guiClientView;
-    private List<Window> windows;
-    private PrivateObjective privateObjective;
+    private final GUIClientView guiClientView;
+    private final List<Window> windows;
+    private final PrivateObjective privateObjective;
     private Stage stage;
     private Button[] buttons;
 

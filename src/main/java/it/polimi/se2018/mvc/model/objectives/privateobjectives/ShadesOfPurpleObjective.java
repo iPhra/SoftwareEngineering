@@ -10,19 +10,16 @@ public class ShadesOfPurpleObjective extends PrivateObjective {
     private static ShadesOfPurpleObjective instance = null;
     private static final Color color = Color.PURPLE;
 
-    private ShadesOfPurpleObjective(String title, String imagePath){
-        super(title,color);
-        description = "Sum of values on purple dice";
-        this.imagePath = imagePath;
+    private ShadesOfPurpleObjective(String imagePath){
+        super("Shades of Purple", "Sum of values on purple dice", imagePath, color);
     }
 
     /**
-     * @param title it's the title of this card
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static ShadesOfPurpleObjective instance(String title, String imagePath){
-        if (instance==null) instance = new ShadesOfPurpleObjective(title, imagePath);
+    public static ShadesOfPurpleObjective instance(String imagePath){
+        if (instance==null) instance = new ShadesOfPurpleObjective(imagePath);
         return instance;
     }
 }

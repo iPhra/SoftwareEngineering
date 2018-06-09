@@ -16,7 +16,7 @@ public class StateToolCardDraft extends StateDraftPool {
 
     @Override
     public void doActionDraftPool(int draftPoolPosition) {
-        ToolCardMessage toolCardMessage = (ToolCardMessage) gameSceneController.getToolCardMessage();
+        ToolCardMessage toolCardMessage = gameSceneController.getToolCardMessage();
         toolCardMessage.addDraftPoolPosition(draftPoolPosition);
         if (nextState.isEmpty()){
             gameSceneController.sendToolCardMessage();

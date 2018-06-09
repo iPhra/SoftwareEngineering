@@ -33,7 +33,7 @@ public class TestBoard {
         Database database = new Database();
         database.standardWhiteMatrix();
         Square[][] matrix = database.getMatrix();
-        ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("title", "imagePath");
+        ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath");
         Window window = new Window("BasicMap",0,matrix, WindowBuilder.getLevelPaths().get(0));
         Player player1 = new Player("player1",1, window,shadesOfGreenObjective);
         player2 = new Player("player2",2, window,shadesOfGreenObjective);
@@ -45,8 +45,8 @@ public class TestBoard {
         toolCards[1] = FluxBrush.instance("imagePath");
         toolCards[2] = TapWheel.instance("imagePath");
         publicObjectives = new PublicObjective[2];
-        publicObjectives[0] = DeepShadesObjective.instance("title1", "imagePath");
-        publicObjectives[1] = RowColorVarietyObjective.instance("title2", "imagePath");
+        publicObjectives[0] = DeepShadesObjective.instance("imagePath");
+        publicObjectives[1] = RowColorVarietyObjective.instance("imagePath");
         board = new Board (players,toolCards, publicObjectives);
 
     }

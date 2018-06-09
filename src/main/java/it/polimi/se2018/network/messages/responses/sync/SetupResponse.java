@@ -2,8 +2,6 @@ package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
-import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
-import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
 import java.util.List;
 

@@ -319,7 +319,7 @@ public class GameManager implements Stopper {
 
     /**
      * Removes all the attributes of a player who has disconnected before the match was created
-     * @param playerID
+     * @param playerID is the player who has just disconnected
      */
     public void removePlayer(int playerID) {
         serverConnections.remove(playerID);

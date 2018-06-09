@@ -24,8 +24,8 @@ public class TestShadesOfYellowObjective {
         database = new Database();
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
-        shadesOfYellowObjective =ShadesOfYellowObjective.instance("Shades of yellow", "imagePath");
-        shadesOfYellowObjective =ShadesOfYellowObjective.instance("Shades of yellow", "imagePath");
+        shadesOfYellowObjective =ShadesOfYellowObjective.instance("imagePath");
+        shadesOfYellowObjective =ShadesOfYellowObjective.instance("imagePath");
         Window window = new Window("BasicMap",0,matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window, shadesOfYellowObjective);
     }
@@ -42,7 +42,7 @@ public class TestShadesOfYellowObjective {
 
     @Test
     public void testToString() {
-        String result = "Private Objective:" + "\n" + "Title: \"" + "Shades of yellow\"      Effect: \"" + "Sum of values on yellow dice" + "\"";
+        String result = "Private Objective:" + "\n" + "Title: \"" + "Shades of Yellow\"      Effect: \"" + "Sum of values on yellow dice" + "\"";
         Assert.assertEquals(result,shadesOfYellowObjective.toString());
     }
 }

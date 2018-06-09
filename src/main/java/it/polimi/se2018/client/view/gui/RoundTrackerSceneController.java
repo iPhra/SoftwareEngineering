@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class RoundTrackerSceneController implements Initializable {
-    private List<List<Die>> roundTracker;
+    private final List<List<Die>> roundTracker;
     private List<MenuButton> menuButtonList;
 
     @FXML

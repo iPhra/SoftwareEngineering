@@ -20,12 +20,12 @@ public class GameSceneController implements SceneController{
     private GUIClientView guiClientView;
     private ModelView modelView;
     private List<ToolCard> toolCards;
-    private int playerID;
+    private final int playerID;
     private int stateID;
     private WindowSceneController windowSceneController;
     private List<ButtonGame> buttons;
     private ToolCardMessage toolCardMessage;
-    private ToolCardGUI toolCardGUI;
+    private final ToolCardGUI toolCardGUI;
     private State currentState;
     private Stage stage;
 

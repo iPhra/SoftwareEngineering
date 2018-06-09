@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class StartingSceneController implements SceneController {
-    private GUIClient GUIClient;
+    private GUIClient guiClient;
     private Stage stage;
     @FXML
     private Button socketButton;
@@ -21,17 +21,17 @@ public class StartingSceneController implements SceneController {
     private Button rmiButton;
 
     public void socketButtonClicked(){
-        GUIClient.createSocketConnection();
+        guiClient.createSocketConnection();
         changeScene(getScene());
     }
 
     public void rmiButtonClicked(){
-        GUIClient.createRMIConnection();
+        guiClient.createRMIConnection();
         changeScene(getScene());
     }
 
-    public void setGUIClient(GUIClient GUIClient){
-        this.GUIClient = GUIClient;
+    public void setGuiClient(GUIClient guiClient){
+        this.guiClient = guiClient;
     }
 
     public void setStage(Stage stage) {
@@ -49,7 +49,7 @@ public class StartingSceneController implements SceneController {
         try{
             Parent root = loader.load();
             PlayerNameSceneController playerNameSceneController = loader.getController();
-            playerNameSceneController.setGUIClient(GUIClient);
+            playerNameSceneController.setGUIClient(guiClient);
             playerNameSceneController.setStage(stage);
             scene.setRoot(root);
         }catch(IOException e){

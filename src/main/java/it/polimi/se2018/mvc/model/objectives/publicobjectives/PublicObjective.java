@@ -7,8 +7,8 @@ import it.polimi.se2018.mvc.model.objectives.ObjectiveCard;
  */
 public abstract class PublicObjective extends ObjectiveCard {
 
-    PublicObjective(String title) {
-        super(title);
+    PublicObjective(String title, String description, String imagePath) {
+        super(title,description,imagePath);
     }
 
     @Override

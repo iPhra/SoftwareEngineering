@@ -27,21 +27,21 @@ public class DeckBuilder {
         toolCards.add(LensCutter.instance("/toolcards/lens_cutter.png"));
         toolCards.add(RunningPliers.instance("/toolcards/running_pliers.png"));
         toolCards.add(TapWheel.instance("/toolcards/tap_wheel.png"));
-        publicObjectives.add(ColorDiagonalsObjective.instance("Color Diagonals", "/objectives/public_objectives/color_diagonals.png"));
-        publicObjectives.add(ColorVarietyObjective.instance("Color Variety", "/objectives/public_objectives/color_variety.png"));
-        publicObjectives.add(ColumnColorVarietyObjective.instance("Column Color Variety", "/objectives/public_objectives/column_color_variety.png"));
-        publicObjectives.add(ColumnShadeVarietyObjective.instance("Column Shade Variety", "/objectives/public_objectives/column_shade_variety.png"));
-        publicObjectives.add(DeepShadesObjective.instance("Deep Shades", "/objectives/public_objectives/deep_shades.png"));
-        publicObjectives.add(LightShadesObjective.instance("Light Shades", "/objectives/public_objectives/light_shades.png"));
-        publicObjectives.add(MediumShadesObjective.instance("Medium Shades", "/objectives/public_objectives/medium_shades.png"));
-        publicObjectives.add(RowColorVarietyObjective.instance("Row Color Variety", "/objectives/public_objectives/row_color_variety.png"));
-        publicObjectives.add(RowShadeVarietyObjective.instance("Row Shade Variety", "/objectives/public_objectives/row_shade_variety.png"));
-        publicObjectives.add(ShadeVarietyObjective.instance("Shade Variety", "/objectives/public_objectives/shade_variety.png"));
-        privateObjectives.add(ShadesOfBlueObjective.instance("Shades of Blue","/objectives/private_objectives/shades_of_blue.png"));
-        privateObjectives.add(ShadesOfGreenObjective.instance("Shades of Green", "/objectives/private_objectives/shades_of_green.png"));
-        privateObjectives.add(ShadesOfPurpleObjective.instance("Shades of Purple", "/objectives/private_objectives/shades_of_purple.png"));
-        privateObjectives.add(ShadesOfRedObjective.instance("Shades of Red", "/objectives/private_objectives/shades_of_red.png"));
-        privateObjectives.add(ShadesOfYellowObjective.instance("Shades of Yellow", "/objectives/private_objectives/shades_of_yellow.png"));
+        publicObjectives.add(ColorDiagonalsObjective.instance("/objectives/public_objectives/color_diagonals.png"));
+        publicObjectives.add(ColorVarietyObjective.instance("/objectives/public_objectives/color_variety.png"));
+        publicObjectives.add(ColumnColorVarietyObjective.instance("/objectives/public_objectives/column_color_variety.png"));
+        publicObjectives.add(ColumnShadeVarietyObjective.instance("/objectives/public_objectives/column_shade_variety.png"));
+        publicObjectives.add(DeepShadesObjective.instance("/objectives/public_objectives/deep_shades.png"));
+        publicObjectives.add(LightShadesObjective.instance("/objectives/public_objectives/light_shades.png"));
+        publicObjectives.add(MediumShadesObjective.instance("/objectives/public_objectives/medium_shades.png"));
+        publicObjectives.add(RowColorVarietyObjective.instance("/objectives/public_objectives/row_color_variety.png"));
+        publicObjectives.add(RowShadeVarietyObjective.instance("/objectives/public_objectives/row_shade_variety.png"));
+        publicObjectives.add(ShadeVarietyObjective.instance("/objectives/public_objectives/shade_variety.png"));
+        privateObjectives.add(ShadesOfBlueObjective.instance("/objectives/private_objectives/shades_of_blue.png"));
+        privateObjectives.add(ShadesOfGreenObjective.instance("/objectives/private_objectives/shades_of_green.png"));
+        privateObjectives.add(ShadesOfPurpleObjective.instance("/objectives/private_objectives/shades_of_purple.png"));
+        privateObjectives.add(ShadesOfRedObjective.instance("/objectives/private_objectives/shades_of_red.png"));
+        privateObjectives.add(ShadesOfYellowObjective.instance("/objectives/private_objectives/shades_of_yellow.png"));
     }
 
     public List<ToolCard> extractToolCards(int number) {

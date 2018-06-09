@@ -115,8 +115,6 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
     @Override
     public void handleResponse(SetupResponse setupResponse) {
         setPrivateObjective(setupResponse.getPrivateObjective());
-        setPublicObjectives(setupResponse.getPublicObjectives());
-        setToolCards(setupResponse.getToolCards());
         setPlayersNumber(setupResponse.getPlayersNumber());
         setWindows(setupResponse.getWindows());
         //change from PlayerNameScene to SelectWindowScene

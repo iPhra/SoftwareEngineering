@@ -4,7 +4,6 @@ import it.polimi.se2018.client.view.gui.ToolCardGUIHandler;
 import it.polimi.se2018.mvc.controller.ToolCardHandler;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.controller.ToolCardCheckerHandler;
-import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
@@ -22,7 +21,7 @@ public class GrindingStone extends ToolCard {
     }
 
     @Override
-    public void handle(ToolCardHandler handler, ToolCardMessage message) throws ToolCardException{
+    public void handle(ToolCardHandler handler, ToolCardMessage message) {
         handler.useCard(this, message);
     }
     @Override

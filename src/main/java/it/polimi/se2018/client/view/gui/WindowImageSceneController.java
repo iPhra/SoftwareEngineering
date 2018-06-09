@@ -15,8 +15,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class WindowImageSceneController implements Initializable{
+    private final Window window;
 
-    private Window window;
     @FXML
     private GridPane gridPane;
 

@@ -47,7 +47,7 @@ public class MainTest extends Application{
         List<Integer> sortedPlayersScores = Arrays.asList(69,42,7);
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/scoreBoardScene.fxml")));
         ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames,sortedPlayersScores);
-        scoreBoardSceneController.setGUIClient(new GUIClient());
+        scoreBoardSceneController.setGuiClient(new GUIClient());
         scoreBoardSceneController.setStage(primaryStage);
         loader.setController(scoreBoardSceneController);
         Parent root = loader.load();

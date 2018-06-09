@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreBoardResponse extends SyncResponse {
-    private  List<String> sortedPlayersNames;
-    private List<Integer> sortedPlayersScores;
+    private final List<String> sortedPlayersNames;
+    private final List<Integer> sortedPlayersScores;
     private final boolean lastPlayer;
 
     public ScoreBoardResponse(int player, List<Player> sortedPlayers, boolean lastPlayer){

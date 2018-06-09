@@ -17,9 +17,9 @@ public class WindowSceneController implements SceneController, Initializable {
     @FXML
     private GridPane gridWindow;
 
-    private List<ButtonSquare> buttonSquares;
+    private final List<ButtonSquare> buttonSquares;
 
-    private int playerID;
+    private final int playerID;
 
     public WindowSceneController(int playerID) {
         this.playerID = playerID;
@@ -30,7 +30,7 @@ public class WindowSceneController implements SceneController, Initializable {
         return buttonSquares;
     }
 
-    public void setClientGUI(GUIClient GUIClient) {
+    public void setClientGUI(GUIClient guiClient) {
         //implement
     }
 

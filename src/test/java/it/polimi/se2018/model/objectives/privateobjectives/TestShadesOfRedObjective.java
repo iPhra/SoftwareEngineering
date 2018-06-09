@@ -23,8 +23,8 @@ public class TestShadesOfRedObjective {
         database = new Database();
         database.standardWhiteMatrix();
         matrix = database.getMatrix();
-        shadesOfRedObjective =ShadesOfRedObjective.instance("title", "imagePath");
-        shadesOfRedObjective =ShadesOfRedObjective.instance("title", "imagePath");
+        shadesOfRedObjective =ShadesOfRedObjective.instance("imagePath");
+        shadesOfRedObjective =ShadesOfRedObjective.instance("imagePath");
         Window window = new Window("BasicMap",0,matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window, shadesOfRedObjective);
     }

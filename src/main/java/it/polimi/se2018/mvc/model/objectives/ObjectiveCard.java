@@ -18,15 +18,17 @@ public abstract class ObjectiveCard implements Serializable{
     /**
      * This is the description of the card
      */
-    protected String description;
+    private final String description;
 
     /**
      * This is the imagePath of the card
      */
-    protected String imagePath;
+    private final String imagePath;
 
-    protected ObjectiveCard(String title) {
-        this.title=title;
+    protected ObjectiveCard(String title, String description, String imagePath) {
+        this.title = title;
+        this.description = description;
+        this.imagePath = imagePath;
     }
 
     /**

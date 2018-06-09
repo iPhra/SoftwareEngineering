@@ -15,8 +15,8 @@ import java.util.stream.StreamSupport;
 public abstract class PrivateObjective extends ObjectiveCard {
     private final Color color;
 
-    PrivateObjective(String title, Color color) {
-        super(title);
+    PrivateObjective(String title, String description, String imagePath, Color color) {
+        super(title,description,imagePath);
         this.color = color;
     }
 

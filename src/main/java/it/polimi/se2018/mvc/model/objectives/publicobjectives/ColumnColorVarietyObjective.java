@@ -16,19 +16,16 @@ import java.util.stream.StreamSupport;
 public class ColumnColorVarietyObjective extends PublicObjective {
     private static ColumnColorVarietyObjective instance = null;
 
-    private ColumnColorVarietyObjective(String title, String imagePath){
-        super(title);
-        description = "5 points for each column with no repeated color";
-        this.imagePath = imagePath;
+    private ColumnColorVarietyObjective(String imagePath){
+        super("Column Color Variety","5 points for each column with no repeated color",imagePath);
     }
 
     /**
-     * @param title it's the title of this card
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static ColumnColorVarietyObjective instance(String title, String imagePath){
-        if (instance==null) instance = new ColumnColorVarietyObjective(title,imagePath);
+    public static ColumnColorVarietyObjective instance(String imagePath){
+        if (instance==null) instance = new ColumnColorVarietyObjective(imagePath);
         return instance;
     }
 

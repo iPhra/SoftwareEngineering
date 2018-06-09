@@ -15,7 +15,7 @@ import java.io.Serializable;
 public abstract class ToolCard implements Serializable {
     private final String title;
     private final String description;
-    protected String imagePath;
+    String imagePath;
 
     ToolCard(String title, String description) {
         this.title = title;

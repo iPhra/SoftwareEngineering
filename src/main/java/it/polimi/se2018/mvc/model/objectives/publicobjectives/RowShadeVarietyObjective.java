@@ -16,19 +16,16 @@ import java.util.stream.StreamSupport;
 public class RowShadeVarietyObjective  extends PublicObjective{
     private static RowShadeVarietyObjective instance = null;
 
-    private RowShadeVarietyObjective(String title, String imagePath){
-        super(title);
-        description = "5 points for each row with no repeated value";
-        this.imagePath = imagePath;
+    private RowShadeVarietyObjective(String imagePath){
+        super("Row Shade Variety", "5 points for each row with no repeated value", imagePath);
     }
 
     /**
-     * @param title it's the title of this card
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static RowShadeVarietyObjective instance(String title, String imagePath){
-        if (instance==null) instance = new RowShadeVarietyObjective(title, imagePath);
+    public static RowShadeVarietyObjective instance(String imagePath){
+        if (instance==null) instance = new RowShadeVarietyObjective(imagePath);
         return instance;
     }
 

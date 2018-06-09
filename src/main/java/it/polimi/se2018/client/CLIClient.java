@@ -56,7 +56,7 @@ public class CLIClient implements Client {
     }
 
     private String getNickname() {
-        output.println("Choose your nickname");
+        output.println("\nChoose your nickname");
         return input.nextLine();
     }
 
@@ -64,7 +64,7 @@ public class CLIClient implements Client {
         boolean settings = true;
         do {
             try {
-                output.println("Type [1] to use default settings, [2] to change configs");
+                output.println("\nType [1] to use default settings, [2] to change configs");
                 int value = input.nextInt();
                 switch (value) {
                     case 1:
@@ -80,7 +80,7 @@ public class CLIClient implements Client {
                     default: throw new InputMismatchException();
                 }
             } catch (InputMismatchException e) {
-                output.println("Input is invalid \n");
+                output.println("\nInput is invalid \n");
                 input.nextLine();
             }
         }
@@ -139,7 +139,7 @@ public class CLIClient implements Client {
                     default: throw new InputMismatchException();
                 }
             } catch (InputMismatchException e) {
-                output.println("Input is invalid \n");
+                output.println("\nInput is invalid \n");
                 input.nextLine();
             }
         }
@@ -154,11 +154,11 @@ public class CLIClient implements Client {
                 nickname = getNickname();
                 setup = manager.checkName(nickname);
                 if(!setup) {
-                    output.println("Your nickname is ok");
+                    output.println("\nYour nickname is ok");
                     playerID = manager.getID(nickname);
                 }
                 else {
-                    output.println("This nickname is already take , please choose another one");
+                    output.println("\nThis nickname is already take , please choose another one");
                 }
             }
             clientView = new CLIView(this,playerID);

@@ -10,11 +10,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class ModelView implements Serializable{
     private List<String> playerNames;
     private List<Integer> playerID;
-    private List<Square[][]> playerWindows;
-    private List<Integer> playerFavorPoint;
+    private final List<Square[][]> playerWindows;
+    private final List<Integer> playerFavorPoint;
     private List<Die> draftPool;
     private List<List<Die>> roundTracker;
     private int round;

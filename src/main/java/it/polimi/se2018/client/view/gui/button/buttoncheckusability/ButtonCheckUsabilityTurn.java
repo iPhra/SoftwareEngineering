@@ -4,7 +4,7 @@ import it.polimi.se2018.client.view.gui.GameSceneController;
 import it.polimi.se2018.client.view.gui.button.*;
 
 public class ButtonCheckUsabilityTurn implements ButtonCheckUsabilityHandler {
-    private GameSceneController gameSceneController;
+    private final GameSceneController gameSceneController;
 
     public ButtonCheckUsabilityTurn(GameSceneController gameSceneController) {
         this.gameSceneController = gameSceneController;
@@ -15,27 +15,27 @@ public class ButtonCheckUsabilityTurn implements ButtonCheckUsabilityHandler {
     }
 
     @Override
-    public Boolean checkUsability(ButtonSquare buttonSquare) {
+    public boolean checkUsability(ButtonSquare buttonSquare) {
         return (checkTurn() && (!gameSceneController.getModelView().hasDieInHand()));
     }
 
     @Override
-    public Boolean checkUsability(ButtonDraftPool buttonDraftPool) {
+    public boolean checkUsability(ButtonDraftPool buttonDraftPool) {
         return (checkTurn() && (!gameSceneController.getModelView().hasDraftedDie()));
     }
 
     @Override
-    public Boolean checkUsability(ButtonGame buttonGame) {
+    public boolean checkUsability(ButtonGame buttonGame) {
         return checkTurn();
     }
 
     @Override
-    public Boolean checkUsability(ButtonToolCard buttonToolCard) {
-        return (checkTurn() && (gameSceneController.getModelView().getToolCardUsability().get(buttonToolCard.getNumberOfToolCard())));
+    public boolean checkUsability(ButtonToolCard buttonToolCard) {
+        return (checkTurn() && (gameSceneController.getModelView().getToolCardUsability().get(buttonToolCard.getToolCardNumber())));
     }
 
     @Override
-    public Boolean checkUsability(ButtonRoundTracker buttonRoundTracker) {
+    public boolean checkUsability(ButtonRoundTracker buttonRoundTracker) {
         return false;
     }
 }

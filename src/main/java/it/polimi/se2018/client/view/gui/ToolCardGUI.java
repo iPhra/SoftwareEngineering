@@ -6,14 +6,12 @@ import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowEnd;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowPlace;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowStart;
 import it.polimi.se2018.mvc.model.toolcards.*;
-import it.polimi.se2018.utils.exceptions.ChangeActionException;
-import it.polimi.se2018.utils.exceptions.HaltException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ToolCardGUI implements ToolCardGUIHandler {
-    private GameSceneController gameSceneController;
+    private final GameSceneController gameSceneController;
 
     ToolCardGUI(GameSceneController gameSceneController) {
         this.gameSceneController = gameSceneController;
@@ -21,7 +19,7 @@ public class ToolCardGUI implements ToolCardGUIHandler {
 
 
     @Override
-    public void getPlayerRequests(CopperFoilBurnisher toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
+    public void getPlayerRequests(CopperFoilBurnisher toolCard, int toolCardNumber) {
         StateWindowStart stateWindowStart = new StateWindowStart(gameSceneController);
         StateWindowEnd stateWindowEnd = new StateWindowEnd(gameSceneController);
         List<State> states = new ArrayList<>();
@@ -32,14 +30,14 @@ public class ToolCardGUI implements ToolCardGUIHandler {
     }
 
     @Override
-    public void getPlayerRequests(CorkBackedStraightedge toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
+    public void getPlayerRequests(CorkBackedStraightedge toolCard, int toolCardNumber) {
         StateWindowPlace stateWindowPlace = new StateWindowPlace(gameSceneController);
         gameSceneController.getCurrentState().changeState(stateWindowPlace);
         gameSceneController.setAllButton();
     }
 
     @Override
-    public void getPlayerRequests(EglomiseBrush toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
+    public void getPlayerRequests(EglomiseBrush toolCard, int toolCardNumber) {
         StateWindowStart stateWindowStart = new StateWindowStart(gameSceneController);
         StateWindowEnd stateWindowEnd = new StateWindowEnd(gameSceneController);
         List<State> states = new ArrayList<>();
@@ -71,13 +69,13 @@ public class ToolCardGUI implements ToolCardGUIHandler {
     }
 
     @Override
-    public void getPlayerRequests(GrozingPliers toolCard, int toolCardNumber) throws HaltException {
+    public void getPlayerRequests(GrozingPliers toolCard, int toolCardNumber) {
         //implement
         //TODO fare la scena per decidere se incrementare o diminuire il valore del dado
     }
 
     @Override
-    public void getPlayerRequests(Lathekin toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
+    public void getPlayerRequests(Lathekin toolCard, int toolCardNumber) {
         StateWindowStart stateWindowStart = new StateWindowStart(gameSceneController);
         List<State> states = new ArrayList<>();
         states.add(new StateWindowEnd(gameSceneController));
@@ -89,7 +87,7 @@ public class ToolCardGUI implements ToolCardGUIHandler {
     }
 
     @Override
-    public void getPlayerRequests(LensCutter toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
+    public void getPlayerRequests(LensCutter toolCard, int toolCardNumber) {
         StateRoundTracker stateRoundTracker = new StateRoundTracker(gameSceneController);
         gameSceneController.getCurrentState().changeState(stateRoundTracker);
         gameSceneController.setAllButton();
@@ -101,7 +99,7 @@ public class ToolCardGUI implements ToolCardGUIHandler {
     }
 
     @Override
-    public void getPlayerRequests(TapWheel toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
+    public void getPlayerRequests(TapWheel toolCard, int toolCardNumber) {
         StateWindowStart stateWindowStart = new StateWindowStart(gameSceneController);
         StateWindowEnd stateWindowEnd = new StateWindowEnd(gameSceneController);
         StateWindowStart stateWindowStart2 = new StateWindowStart(gameSceneController);

@@ -133,7 +133,7 @@ public class GUIClient extends Application implements Client{
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/startingScene.fxml")));
         Parent root = loader.load();
         StartingSceneController startingSceneController = loader.getController();
-        startingSceneController.setGUIClient(guiClient);
+        startingSceneController.setGuiClient(guiClient);
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 600, 623));
         startingSceneController.setStage(primaryStage);

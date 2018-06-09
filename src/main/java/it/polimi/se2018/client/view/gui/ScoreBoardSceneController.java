@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class ScoreBoardSceneController implements Initializable, SceneController{
     private final List<String> sortedPlayersNames;
     private final List<Integer> sortedPlayersScores;
-    private GUIClient GUIClient;
+    private GUIClient guiClient;
     private Stage stage;
 
     @FXML
@@ -38,14 +38,15 @@ public class ScoreBoardSceneController implements Initializable, SceneController
     public void initialize(URL location, ResourceBundle resources) {
         StringBuilder builder = new StringBuilder();
         for(int i=0; i< sortedPlayersNames.size(); i++){
-            builder.append(i+1 + "  Player: " + sortedPlayersNames.get(i) + "     Score: " + sortedPlayersScores.get(i)+"\n");
+            String tmp = i+1 + "  Player: " + sortedPlayersNames.get(i) + "     Score: " + sortedPlayersScores.get(i)+"\n";
+            builder.append(tmp);
         }
         scoreboardLabel.setText(builder.toString());
         newGameButton.setOnAction(e -> changeScene(getScene()));
     }
 
-    public void setGUIClient(GUIClient GUIClient) {
-        this.GUIClient = GUIClient;
+    public void setGuiClient(GUIClient guiClient) {
+        this.guiClient = guiClient;
     }
 
     public void setStage(Stage stage) {
@@ -63,7 +64,7 @@ public class ScoreBoardSceneController implements Initializable, SceneController
         try {
             Parent root = loader.load();
             StartingSceneController startingSceneController = loader.getController();
-            startingSceneController.setGUIClient(GUIClient);
+            startingSceneController.setGuiClient(guiClient);
             startingSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {

@@ -10,19 +10,16 @@ public class ShadesOfGreenObjective extends PrivateObjective {
     private static ShadesOfGreenObjective instance = null;
     private static final Color color = Color.GREEN;
 
-    private ShadesOfGreenObjective(String title,String imagePath){
-        super(title,color);
-        description = "Sum of values on green dice";
-        this.imagePath = imagePath;
+    private ShadesOfGreenObjective(String imagePath){
+        super("Shades of Green","Sum of values on green dice",imagePath,color);
     }
 
     /**
-     * @param title it's the title of this card
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static ShadesOfGreenObjective instance(String title, String imagePath){
-        if (instance==null) instance = new ShadesOfGreenObjective(title,imagePath);
+    public static ShadesOfGreenObjective instance(String imagePath){
+        if (instance==null) instance = new ShadesOfGreenObjective(imagePath);
         return instance;
     }
 }
