@@ -13,11 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToolCardGUI implements ToolCardGUIHandler {
-    //private final int playerID;
     private GameSceneController gameSceneController;
 
-    ToolCardGUI(int playerID, GameSceneController gameSceneController) {
-        //this.playerID = playerID;
+    ToolCardGUI(GameSceneController gameSceneController) {
         this.gameSceneController = gameSceneController;
     }
 
@@ -30,12 +28,14 @@ public class ToolCardGUI implements ToolCardGUIHandler {
         states.add(stateWindowEnd);
         stateWindowStart.setNextState(states);
         gameSceneController.getCurrentState().changeState(stateWindowStart);
+        gameSceneController.setAllButton();
     }
 
     @Override
     public void getPlayerRequests(CorkBackedStraightedge toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
         StateWindowPlace stateWindowPlace = new StateWindowPlace(gameSceneController);
         gameSceneController.getCurrentState().changeState(stateWindowPlace);
+        gameSceneController.setAllButton();
     }
 
     @Override
@@ -46,56 +46,58 @@ public class ToolCardGUI implements ToolCardGUIHandler {
         states.add(stateWindowEnd);
         stateWindowStart.setNextState(states);
         gameSceneController.getCurrentState().changeState(stateWindowStart);
+        gameSceneController.setAllButton();
     }
 
     @Override
     public void getPlayerRequests(FluxBrush toolCard, int toolCardNumber) {
-        gameSceneController.sendMessage();
+        gameSceneController.sendToolCardMessage();
     }
 
     @Override
     public void getPlayerRequests(FluxRemover toolCard, int toolCardNumber) {
         //implement
+        gameSceneController.sendToolCardMessage();
     }
 
     @Override
     public void getPlayerRequests(GlazingHammer toolCard, int toolCardNumber) {
-        gameSceneController.sendMessage();
+        gameSceneController.sendToolCardMessage();
     }
 
     @Override
     public void getPlayerRequests(GrindingStone toolCard, int toolCardNumber) {
-        gameSceneController.sendMessage();
+        gameSceneController.sendToolCardMessage();
     }
 
     @Override
     public void getPlayerRequests(GrozingPliers toolCard, int toolCardNumber) throws HaltException {
         //implement
+        //TODO fare la scena per decidere se incrementare o diminuire il valore del dado
     }
 
     @Override
     public void getPlayerRequests(Lathekin toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
         StateWindowStart stateWindowStart = new StateWindowStart(gameSceneController);
-        StateWindowEnd stateWindowEnd = new StateWindowEnd(gameSceneController);
-        StateWindowStart stateWindowStart2 = new StateWindowStart(gameSceneController);
-        StateWindowEnd stateWindowEnd2 = new StateWindowEnd(gameSceneController);
         List<State> states = new ArrayList<>();
-        states.add(stateWindowEnd);
-        states.add(stateWindowStart2);
-        states.add(stateWindowEnd2);
+        states.add(new StateWindowEnd(gameSceneController));
+        states.add(new StateWindowStart(gameSceneController));
+        states.add(new StateWindowEnd(gameSceneController));
         stateWindowStart.setNextState(states);
         gameSceneController.getCurrentState().changeState(stateWindowStart);
+        gameSceneController.setAllButton();
     }
 
     @Override
     public void getPlayerRequests(LensCutter toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
         StateRoundTracker stateRoundTracker = new StateRoundTracker(gameSceneController);
         gameSceneController.getCurrentState().changeState(stateRoundTracker);
+        gameSceneController.setAllButton();
     }
 
     @Override
     public void getPlayerRequests(RunningPliers toolCard, int toolCardNumber) {
-        gameSceneController.sendMessage();
+        gameSceneController.sendToolCardMessage();
     }
 
     @Override
@@ -112,5 +114,6 @@ public class ToolCardGUI implements ToolCardGUIHandler {
         states.add(stateRoundTracker);
         stateWindowStart.setNextState(states);
         gameSceneController.getCurrentState().changeState(stateWindowStart);
+        gameSceneController.setAllButton();
     }
 }

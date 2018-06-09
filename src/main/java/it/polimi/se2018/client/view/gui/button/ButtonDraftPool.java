@@ -1,7 +1,7 @@
 package it.polimi.se2018.client.view.gui.button;
 
 
-import it.polimi.se2018.client.view.gui.stategui.State;
+import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckUsabilityHandler;
 
 public class ButtonDraftPool extends ButtonGame {
     private final int playerID;
@@ -9,12 +9,12 @@ public class ButtonDraftPool extends ButtonGame {
 
     public ButtonDraftPool(int playerID) {
         this.playerID = playerID;
-        usable = false;
+        disarm();
     }
 
     @Override
-    public void checkCondition(ButtonCheckUsabilityHandler handler, State currentState){
-        usable = handler.checkUsability(this, currentState);
+    public void checkCondition(ButtonCheckUsabilityHandler handler){
+        usable = handler.checkUsability(this);
         if(usable) arm();
         else disarm();
     }

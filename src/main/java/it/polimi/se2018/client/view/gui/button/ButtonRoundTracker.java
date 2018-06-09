@@ -1,14 +1,16 @@
 package it.polimi.se2018.client.view.gui.button;
 
 import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckUsabilityHandler;
+import it.polimi.se2018.network.messages.Coordinate;
 
-
-public class ButtonPass extends ButtonGame{
+public class ButtonRoundTracker extends ButtonGame {
     private final int playerID;
+    private final Coordinate coordinate;
     private Boolean usable;
 
-    public ButtonPass(int playerID) {
+    public ButtonRoundTracker(int playerID, Coordinate coordinate) {
         this.playerID = playerID;
+        this.coordinate = coordinate;
         disarm();
     }
 

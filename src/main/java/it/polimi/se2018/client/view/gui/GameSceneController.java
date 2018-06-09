@@ -1,13 +1,12 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.GUIClient;
-import it.polimi.se2018.client.view.gui.button.ButtonCheckUsability;
 import it.polimi.se2018.client.view.gui.button.ButtonGame;
 import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
-import it.polimi.se2018.network.messages.requests.Message;
+import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.PassMessage;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
@@ -23,21 +22,18 @@ public class GameSceneController implements SceneController{
     private List<ToolCard> toolCards;
     private int playerID;
     private int stateID;
-    private Message message;
     private WindowSceneController windowSceneController;
     private List<ButtonGame> buttons;
     private ToolCardMessage toolCardMessage;
     private ToolCardGUI toolCardGUI;
     private State currentState;
-    private ButtonCheckUsability buttonCheckUsability;
     private Stage stage;
 
     public GameSceneController(GUIClientView guiClientView, int playerID) {
         this.guiClientView = guiClientView;
         this.playerID = playerID;
-        toolCardGUI = new ToolCardGUI(playerID, this);
+        toolCardGUI = new ToolCardGUI(this);
         currentState = new StateTurn(this);
-        buttonCheckUsability = new ButtonCheckUsability(this);
     }
 
     public void setStage(Stage stage) {
@@ -68,9 +64,6 @@ public class GameSceneController implements SceneController{
         return currentState;
     }
 
-    public Message getMessage() {
-        return message;
-    }
 
     public void disableAllButton(){
         for (ButtonGame button: buttons) {
@@ -82,31 +75,50 @@ public class GameSceneController implements SceneController{
         this.currentState = currentState;
     }
 
+    public void setToolCardMessage(ToolCardMessage toolCardMessage) {
+        this.toolCardMessage = toolCardMessage;
+    }
+
     public void setAllButton(){
         for (ButtonGame button : buttons) {
-            button.checkCondition(buttonCheckUsability, currentState);
+            button.checkCondition(currentState.getButtonCheckUsabilityHandler());
         }
     }
 
-    public void sendMessage() {
+    public void sendToolCardMessage() {
         guiClientView.handleNetworkOutput(toolCardMessage);
         toolCardMessage = null;
     }
 
     //togliere le eccezioni e capire se servono o come gestirle
+    //This method is called by network input when you receive an ack that allow you to use the toolcard
     public void useToolCard(int toolCardIndex) throws ChangeActionException, HaltException {
         ToolCard toolCard = toolCards.get(toolCardIndex);
         toolCardMessage = new ToolCardMessage(playerID, stateID, toolCardIndex);
         toolCard.handleGUI(toolCardGUI, toolCardIndex);
     }
 
+    //This method is called by the controller of the button pass turn
     public void passTurnButtonClicked() {
         guiClientView.handleNetworkOutput(new PassMessage(playerID, guiClientView.getBoard().getStateID(), false));
         disableAllButton();
     }
 
-    public void buttonSquareClicked() {
-        //implement
+
+    //This method is called by controller of square button and round tracker button
+    //Current state know how handle input
+    public void buttonCoordinateClicked(Coordinate coordinate) {
+        currentState.doActionWindow(coordinate);
+    }
+
+    //This method is called by controller of draft pool button
+    public void buttonDraftPoolClicked(int drafPoolPosition){
+        currentState.doActionDraftPool(drafPoolPosition);
+    }
+
+    //This method is called by controller of tool cards
+    public void buttonToolCardClicked(int toolCardIndex){
+        currentState.doActionToolCard(toolCardIndex);
     }
 
     public void setClientGUI(GUIClientView guiClientView) {
@@ -115,13 +127,11 @@ public class GameSceneController implements SceneController{
 
     public void setClientGUI(GUIClient GUIClient) {
         //implement
-
     }
 
     @Override
     public void changeScene(Scene scene) {
         //implement
-
     }
 
     @Override
