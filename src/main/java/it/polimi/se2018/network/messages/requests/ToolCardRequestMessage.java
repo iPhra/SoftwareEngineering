@@ -4,7 +4,6 @@ import it.polimi.se2018.mvc.model.Board;
 
 /**
  * This class represents a message from a player wishing to select a Tool Card
- * @author Francesco Lorenzo
  */
 public class ToolCardRequestMessage extends Message {
     /**

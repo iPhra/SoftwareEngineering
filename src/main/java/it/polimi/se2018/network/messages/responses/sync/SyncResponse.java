@@ -7,7 +7,6 @@ import it.polimi.se2018.network.messages.responses.ResponseHandler;
 /**
  * This is the abstract class representing a response from the Server to the Client
  * For more details, check Visitor pattern
- * @author Francesco Lorenzo
  */
 public abstract class SyncResponse extends Response {
     private String description;

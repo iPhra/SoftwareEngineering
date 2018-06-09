@@ -29,7 +29,7 @@ public class RoundTrackerSceneController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         int i=0;
-        menuButtonList = new ArrayList<MenuButton>();
+        menuButtonList = new ArrayList<>();
         for(List<Die> dieList : roundTracker){
             MenuButton menuButton = new MenuButton();
             for (Die die : dieList){

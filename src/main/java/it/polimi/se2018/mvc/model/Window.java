@@ -7,7 +7,6 @@ import java.util.*;
 
 /**
  * This class represents a window of the game
- * @author Edoardo Lamonaca
  */
 public class Window implements Iterable<Square>, Serializable {
     /**

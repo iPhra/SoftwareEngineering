@@ -9,7 +9,6 @@ import java.util.Objects;
 
 /**
  * This class represents the RoundTracker of a single game
- * @author Emilio Imperiali
  */
 public class RoundTracker {
 

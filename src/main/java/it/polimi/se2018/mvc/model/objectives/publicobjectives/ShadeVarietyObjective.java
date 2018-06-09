@@ -11,7 +11,6 @@ import java.util.stream.StreamSupport;
 /**
  * This is the shade variety objective card. It extends {@link PublicObjective}
  * Design pattern Singleton is used in this class, because only one instance is used in every running game
- * @author Emilio Imperiali
  */
 public class ShadeVarietyObjective extends PublicObjective {
     private static ShadeVarietyObjective instance = null;

@@ -11,7 +11,6 @@ import java.util.stream.StreamSupport;
 
 /**
  * This is the abstract private objective card. it extends {@link ObjectiveCard}
- * @author Emilio Imperiali
  */
 public abstract class PrivateObjective extends ObjectiveCard {
     private final Color color;

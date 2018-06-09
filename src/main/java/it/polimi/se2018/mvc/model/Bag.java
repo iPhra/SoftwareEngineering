@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This class represent the bag of the game. It contains the value of die of
- * each (@link Color). It generate new die each round and fill the (@link DraftPool)
- * @author Edoardo Lamonaca
+ * This class represents the bag of the game.
+ * It contains the value of die of each (@link Color).
+ * It generate a new die each round and fills the (@link DraftPool)
  */
 public class Bag {
     /**

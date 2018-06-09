@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents the board, that is considered the Model in the used pattern MVC
- * @author Emilio Imperiali
+ * This class represents the board, that is considered the Model in MVC
  */
 public class Board extends Observable<Response> {
     /**

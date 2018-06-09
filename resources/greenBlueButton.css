@@ -1,4 +1,4 @@
 .greenButton {
-	-fx-graphic:url('./otherimages/greenBlueButton.png');
+	-fx-graphic:url("otherimages/greenBlueButton.png");
     -fx-background-color: transparent;
 }

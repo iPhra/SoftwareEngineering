@@ -2,7 +2,6 @@ package it.polimi.se2018.network.messages.requests;
 
 /**
  * This class represents a message from the Client to the Server to communicate the value chosen for a die
- * @author Francesco Lorenzo
  */
 public class InputMessage extends Message {
     /**

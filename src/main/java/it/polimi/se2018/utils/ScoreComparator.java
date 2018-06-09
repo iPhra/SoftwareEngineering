@@ -10,9 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * This class implements Comparator. It's used by {@link Controller} to sort players in
- * descending order and get the final score board of the game
- * @author Emilio Imperiali
+ * This class implements Comparator.
+ * It's used by {@link Controller} to sort players in descending order and get the final score board of the game
  */
 public class ScoreComparator implements Comparator<Player>{
     private final List<PublicObjective> publicObjectives;

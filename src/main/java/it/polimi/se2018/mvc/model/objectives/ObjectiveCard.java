@@ -5,8 +5,8 @@ import it.polimi.se2018.mvc.model.Player;
 import java.io.Serializable;
 
 /**
- * This is the abstract objective card. It will be extended by private objective cards and public objective cards
- * @author Emilio Imperiali
+ * This is the abstract objective card.
+ * It will be extended by private objective cards and public objective cards
  */
 public abstract class ObjectiveCard implements Serializable{
 

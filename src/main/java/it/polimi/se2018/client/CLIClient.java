@@ -60,7 +60,47 @@ public class CLIClient implements Client {
         return input.nextLine();
     }
 
-    private void getParams(boolean isSocket) {
+    private void getSettings(boolean isSocket) {
+        boolean settings = true;
+        do {
+            try {
+                output.println("Type [1] to use default settings, [2] to change configs");
+                int value = input.nextInt();
+                switch (value) {
+                    case 1:
+                        settings = false;
+                        input.nextLine();
+                        getDefaultParams(isSocket);
+                        break;
+                    case 2:
+                        settings = false;
+                        input.nextLine();
+                        getDifferentParams();
+                        break;
+                    default: throw new InputMismatchException();
+                }
+            } catch (InputMismatchException e) {
+                output.println("Input is invalid \n");
+                input.nextLine();
+            }
+        }
+        while(settings);
+    }
+
+    private void getDifferentParams() {
+        output.println("\nInsert server's IP\n");
+        ip = input.nextLine();
+        output.println("\nInsert server's Port\n");
+        try {
+            port = input.nextInt();
+        }
+        catch(InputMismatchException e) {
+            output.println("\nPort is invalid\n");
+            input.nextLine();
+        }
+    }
+
+    private void getDefaultParams(boolean isSocket) {
         try(BufferedReader br = new BufferedReader(new FileReader("resources/NetworkProperties.txt"))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -80,10 +120,10 @@ public class CLIClient implements Client {
 
     private void chooseConnection() {
         boolean connection = true;
-        output.println("What type of connection do you want to use?");
+        output.println("\nWhat type of connection do you want to use?");
         do {
             try {
-                output.println("Type 1 for Socket, 2 for RMI");
+                output.println("\nType 1 for Socket, 2 for RMI");
                 int value = input.nextInt();
                 switch (value) {
                     case 1:
@@ -108,7 +148,7 @@ public class CLIClient implements Client {
 
     private void createRMIConnection() {
         try {
-            getParams(false);
+            getSettings(false);
             RemoteManager manager = (RemoteManager) Naming.lookup("//"+ ip +":"+port+"/RemoteManager");
             while (setup) {
                 nickname = getNickname();
@@ -137,7 +177,7 @@ public class CLIClient implements Client {
 
     private void createSocketConnection(){
         try {
-            getParams(true);
+            getSettings(true);
             socket = new Socket(ip, port);
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -146,11 +186,11 @@ public class CLIClient implements Client {
                 out.writeObject(nickname);
                 setup = (boolean) in.readObject();
                 if(!setup) {
-                    output.println("Your nickname is ok");
+                    output.println("\nYour nickname is ok");
                     playerID = (int) in.readObject();
                 }
                 else {
-                    output.println("This nickname is already taken, please choose another one");
+                    output.println("\nThis nickname is already taken, please choose another one");
                 }
             }
             clientView = new CLIView(this,playerID);

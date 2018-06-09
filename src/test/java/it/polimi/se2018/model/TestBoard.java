@@ -1,7 +1,6 @@
 package it.polimi.se2018.model;
 
 import it.polimi.se2018.Database;
-import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.*;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.DeepShadesObjective;
@@ -12,13 +11,11 @@ import it.polimi.se2018.mvc.model.toolcards.FluxBrush;
 import it.polimi.se2018.mvc.model.toolcards.TapWheel;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.utils.WindowBuilder;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

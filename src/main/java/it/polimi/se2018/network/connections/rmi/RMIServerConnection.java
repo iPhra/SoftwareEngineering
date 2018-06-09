@@ -12,8 +12,6 @@ import java.rmi.RemoteException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RMIServerConnection implements ServerConnection, RemoteConnection, Runnable, Stopper {
     private final Server server;

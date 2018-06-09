@@ -2,7 +2,6 @@ package it.polimi.se2018.network.messages.requests;
 
 /**
  * This class represents a message from a player wishing to end his turn
- * @author Francesco Lorenzo
  */
 public class PassMessage extends Message {
     private final boolean halt;

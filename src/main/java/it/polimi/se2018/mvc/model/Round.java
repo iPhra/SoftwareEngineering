@@ -10,7 +10,6 @@ import java.util.Objects;
 
 /**
  * This class represents a single Round, with the playersIDs in the order they have to play in the round
- * @author Emilio Imperiali
  */
 public class Round {
     /**

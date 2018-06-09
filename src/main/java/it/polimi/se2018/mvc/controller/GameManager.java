@@ -26,21 +26,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class GameManager implements Stopper {
     private final Server server;
     private final DeckBuilder deckBuilder;
-    private ServerView serverView;
-    private Controller controller;
-    private Board model;
     private final List<Integer> playerIDs;
     private final Map<Integer,ServerConnection> serverConnections; //maps playerID to its connection
     private final Map<Integer, String> playerNames; //maps playerID to its name
     private final Map<Integer, List<Window>> windowsSetup;
     private final List<Player> players;
     private final List<Integer> disconnectedPlayers;
+    private ServerView serverView;
+    private Controller controller;
+    private Board model;
     private List<PrivateObjective> privateObjectives;
     private List<PublicObjective> publicObjectives;
     private List<ToolCard> toolCards;
@@ -66,6 +64,9 @@ public class GameManager implements Stopper {
         matchStarted = false;
     }
 
+    /**
+     * Sets the duration of the timer for choosing a window
+     */
     private void getDuration() {
         try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
             StringBuilder sb = new StringBuilder();
@@ -79,33 +80,147 @@ public class GameManager implements Stopper {
             timeout = Duration.ofSeconds(Integer.parseInt(tokens[1].split(":")[1]));
         }
         catch (IOException e) {
-        System.exit(1);
+        timeout = Duration.ofSeconds(60);
         }
     }
 
+    /**
+     * Creates a new timer Thread and runs it
+     */
     private void startTimer() {
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
 
-    //create a privateObjective for each player (does not assign them to the players)
+    /**
+     * @return the id of the last player connected to the server
+     */
+    private int getLastPlayerID() {
+        for(int id : playerIDs) {
+            if (!disconnectedPlayers.contains(id)) return id;
+        }
+        return 0;
+    }
+
+    /**
+     * @param playerID is the id of the player you want to know the nickname of
+     * @return the nickname associated to a specific playerID
+     */
+    public String getNicknameById(int playerID) {
+        return playerNames.get(playerID);
+    }
+
+    /**
+     * @param playerID is the id of the player you want to get the ServerConnection of
+     * @return the ServerConnection associated to a specific playerID
+     */
+    public ServerConnection getServerConnection(int playerID) {
+        return serverConnections.get(playerID);
+    }
+
+    /**
+     * @param playerID is the id of the player you want to add the ServerConnection of
+     * @param serverConnection is the player's ServerConnection
+     */
+    public void addServerConnection(int playerID ,ServerConnection serverConnection) {
+        this.serverConnections.put(playerID, serverConnection);
+    }
+
+    /**
+     * @param playerID is the id of the player you want to add to the lobby
+     * @param playerName is the nickname of the player you want to add to the lobby
+     */
+    public void addPlayerName(int playerID, String playerName) {
+        playerNames.put(playerID,playerName);
+    }
+
+    /**
+     * @param playerID is the id of the player to add to the lobby
+     */
+    public void addPlayerID(int playerID){
+        playerIDs.add(playerID);
+    }
+
+    /**
+     * Sets the ServerView
+     * @param serverView is the ServerView associated to this match
+     */
+    public void setServerView(ServerView serverView){
+        this.serverView = serverView;
+    }
+
+    /**
+     * @return the ServerView associated to this match
+     */
+    public ServerView getServerView() {
+        return serverView;
+    }
+
+    /**
+     * @return {@code true} if the match has been created, i.e. the timer in {@link Server} has ran out and two or more players are connected
+     */
+    public boolean isMatchCreated() {
+        return matchCreated;
+    }
+
+    /**
+     * @return {@code true} if all players chose their windows, or time has ran out
+     */
+    public boolean isMatchStarted() {
+        return matchStarted;
+    }
+
+    /**
+     * @param playerID is the id of the player you want to check if he's disconnected
+     * @return {@code true} if the player is disconnected
+     */
+    public boolean isDisconnected(int playerID) {
+        return disconnectedPlayers.contains(playerID);
+    }
+
+    /**
+     * @return the number of players actually connected to the game, even just in the lobby
+     */
+    public int playersNumber(){
+        return playerIDs.size();
+    }
+
+    /**
+     * Creates 4 windows for each player in the match, does not assign them yet
+     */
+    private void createWindows(){
+        windows = new ArrayList<>();
+        windows = WindowBuilder.extractWindows(playerIDs.size());
+    }
+
+    /**
+     * Creates a Private Objective for each player, does not assign it yet
+     */
     private void createPrivateObjectives() {
         privateObjectives = new ArrayList<>();
         privateObjectives = deckBuilder.extractPrivateObjectives(playerIDs.size());
     }
 
-    //create the 3 public objectives of the game
+    /**
+     * Creates the three Public Objectives for this match
+     */
     private void createPublicObjectives(){
         publicObjectives = new ArrayList<>();
         publicObjectives = deckBuilder.extractPublicObjectives(3);
     }
 
-    //create the 3 toolcards of the game
+    /**
+     * Creates the three Tool Cards for this match
+     */
     private void createToolCards(){
         toolCards = new ArrayList<>();
         toolCards = deckBuilder.extractToolCards(3);
     }
 
+    /**
+     * Called after all the players chose their windows, or after the timer has ran out
+     * Creates the model and starts the match
+     */
     private void createMVC() {
         matchStarted = true;
         Collections.shuffle(players);
@@ -115,6 +230,10 @@ public class GameManager implements Stopper {
         controller.startMatch();
     }
 
+    /**
+     * @return the list of all players who haven't chosen a map yet
+     * Used to notify the missing players that time has ran out
+     */
     //returns the list of players who haven't chosen a map yet
     private List<Integer> getMissingPlayers() {
         List<Integer> missingPlayers = new ArrayList<>(playerIDs);
@@ -124,13 +243,23 @@ public class GameManager implements Stopper {
         return missingPlayers;
     }
 
-    //create 4 "faces" of window for each player (does not assign them to the players,
-    // note that players must choose their own window
-    private void createWindows(){
-        windows = new ArrayList<>();
-        windows = WindowBuilder.extractWindows(playerIDs.size());
+    /**
+     * Notifies all players in the game that a player has reconnected
+     * @param playerID is the player who has just reconnected
+     */
+    private void notifyOtherPlayers(int playerID) {
+        for(int id : playerIDs) {
+            if (id != playerID) {
+                serverView.update(new ReconnectionNotificationResponse(id, playerNames.get(playerID)));
+            }
+        }
     }
 
+    /**
+     * Used to send all the informations needed to a player who has reconnected, and notifies other players
+     * @param playerID is the player who has just reconnected
+     * @param isWindowSelection is {@code true} if the player has reconnected during window selection
+     */
     private void notifyReconnection(int playerID, boolean isWindowSelection) {
         notifyOtherPlayers(playerID);
         ReconnectionResponse response;
@@ -146,21 +275,12 @@ public class GameManager implements Stopper {
         serverView.update(response);
     }
 
-    private void notifyOtherPlayers(int playerID) {
-        for(int id : playerIDs) {
-            if (id != playerID) {
-                serverView.update(new ReconnectionNotificationResponse(id, playerNames.get(playerID)));
-            }
-        }
-    }
-
-    private int getLastPlayerID() {
-        for(int id : playerIDs) {
-            if (!disconnectedPlayers.contains(id)) return id;
-        }
-        return 0;
-    }
-
+    /**
+     * Used to set all attributes of the player who has reconnected, then notifies everyone
+     * @param playerID is the player who has just reconnected
+     * @param serverConnection is the new {@link ServerConnection} assigned to that player
+     * @param isWindowSelection is {@code true} if the player has reconnected during window selection
+     */
     private void reconnect(int playerID, ServerConnection serverConnection, boolean isWindowSelection) {
         serverConnection.setServerView(serverView);
         serverConnections.put(playerID,serverConnection);
@@ -169,55 +289,9 @@ public class GameManager implements Stopper {
         notifyReconnection(playerID, isWindowSelection);
     }
 
-    public String getNicknameById(int playerID) {
-        return playerNames.get(playerID);
-    }
-
-    public ServerConnection getServerConnection(int playerID) {
-        return serverConnections.get(playerID);
-    }
-
-    public void addServerConnection(int playerID ,ServerConnection serverConnection) {
-        this.serverConnections.put(playerID, serverConnection);
-    }
-
-    public void addPlayerName(int playerID, String playerName) {
-        playerNames.put(playerID,playerName);
-    }
-
-    public void addPlayerID(int playerID){
-        playerIDs.add(playerID);
-    }
-
-    public void setServerView(ServerView serverView){
-        this.serverView = serverView;
-    }
-
-    public ServerView getServerView() {
-        return serverView;
-    }
-
-    public void removePlayer(int playerID) {
-        serverConnections.remove(playerID);
-        playerNames.remove(playerID);
-        playerIDs.remove(playerIDs.indexOf(playerID));
-        serverView.removePlayerConnection(playerID);
-    }
-
-    public boolean isMatchCreated() {
-        return matchCreated;
-    }
-
-    //true if windows were sent
-    public boolean isMatchStarted() {
-        return matchStarted;
-    }
-
-    //called by server, it can be called even if there are not all the players still
-    public int playersNumber(){
-        return playerIDs.size();
-    }
-
+    /**
+     * Creates the controller and creates Public Objectives and Tool Cards
+     */
     public void startSetup(){
         controller = new Controller(this,serverView);
         serverView.register(controller);
@@ -225,6 +299,9 @@ public class GameManager implements Stopper {
         createToolCards();
     }
 
+    /**
+     * Sends 4 windows to each player in the game, then starts the timer
+     */
     public void sendWindows(){
         matchCreated = true;
         createPrivateObjectives();
@@ -235,15 +312,27 @@ public class GameManager implements Stopper {
                 windowsSetup.get(playerIDs.get(i)).add(windows.get(j));
             }
             serverView.update(new SetupResponse(
-                    playerIDs.get(i),windowsSetup.get(playerIDs.get(i)),publicObjectives,privateObjectives.get(i),toolCards,playerIDs.size()));
+                    playerIDs.get(i),windowsSetup.get(playerIDs.get(i)),privateObjectives.get(i),playerIDs.size()));
         }
         startTimer();
     }
 
-    public boolean isDisconnected(int playerID) {
-        return disconnectedPlayers.contains(playerID);
+    /**
+     * Removes all the attributes of a player who has disconnected before the match was created
+     * @param playerID
+     */
+    public void removePlayer(int playerID) {
+        serverConnections.remove(playerID);
+        playerNames.remove(playerID);
+        playerIDs.remove(playerIDs.indexOf(playerID));
+        serverView.removePlayerConnection(playerID);
     }
 
+    /**
+     * Removes all the attributes of a player who has just disconnected
+     * If there is only one player left, after this disconnection, that player wins
+     * @param playerID is the player who has just disconnected
+     */
     public void setDisconnected(int playerID) {
         disconnectedPlayers.add(playerID);
         serverView.removePlayerConnection(playerID);

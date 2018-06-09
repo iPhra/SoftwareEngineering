@@ -6,7 +6,6 @@ import java.util.List;
 
 /**
  * Enumeration for all the colors of {@link Die} and {@link Square}
- * @author Francesco Lorenzo
  */
 public enum Color implements Serializable {
     BLUE("B"),RED("R"),GREEN("G"),YELLOW("Y"),PURPLE("P"),WHITE("W");

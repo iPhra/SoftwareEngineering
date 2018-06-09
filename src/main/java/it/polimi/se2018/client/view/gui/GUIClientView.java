@@ -6,7 +6,6 @@ import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
-import it.polimi.se2018.network.messages.responses.sync.ScoreBoardResponse;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;

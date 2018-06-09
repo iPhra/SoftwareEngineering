@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * This is the color diagonals objective card. It extends {@link PublicObjective}
  * Design pattern Singleton is used in this class, because only one instance is used in every running game
- * @author Emilio Imperiali
  */
 public class ColorDiagonalsObjective extends PublicObjective {
     private static ColorDiagonalsObjective instance = null;

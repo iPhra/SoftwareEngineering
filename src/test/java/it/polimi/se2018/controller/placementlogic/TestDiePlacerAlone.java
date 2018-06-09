@@ -54,7 +54,7 @@ public class TestDiePlacerAlone {
             placer.placeDie();
             fail();
         }
-        catch (InvalidPlacementException e) {
+        catch (InvalidPlacementException ignored) {
         }
     }
 }

@@ -4,7 +4,6 @@ import it.polimi.se2018.mvc.model.objectives.ObjectiveCard;
 
 /**
  * This is the abstract public objective card. it extends {@link ObjectiveCard}
- * @author Emilio Imperiali
  */
 public abstract class PublicObjective extends ObjectiveCard {
 

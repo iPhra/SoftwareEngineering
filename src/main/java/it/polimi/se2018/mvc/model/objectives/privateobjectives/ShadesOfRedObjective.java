@@ -5,7 +5,6 @@ import it.polimi.se2018.mvc.model.Color;
 /**
  * This is the shades of red objective card. It extends {@link PrivateObjective}
  * Design pattern Singleton is used in this class, because only one instance is used in every running game
- * @author Emilio Imperiali
  */
 public class ShadesOfRedObjective extends PrivateObjective {
     private static ShadesOfRedObjective instance = null;

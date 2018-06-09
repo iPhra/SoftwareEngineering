@@ -4,7 +4,6 @@ import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.client.view.cli.TimeStopper;
 import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.*;
-import it.polimi.se2018.network.messages.responses.sync.ScoreBoardResponse;
 import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
 
 

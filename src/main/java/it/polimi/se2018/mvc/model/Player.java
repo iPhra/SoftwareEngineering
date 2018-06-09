@@ -6,7 +6,6 @@ import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 
 /**
  * This class represents a single player
- * @author Emilio Imperiali
  */
 public class Player {
 

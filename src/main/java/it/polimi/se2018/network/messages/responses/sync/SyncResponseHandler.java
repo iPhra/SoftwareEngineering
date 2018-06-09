@@ -6,7 +6,6 @@ import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 
 /**
  * This is the interface implemented by the clas handling the responses
- * @author Francesco Lorenzo
  */
 public interface SyncResponseHandler {
 

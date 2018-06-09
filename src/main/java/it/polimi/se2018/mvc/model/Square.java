@@ -8,7 +8,6 @@ import java.util.Objects;
 /**
  * This class represent a single Square. It's a part of a single (@link Window).
  * It could be empty or cointains a (@link Die)
- * @author Edoardo Lamonaca
  */
 public class Square implements Serializable{
     /**

@@ -120,6 +120,7 @@ public class TestWindow {
         Assert.assertNotEquals(count + 1, window.countEmptySlots());
     }
 
+    @SuppressWarnings("UnusedAssignment")
     @Test
     public void testAdjacentDie() {
         List<Die> result;

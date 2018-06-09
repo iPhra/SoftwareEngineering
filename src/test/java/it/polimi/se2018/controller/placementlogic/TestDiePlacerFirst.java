@@ -69,7 +69,7 @@ public class TestDiePlacerFirst {
             placer.placeDie();
             fail();
         }
-        catch (InvalidPlacementException e) {
+        catch (InvalidPlacementException ignored) {
         }
 
     }

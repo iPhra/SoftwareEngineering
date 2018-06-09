@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * @author Francesco Lorenzo
+ *
  */
 public class WindowBuilder {
     private static Map<String,String> colorPaths;

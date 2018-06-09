@@ -5,7 +5,6 @@ import java.io.Serializable;
 /**
  * This is the abstract class representing a request from the client to the server
  * For more details, check Visitor pattern
- * @author Francesco Lorenzo
  */
 public abstract class Message implements Serializable {
     /**

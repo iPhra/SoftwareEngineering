@@ -12,7 +12,6 @@ import java.util.Objects;
 
 /**
  * This class represents the Draft Pool containing all available dice in a turn
- * @author Francesco Lorenzo
  */
 public class DraftPool {
     /**

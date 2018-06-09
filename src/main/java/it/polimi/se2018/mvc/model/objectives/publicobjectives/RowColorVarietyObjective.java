@@ -12,7 +12,6 @@ import java.util.stream.StreamSupport;
 /**
  * This is the row color variety objective card. It extends {@link PublicObjective}
  * Design pattern Singleton is used in this class, because only one instance is used in every running game
- * @author Emilio Imperiali
  */
 public class RowColorVarietyObjective extends PublicObjective {
     private static RowColorVarietyObjective instance = null;

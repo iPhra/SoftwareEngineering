@@ -9,7 +9,6 @@ import java.util.Random;
 
 /**
  * This class represents a single Die, with its value and color
- * @author Francesco Lorenzo
  */
 public class Die implements Serializable {
 

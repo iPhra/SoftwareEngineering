@@ -4,7 +4,6 @@ import it.polimi.se2018.network.messages.Coordinate;
 
 /**
  * This class represents a message from a player wishing to place his drafted die on his scheme
- * @author Francesco Lorenzo
  */
 public class PlaceMessage extends Message {
     /**
