@@ -16,6 +16,7 @@ import java.util.List;
  * @author Emilio Imperiali
  * @deprecated
  */
+@Deprecated
 public class MainTest extends Application{
 
     /**

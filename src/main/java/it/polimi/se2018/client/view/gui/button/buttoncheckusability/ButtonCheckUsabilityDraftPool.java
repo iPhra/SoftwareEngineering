@@ -31,7 +31,7 @@ public class ButtonCheckUsabilityDraftPool implements ButtonCheckUsabilityHandle
 
     @Override
     public boolean checkUsability(ButtonToolCard buttonToolCard) {
-        //TODO
+        //implmenet
         return checkTurn();
     }
 

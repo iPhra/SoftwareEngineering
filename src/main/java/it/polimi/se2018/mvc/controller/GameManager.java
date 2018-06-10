@@ -66,6 +66,7 @@ public class GameManager implements Stopper {
      * Sets the duration of the timer for choosing a window
      */
     private void getDuration() {
+        //try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();

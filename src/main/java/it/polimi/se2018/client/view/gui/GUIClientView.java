@@ -145,22 +145,23 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
 
     @Override
     public void handleResponse(DraftPoolResponse draftPoolResponse) {
-
+        //implement
     }
 
     @Override
     public void handleResponse(RoundTrackerResponse roundTrackerResponse) {
-
+        //implement
     }
 
     @Override
     public void handleResponse(WindowResponse windowResponse) {
+        //implement
 
     }
 
     @Override
     public void handleResponse(ModelUpdateResponse modelUpdateResponse) {
-
+        //implement
     }
 
     @Override

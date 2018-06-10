@@ -49,7 +49,7 @@ public class StartingSceneController implements SceneController {
         try{
             Parent root = loader.load();
             PlayerNameSceneController playerNameSceneController = loader.getController();
-            playerNameSceneController.setGUIClient(guiClient);
+            playerNameSceneController.setGuiClient(guiClient);
             playerNameSceneController.setStage(stage);
             scene.setRoot(root);
         }catch(IOException e){

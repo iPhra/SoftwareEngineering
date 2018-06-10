@@ -102,6 +102,7 @@ public class CLIClient implements Client {
     }
 
     private void getDefaultParams(boolean isSocket) {
+        //try(BufferedReader br = new BufferedReader(new FileReader("resources/NetworkProperties.txt"))) {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("NetworkProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();

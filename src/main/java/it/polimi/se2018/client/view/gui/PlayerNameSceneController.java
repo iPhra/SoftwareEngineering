@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlayerNameSceneController implements SceneController{
-    private GUIClient GUIClient;
+    private GUIClient guiClient;
     private Stage stage;
     private List<Window> windows;
     private PrivateObjective privateObjective;
@@ -37,15 +37,15 @@ public class PlayerNameSceneController implements SceneController{
     }
 
     public void onReturnHandler(){
-        if (!GUIClient.getPlayerName(nickTextField.getText())) {
-            ((GUIClientView) GUIClient.getGUIClientView()).setSceneController(this);
+        if (!guiClient.getPlayerName(nickTextField.getText())) {
+            ((GUIClientView) guiClient.getGUIClientView()).setSceneController(this);
             label.setText("Your nickname is ok. Waiting for other players");
             nickTextField.setEditable(false);
         }else label.setText("This nickname is already taken, please choose another one");
     }
 
-    public void setGUIClient(GUIClient GUIClient) {
-        this.GUIClient = GUIClient;
+    public void setGuiClient(GUIClient guiClient) {
+        this.guiClient = guiClient;
     }
 
     public void setStage(Stage stage) {
@@ -61,10 +61,10 @@ public class PlayerNameSceneController implements SceneController{
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
-            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (GUIClientView) GUIClient.getGUIClientView());
+            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (GUIClientView) guiClient.getGUIClientView());
             loader.setController(selectWindowSceneController);
             Parent root = loader.load();
-            ((GUIClientView) GUIClient.getGUIClientView()).setSceneController(selectWindowSceneController);
+            ((GUIClientView) guiClient.getGUIClientView()).setSceneController(selectWindowSceneController);
             stage.setWidth(1000);
             stage.setHeight(700);
             selectWindowSceneController.setStage(stage);

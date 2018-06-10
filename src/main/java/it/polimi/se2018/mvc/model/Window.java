@@ -25,6 +25,9 @@ public class Window implements Iterable<Square>, Serializable {
      */
     private final Square[][] matrix;
 
+    /**
+     * This is the path to the image representing the level of the window
+     */
     private final String levelPath;
 
     private class SquareIterator implements Iterator<Square> {
@@ -78,6 +81,10 @@ public class Window implements Iterable<Square>, Serializable {
         return levelPath;
     }
 
+    /**
+     * This method is used to copy the data structure of this class without exposing the rep
+     * @return an array representation of this window
+     */
     public Square[][] modelViewCopy() {
         Square[][] result = new Square[getRows()][getCols()];
         for(int i=0; i<getRows(); i++) {

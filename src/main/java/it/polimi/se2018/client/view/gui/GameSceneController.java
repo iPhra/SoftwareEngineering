@@ -125,7 +125,7 @@ public class GameSceneController implements SceneController{
         this.guiClientView = guiClientView;
     }
 
-    public void setClientGUI(GUIClient GUIClient) {
+    public void setClientGUI(GUIClient guiClient) {
         //implement
     }
 

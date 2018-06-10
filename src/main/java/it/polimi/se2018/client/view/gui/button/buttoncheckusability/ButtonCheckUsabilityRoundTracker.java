@@ -31,7 +31,7 @@ public class ButtonCheckUsabilityRoundTracker implements ButtonCheckUsabilityHan
 
     @Override
     public boolean checkUsability(ButtonToolCard buttonToolCard) {
-        //TODO
+        //implement
         return checkTurn();
     }
 

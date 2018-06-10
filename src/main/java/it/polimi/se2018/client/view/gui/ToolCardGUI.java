@@ -71,7 +71,7 @@ public class ToolCardGUI implements ToolCardGUIHandler {
     @Override
     public void getPlayerRequests(GrozingPliers toolCard, int toolCardNumber) {
         //implement
-        //TODO fare la scena per decidere se incrementare o diminuire il valore del dado
+        //fare la scena per decidere se incrementare o diminuire il valore del dado
     }
 
     @Override

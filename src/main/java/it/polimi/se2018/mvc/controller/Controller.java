@@ -42,6 +42,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     private void getDuration() {
+        //try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();

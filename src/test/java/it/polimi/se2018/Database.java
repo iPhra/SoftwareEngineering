@@ -49,7 +49,10 @@ public class Database {
         matrix[3][4].setDie(new Die(3, color));
         matrix[0][1].setDie(new Die(5, color));
         matrix[1][4].setDie(new Die(2, color));
+    }
 
+    public void addDie(Die die, Coordinate coordinate) {
+        matrix[coordinate.getRow()][coordinate.getCol()].setDie(die);
     }
 
     public void initMatrixFullOfDice(){

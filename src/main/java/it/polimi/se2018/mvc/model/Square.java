@@ -37,6 +37,9 @@ public class Square implements Serializable{
      */
     private final int col;
 
+    /**
+     * This is the path to the image of this square
+     */
     private final String constraintPath;
 
     public Square(Color color, int value, Coordinate coordinate, String constraintPath) {
@@ -48,16 +51,10 @@ public class Square implements Serializable{
         die=null;
     }
 
-    /**
-     * @return the limitation of color of this Square
-     */
     public Color getColor() {
         return color;
     }
 
-    /**
-     * @return the limitation of value of this Square
-     */
     public int getValue() {
         return value;
     }
@@ -81,8 +78,9 @@ public class Square implements Serializable{
     public String getDescription() {
         return ("row " + row + " col " + col);
     }
+
     /**
-     * @return a boolean that show if there are a die in this Square
+     * @return {@code true} if there isn't a die in this Square
      */
     public boolean isEmpty() {
         return die==null;
@@ -106,12 +104,20 @@ public class Square implements Serializable{
         return value==0 || die.getValue()==value;
     }
 
+    /**
+     * This method is used to copy the data structure of this class without exposing the rep
+     * @return a copy of this square object
+     */
     public Square modelViewCopy() {
         Square result = new Square(color,value,new Coordinate(row,col),constraintPath);
         result.setDie(die == null ? null:die.modelViewCopy());
         return result;
     }
 
+    /**
+     * Removes a die from this square
+     * @return the die in the square if it was present, null otherwise
+     */
     public Die popDie () {
         Die dieToGet = die;
         die = null;

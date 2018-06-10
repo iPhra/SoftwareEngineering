@@ -42,7 +42,7 @@ public class GUIClient extends Application implements Client{
     private boolean isSocket;
     private RemoteManager manager;
 
-    public GUIClient() {
+    private GUIClient() {
         setup = true;
     }
 
