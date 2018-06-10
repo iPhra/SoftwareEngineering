@@ -88,11 +88,12 @@ public class CLIClient implements Client {
     }
 
     private void getDifferentParams() {
-        output.println("\nInsert server's IP\n");
+        output.println("\nInsert server's IP");
         ip = input.nextLine();
-        output.println("\nInsert server's Port\n");
+        output.println("\nInsert server's Port");
         try {
             port = input.nextInt();
+            input.nextLine();
         }
         catch(InputMismatchException e) {
             output.println("\nPort is invalid\n");
@@ -101,7 +102,8 @@ public class CLIClient implements Client {
     }
 
     private void getDefaultParams(boolean isSocket) {
-        try(BufferedReader br = new BufferedReader(new FileReader("resources/NetworkProperties.txt"))) {
+        InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("NetworkProperties.txt");
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
             while (line != null) {

@@ -15,9 +15,7 @@ import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerNormal;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +42,8 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     private void getDuration() {
-        try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
+        InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
             while (line != null) {
@@ -56,7 +55,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             timeout = Duration.ofSeconds(Integer.parseInt(tokens[2].split(":")[1]));
         }
         catch (IOException e) {
-            System.exit(1);
+            timeout = Duration.ofSeconds(200);
         }
     }
 

@@ -21,9 +21,7 @@ import it.polimi.se2018.utils.WindowBuilder;
 import it.polimi.se2018.mvc.view.ServerView;
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.Duration;
 import java.util.*;
 
@@ -68,7 +66,8 @@ public class GameManager implements Stopper {
      * Sets the duration of the timer for choosing a window
      */
     private void getDuration() {
-        try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
+        InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
             while (line != null) {

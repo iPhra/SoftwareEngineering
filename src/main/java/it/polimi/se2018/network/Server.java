@@ -37,7 +37,8 @@ public class Server implements Stopper {
     }
 
     private void getDuration() {
-        try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
+        InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
             while (line != null) {
@@ -49,7 +50,7 @@ public class Server implements Stopper {
             timeout = Duration.ofSeconds(Integer.parseInt(tokens[0].split(":")[1]));
         }
         catch (IOException e) {
-            System.exit(1);
+            timeout = Duration.ofSeconds(60);
         }
     }
 
@@ -113,7 +114,8 @@ public class Server implements Stopper {
             ServerSocket serverSocket = new ServerSocket(PORT);
             socketHandler = new SocketHandler(this,serverSocket);
             new Thread(socketHandler).start();
-        }catch(IOException e){
+        }
+        catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }

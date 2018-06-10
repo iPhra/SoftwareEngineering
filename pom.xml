@@ -51,18 +51,49 @@
   <build>
     <plugins>
 
-      <!-- Export the project as a runnable JAR, with the provided mainClass -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
+        <artifactId>maven-assembly-plugin</artifactId>
         <version>2.4</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>it.polimi.se2018.App</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
+        <executions>
+          <execution>
+            <id>build-client</id>
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+              <archive>
+                <manifest>
+                  <mainClass>it.polimi.se2018.client.CLIClient</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <finalName>${project.artifactId}-CLIClient</finalName>
+            </configuration>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>build-server</id>
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+              <archive>
+                <manifest>
+                  <mainClass>it.polimi.se2018.network.Server</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <finalName>${project.artifactId}-Server</finalName>
+            </configuration>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Jacoco is a code coverage library that allows basic report creation -->
