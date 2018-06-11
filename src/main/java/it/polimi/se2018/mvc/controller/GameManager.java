@@ -43,7 +43,7 @@ public class GameManager implements Stopper {
     private List<Window> windows;
     private int setupsCompleted;
     private boolean matchCreated;
-    private boolean matchStarted;
+    private boolean matchPlaying;
     private WaitingThread clock;
     private Duration timeout;
 
@@ -59,14 +59,13 @@ public class GameManager implements Stopper {
         disconnectedPlayers = new ArrayList<>();
         setupsCompleted = 0;
         matchCreated = false;
-        matchStarted = false;
+        matchPlaying = false;
     }
 
     /**
      * Sets the duration of the timer for choosing a window
      */
     private void getDuration() {
-        //try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();
@@ -126,6 +125,10 @@ public class GameManager implements Stopper {
         this.serverConnections.put(playerID, serverConnection);
     }
 
+    public void setMatchPlaying(boolean matchPlaying) {
+        this.matchPlaying = matchPlaying;
+    }
+
     /**
      * @param playerID is the id of the player you want to add to the lobby
      * @param playerName is the nickname of the player you want to add to the lobby
@@ -166,8 +169,8 @@ public class GameManager implements Stopper {
     /**
      * @return {@code true} if all players chose their windows, or time has ran out
      */
-    public boolean isMatchStarted() {
-        return matchStarted;
+    public boolean isMatchPlaying() {
+        return matchPlaying;
     }
 
     /**
@@ -222,7 +225,7 @@ public class GameManager implements Stopper {
      * Creates the model and starts the match
      */
     private void createMVC() {
-        matchStarted = true;
+        matchPlaying = true;
         Collections.shuffle(players);
         model = new Board(players, (toolCards.toArray(new ToolCard[0])), publicObjectives.toArray(new PublicObjective[0]));
         model.register(serverView);
@@ -340,7 +343,7 @@ public class GameManager implements Stopper {
         serverConnections.remove(playerID);
         if (disconnectedPlayers.size() == playerIDs.size() - 1) {
             clock.interrupt();
-            controller.endMatch(true,!matchStarted,getLastPlayerID());
+            controller.endMatch(true,!matchPlaying,getLastPlayerID());
         }
         else {
             for (int id : playerIDs) serverView.handleNetworkOutput(new DisconnectionResponse(id, playerNames.get(playerID)));
@@ -368,8 +371,6 @@ public class GameManager implements Stopper {
     }
 
     public void endGame() {
-        matchCreated = false;
-        matchStarted = false;
         for (ServerConnection connection : serverConnections.values()) {
             connection.stop();
         }
@@ -377,6 +378,7 @@ public class GameManager implements Stopper {
             server.deregisterPlayer(nickname);
         }
         server.deregisterMatch(playerIDs.get(0)/1000);
+        matchCreated = false;
     }
 
     @Override

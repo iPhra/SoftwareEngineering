@@ -1,0 +1,136 @@
+{
+	"windows": [
+		{ "window": [
+			{ "title" : "KALEIDOSCOPIC DREAM",
+			  "level" : 4,
+			  "board" : "Y,B,W,W,1,G,W,5,W,4,3,W,R,W,G,2,W,W,B,Y"
+			},
+			{ "title" : "FIRMITAS",
+			  "level" : 5,
+			  "board" : "P,6,W,W,3,5,P,3,W,W,W,2,P,1,W,W,1,5,P,4"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "FRACTAL DROPS",
+			  "level" : 3,
+			  "board" : "W,4,W,Y,6,R,W,2,W,W,W,W,R,P,1,B,Y,W,W,W"
+			},
+			{ "title" : "RIPPLES OF LIGHT",
+			  "level" : 5,
+			  "board" : "W,W,W,R,5,W,W,P,4,B,W,B,3,Y,6,Y,2,G,1,R"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "LUX MUNDI",
+			  "level" : 6,
+			  "board" : "W,W,1,W,W,1,G,3,B,2,B,5,4,6,G,W,B,5,G,W"
+			},
+			{ "title" : "LUX ASTRAM",
+			  "level" : 5,
+			  "board" : "W,1,G,P,4,6,P,2,5,G,1,G,5,3,P,W,W,W,W,W"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "GRAVITAS",
+			  "level" : 5,
+			  "board" : "1,W,3,B,1,W,2,B,W,W,6,B,W,4,W,B,5,2,W,1"
+			},
+			{ "title" : "WATER OF LIFE",
+			  "level" : 6,
+			  "board" : "6,B,W,W,1,W,5,B,W,W,4,R,2,B,W,G,6,Y,3,P"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "SUN CATCHER",
+			  "level" : 3,
+			  "board" : "W,B,2,W,Y,W,4,W,R,W,W,W,5,Y,W,G,3,W,W,P"
+			},
+			{ "title" : "SHADOW THIEF",
+			  "level" : 5,
+			  "board" : "6,P,W,W,5,5,W,P,W,W,R,6,W,P,W,Y,R,5,4,3"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "AURORAE MAGNIFICUS",
+			  "level" : 5,
+			  "board" : "5,G,B,P,2,P,W,W,W,Y,Y,W,6,W,P,1,W,W,G,4"
+			},
+			{ "title" : "AURORA SAGRADIS",
+			  "level" : 4,
+			  "board" : "R,W,B,W,Y,4,P,3,G,2,W,1,W,5,W,W,W,6,W,W"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "SYMPHONY OF LIGHT",
+			  "level" : 6,
+			  "board" : "2,W,5,W,1,Y,6,P,2,R,W,B,4,G,W,W,3,W,5,W"
+			},
+			{ "title" : "VIRTUS",
+			  "level" : 5,
+			  "board" : "4,W,2,5,G,W,W,6,G,2,W,3,G,4,W,5,G,1,W,W"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "FIRELIGHT",
+			  "level" : 5,
+			  "board" : "3,4,1,5,W,W,6,2,W,Y,W,W,W,Y,R,5,W,Y,R,6"
+			},
+			{ "title" : "SUN'S GLORY",
+			  "level" : 6,
+			  "board" : "1,P,Y,W,4,P,Y,W,W,6,Y,W,W,5,3,W,5,4,2,1"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "BATLLO",
+			  "level" : 5,
+			  "board" : "W,W,6,W,W,W,5,B,4,W,3,G,Y,P,2,1,4,R,5,3"
+			},
+			{ "title" : "BELLESGUARD",
+			  "level" : 3,
+			  "board" : "B,6,W,W,Y,W,3,B,W,W,W,5,6,2,W,W,4,W,1,G"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "FULGOR DEL CIELO",
+			  "level" : 5,
+			  "board" : "W,B,R,W,W,W,4,5,W,B,B,2,W,R,5,6,R,3,1,W"
+			},
+			{ "title" : "LUZ CELESTIAL",
+			  "level" : 3,
+			  "board" : "W,W,R,5,W,P,4,W,G,3,6,W,W,B,W,W,Y,2,W,W"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "CHROMATIC SPLENDOR",
+			  "level" : 4,
+			  "board" : "W,W,G,W,W,2,Y,5,B,1,W,R,3,P,W,1,W,6,W,4"
+			},
+			{ "title" : "COMITAS",
+			  "level" : 5,
+			  "board" : "Y,W,2,W,6,W,4,W,5,Y,W,W,W,Y,5,1,2,Y,3,W"
+			}
+		]
+		},
+		{ "window": [
+			{ "title" : "INDUSTRIA",
+			  "level" : 5,
+			  "board" : "1,R,3,W,6,5,4,R,2,W,W,W,5,R,1,W,W,W,3,R"
+			},
+			{ "title" : "VIA LUX",
+			  "level" : 4,
+			  "board" : "Y,W,6,W,W,W,1,5,W,2,3,Y,R,P,W,W,W,4,3,R"
+			}
+		]
+		}
+	]
+}

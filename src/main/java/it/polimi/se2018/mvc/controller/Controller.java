@@ -42,7 +42,6 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     private void getDuration() {
-        //try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();
@@ -108,7 +107,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     //reads player, checks if it's his turn, call handleMove
     private void checkInput(Message message){
         lock.lock();
-        if(gameManager.isMatchStarted()) {
+        if(gameManager.isMatchPlaying()) {
             Player player = model.getPlayerByID(message.getPlayerID());
             if (!(model.getRound().isYourTurn(player) || message.getStateID() == model.getStateID()))
                 view.handleNetworkOutput(new TextResponse(message.getPlayerID(), "It's not your turn"));
@@ -119,19 +118,20 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     private List<Player> playersScoreBoard(){
-        List<Player> sortedPlayers = model.getPlayers();
+        List<Player> sortedPlayers = new ArrayList<>(model.getPlayers());
         sortedPlayers.sort(new ScoreComparator(Arrays.asList(model.getPublicObjectives()), model.getRound()));
         Collections.reverse(sortedPlayers);
         return sortedPlayers;
     }
 
-    //called by endTurn method when match ends
     void endMatch(boolean lastPlayer, boolean playerPlaying, int lastPlayerID) {
+        gameManager.setMatchPlaying(false);
         EndGameResponse endGameResponse = null;
         if(lastPlayer) {
             endGameResponse = new EndGameResponse(lastPlayerID);
             endGameResponse.setScoreBoardResponse(new ArrayList<>(),true);
             endGameResponse.setPlayerPlaying(playerPlaying || model.getRound().getCurrentPlayerID()==lastPlayerID);
+            view.handleNetworkOutput(endGameResponse);
         }
         else {
             for(Player player : model.getPlayers()) {
@@ -139,9 +139,9 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
                 List<Player> scoreBoard = playersScoreBoard();
                 endGameResponse.setScoreBoardResponse(scoreBoard,false);
                 endGameResponse.setPlayerPlaying(false);
+                view.handleNetworkOutput(endGameResponse);
             }
         }
-        view.handleNetworkOutput(endGameResponse);
         gameManager.endGame();
     }
 

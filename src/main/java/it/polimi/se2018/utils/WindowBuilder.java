@@ -60,8 +60,7 @@ public class WindowBuilder {
         JSONParser parser = new JSONParser();
         List<Pair<Window,Window>> windows = new ArrayList<>();
         try {
-            JSONObject jsonObject = (JSONObject) parser.parse(new FileReader("resources/windows.json"));
-            //JSONObject jsonObject = (JSONObject) parser.parse(new InputStreamReader(ClassLoader.getSystemClassLoader().getResourceAsStream("windows.json")));
+            JSONObject jsonObject = (JSONObject) parser.parse(new InputStreamReader(ClassLoader.getSystemClassLoader().getResourceAsStream("windows.json")));
             JSONArray jsonMaps = (JSONArray) jsonObject.get("windows");
             Iterator iterator = jsonMaps.iterator();
             while(iterator.hasNext()) {

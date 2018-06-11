@@ -1,0 +1,6 @@
+.anchor {
+	-fx-background-image:url('otherimages/Sagrada+Box+Art.jpg');
+	-fx-background-size: stretch;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+}

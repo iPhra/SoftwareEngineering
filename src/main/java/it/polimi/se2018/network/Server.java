@@ -37,8 +37,7 @@ public class Server implements Stopper {
     }
 
     private void getDuration() {
-        //try(BufferedReader br = new BufferedReader(new FileReader("resources/TimerProperties.txt"))) {
-        InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
+        InputStream in = getClass().getClassLoader().getResourceAsStream("TimerProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -152,10 +151,10 @@ public class Server implements Stopper {
     public synchronized void handleDisconnection(int playerID) {
         int match = playerID/1000;
         GameManager manager = matches.get(match);
-        if(manager.isMatchCreated()) {
+        if(manager.isMatchCreated() && manager.isMatchPlaying()) {
             manager.setDisconnected(playerID);
         }
-        else {
+        else if (!manager.isMatchCreated()){
             ServerConnection connection = manager.getServerConnection(playerID);
             removePlayer(playerID);
             connection.stop();
