@@ -4,6 +4,8 @@ import it.polimi.se2018.mvc.model.Board;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.Square;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
+import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
 import java.io.Serializable;
@@ -61,10 +63,6 @@ public class ModelView implements Serializable{
             ToolCard toolCard = board.getToolCards()[i];
             toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(board), board.getToolCardsUsage()[i], currentPlayer));
         }
-    }
-
-    public void setPlayerNames(List<String> playerNames) {
-        this.playerNames = playerNames;
     }
 
     public void setPlayerID(List<Integer> playerID) {

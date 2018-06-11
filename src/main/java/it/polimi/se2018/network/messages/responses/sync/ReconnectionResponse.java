@@ -1,29 +1,10 @@
 package it.polimi.se2018.network.messages.responses.sync;
 
-import it.polimi.se2018.mvc.controller.ModelView;
-import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
-import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
-import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
-import java.util.List;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelViewResponse;
 
 public class ReconnectionResponse extends SyncResponse {
-    private ModelView modelView;
-
-    /**
-     * These are the {@link PublicObjective} extracted on the Board
-     */
-    private List<PublicObjective> publicObjectives;
-
-    /**
-     * These are the {@link ToolCard} extracted on the Board
-     */
-    private List<ToolCard> toolCards;
-
-    /**
-     * This is the {@link PrivateObjective} belonging to the player this message will be sent to
-     */
-    private PrivateObjective privateObjective;
+   private ModelViewResponse modelViewResponse;
 
     /**
      * This is the value of players in the current match
@@ -37,25 +18,12 @@ public class ReconnectionResponse extends SyncResponse {
         this.windowsChosen = windowsChosen;
     }
 
+    public void setModelViewResponse(ModelViewResponse modelViewResponse) {
+        this.modelViewResponse = modelViewResponse;
+    }
+
     public boolean isWindowsChosen() {
         return windowsChosen;
-    }
-
-    public void setModelView(ModelView modelView) {
-        this.modelView = modelView;
-    }
-
-
-    public void setPublicObjectives(List<PublicObjective> publicObjectives) {
-        this.publicObjectives = publicObjectives;
-    }
-
-    public void setToolCards(List<ToolCard> toolCards) {
-        this.toolCards = toolCards;
-    }
-
-    public void setPrivateObjective(PrivateObjective privateObjective) {
-        this.privateObjective = privateObjective;
     }
 
     public int getPlayersNumber() {
@@ -66,20 +34,8 @@ public class ReconnectionResponse extends SyncResponse {
         this.playersNumber = playersNumber;
     }
 
-    public ModelView getModelView() {
-        return modelView;
-    }
-
-    public List<PublicObjective> getPublicObjectives() {
-        return publicObjectives;
-    }
-
-    public List<ToolCard> getToolCards() {
-        return toolCards;
-    }
-
-    public PrivateObjective getPrivateObjective() {
-        return privateObjective;
+    public ModelViewResponse getModelViewResponse() {
+        return modelViewResponse;
     }
 
     /**

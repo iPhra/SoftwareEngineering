@@ -57,6 +57,9 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     @Override
     public void handleResponse(ModelViewResponse modelViewResponse) {
         cliModel.setBoard(modelViewResponse.getModelView());
+        cliModel.setPrivateObjective(modelViewResponse.getPrivateObjective());
+        cliModel.setPublicObjectives(modelViewResponse.getPublicObjectives());
+        cliModel.setToolCards(modelViewResponse.getToolCards());
         checkTurn(modelViewResponse.getDescription());
     }
 
@@ -126,10 +129,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     public void handleResponse(ReconnectionResponse reconnectionResponse) {
         cliModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
         if(reconnectionResponse.isWindowsChosen()) {
-            cliModel.setPrivateObjective(reconnectionResponse.getPrivateObjective());
-            cliModel.setPublicObjectives(reconnectionResponse.getPublicObjectives());
-            cliModel.setToolCards(reconnectionResponse.getToolCards());
-            ModelViewResponse response = new ModelViewResponse(reconnectionResponse.getModelView(),reconnectionResponse.getPlayer());
+            ModelViewResponse response = reconnectionResponse.getModelViewResponse();
             response.setDescription("Reconnected, wait for your turn\n");
             handleResponse(response);
         }

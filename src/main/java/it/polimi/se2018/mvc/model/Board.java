@@ -134,7 +134,7 @@ public class Board extends Observable<Response> {
 
     public void createModelViews(String description) {
         for(Player player: players) {
-            ModelViewResponse response = new ModelViewResponse(new ModelView(this),player.getId());
+            ModelViewResponse response = new ModelViewResponse(this,new ModelView(this),player.getId());
             response.setDescription(description);
             notify(response);
         }

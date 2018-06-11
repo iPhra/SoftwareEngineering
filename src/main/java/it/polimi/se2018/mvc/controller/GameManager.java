@@ -14,6 +14,7 @@ import it.polimi.se2018.network.messages.responses.TimeUpResponse;
 import it.polimi.se2018.network.messages.responses.ReconnectionNotificationResponse;
 import it.polimi.se2018.network.messages.responses.sync.ReconnectionResponse;
 import it.polimi.se2018.network.messages.responses.sync.SetupResponse;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelViewResponse;
 import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.utils.Stopper;
 import it.polimi.se2018.utils.WaitingThread;
@@ -268,10 +269,7 @@ public class GameManager implements Stopper {
         ReconnectionResponse response;
         if(!isWindowSelection) {
             response = new ReconnectionResponse(playerID,true);
-            response.setModelView(new ModelView(model));
-            response.setPublicObjectives(publicObjectives);
-            response.setPrivateObjective(model.getPlayerByID(playerID).getPrivateObjective());
-            response.setToolCards(toolCards);
+            response.setModelViewResponse(new ModelViewResponse(model,new ModelView(model),playerID));
         }
         else response = new ReconnectionResponse(playerID,false);
         response.setPlayersNumber(playerIDs.size());
