@@ -2,6 +2,9 @@ package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
+import it.polimi.se2018.mvc.model.Window;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfBlueObjective;
+import it.polimi.se2018.utils.WindowBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,14 +37,40 @@ public class MainTest extends Application{
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-       List<List<Die>> roundTracker = Arrays.asList(Arrays.asList(new Die(2, Color.BLUE), new Die(5,Color.PURPLE)),Arrays.asList(new Die(4,Color.GREEN)));
+        List<Window> windows = WindowBuilder.extractWindows(1);
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
+        SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows,ShadesOfBlueObjective.instance("/objectives/private_objectives/shades_of_blue.png"),new GUIClientView(1));
+        loader.setController((selectWindowSceneController));
+        Parent root = loader.load();
+        primaryStage.setTitle("Sagrada Online");
+        primaryStage.setScene(new Scene(root, 1000, 700));
+        primaryStage.show();
+
+
+
+
+
+
+        /*Window window = WindowBuilder.extractWindows(1).get(0);
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowImageScene.fxml")));
+        WindowImageSceneController windowImageSceneController = new WindowImageSceneController(window);
+        loader.setController((windowImageSceneController));
+        Parent root = loader.load();
+        primaryStage.setTitle("Sagrada Online");
+        primaryStage.setScene(new Scene(root, 206, 182));
+        primaryStage.show();*/
+
+
+
+
+        /*List<List<Die>> roundTracker = Arrays.asList(Arrays.asList(new Die(2, Color.BLUE), new Die(5,Color.PURPLE)),Arrays.asList(new Die(4,Color.GREEN)));
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/RoundTrackerScene.fxml")));
         RoundTrackerSceneController roundTrackerSceneController = new RoundTrackerSceneController(roundTracker);
         loader.setController(roundTrackerSceneController);
         Parent root = loader.load();
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 1892, 396));
-        primaryStage.show();
+        primaryStage.show();*/
 
 
         /*List<String> sortedPlayersNames = Arrays.asList("Emilio", "Cristiano", "Francesco Lorenzo");

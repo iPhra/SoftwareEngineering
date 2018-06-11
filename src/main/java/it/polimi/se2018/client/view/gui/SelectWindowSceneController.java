@@ -6,14 +6,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -53,7 +56,12 @@ public class SelectWindowSceneController implements SceneController, Initializab
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowImageScene.fxml")));
             loader.setController(new WindowImageSceneController(windows.get(i)));
             try {
-                gridPane.add(loader.load(),i,0);
+                Node node = loader.load();
+                Pane pane = new Pane();
+                pane.getChildren().add(node);
+                pane.setMaxWidth(206);
+                pane.setMaxHeight(182);
+                gridPane.add(pane,i,0);
                 buttons[i] = new Button(windows.get(i).getTitle());
                 gridPane.add(buttons[i],i,1);
             } catch (IOException e) {

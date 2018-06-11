@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -19,6 +20,9 @@ public class WindowImageSceneController implements Initializable{
 
     @FXML
     private GridPane gridPane;
+
+    @FXML
+    private BorderPane borderPane;
 
     WindowImageSceneController(Window window){
         this.window = window;
@@ -38,9 +42,9 @@ public class WindowImageSceneController implements Initializable{
                 gridPane.add(gridImageView[x][y],y,x);
                 GridPane.setHalignment(gridImageView[x][y], HPos.CENTER);
                 GridPane.setValignment(gridImageView[x][y], VPos.CENTER);
-                GridPane.setMargin(gridImageView[x][y], new Insets(0,19,20,0));
+                //GridPane.setMargin(gridImageView[x][y], new Insets(0,19,20,0));
             }
         }
-        gridPane.setStyle("-fx-background-image: url('"+ window.getLevelPath() + "')");
+        borderPane.setStyle("-fx-background-image: url('"+ window.getLevelPath() + "')");
     }
 }
