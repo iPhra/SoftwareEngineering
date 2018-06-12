@@ -1,7 +1,5 @@
 package it.polimi.se2018.client.view.gui;
 
-import it.polimi.se2018.mvc.model.Color;
-import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfBlueObjective;
 import it.polimi.se2018.utils.WindowBuilder;
@@ -11,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,8 +36,8 @@ public class MainTest extends Application{
     public void start(Stage primaryStage) throws Exception {
         List<Window> windows = WindowBuilder.extractWindows(1);
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
-        SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows,ShadesOfBlueObjective.instance("/objectives/private_objectives/shades_of_blue.png"),new GUIClientView(1));
-        loader.setController((selectWindowSceneController));
+        //SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows,ShadesOfBlueObjective.instance("/objectives/private_objectives/shades_of_blue.png"),new GUIView(1));
+        //loader.setController((selectWindowSceneController));
         Parent root = loader.load();
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 1000, 700));

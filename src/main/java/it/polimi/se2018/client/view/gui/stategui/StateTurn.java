@@ -18,21 +18,21 @@ public class StateTurn extends State {
     public void doActionWindow(Coordinate coordinate) {
         PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), coordinate);
         //send message
-        gameSceneController.getGuiClientView().handleNetworkOutput(placeMessage);
+        gameSceneController.getGuiController().handleNetworkOutput(placeMessage);
         changeState(new StateTurn(gameSceneController));
         gameSceneController.disableAllButton();
     }
 
     @Override
     public void doActionDraftPool(int draftPoolPosition) {
-        gameSceneController.getGuiClientView().handleNetworkOutput(new DraftMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), draftPoolPosition));
+        gameSceneController.getGuiController().handleNetworkOutput(new DraftMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), draftPoolPosition));
         changeState(new StateTurn(gameSceneController));
         gameSceneController.disableAllButton();
     }
 
     @Override
     public void doActionToolCard(int toolCardIndex) {
-        gameSceneController.getGuiClientView().handleNetworkOutput(new ToolCardRequestMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), toolCardIndex));
+        gameSceneController.getGuiController().handleNetworkOutput(new ToolCardRequestMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), toolCardIndex));
         changeState(new StateTurn(gameSceneController));
         gameSceneController.disableAllButton();
     }

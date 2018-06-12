@@ -6,7 +6,6 @@ import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.cli.CLIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
-import it.polimi.se2018.client.view.ClientView;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -21,7 +20,7 @@ import java.util.Scanner;
 public class CLIClient implements Client {
     private int port;
     private String ip;
-    private ClientView clientView;
+    private CLIView clientView;
     private ClientConnection clientConnection;
     private int playerID;
     private String nickname;
@@ -174,7 +173,7 @@ public class CLIClient implements Client {
         }
         clientView.setClientConnection(clientConnection);
         new Thread((RMIClientConnection) clientConnection).start();
-        ((CLIView) clientView).start();
+        clientView.start();
     }
 
     private void createSocketConnection(){
@@ -203,7 +202,7 @@ public class CLIClient implements Client {
         }
         clientView.setClientConnection(clientConnection);
         new Thread((SocketClientConnection) clientConnection).start();
-        ((CLIView) clientView).start();
+        clientView.start();
     }
 
     @Override

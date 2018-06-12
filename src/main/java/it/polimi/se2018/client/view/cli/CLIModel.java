@@ -121,10 +121,6 @@ class CLIModel {
         this.privateObjective = privateObjective;
     }
 
-    List<PublicObjective> getPublicObjectives() {
-        return publicObjectives;
-    }
-
     void setPublicObjectives(List<PublicObjective> publicObjectives) {
         this.publicObjectives = publicObjectives;
     }

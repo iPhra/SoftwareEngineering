@@ -38,7 +38,7 @@ public class PlayerNameSceneController implements SceneController{
 
     public void onReturnHandler(){
         if (!guiClient.getPlayerName(nickTextField.getText())) {
-            ((GUIClientView) guiClient.getGUIClientView()).setSceneController(this);
+            ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(this);
             label.setText("Your nickname is ok. Waiting for other players");
             nickTextField.setEditable(false);
         }else label.setText("This nickname is already taken, please choose another one");
@@ -61,10 +61,10 @@ public class PlayerNameSceneController implements SceneController{
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
-            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (GUIClientView) guiClient.getGUIClientView());
+            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (GUIController) guiClient.getGUIView());
             loader.setController(selectWindowSceneController);
             Parent root = loader.load();
-            ((GUIClientView) guiClient.getGUIClientView()).setSceneController(selectWindowSceneController);
+            ((GUIController) guiClient.getGUIView()).setSceneController(selectWindowSceneController);
             stage.setWidth(1000);
             stage.setHeight(700);
             selectWindowSceneController.setStage(stage);

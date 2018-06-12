@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
@@ -27,12 +26,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SelectWindowSceneController implements SceneController, Initializable{
-    private final GUIClientView guiClientView;
+    private final GUIController guiController;
     private final List<Window> windows;
     private final PrivateObjective privateObjective;
     private Stage stage;
     private Button[] buttons;
-
 
     @FXML
     private GridPane gridPane;
@@ -43,10 +41,10 @@ public class SelectWindowSceneController implements SceneController, Initializab
     @FXML
     private BorderPane borderPane;
 
-    SelectWindowSceneController(List<Window> windows, PrivateObjective privateObjective, GUIClientView guiClientView){
+    SelectWindowSceneController(List<Window> windows, PrivateObjective privateObjective, GUIController guiController){
         this.windows = windows;
         this.privateObjective = privateObjective;
-        this.guiClientView = guiClientView;
+        this.guiController = guiController;
     }
 
     @Override
@@ -87,7 +85,7 @@ public class SelectWindowSceneController implements SceneController, Initializab
             button.setDisable(true);
         }
         label.setText("you chose window "+ windows.get(windowNumber).getTitle() + "! Waiting for other players.");
-        guiClientView.setWindowNumber(windowNumber);
+        guiController.setWindowNumber(windowNumber);
     }
 
     public void setStage(Stage stage) {
@@ -98,10 +96,10 @@ public class SelectWindowSceneController implements SceneController, Initializab
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
         try {
-            GameSceneController gameSceneController = new GameSceneController(guiClientView,guiClientView.getPlayerID());
+            GameSceneController gameSceneController = new GameSceneController(guiController, guiController.getGuiModel(), guiController.getPlayerID());
             loader.setController(gameSceneController);
             Parent root = loader.load();
-            guiClientView.setSceneController(gameSceneController);
+            guiController.setSceneController(gameSceneController);
             gameSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {

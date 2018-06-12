@@ -1,62 +1,39 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.network.ClientConnection;
-import it.polimi.se2018.client.view.ClientView;
-import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Window;
-import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.requests.Message;
-import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
-import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
+import it.polimi.se2018.utils.Observer;
+import it.polimi.se2018.utils.Stopper;
 
 import java.util.List;
 
-public class GUIClientView implements SyncResponseHandler, ClientView {
+public class GUIController implements SyncResponseHandler, Observer<SyncResponse>, Stopper {
     private final int playerID;
+    private final GUIView guiView;
+    private final GUIModel guiModel;
     private ClientConnection clientConnection;
     private SceneController sceneController;
-    private ModelView board;
     private List<Window> windows;
     private boolean isGameStarted;
-    private int playersNumber;
-    private PrivateObjective privateObjective;
-    private List<PublicObjective> publicObjectives;
-    private List<ToolCard> toolCards;
+    //qualcosa equivalente a toolcardplayerinput
 
-    public GUIClientView(int playerID){
+    GUIController(GUIView guiView, GUIModel guiModel, int playerID){
         this.playerID = playerID;
+        this.guiView = guiView;
+        this.guiModel = guiModel;
         isGameStarted = false;
+    }
+
+    public GUIModel getGuiModel() {
+        return guiModel;
     }
 
     public int getPlayerID() {
         return playerID;
-    }
-
-    public ModelView getBoard() {
-        return board;
-    }
-
-    public void setBoard(ModelView modelView) {
-        this.board = modelView;
-    }
-
-    public void setPlayersNumber(int playersNumber) {
-        this.playersNumber = playersNumber;
-    }
-
-    public void setPrivateObjective(PrivateObjective privateObjective) {
-        this.privateObjective = privateObjective;
-    }
-
-    public void setPublicObjectives(List<PublicObjective> publicObjectives) {
-        this.publicObjectives = publicObjectives;
-    }
-
-    public void setToolCards(List<ToolCard> toolCards) {
-        this.toolCards = toolCards;
     }
 
     public void setSceneController(SceneController sceneController){
@@ -72,24 +49,8 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
         handleNetworkOutput(new SetupMessage(playerID,0,windows.get(windowNumber)));
     }
 
-    @Override
-    public void handleNetworkInput(SyncResponse syncResponse) {
-        syncResponse.handle(this);
-    }
-
-    @Override
-    public void setClientConnection(ClientConnection clientConnection) {
-        this.clientConnection = clientConnection;
-
-    }
-
     public void handleNetworkOutput(Message message) {
         clientConnection.sendMessage(message);
-    }
-
-    @Override
-    public void stop() {
-        //implement
     }
 
     @Override
@@ -114,13 +75,13 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
 
     @Override
     public void handleResponse(SetupResponse setupResponse) {
-        setPrivateObjective(setupResponse.getPrivateObjective());
+        /*setPrivateObjective(setupResponse.getPrivateObjective());
         setPlayersNumber(setupResponse.getPlayersNumber());
         setWindows(setupResponse.getWindows());
         //change from PlayerNameScene to SelectWindowScene
         ((PlayerNameSceneController) sceneController).setWindows(windows);
         ((PlayerNameSceneController) sceneController).setPrivateObjective(privateObjective);
-        sceneController.changeScene(sceneController.getScene());
+        sceneController.changeScene(sceneController.getScene());*/
     }
 
     @Override
@@ -156,7 +117,6 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
     @Override
     public void handleResponse(WindowResponse windowResponse) {
         //implement
-
     }
 
     @Override
@@ -165,9 +125,12 @@ public class GUIClientView implements SyncResponseHandler, ClientView {
     }
 
     @Override
-    public synchronized void handleAsyncEvent(boolean halt, String message) {
-        //halt è true se è la fine del turno, quindi devo fermare il client
-        //message è il messaggio da pritnare a schermo, tipo "Player a si è disconnesso"
-        //questo metodo viene chiamato da TimeStopper
+    public void update(SyncResponse message) {
+        message.handle(this);
+    }
+
+    @Override
+    public void halt(String message) {
+        guiView.setStopAction(true);
     }
 }

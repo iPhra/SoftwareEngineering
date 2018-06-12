@@ -4,9 +4,9 @@ import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.ClientView;
+import it.polimi.se2018.client.view.gui.GUIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
-import it.polimi.se2018.client.view.gui.GUIClientView;
 import it.polimi.se2018.client.view.gui.StartingSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
@@ -30,13 +29,12 @@ import java.util.logging.Logger;
 public class GUIClient extends Application implements Client{
     private static final int PORT = 1234;
     private static final String HOST = "127.0.0.1";
-    private GUIClientView guiClientView;
+    private GUIView clientView;
     private ClientConnection clientConnection;
     private int playerID;
-    private String playerName;
+    private String nickname;
     private Socket socket;
     private boolean setup;
-    private InputStream playerNameStream;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private boolean isSocket;
@@ -57,15 +55,15 @@ public class GUIClient extends Application implements Client{
 
     private boolean getPlayerNameSocket(String playerName){
         if (setup) {
-            this.playerName = playerName;
+            this.nickname = playerName;
             try{
                 out.writeObject(playerName);
                 setup = (boolean) in.readObject();
                 if (!setup) {
                     playerID = (int) in.readObject();
-                    guiClientView = new GUIClientView(playerID);
-                    clientConnection = new SocketClientConnection(this,guiClientView, socket,in,out);
-                    guiClientView.setClientConnection(clientConnection);
+                    clientView = new GUIView(this,playerID);
+                    clientConnection = new SocketClientConnection(this, clientView, socket,in,out);
+                    clientView.setClientConnection(clientConnection);
                     new Thread((SocketClientConnection) clientConnection).start();
                 }
             }catch(IOException | ClassNotFoundException  e){
@@ -78,19 +76,19 @@ public class GUIClient extends Application implements Client{
 
     private boolean getPlayerNameRMI(String playerName){
         if (setup){
-            this.playerName = playerName;
+            this.nickname = playerName;
             try{
                 setup = manager.checkName(playerName);
                 if(!setup) {
                     playerID = manager.getID(playerName);
-                    guiClientView = new GUIClientView(playerID);
-                    clientConnection = new RMIClientConnection(this,guiClientView);
+                    clientView = new GUIView(this,playerID);
+                    clientConnection = new RMIClientConnection(this, clientView);
                     manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
                     RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
                     ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
-                    guiClientView.setClientConnection(clientConnection);
+                    clientView.setClientConnection(clientConnection);
                     new Thread((RMIClientConnection) clientConnection).start();
-                    //guiClientView.start();  this is because of timers i guess
+                    //guiController.start();  this is because of timers i guess
                 }
             }catch(RemoteException | NotBoundException | MalformedURLException e){
                 System.exit(1);
@@ -99,8 +97,8 @@ public class GUIClient extends Application implements Client{
         return setup;
     }
 
-    public ClientView getGUIClientView() {
-        return guiClientView;
+    public ClientView getGUIView() {
+        return clientView;
     }
 
     public void createRMIConnection(){

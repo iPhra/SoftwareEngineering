@@ -17,7 +17,8 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class GameSceneController implements SceneController{
-    private GUIClientView guiClientView;
+    private final GUIController guiController;
+    private final GUIModel guiModel;
     private ModelView modelView;
     private List<ToolCard> toolCards;
     private final int playerID;
@@ -29,8 +30,9 @@ public class GameSceneController implements SceneController{
     private State currentState;
     private Stage stage;
 
-    public GameSceneController(GUIClientView guiClientView, int playerID) {
-        this.guiClientView = guiClientView;
+    public GameSceneController(GUIController guiController, GUIModel guiModel, int playerID) {
+        this.guiController = guiController;
+        this.guiModel = guiModel;
         this.playerID = playerID;
         toolCardGUI = new ToolCardGUI(this);
         currentState = new StateTurn(this);
@@ -48,8 +50,8 @@ public class GameSceneController implements SceneController{
         return toolCardMessage;
     }
 
-    public GUIClientView getGuiClientView() {
-        return guiClientView;
+    public GUIController getGuiController() {
+        return guiController;
     }
 
     public int getPlayerID() {
@@ -63,7 +65,6 @@ public class GameSceneController implements SceneController{
     public State getCurrentState() {
         return currentState;
     }
-
 
     public void disableAllButton(){
         for (ButtonGame button: buttons) {
@@ -86,7 +87,7 @@ public class GameSceneController implements SceneController{
     }
 
     public void sendToolCardMessage() {
-        guiClientView.handleNetworkOutput(toolCardMessage);
+        guiController.handleNetworkOutput(toolCardMessage);
         toolCardMessage = null;
     }
 
@@ -100,7 +101,7 @@ public class GameSceneController implements SceneController{
 
     //This method is called by the controller of the button pass turn
     public void passTurnButtonClicked() {
-        guiClientView.handleNetworkOutput(new PassMessage(playerID, guiClientView.getBoard().getStateID(), false));
+        guiController.handleNetworkOutput(new PassMessage(playerID, guiModel.getBoard().getStateID(), false));
         disableAllButton();
     }
 
@@ -119,10 +120,6 @@ public class GameSceneController implements SceneController{
     //This method is called by controller of tool cards
     public void buttonToolCardClicked(int toolCardIndex){
         currentState.doActionToolCard(toolCardIndex);
-    }
-
-    public void setClientGUI(GUIClientView guiClientView) {
-        this.guiClientView = guiClientView;
     }
 
     public void setClientGUI(GUIClient guiClient) {
