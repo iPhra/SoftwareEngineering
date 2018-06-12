@@ -32,6 +32,10 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         return guiModel;
     }
 
+    public GUIView getGuiView() {
+        return guiView;
+    }
+
     public int getPlayerID() {
         return playerID;
     }
@@ -46,11 +50,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     //called by SelectWindowSceneController when a window is chosen
     public void setWindowNumber(int windowNumber){
-        handleNetworkOutput(new SetupMessage(playerID,0,windows.get(windowNumber)));
-    }
-
-    public void handleNetworkOutput(Message message) {
-        clientConnection.sendMessage(message);
+        guiView.handleNetworkOutput(new SetupMessage(playerID,0,windows.get(windowNumber)));
     }
 
     @Override
@@ -75,13 +75,13 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     @Override
     public void handleResponse(SetupResponse setupResponse) {
-        /*setPrivateObjective(setupResponse.getPrivateObjective());
-        setPlayersNumber(setupResponse.getPlayersNumber());
+        guiModel.setPrivateObjective(setupResponse.getPrivateObjective());
+        guiModel.setPlayersNumber(setupResponse.getPlayersNumber());
         setWindows(setupResponse.getWindows());
         //change from PlayerNameScene to SelectWindowScene
         ((PlayerNameSceneController) sceneController).setWindows(windows);
-        ((PlayerNameSceneController) sceneController).setPrivateObjective(privateObjective);
-        sceneController.changeScene(sceneController.getScene());*/
+        ((PlayerNameSceneController) sceneController).setPrivateObjective(setupResponse.getPrivateObjective());
+        sceneController.changeScene(sceneController.getScene());
     }
 
     @Override

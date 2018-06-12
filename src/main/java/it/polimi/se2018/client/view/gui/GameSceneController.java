@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class GameSceneController implements SceneController{
-    private final GUIController guiController;
+    private final GUIView guiView;
     private final GUIModel guiModel;
     private ModelView modelView;
     private List<ToolCard> toolCards;
@@ -31,7 +31,7 @@ public class GameSceneController implements SceneController{
     private Stage stage;
 
     public GameSceneController(GUIController guiController, GUIModel guiModel, int playerID) {
-        this.guiController = guiController;
+        this.guiView = guiController.getGuiView();
         this.guiModel = guiModel;
         this.playerID = playerID;
         toolCardGUI = new ToolCardGUI(this);
@@ -50,8 +50,8 @@ public class GameSceneController implements SceneController{
         return toolCardMessage;
     }
 
-    public GUIController getGuiController() {
-        return guiController;
+    public GUIView getGuiView() {
+        return guiView;
     }
 
     public int getPlayerID() {
@@ -87,7 +87,7 @@ public class GameSceneController implements SceneController{
     }
 
     public void sendToolCardMessage() {
-        guiController.handleNetworkOutput(toolCardMessage);
+        guiView.handleNetworkOutput(toolCardMessage);
         toolCardMessage = null;
     }
 
@@ -101,7 +101,7 @@ public class GameSceneController implements SceneController{
 
     //This method is called by the controller of the button pass turn
     public void passTurnButtonClicked() {
-        guiController.handleNetworkOutput(new PassMessage(playerID, guiModel.getBoard().getStateID(), false));
+        guiView.handleNetworkOutput(new PassMessage(playerID, guiModel.getBoard().getStateID(), false));
         disableAllButton();
     }
 

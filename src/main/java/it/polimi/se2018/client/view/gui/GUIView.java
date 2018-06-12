@@ -42,7 +42,7 @@ public class GUIView extends Observable<SyncResponse> implements ClientView {
         }
     }
 
-    void handleNetworkOutput(Message message) {
+    public void handleNetworkOutput(Message message) {
         clientConnection.sendMessage(message);
         wakeUp();
     }
