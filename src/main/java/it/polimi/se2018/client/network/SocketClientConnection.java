@@ -13,12 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SocketClientConnection extends ClientConnection implements Runnable {
-    private final Client client;
     private final Socket socket;
     private final ObjectOutputStream out;
     private final ObjectInputStream in;
-    private boolean isOpen;
-    private boolean matchPlaying;
 
     public SocketClientConnection(Client client, ClientView clientView, Socket socket, ObjectInputStream in, ObjectOutputStream out){
         super(clientView);
@@ -35,7 +32,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
         try{
             out.writeObject(message);
         }catch(IOException e){
-            client.handleDisconnection();
+            disconnect();
         }
     }
 
@@ -65,7 +62,7 @@ public class SocketClientConnection extends ClientConnection implements Runnable
                 logger.log(Level.ALL,e.getMessage());
             }
             catch (IOException e) {
-                if(matchPlaying) client.handleDisconnection();
+                disconnect();
             }
         }
     }

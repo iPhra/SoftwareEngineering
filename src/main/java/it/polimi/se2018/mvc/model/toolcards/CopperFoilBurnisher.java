@@ -39,7 +39,7 @@ public class CopperFoilBurnisher extends ToolCard {
     }
 
     @Override
-    public void handleGUI(ToolCardGUIHandler handler, int toolcardnumber) throws ChangeActionException, HaltException {
+    public void handleGUI(ToolCardGUIHandler handler, int toolcardnumber) {
         handler.getPlayerRequests(this, toolcardnumber);
     }
 }

@@ -37,7 +37,7 @@ public class GrozingPliers extends ToolCard {
     }
 
     @Override
-    public void handleGUI(ToolCardGUIHandler handler, int toolcardnumber) throws HaltException {
+    public void handleGUI(ToolCardGUIHandler handler, int toolcardnumber) {
         handler.getPlayerRequests(this, toolcardnumber);
     }
 }

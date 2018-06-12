@@ -126,7 +126,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
 
     void endMatch(boolean lastPlayer, boolean playerPlaying, int lastPlayerID) {
         gameManager.setMatchPlaying(false);
-        EndGameResponse endGameResponse = null;
+        EndGameResponse endGameResponse;
         if(lastPlayer) {
             endGameResponse = new EndGameResponse(lastPlayerID);
             endGameResponse.setScoreBoardResponse(new ArrayList<>(),true);

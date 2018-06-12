@@ -10,8 +10,6 @@ import it.polimi.se2018.mvc.model.toolcards.EglomiseBrush;
 import it.polimi.se2018.mvc.model.toolcards.FluxBrush;
 import it.polimi.se2018.mvc.model.toolcards.TapWheel;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
-import it.polimi.se2018.network.messages.responses.Response;
-import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Assert;
 import org.junit.Before;

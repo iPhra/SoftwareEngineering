@@ -61,10 +61,10 @@ public class PlayerNameSceneController implements SceneController{
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
-            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (GUIController) guiClient.getGUIView());
+            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, ((GUIView) guiClient.getGUIView()).getGuiController());
             loader.setController(selectWindowSceneController);
             Parent root = loader.load();
-            ((GUIController) guiClient.getGUIView()).setSceneController(selectWindowSceneController);
+            ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(selectWindowSceneController);
             stage.setWidth(1000);
             stage.setHeight(700);
             selectWindowSceneController.setStage(stage);

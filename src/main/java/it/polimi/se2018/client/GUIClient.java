@@ -26,7 +26,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GUIClient extends Application implements Client{
+public class GUIClient extends Client{
     private static final int PORT = 1234;
     private static final String HOST = "127.0.0.1";
     private GUIView clientView;
@@ -40,17 +40,9 @@ public class GUIClient extends Application implements Client{
     private boolean isSocket;
     private RemoteManager manager;
 
+
     public GUIClient() {
         setup = true;
-    }
-
-    public boolean isSocket() {
-        return isSocket;
-    }
-
-    public boolean getPlayerName(String playerName){
-        if(isSocket) return getPlayerNameSocket(playerName);
-        else return getPlayerNameRMI(playerName);
     }
 
     private boolean getPlayerNameSocket(String playerName){
@@ -65,7 +57,7 @@ public class GUIClient extends Application implements Client{
                     clientConnection = new SocketClientConnection(this, clientView, socket,in,out);
                     clientView.setClientConnection(clientConnection);
                     new Thread((SocketClientConnection) clientConnection).start();
-                    ((GUIView) clientView).start();
+                    new Thread(clientView).start();
                 }
             }catch(IOException | ClassNotFoundException  e){
                 Logger logger = Logger.getAnonymousLogger();
@@ -89,13 +81,22 @@ public class GUIClient extends Application implements Client{
                     ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
                     clientView.setClientConnection(clientConnection);
                     new Thread((RMIClientConnection) clientConnection).start();
-                    clientView.start();
+                    new Thread(clientView).start();
                 }
             }catch(RemoteException | NotBoundException | MalformedURLException e){
                 System.exit(1);
             }
         }
         return setup;
+    }
+
+    public boolean isSocket() {
+        return isSocket;
+    }
+
+    public boolean getPlayerName(String playerName){
+        if(isSocket) return getPlayerNameSocket(playerName);
+        else return getPlayerNameRMI(playerName);
     }
 
     public ClientView getGUIView() {
@@ -122,10 +123,6 @@ public class GUIClient extends Application implements Client{
         }
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         GUIClient guiClient = new GUIClient();
@@ -141,12 +138,20 @@ public class GUIClient extends Application implements Client{
     }
 
     @Override
-    public void handleDisconnection() {
-        //implement
+    void startNewGame() {
+        setup = false;
+        //implementa
     }
 
     @Override
-    public void startNewGame() {
-        //implement
+    void handleDisconnection() {
+        //implementa
+    }
+
+
+
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

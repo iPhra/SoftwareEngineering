@@ -6,6 +6,7 @@ import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.cli.CLIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -17,7 +18,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CLIClient implements Client {
+public class CLIClient extends Client {
     private int port;
     private String ip;
     private CLIView clientView;
@@ -145,6 +146,7 @@ public class CLIClient implements Client {
             }
         }
         while(connection);
+        waitForAction();
     }
 
     private void createRMIConnection() {
@@ -173,7 +175,9 @@ public class CLIClient implements Client {
         }
         clientView.setClientConnection(clientConnection);
         new Thread((RMIClientConnection) clientConnection).start();
-        clientView.start();
+        Thread thread = new Thread(clientView);
+        clientView.setCurrentThread(thread);
+        thread.start();
     }
 
     private void createSocketConnection(){
@@ -202,25 +206,36 @@ public class CLIClient implements Client {
         }
         clientView.setClientConnection(clientConnection);
         new Thread((SocketClientConnection) clientConnection).start();
-        clientView.start();
+        Thread thread = new Thread(clientView);
+        clientView.setCurrentThread(thread);
+        thread.start();
     }
 
     @Override
-    public void handleDisconnection() {
+    void handleDisconnection() {
         output.println("\nDisconnected, trying to reconnect..\n");
         clientConnection.stop();
+        clientView.stop();
         setup = true;
         chooseConnection();
     }
 
     @Override
-    public void startNewGame() {
+    void startNewGame() {
         setup = true;
         output.println("\nInsert [1] to start another game, anything else to quit");
         int choice = input.nextInt();
         if(choice==1) chooseConnection();
         else System.exit(0);
     }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        //should not be implemented here
+    }
+
+
+
 
 
     public static void main(String[] args) {

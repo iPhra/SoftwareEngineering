@@ -8,7 +8,6 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
 import it.polimi.se2018.network.messages.responses.sync.SyncResponseHandler;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 

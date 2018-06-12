@@ -4,7 +4,6 @@ import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
 import it.polimi.se2018.network.messages.responses.sync.*;
-import it.polimi.se2018.network.messages.requests.Message;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import it.polimi.se2018.utils.Observer;
 import it.polimi.se2018.utils.Stopper;
@@ -131,6 +130,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     @Override
     public void halt(String message) {
-        guiView.setStopAction(true);
+        //implement
     }
 }

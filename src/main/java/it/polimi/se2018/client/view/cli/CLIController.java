@@ -8,7 +8,6 @@ import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import it.polimi.se2018.utils.Observer;
-import it.polimi.se2018.utils.Stopper;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 
@@ -17,7 +16,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CLIController implements SyncResponseHandler, Observer<SyncResponse>, Stopper {
+public class CLIController implements SyncResponseHandler, Observer<SyncResponse> {
     private final int playerID;
     private final CLIView cliView;
     private final CLIModel cliModel;
@@ -82,8 +81,8 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             int choice = cliView.getDieValue();
             cliView.handleNetworkOutput(new InputMessage(playerID, cliModel.getBoard().getStateID(), choice));
         }
-        catch (HaltException e) {
-            cliView.setStopAction(false);
+        catch (HaltException ignored) {
+            //now i can stop the method
         }
     }
 
@@ -109,8 +108,8 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             int windowNumber = selectWindow(setupResponse.getWindows())-1;
             cliView.print("Window sent. Waiting for other players to choose.\n");
             cliView.handleNetworkOutput(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
-        } catch (HaltException e) {
-            cliView.setStopAction(false);
+        } catch (HaltException ignored) {
+            //now i can stop the method
         }
     }
 
@@ -237,8 +236,8 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
                 default: cliView.print("Error!"); break;
             }
         }
-        catch (HaltException e) {
-            cliView.setStopAction(false);
+        catch (HaltException ignored) {
+            //now i can stop the method
         }
     }
 
@@ -345,8 +344,8 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             ToolCardMessage toolCardMessage = toolCard.handleView(toolCardPlayerInput, toolCardIndex);
             cliView.handleNetworkOutput(toolCardMessage);
         }
-        catch (HaltException e) {
-            cliView.setStopAction(false);
+        catch (HaltException ignored) {
+            //now i can stop the method
         }
         catch (ChangeActionException e) {
             chooseAction();
@@ -363,11 +362,5 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         catch (ChangeActionException e) {
             chooseAction();
         }
-    }
-
-    @Override
-    public void halt(String message) {
-        cliView.setStopAction(true);
-        cliView.print("\nPress 1 to continue\n\n");
     }
 }

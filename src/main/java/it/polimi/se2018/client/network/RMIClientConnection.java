@@ -17,12 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RMIClientConnection extends ClientConnection implements RemoteConnection, Runnable, Stopper {
-    private final Client client;
     private final List<Response> events;
     private RemoteConnection serverConnection;
-    private boolean isOpen;
     private WaitingThread clock;
-    private boolean matchPlaying;
 
     public RMIClientConnection(Client client, ClientView clientView) {
         super(clientView);
@@ -43,10 +40,7 @@ public class RMIClientConnection extends ClientConnection implements RemoteConne
             serverConnection.ping();
         }
         catch(RemoteException e) {
-            if(matchPlaying) {
-                client.handleDisconnection();
-                clock.interrupt();
-            }
+            disconnect();
         }
         startTimer();
     }
@@ -93,10 +87,7 @@ public class RMIClientConnection extends ClientConnection implements RemoteConne
             serverConnection.getMessage(message);
         }
         catch(RemoteException e) {
-            if(isOpen) {
-                client.handleDisconnection();
-                clock.interrupt();
-            }
+            disconnect();
         }
     }
 

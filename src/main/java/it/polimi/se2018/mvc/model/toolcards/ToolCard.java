@@ -31,11 +31,11 @@ public abstract class ToolCard implements Serializable {
 
     public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 
-    public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws HaltException, ChangeActionException;
+    public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws ChangeActionException, HaltException;
 
     public abstract Boolean handleCheck(ToolCardCheckerHandler handler, boolean isUsed, Player player);
 
-    public abstract void handleGUI(ToolCardGUIHandler handler, int toolCardNumber) throws ChangeActionException, HaltException;
+    public abstract void handleGUI(ToolCardGUIHandler handler, int toolCardNumber);
 
     @Override
     public String toString() {
