@@ -1,7 +1,14 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.GUIClient;
+import it.polimi.se2018.client.view.gui.button.ButtonDraftPool;
+import it.polimi.se2018.client.view.gui.button.ButtonSquare;
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Die;
+import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfBlueObjective;
+import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.utils.WindowBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +16,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,14 +43,44 @@ public class MainTest extends Application{
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        List<Window> windows = WindowBuilder.extractWindows(1);
+        GUIView guiView = new GUIView(new GUIClient(),1);
+        GUIModel guiModel = new GUIModel(guiView,1);
+        GUIController guiController = new GUIController(guiView,guiModel,1);
+        List<ButtonSquare> buttons = new ArrayList<>();
+        for(int i=0; i < 4; i++){
+            for(int j=0; j<5; j++){
+                buttons.add(new ButtonSquare(1,new Coordinate(i,j),new Square(Color.WHITE,1,new Coordinate(i,j),"/constraints/value/1.png")));
+            }
+        }
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowScene.fxml")));
+        WindowSceneController windowSceneController = new WindowSceneController(buttons, new GameSceneController(guiController,guiModel,1));
+        loader.setController(windowSceneController);
+        Parent root = loader.load();
+        primaryStage.setTitle("Sagrada Online");
+        primaryStage.setScene(new Scene(root, 206, 182));
+        primaryStage.show();
+
+
+
+
+        /*List<ButtonDraftPool> buttons = Arrays.asList(new ButtonDraftPool(1, new Die(1, Color.PURPLE)),new ButtonDraftPool(2, new Die(4,Color.YELLOW)));
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/draftPoolScene.fxml")));
+        DraftPoolSceneController draftPoolSceneController = new DraftPoolSceneController(buttons);
+        loader.setController(draftPoolSceneController);
+        Parent root = loader.load();
+        primaryStage.setTitle("Sagrada Online");
+        primaryStage.setScene(new Scene(root, 1000, 700));
+        primaryStage.show();*/
+
+
+        /*List<Window> windows = WindowBuilder.extractWindows(1);
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         //SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows,ShadesOfBlueObjective.instance("/objectives/private_objectives/shades_of_blue.png"),new GUIView(1));
         //loader.setController((selectWindowSceneController));
         Parent root = loader.load();
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 1000, 700));
-        primaryStage.show();
+        primaryStage.show();*/
 
 
 

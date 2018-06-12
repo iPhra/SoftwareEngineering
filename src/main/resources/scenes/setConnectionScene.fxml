@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="1000.0" styleClass="behind" stylesheets="@../initial_background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.client.view.gui.SetConnectionSceneController">
+   <children>
+      <ImageView fitHeight="181.0" fitWidth="373.0" layoutX="627.0">
+         <image>
+            <Image url="@../otherimages/starting_title.jpg" />
+         </image>
+      </ImageView>
+      <Pane layoutX="627.0" layoutY="180.0" opacity="0.69" prefHeight="487.0" prefWidth="373.0" style="-fx-background-color: lightskyblue;">
+         <children>
+            <Label alignment="CENTER" layoutX="7.0" layoutY="30.0" prefHeight="49.0" prefWidth="359.0" text="WELCOME TO SAGRADA!">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutY="146.0" prefHeight="17.0" prefWidth="373.0" text="WRITE HERE THE IP ADDRESS AND THE PORT OF THE SERVER">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+            <TextField fx:id="ipAddressField" layoutX="124.0" layoutY="188.0" onAction="#OnReturnHandler" promptText="IP address" />
+            <TextField fx:id="portField" layoutX="124.0" layoutY="244.0" onAction="#OnReturnHandler" promptText="Port" />
+            <Button fx:id="defaultSettingsButton" layoutX="68.0" layoutY="381.0" mnemonicParsing="false" onAction="#defaultSettingsChosen" text="CLICK HERE FOR DEFAULT SETTINGS INSTEAD" />
+         </children></Pane>
+   </children>
+</AnchorPane>

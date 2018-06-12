@@ -1,0 +1,6 @@
+.behind {
+	-fx-background-image:url('otherimages/image8.jpg');
+	-fx-background-size: stretch;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+}

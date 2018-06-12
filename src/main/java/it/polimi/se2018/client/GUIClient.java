@@ -65,6 +65,7 @@ public class GUIClient extends Application implements Client{
                     clientConnection = new SocketClientConnection(this, clientView, socket,in,out);
                     clientView.setClientConnection(clientConnection);
                     new Thread((SocketClientConnection) clientConnection).start();
+                    ((GUIView) clientView).start();
                 }
             }catch(IOException | ClassNotFoundException  e){
                 Logger logger = Logger.getAnonymousLogger();
@@ -88,7 +89,7 @@ public class GUIClient extends Application implements Client{
                     ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
                     clientView.setClientConnection(clientConnection);
                     new Thread((RMIClientConnection) clientConnection).start();
-                    //guiController.start();  this is because of timers i guess
+                    clientView.start();
                 }
             }catch(RemoteException | NotBoundException | MalformedURLException e){
                 System.exit(1);
