@@ -59,6 +59,8 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         cliModel.setPrivateObjective(modelViewResponse.getPrivateObjective());
         cliModel.setPublicObjectives(modelViewResponse.getPublicObjectives());
         cliModel.setToolCards(modelViewResponse.getToolCards());
+        cliModel.showPrivateObjective();
+        cliModel.showPublicObjectives();
         checkTurn(modelViewResponse.getDescription());
     }
 
@@ -270,7 +272,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             case 3: cliModel.showFavorPoints(); break;
             case 4: cliModel.showToolCards(); break;
             case 5: cliModel.showPrivateObjective(); break;
-            case 6: cliModel.showPublicObjective(); break;
+            case 6: cliModel.showPublicObjectives(); break;
             case 7: cliModel.showDraftPool(); break;
             case 8: cliModel.showRoundTracker(); break;
             case 9: cliModel.showExtendedDice(cliModel.getBoard().getDieInHand()); break;
@@ -338,7 +340,6 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     }
 
     private void useToolCard(int toolCardIndex) throws RemoteException {
-        cliModel.showYourWindow();
         ToolCard toolCard = cliModel.getToolCards().get(toolCardIndex);
         try {
             ToolCardMessage toolCardMessage = toolCard.handleView(toolCardPlayerInput, toolCardIndex);

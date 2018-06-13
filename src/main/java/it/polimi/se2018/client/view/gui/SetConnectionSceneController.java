@@ -5,6 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class SetConnectionSceneController {
+    private boolean ipGiven;
+    private boolean portGiven;
+
+    public SetConnectionSceneController() {
+        ipGiven = false;
+        portGiven = false;
+    }
 
     @FXML
     private TextField ipAddressField;

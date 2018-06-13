@@ -236,7 +236,7 @@ class CLIModel {
         cliView.print("\n\n");
     }
 
-    void showPublicObjective() {
+    void showPublicObjectives() {
         cliView.print("Public Objectives:\n");
         for (PublicObjective obj : publicObjectives) {
             cliView.print(obj.toString());
@@ -268,7 +268,7 @@ class CLIModel {
 
     void showModel() {
         showPrivateObjective();
-        showPublicObjective();
+        showPublicObjectives();
         showFavorPoints();
         showToolCards();
         showRoundTracker();

@@ -17,6 +17,7 @@ public class GUIView extends ClientView {
         super(client);
         guiModel = new GUIModel(this,playerID);
         guiController = new GUIController(this,guiModel,playerID);
+        register(guiController);
     }
 
     public GUIController getGuiController() {

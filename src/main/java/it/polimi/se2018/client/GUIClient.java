@@ -1,18 +1,11 @@
 package it.polimi.se2018.client;
 
-import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.client.view.gui.GUIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
-import it.polimi.se2018.client.view.gui.StartingSceneController;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,23 +19,16 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GUIClient extends Client{
-    private static final int PORT = 1234;
-    private static final String HOST = "127.0.0.1";
+public class GUIClient extends Client implements Runnable{
     private GUIView clientView;
-    private ClientConnection clientConnection;
-    private int playerID;
-    private String nickname;
     private Socket socket;
-    private boolean setup;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private boolean isSocket;
     private RemoteManager manager;
 
-
     public GUIClient() {
-        setup = true;
+        super();
     }
 
     private boolean getPlayerNameSocket(String playerName){
@@ -59,7 +45,8 @@ public class GUIClient extends Client{
                     new Thread((SocketClientConnection) clientConnection).start();
                     new Thread(clientView).start();
                 }
-            }catch(IOException | ClassNotFoundException  e){
+            }
+            catch(IOException | ClassNotFoundException  e){
                 Logger logger = Logger.getAnonymousLogger();
                 logger.log(Level.ALL,e.getMessage());
             }
@@ -83,7 +70,8 @@ public class GUIClient extends Client{
                     new Thread((RMIClientConnection) clientConnection).start();
                     new Thread(clientView).start();
                 }
-            }catch(RemoteException | NotBoundException | MalformedURLException e){
+            }
+            catch(RemoteException | NotBoundException | MalformedURLException e){
                 System.exit(1);
             }
         }
@@ -103,55 +91,48 @@ public class GUIClient extends Client{
         return clientView;
     }
 
+    public void getDifferentParams(String ip, int port) {
+        this.ip = ip;
+        this.port = port;
+    }
+
     public void createRMIConnection(){
         try {
             manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
-        }catch(RemoteException | NotBoundException | MalformedURLException e){
+        }
+        catch(RemoteException | NotBoundException | MalformedURLException e){
             System.exit(1);
         }
     }
 
     public void createSocketConnection(){
         try{
-            socket = new Socket(HOST, PORT);
+            socket = new Socket("127.0.0.1", 1234);
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
             isSocket = true;
-        } catch(IOException e){
+        }
+        catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        GUIClient guiClient = new GUIClient();
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/startingScene.fxml")));
-        Parent root = loader.load();
-        StartingSceneController startingSceneController = loader.getController();
-        startingSceneController.setGuiClient(guiClient);
-        primaryStage.setTitle("Sagrada Online");
-        primaryStage.setScene(new Scene(root, 600, 623));
-        startingSceneController.setStage(primaryStage);
-        primaryStage.show();
-
-    }
-
-    @Override
     void startNewGame() {
         setup = false;
         //implementa
+        //alla fine devi tornare in wait tramite waitForAction()
     }
 
     @Override
     void handleDisconnection() {
-        //implementa
+        //get del guiController che usa il sceneController per cambiare scena
+        //alla fine devi tornare in wait tramite waitForAction()
     }
 
-
-
-
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    public void run() {
+        waitForAction();
     }
 }

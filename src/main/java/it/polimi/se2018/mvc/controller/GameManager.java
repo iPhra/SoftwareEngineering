@@ -358,8 +358,9 @@ public class GameManager implements Stopper {
 
     //when a player sends the map he chose
     public void createPlayer(SetupMessage setupMessage){
-        windowsSetup.remove(setupMessage.getPlayerID());
-        players.add(new Player(playerNames.get(setupMessage.getPlayerID()),setupMessage.getPlayerID(),setupMessage.getWindow(),privateObjectives.get(setupsCompleted)));
+        int playerID = setupMessage.getPlayerID();
+        windowsSetup.remove(playerID);
+        players.add(new Player(playerNames.get(playerID),playerID,setupMessage.getWindow(),privateObjectives.get(playerIDs.indexOf(playerID))));
         setupsCompleted++;
         //when every played sent his window
         if(setupsCompleted==playerIDs.size()) {

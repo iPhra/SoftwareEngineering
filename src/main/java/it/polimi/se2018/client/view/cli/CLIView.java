@@ -53,8 +53,8 @@ public class CLIView extends ClientView {
                     wait(200);
                 }
                 res = Integer.parseInt(bufferedReader.readLine());
-                if (res <= top && res >= bottom) isIterating = false;
-                else throw new NumberFormatException();
+                if (res > top || res < bottom) throw new NumberFormatException();
+                break;
             }
             catch(IOException | NumberFormatException e) {
                 printStream.println("Input is invalid");

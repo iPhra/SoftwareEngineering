@@ -1,12 +1,10 @@
 package it.polimi.se2018.client;
 
-import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.cli.CLIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
-import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -19,19 +17,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CLIClient extends Client {
-    private int port;
-    private String ip;
     private CLIView clientView;
-    private ClientConnection clientConnection;
-    private int playerID;
-    private String nickname;
     private Socket socket;
-    private boolean setup;
     private final Scanner input;
     private final PrintStream output;
 
     private CLIClient() {
-        setup = true;
+        super();
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
     }
@@ -98,25 +90,6 @@ public class CLIClient extends Client {
         catch(InputMismatchException e) {
             output.println("\nPort is invalid\n");
             input.nextLine();
-        }
-    }
-
-    private void getDefaultParams(boolean isSocket) {
-        InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("NetworkProperties.txt");
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
-            }
-            String[] tokens = sb.toString().split(";");
-            ip = tokens[0].split(":")[1];
-            port = Integer.valueOf((isSocket? tokens[2].split(":")[1] : tokens[1].split(":")[1]));
-        }
-        catch (IOException e) {
-            System.exit(1);
         }
     }
 
@@ -229,10 +202,6 @@ public class CLIClient extends Client {
         else System.exit(0);
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        //should not be implemented here
-    }
 
 
 

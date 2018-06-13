@@ -85,13 +85,13 @@ public class TestBoard {
     public void testGetBag(){
         Bag bag = new Bag(5, 90);
         Assert.assertTrue(bag.equals(board.getBag()));
-    }*/
+    }
 
     @Test
     public void testGetRoundTracker(){
         RoundTracker roundTracker = new RoundTracker(Board.ROUNDSNUMBER);
         assertEquals(roundTracker, board.getRoundTracker());
-    }
+    }*/
 
     @Test
     public void testGetPlayers(){
