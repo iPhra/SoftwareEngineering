@@ -7,5 +7,5 @@ public interface ButtonCheckUsabilityHandler {
     boolean checkUsability(ButtonDraftPool buttonDraftPool);
     boolean checkUsability(ButtonGame buttonGame);
     boolean checkUsability(ButtonToolCard buttonToolCard);
-    boolean checkUsability(ButtonRoundTracker buttonRoundTracker);
+    boolean checkUsability(MenuItemRoundTracker menuItemRoundTracker);
 }

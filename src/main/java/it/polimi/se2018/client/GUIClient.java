@@ -30,6 +30,8 @@ public class GUIClient extends Client implements Runnable{
         super();
     }
 
+
+
     private boolean getPlayerNameSocket(String playerName){
         if (setup) {
             this.nickname = playerName;
@@ -105,7 +107,6 @@ public class GUIClient extends Client implements Runnable{
             socket = new Socket(ip, port);
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
-            isSocket = true;
         }
         catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();

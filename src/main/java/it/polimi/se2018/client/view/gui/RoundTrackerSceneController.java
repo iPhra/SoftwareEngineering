@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.view.gui.button.MenuItemRoundTracker;
 import it.polimi.se2018.mvc.model.Die;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,13 +17,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class RoundTrackerSceneController implements Initializable {
-    private final List<List<Die>> roundTracker;
+    private final List<List<MenuItemRoundTracker>> roundTracker;
     private List<MenuButton> menuButtonList;
 
     @FXML
     private GridPane gridPane;
 
-    RoundTrackerSceneController(List<List<Die>> roundTracker){
+    public RoundTrackerSceneController(List<List<MenuItemRoundTracker>> roundTracker){
         this.roundTracker = roundTracker;
     }
 
@@ -30,7 +31,22 @@ public class RoundTrackerSceneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         int i=0;
         menuButtonList = new ArrayList<>();
-        for(List<Die> dieList : roundTracker){
+        for(List<MenuItemRoundTracker> menuItemRoundTrackerList : roundTracker){
+            MenuButton menuButton = new MenuButton();
+            for(MenuItemRoundTracker menuItemRoundTracker : menuItemRoundTrackerList){
+                menuButton.getItems().add(menuItemRoundTracker);
+                menuButton.setStyle("-fx-background-color : transparent;");
+            }
+            menuButtonList.add(menuButton);
+            gridPane.add(menuButton,9-i,0);
+            GridPane.setHalignment(menuButton, HPos.CENTER);
+            GridPane.setValignment(menuButton, VPos.CENTER);
+            i++;
+        }
+
+
+        //deprecated but i may need it in the future
+        /*for(List<Die> dieList : roundTracker){
             MenuButton menuButton = new MenuButton();
             for (Die die : dieList){
                 Label label = new Label();
@@ -47,6 +63,6 @@ public class RoundTrackerSceneController implements Initializable {
             GridPane.setHalignment(menuButton, HPos.CENTER);
             GridPane.setValignment(menuButton, VPos.CENTER);
             i++;
-        }
+        }*/
     }
 }

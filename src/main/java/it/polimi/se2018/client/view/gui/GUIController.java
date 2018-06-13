@@ -54,12 +54,16 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     @Override
     public void handleResponse(ModelViewResponse modelViewResponse) {
+        guiModel.setBoard(modelViewResponse.getModelView());
+        guiModel.setPrivateObjective(modelViewResponse.getPrivateObjective());
+        guiModel.setPublicObjectives(modelViewResponse.getPublicObjectives());
+        guiModel.setToolCards(modelViewResponse.getToolCards());
         if (!isGameStarted){
             isGameStarted = true;
             //change the scene from SelectWindowScene to GameScene
             sceneController.changeScene(sceneController.getScene());
         }
-        //the rest needs to be implemented
+        //the else needs to be implemented
     }
 
     @Override

@@ -28,6 +28,10 @@ public abstract class Client {
     abstract void startNewGame();
     abstract void handleDisconnection();
 
+    public void setSocket(boolean socket) {
+        isSocket = socket;
+    }
+
     synchronized void waitForAction() {
         while(!disconnected && !gameEnded) {
             try {

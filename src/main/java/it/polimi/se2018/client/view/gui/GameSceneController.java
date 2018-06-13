@@ -5,18 +5,33 @@ import it.polimi.se2018.client.view.gui.button.ButtonGame;
 import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.PassMessage;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class GameSceneController implements SceneController{
+public class GameSceneController implements SceneController, Initializable{
     private final GUIView guiView;
     private final GUIModel guiModel;
     private ModelView modelView;
@@ -30,12 +45,40 @@ public class GameSceneController implements SceneController{
     private State currentState;
     private Stage stage;
 
+    @FXML
+    private BorderPane borderPane;
+
+    @FXML
+    private GridPane topGridPane;
+
     public GameSceneController(GUIController guiController, GUIModel guiModel, int playerID) {
         this.guiView = guiController.getGuiView();
         this.guiModel = guiModel;
         this.playerID = playerID;
         toolCardGUI = new ToolCardGUI(this);
         currentState = new StateTurn(this);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        topGridPane = new GridPane();
+        List<Square[][]> enemyWindows = new ArrayList(guiModel.getBoard().getPlayerWindows());
+        enemyWindows.remove(guiModel.getBoard().getPlayerID().indexOf(playerID));
+        for(int i=0; i < enemyWindows.size(); i++){
+            FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowEnemysScene.fxml")));
+            loader.setController(new WindowEnemysSceneController(guiModel.getBoard().getPlayerWindows().get(i)));
+            try {
+                Node node = loader.load();
+                Pane pane = new Pane();
+                pane.getChildren().add(node);
+                pane.setMaxWidth(206);
+                pane.setMaxHeight(182);
+                topGridPane.add(pane,i,0);
+            } catch (IOException e) {
+                Logger logger = Logger.getAnonymousLogger();
+                logger.log(Level.ALL,e.getMessage());
+            }
+        }
     }
 
     public void setStage(Stage stage) {

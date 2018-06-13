@@ -36,7 +36,7 @@ public class ButtonCheckUsabilityRoundTracker implements ButtonCheckUsabilityHan
     }
 
     @Override
-    public boolean checkUsability(ButtonRoundTracker buttonRoundTracker) {
+    public boolean checkUsability(MenuItemRoundTracker menuItemRoundTracker) {
         return checkTurn();
     }
 }

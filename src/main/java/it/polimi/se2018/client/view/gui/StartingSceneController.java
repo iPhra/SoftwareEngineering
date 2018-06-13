@@ -45,12 +45,14 @@ public class StartingSceneController implements SceneController {
 
     @Override
     public void changeScene(Scene scene){
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/playerNameScene.fxml")));
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/setConnectionScene.fxml")));
         try{
             Parent root = loader.load();
-            PlayerNameSceneController playerNameSceneController = loader.getController();
-            playerNameSceneController.setGuiClient(guiClient);
-            playerNameSceneController.setStage(stage);
+            SetConnectionSceneController setConnectionSceneController = loader.getController();
+            setConnectionSceneController.setGuiClient(guiClient);
+            stage.setWidth(1000);
+            stage.setHeight(667);
+            setConnectionSceneController.setStage(stage);
             scene.setRoot(root);
         }catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();

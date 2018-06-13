@@ -24,6 +24,10 @@ public class ClientModel {
         return playerID;
     }
 
+    public int getPlayersNumber() {
+        return playersNumber;
+    }
+
     public void setPlayersNumber(int playersNumber) {
         this.playersNumber = playersNumber;
     }
