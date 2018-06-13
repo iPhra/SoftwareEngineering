@@ -138,6 +138,12 @@ public class CLIView extends ClientView {
     }
 
     @Override
+    public void handleNetworkOutput(Message message) {
+        clientConnection.sendMessage(message);
+        wakeUp();
+    }
+
+    @Override
     public void handleAsyncEvent(boolean halt, String message) {
         out.println("\n"+message);
         if(halt)currentThread.interrupt();

@@ -9,7 +9,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GUIMain extends Application {
-    private static GUIClient guiClient;
+    private GUIClient guiClient;
+
+    public GUIMain(){
+        guiClient = new GUIClient();
+    }
+
+    GUIClient getGuiClient() {
+        return guiClient;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -32,8 +40,8 @@ public class GUIMain extends Application {
 
 
     public static void main(String[] args) {
-        GUIMain.guiClient = new GUIClient();
-        new Thread(guiClient).start();
+        GUIMain guiMain = new GUIMain();
+        new Thread(guiMain.getGuiClient()).start();
         launch(args);
     }
 }

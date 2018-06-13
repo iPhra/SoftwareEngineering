@@ -14,7 +14,7 @@ public abstract class ClientView extends Observable<SyncResponse> implements Run
     protected boolean isIterating;
     private boolean isOpen;
     private final List<SyncResponse> events;
-    private ClientConnection clientConnection;
+    protected ClientConnection clientConnection;
 
     protected ClientView(Client client) {
         this.client = client;
@@ -24,7 +24,7 @@ public abstract class ClientView extends Observable<SyncResponse> implements Run
 
     public abstract void handleAsyncEvent(boolean halt, String message);
 
-    private void wakeUp() {
+    public void wakeUp() {
         synchronized (events) {
             while (events.isEmpty()) {
                 try {
@@ -57,10 +57,7 @@ public abstract class ClientView extends Observable<SyncResponse> implements Run
         isOpen=false;
     }
 
-    public void handleNetworkOutput(Message message) {
-        clientConnection.sendMessage(message);
-        wakeUp();
-    }
+    public abstract void handleNetworkOutput(Message message);
 
     public boolean isIterating() {
         return isIterating;

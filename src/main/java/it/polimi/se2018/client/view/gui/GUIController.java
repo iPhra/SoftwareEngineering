@@ -85,6 +85,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         ((PlayerNameSceneController) sceneController).setWindows(windows);
         ((PlayerNameSceneController) sceneController).setPrivateObjective(setupResponse.getPrivateObjective());
         sceneController.changeScene(sceneController.getScene());
+        guiView.wakeUp();
     }
 
     @Override

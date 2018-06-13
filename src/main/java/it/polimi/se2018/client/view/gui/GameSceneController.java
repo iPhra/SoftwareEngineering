@@ -45,11 +45,8 @@ public class GameSceneController implements SceneController, Initializable{
     private State currentState;
     private Stage stage;
 
-    @FXML
     private BorderPane borderPane;
 
-    @FXML
-    private GridPane topGridPane;
 
     public GameSceneController(GUIController guiController, GUIModel guiModel, int playerID) {
         this.guiView = guiController.getGuiView();
@@ -61,8 +58,8 @@ public class GameSceneController implements SceneController, Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        topGridPane = new GridPane();
-        List<Square[][]> enemyWindows = new ArrayList(guiModel.getBoard().getPlayerWindows());
+        GridPane topGridPane = new GridPane();
+        List<Square[][]> enemyWindows = new ArrayList<>(guiModel.getBoard().getPlayerWindows());
         enemyWindows.remove(guiModel.getBoard().getPlayerID().indexOf(playerID));
         for(int i=0; i < enemyWindows.size(); i++){
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowEnemysScene.fxml")));

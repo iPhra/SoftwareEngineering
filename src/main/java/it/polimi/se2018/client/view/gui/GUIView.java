@@ -29,6 +29,11 @@ public class GUIView extends ClientView {
     }
 
     @Override
+    public void handleNetworkOutput(Message message) {
+        clientConnection.sendMessage(message);
+    }
+
+    @Override
     public void handleAsyncEvent(boolean halt, String message) {
         if(halt) {
             //implementare
