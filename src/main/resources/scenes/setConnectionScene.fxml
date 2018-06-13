@@ -2,9 +2,6 @@
 
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -27,8 +24,8 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <TextField fx:id="ipAddressField" layoutX="124.0" layoutY="188.0" onAction="#OnReturnHandler" promptText="IP address" />
-            <TextField fx:id="portField" layoutX="124.0" layoutY="244.0" onAction="#OnReturnHandler" promptText="Port" />
+            <TextField fx:id="ipAddressField" layoutX="124.0" layoutY="188.0" onAction="#ipHandler" promptText="IP address" />
+            <TextField fx:id="portField" layoutX="124.0" layoutY="244.0" onAction="#portHandler" promptText="Port" />
             <Button fx:id="defaultSettingsButton" layoutX="68.0" layoutY="381.0" mnemonicParsing="false" onAction="#defaultSettingsChosen" text="CLICK HERE FOR DEFAULT SETTINGS INSTEAD" />
          </children></Pane>
    </children>

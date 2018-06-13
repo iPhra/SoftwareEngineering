@@ -24,7 +24,6 @@ public class GUIClient extends Client implements Runnable{
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private boolean isSocket;
     private RemoteManager manager;
 
     public GUIClient() {
@@ -78,10 +77,6 @@ public class GUIClient extends Client implements Runnable{
         return setup;
     }
 
-    public boolean isSocket() {
-        return isSocket;
-    }
-
     public boolean getPlayerName(String playerName){
         if(isSocket) return getPlayerNameSocket(playerName);
         else return getPlayerNameRMI(playerName);
@@ -91,7 +86,7 @@ public class GUIClient extends Client implements Runnable{
         return clientView;
     }
 
-    public void getDifferentParams(String ip, int port) {
+    public void setDifferentParams(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
@@ -107,7 +102,7 @@ public class GUIClient extends Client implements Runnable{
 
     public void createSocketConnection(){
         try{
-            socket = new Socket("127.0.0.1", 1234);
+            socket = new Socket(ip, port);
             in = new ObjectInputStream(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
             isSocket = true;

@@ -14,6 +14,7 @@ public abstract class Client {
     protected boolean setup;
     protected int playerID;
     protected String nickname;
+    boolean isSocket;
     int port;
     String ip;
     ClientConnection clientConnection;
@@ -45,7 +46,11 @@ public abstract class Client {
         }
     }
 
-    void getDefaultParams(boolean isSocket) {
+    public boolean isSocket() {
+        return isSocket;
+    }
+
+    public void setDefaultParams() {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("NetworkProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
             StringBuilder sb = new StringBuilder();

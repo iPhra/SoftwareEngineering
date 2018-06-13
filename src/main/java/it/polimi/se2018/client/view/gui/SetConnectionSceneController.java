@@ -1,14 +1,20 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.GUIClient;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class SetConnectionSceneController {
+public class SetConnectionSceneController implements SceneController {
+    private final GUIClient guiClient;
     private boolean ipGiven;
     private boolean portGiven;
+    private String ip;
+    private int port;
 
-    public SetConnectionSceneController() {
+    public SetConnectionSceneController(GUIClient guiClient) {
+        this.guiClient = guiClient;
         ipGiven = false;
         portGiven = false;
     }
@@ -22,14 +28,28 @@ public class SetConnectionSceneController {
     @FXML
     private Button defaultSettingsButton;
 
-    //needs further implementation
-    public void OnReturnHandler(){
-        String ip = ipAddressField.getText();
-        int port = Integer.parseInt(portField.getText());
+    public void ipHandler() {
+        ip = ipAddressField.getText();
+        ipGiven = true;
+        if (portGiven) guiClient.setDifferentParams(ip, port);
     }
 
-    //needs implementation
-    public void defaultSettingsChosen(){
+    public void portHandler() {
+        port = Integer.parseInt(portField.getText());
+        portGiven = true;
+        if (ipGiven) guiClient.setDifferentParams(ip, port);
+    }
 
+    public void defaultSettingsChosen() {
+        guiClient.setDefaultParams();
+    }
+
+    @Override
+    public void changeScene(Scene scene) {
+    }
+
+    @Override
+    public Scene getScene() {
+        return null;
     }
 }

@@ -1,0 +1,55 @@
+package it.polimi.se2018.client.view;
+
+import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
+import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
+import it.polimi.se2018.mvc.model.toolcards.ToolCard;
+
+import java.util.List;
+
+public class ClientModel {
+    protected final int playerID;
+    protected int playersNumber;
+    protected List<String> playerNames;
+    protected ModelView board;
+    protected List<ToolCard> toolCards;
+    protected PrivateObjective privateObjective;
+    protected List<PublicObjective> publicObjectives;
+
+    public ClientModel(int playerID) {
+        this.playerID = playerID;
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayersNumber(int playersNumber) {
+        this.playersNumber = playersNumber;
+    }
+
+    public ModelView getBoard() {
+        return board;
+    }
+
+    public void setBoard(ModelView board) {
+        if(playerNames==null) playerNames = board.getPlayerNames();
+        this.board = board;
+    }
+
+    public List<ToolCard> getToolCards() {
+        return toolCards;
+    }
+
+    public void setToolCards(List<ToolCard> toolCards) {
+        this.toolCards = toolCards;
+    }
+
+    public void setPrivateObjective(PrivateObjective privateObjective) {
+        this.privateObjective = privateObjective;
+    }
+
+    public void setPublicObjectives(List<PublicObjective> publicObjectives) {
+        this.publicObjectives = publicObjectives;
+    }
+}

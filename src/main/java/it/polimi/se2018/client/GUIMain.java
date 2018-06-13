@@ -22,6 +22,14 @@ public class GUIMain extends Application {
         primaryStage.show();
     }
 
+
+
+
+
+
+
+
+
     public static void main(String[] args) {
         GUIMain.guiClient = new GUIClient();
         new Thread(guiClient).start();

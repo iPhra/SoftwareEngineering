@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.cli;
 
+import it.polimi.se2018.client.view.ClientModel;
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
@@ -11,18 +12,11 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import java.util.ArrayList;
 import java.util.List;
 
-class CLIModel {
+class CLIModel extends ClientModel {
     private final CLIView cliView;
-    private final int playerID;
-    private int playersNumber;
-    private List<String> playerNames;
-    private ModelView board;
-    private List<ToolCard> toolCards;
-    private PrivateObjective privateObjective;
-    private List<PublicObjective> publicObjectives;
 
     CLIModel(CLIView cliView, int playerID) {
-        this.playerID = playerID;
+        super(playerID);
         this.cliView = cliView;
     }
 
@@ -90,39 +84,6 @@ class CLIModel {
             result.add(window.modelViewCopy());
         }
         return result;
-    }
-
-    int getPlayerID() {
-        return playerID;
-    }
-
-    void setPlayersNumber(int playersNumber) {
-        this.playersNumber = playersNumber;
-    }
-
-    ModelView getBoard() {
-        return board;
-    }
-
-    void setBoard(ModelView board) {
-        if(playerNames==null) playerNames = board.getPlayerNames();
-        this.board = board;
-    }
-
-    List<ToolCard> getToolCards() {
-        return toolCards;
-    }
-
-    void setToolCards(List<ToolCard> toolCards) {
-        this.toolCards = toolCards;
-    }
-
-    void setPrivateObjective(PrivateObjective privateObjective) {
-        this.privateObjective = privateObjective;
-    }
-
-    void setPublicObjectives(List<PublicObjective> publicObjectives) {
-        this.publicObjectives = publicObjectives;
     }
 
     private StringBuilder createRowIndex() {

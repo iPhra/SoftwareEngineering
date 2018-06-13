@@ -52,7 +52,7 @@ public class CLIClient extends Client {
         return input.nextLine();
     }
 
-    private void getSettings(boolean isSocket) {
+    private void getSettings() {
         boolean settings = true;
         do {
             try {
@@ -62,7 +62,7 @@ public class CLIClient extends Client {
                     case 1:
                         settings = false;
                         input.nextLine();
-                        getDefaultParams(isSocket);
+                        setDefaultParams();
                         break;
                     case 2:
                         settings = false;
@@ -103,6 +103,7 @@ public class CLIClient extends Client {
                 switch (value) {
                     case 1:
                         connection = false;
+                        isSocket = true;
                         input.nextLine();
                         createSocketConnection();
                         break;
@@ -124,7 +125,7 @@ public class CLIClient extends Client {
 
     private void createRMIConnection() {
         try {
-            getSettings(false);
+            getSettings();
             RemoteManager manager = (RemoteManager) Naming.lookup("//"+ ip +":"+port+"/RemoteManager");
             while (setup) {
                 nickname = getNickname();
@@ -155,7 +156,7 @@ public class CLIClient extends Client {
 
     private void createSocketConnection(){
         try {
-            getSettings(true);
+            getSettings();
             socket = new Socket(ip, port);
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
