@@ -45,6 +45,7 @@ public class GameSceneController implements SceneController, Initializable{
     private State currentState;
     private Stage stage;
 
+    @FXML
     private BorderPane borderPane;
 
 
@@ -76,6 +77,7 @@ public class GameSceneController implements SceneController, Initializable{
                 logger.log(Level.ALL,e.getMessage());
             }
         }
+        borderPane.setTop(topGridPane);
     }
 
     public void setStage(Stage stage) {
