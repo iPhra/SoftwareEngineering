@@ -4,7 +4,6 @@ import it.polimi.se2018.client.GUIClient;
 import it.polimi.se2018.client.view.gui.button.ButtonGame;
 import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
-import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
@@ -17,7 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -34,10 +32,7 @@ import java.util.logging.Logger;
 public class GameSceneController implements SceneController, Initializable{
     private final GUIView guiView;
     private final GUIModel guiModel;
-    private ModelView modelView;
-    private List<ToolCard> toolCards;
     private final int playerID;
-    private int stateID;
     private WindowSceneController windowSceneController;
     private List<ButtonGame> buttons;
     private ToolCardMessage toolCardMessage;
@@ -47,7 +42,6 @@ public class GameSceneController implements SceneController, Initializable{
 
     @FXML
     private BorderPane borderPane;
-
 
     public GameSceneController(GUIController guiController, GUIModel guiModel, int playerID) {
         this.guiView = guiController.getGuiView();
@@ -63,8 +57,8 @@ public class GameSceneController implements SceneController, Initializable{
         List<Square[][]> enemyWindows = new ArrayList<>(guiModel.getBoard().getPlayerWindows());
         enemyWindows.remove(guiModel.getBoard().getPlayerID().indexOf(playerID));
         for(int i=0; i < enemyWindows.size(); i++){
-            FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowEnemysScene.fxml")));
-            loader.setController(new WindowEnemysSceneController(guiModel.getBoard().getPlayerWindows().get(i)));
+            FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowEnemyScene.fxml")));
+            loader.setController(new WindowEnemySceneController(guiModel.getBoard().getPlayerWindows().get(i)));
             try {
                 Node node = loader.load();
                 Pane pane = new Pane();
@@ -84,8 +78,8 @@ public class GameSceneController implements SceneController, Initializable{
         this.stage = stage;
     }
 
-    public ModelView getModelView() {
-        return modelView;
+    public GUIModel getGuiModel() {
+        return guiModel;
     }
 
     public ToolCardMessage getToolCardMessage() {
@@ -98,10 +92,6 @@ public class GameSceneController implements SceneController, Initializable{
 
     public int getPlayerID() {
         return playerID;
-    }
-
-    public int getStateID() {
-        return stateID;
     }
 
     public State getCurrentState() {
@@ -136,8 +126,8 @@ public class GameSceneController implements SceneController, Initializable{
     //togliere le eccezioni e capire se servono o come gestirle
     //This method is called by network input when you receive an ack that allow you to use the toolcard
     public void useToolCard(int toolCardIndex) throws ChangeActionException, HaltException {
-        ToolCard toolCard = toolCards.get(toolCardIndex);
-        toolCardMessage = new ToolCardMessage(playerID, stateID, toolCardIndex);
+        ToolCard toolCard = guiModel.getToolCards().get(toolCardIndex);
+        toolCardMessage = new ToolCardMessage(playerID, guiModel.getBoard().getStateID(), toolCardIndex);
         toolCard.handleGUI(toolCardGUI, toolCardIndex);
     }
 

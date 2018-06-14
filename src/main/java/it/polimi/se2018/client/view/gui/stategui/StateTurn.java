@@ -16,7 +16,7 @@ public class StateTurn extends State {
 
     @Override
     public void doActionWindow(Coordinate coordinate) {
-        PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), coordinate);
+        PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), coordinate);
         //send message
         gameSceneController.getGuiView().handleNetworkOutput(placeMessage);
         changeState(new StateTurn(gameSceneController));
@@ -25,14 +25,14 @@ public class StateTurn extends State {
 
     @Override
     public void doActionDraftPool(int draftPoolPosition) {
-        gameSceneController.getGuiView().handleNetworkOutput(new DraftMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), draftPoolPosition));
+        gameSceneController.getGuiView().handleNetworkOutput(new DraftMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), draftPoolPosition));
         changeState(new StateTurn(gameSceneController));
         gameSceneController.disableAllButton();
     }
 
     @Override
     public void doActionToolCard(int toolCardIndex) {
-        gameSceneController.getGuiView().handleNetworkOutput(new ToolCardRequestMessage(gameSceneController.getPlayerID(), gameSceneController.getStateID(), toolCardIndex));
+        gameSceneController.getGuiView().handleNetworkOutput(new ToolCardRequestMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), toolCardIndex));
         changeState(new StateTurn(gameSceneController));
         gameSceneController.disableAllButton();
     }

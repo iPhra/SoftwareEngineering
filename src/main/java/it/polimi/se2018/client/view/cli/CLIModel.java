@@ -1,11 +1,9 @@
 package it.polimi.se2018.client.view.cli;
 
 import it.polimi.se2018.client.view.ClientModel;
-import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.Window;
-import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 

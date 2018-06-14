@@ -1,6 +1,5 @@
 package it.polimi.se2018.client.view.gui;
 
-import it.polimi.se2018.client.view.gui.button.ButtonSquare;
 import it.polimi.se2018.mvc.model.Square;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +11,7 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class WindowEnemysSceneController implements Initializable{
+public class WindowEnemySceneController implements Initializable{
     private Square[][] playerWindow;
 
     @FXML
@@ -21,7 +20,7 @@ public class WindowEnemysSceneController implements Initializable{
     @FXML
     private BorderPane borderPane;
 
-    WindowEnemysSceneController(Square[][] playerWindow){
+    WindowEnemySceneController(Square[][] playerWindow){
         this.playerWindow = playerWindow;
     }
 

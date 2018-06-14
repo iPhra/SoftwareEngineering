@@ -1,13 +1,8 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.Client;
-import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.network.messages.requests.Message;
-import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GUIView extends ClientView {
     private final GUIController guiController;

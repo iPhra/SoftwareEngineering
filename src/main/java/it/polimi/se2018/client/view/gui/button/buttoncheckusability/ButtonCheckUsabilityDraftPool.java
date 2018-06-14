@@ -11,7 +11,7 @@ public class ButtonCheckUsabilityDraftPool implements ButtonCheckUsabilityHandle
     }
 
     private Boolean checkTurn() {
-        return gameSceneController.getModelView().getCurrentPlayerID() == gameSceneController.getPlayerID();
+        return gameSceneController.getGuiModel().getBoard().getCurrentPlayerID() == gameSceneController.getPlayerID();
     }
 
     @Override

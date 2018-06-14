@@ -1,7 +1,6 @@
 package it.polimi.se2018.client;
 
 import it.polimi.se2018.client.view.gui.SetConnectionSceneController;
-import it.polimi.se2018.client.view.gui.StartingSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GUIMain extends Application {
-    private GUIClient guiClient;
+    private final GUIClient guiClient;
 
     public GUIMain(){
         guiClient = new GUIClient();

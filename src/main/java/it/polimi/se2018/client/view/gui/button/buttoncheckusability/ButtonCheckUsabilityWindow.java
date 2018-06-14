@@ -11,7 +11,7 @@ public class ButtonCheckUsabilityWindow implements ButtonCheckUsabilityHandler {
     }
 
     private boolean checkTurn() {
-        return gameSceneController.getModelView().getCurrentPlayerID() == gameSceneController.getPlayerID();
+        return gameSceneController.getGuiModel().getBoard().getCurrentPlayerID() == gameSceneController.getPlayerID();
     }
 
     @Override

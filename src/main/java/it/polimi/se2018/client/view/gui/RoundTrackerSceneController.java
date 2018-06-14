@@ -1,14 +1,11 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.view.gui.button.MenuItemRoundTracker;
-import it.polimi.se2018.mvc.model.Die;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;

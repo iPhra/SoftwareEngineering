@@ -1,15 +1,10 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.GUIClient;
-import it.polimi.se2018.client.view.gui.button.ButtonDraftPool;
 import it.polimi.se2018.client.view.gui.button.ButtonSquare;
 import it.polimi.se2018.mvc.model.Color;
-import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
-import it.polimi.se2018.mvc.model.Window;
-import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfBlueObjective;
 import it.polimi.se2018.network.messages.Coordinate;
-import it.polimi.se2018.utils.WindowBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

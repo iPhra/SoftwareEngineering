@@ -1,11 +1,9 @@
 package it.polimi.se2018.client.view.cli;
 
 import it.polimi.se2018.client.Client;
-import it.polimi.se2018.client.network.ClientConnection;
 import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.Message;
-import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 
@@ -13,8 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

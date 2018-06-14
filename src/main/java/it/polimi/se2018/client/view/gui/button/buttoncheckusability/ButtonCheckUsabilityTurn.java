@@ -11,17 +11,17 @@ public class ButtonCheckUsabilityTurn implements ButtonCheckUsabilityHandler {
     }
 
     private Boolean checkTurn() {
-        return gameSceneController.getModelView().getCurrentPlayerID() == gameSceneController.getPlayerID();
+        return gameSceneController.getGuiModel().getBoard().getCurrentPlayerID() == gameSceneController.getPlayerID();
     }
 
     @Override
     public boolean checkUsability(ButtonSquare buttonSquare) {
-        return (checkTurn() && (!gameSceneController.getModelView().hasDieInHand()));
+        return (checkTurn() && (!gameSceneController.getGuiModel().getBoard().hasDieInHand()));
     }
 
     @Override
     public boolean checkUsability(ButtonDraftPool buttonDraftPool) {
-        return (checkTurn() && (!gameSceneController.getModelView().hasDraftedDie()));
+        return (checkTurn() && (!gameSceneController.getGuiModel().getBoard().hasDraftedDie()));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ButtonCheckUsabilityTurn implements ButtonCheckUsabilityHandler {
 
     @Override
     public boolean checkUsability(ButtonToolCard buttonToolCard) {
-        return (checkTurn() && (gameSceneController.getModelView().getToolCardUsability().get(buttonToolCard.getToolCardNumber())));
+        return (checkTurn() && (gameSceneController.getGuiModel().getBoard().getToolCardUsability().get(buttonToolCard.getToolCardNumber())));
     }
 
     @Override
