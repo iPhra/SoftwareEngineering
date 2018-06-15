@@ -21,7 +21,7 @@ public class RMIManager implements RemoteManager {
 
     //false if he's not registered or reconnecting
     public boolean checkName(String nickname) {
-        return !(server.checkRegistration(nickname) || server.checkDisconnection(nickname));
+        return !(nickname.length()<=15 || server.checkRegistration(nickname) || server.checkDisconnection(nickname));
     }
 
     public void addClient(int playerID, String nickname, RemoteConnection clientConnection) {

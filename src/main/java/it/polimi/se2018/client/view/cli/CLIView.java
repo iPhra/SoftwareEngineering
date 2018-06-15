@@ -85,17 +85,17 @@ public class CLIView extends ClientView {
         int choice = 2;
         cliModel.showRoundTracker();
         while (choice == 2) {
-            printStream.println("Choose the turn. Insert a value from 0 to 9");
+            printStream.println("Choose the round index. Insert a value from 0 to 9");
             turn = takeInput(0, 9);
             int size = cliModel.getBoard().getRoundTracker().get(turn).size();
-            printStream.println("Choose the position. Insert a value from 0 to " + size);
+            printStream.println("Choose the position. Insert a value from 0 to " + (size-1));
             printStream.println("[" + size + "] to change action");
             pos = takeInput(0, cliModel.getBoard().getRoundTracker().get(turn).size());
             if (pos == size) throw new ChangeActionException();
             else {
                 printStream.print("You selected this die: ");
                 cliModel.showExtendedDice(cliModel.getBoard().getRoundTracker().get(turn).get(pos));
-                printStream.println("Are you sure? \n [1] Yes  [2] No");
+                printStream.println("Are you sure? \n [1] to accept  [2] to change position");
                 choice = takeInput(1, 2);
             }
         }
@@ -111,7 +111,7 @@ public class CLIView extends ClientView {
         printStream.println("You selected this die: ");
         cliModel.showExtendedDice(cliModel.getBoard().getDraftPool().get(choice));
         printStream.println("Are you sure? \n [1] to accept  [2] to change \n [3] to choose another action");
-        confirm = takeInput(0, 3);
+        confirm = takeInput(1, 3);
         switch(confirm) {
             case 1: return choice;
             case 2: return getDraftPoolPosition();

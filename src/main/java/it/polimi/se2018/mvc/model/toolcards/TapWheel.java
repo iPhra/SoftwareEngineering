@@ -21,7 +21,7 @@ public class TapWheel extends ToolCard {
     }
 
     private TapWheel(String imagePath) {
-        super("Tap Wheel", "Move up to two dice of the same color that match the color of a die on the Round Track");
+        super("Tap Wheel", "Move up to two dice of the same color that match the color of a die on the Round Tracker");
         this.imagePath = imagePath;
     }
 

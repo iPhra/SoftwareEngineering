@@ -148,9 +148,9 @@ public class Square implements Serializable{
             return die.toString();
         } else {
             if (!color.equals(Color.WHITE))
-                result = "-" + color.getAbbreviation() + " ";
+                result = "-" + color.getAbbreviation().toLowerCase() + " ";
             else if (value != 0)
-                result = "-" + value  + " ";
+                result = "-" + value + " ";
             else
                 result = "-- ";
         }

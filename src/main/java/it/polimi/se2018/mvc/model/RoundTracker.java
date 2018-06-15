@@ -58,6 +58,15 @@ public class RoundTracker {
         return false;
     }
 
+    public boolean containsColor(Color color) {
+        for(List<Die> list: dice) {
+            for(Die die : list) {
+                if(die.getColor().equals(color)) return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Removes a given die from the roundtracker
      * @param die it's the die tha has to be removed

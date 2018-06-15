@@ -93,18 +93,23 @@ public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
     @Override
     public ToolCardMessage getPlayerRequests(TapWheel toolCard, int toolCardNumber) throws HaltException, ChangeActionException {
         ToolCardMessage toolCardMessage = new ToolCardMessage(playerID, cliModel.getBoard().getStateID(),toolCardNumber);
+        cliView.print("\nChoose a die from the Round Tracker\n");
+        Coordinate roundTrackPosition = cliView.getRoundTrackPosition();
+        toolCardMessage.addRoundTrackerPosition(roundTrackPosition);
+        cliView.print("\nChoose the first die in your window that you want to move\n");
         toolCardMessage.addStartingPosition(cliView.getCoordinate());
+        cliView.print("\nChoose the position where you want to move the first die\n");
         toolCardMessage.addFinalPosition(cliView.getCoordinate());
-        cliView.print("Do you want to move another die? [1] yes [2] no");
+        cliView.print("\nDo you want to move another die? [1] yes [2] no\n");
         int choice = cliView.takeInput(1, 2);
         if (choice == 1) {
+            cliView.print("\nChoose the position where you want to move the second die\n");
             toolCardMessage.addStartingPosition(cliView.getCoordinate());
+            cliView.print("\nChoose the position where you want to move the second die\n");
             toolCardMessage.addFinalPosition(cliView.getCoordinate());
             toolCardMessage.setCondition(true);
         }
         else toolCardMessage.setCondition(false);
-        Coordinate roundTrackPosition = cliView.getRoundTrackPosition();
-        toolCardMessage.addRoundTrackerPosition(roundTrackPosition);
         return toolCardMessage;
     }
 }

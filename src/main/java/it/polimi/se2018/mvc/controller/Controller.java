@@ -73,7 +73,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         model.incrementStateID();
         int round = model.getRound().getRoundNumber() - 1;
         if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
-        model.createModelViews(PLAYER + player.getName() + " passed the turn. Round "+round+ " ends");
+        model.createModelViews(PLAYER + player.getName() + " passed the turn. Round "+round+ " ends. It's "+ model.getPlayerByID(model.getRound().getCurrentPlayerID()).getName()+"'s turn.");
         startTimer();
     }
 
@@ -88,7 +88,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         }
         model.incrementStateID();
         if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
-        model.createModelUpdateResponse(PLAYER + player.getName() + " passed the turn.");
+        model.createDraftPoolResponse(PLAYER + player.getName() + " passed the turn. It's "+ model.getPlayerByID(model.getRound().getCurrentPlayerID()).getName()+"'s turn.");
         startTimer();
     }
 
@@ -266,7 +266,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         description.append("List of player is: ");
         for(Player player : model.getPlayers()) {
             description.append(player.getName());
-            description.append(" ");
+            if(model.getPlayers().indexOf(player)!=model.getPlayers().size()-1) description.append(", ");
         }
         description.append("\n\n");
         model.createModelViews(description.toString());

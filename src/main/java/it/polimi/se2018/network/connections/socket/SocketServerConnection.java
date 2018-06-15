@@ -42,7 +42,7 @@ public class SocketServerConnection implements ServerConnection, Runnable{
             boolean setup = true;
             while (setup) {
                 String nickname = (String) in.readObject();
-                if (server.checkRegistration(nickname)) { //if he's not registered
+                if (nickname.length()<=15 && server.checkRegistration(nickname)) { //if he's not registered
                     setup = false;
                     out.writeObject(false);
                     playerID = Server.generateID();

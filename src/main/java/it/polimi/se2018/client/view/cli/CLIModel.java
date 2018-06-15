@@ -98,7 +98,7 @@ class CLIModel extends ClientModel {
     void showYourWindow() {
         int yourIndex = board.getPlayerID().indexOf(playerID);
         Square[][] window = board.getPlayerWindows().get(yourIndex);
-        cliView.print("\n\nYour window is:\n\n");
+        cliView.print("\nYour window is:\n\n");
         StringBuilder builder = createRowIndex();
         builder.append("  ");
         builder.append(generateUpperDashes());

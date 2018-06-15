@@ -1,7 +1,9 @@
 package it.polimi.se2018.mvc.controller;
 
 import it.polimi.se2018.mvc.model.Board;
+import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Player;
+import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.*;
 
 public class ToolCardChecker implements ToolCardCheckerHandler {
@@ -89,11 +91,11 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
     }
 
     public boolean checkUsability(TapWheel toolCard, boolean isUsed, Player player) {
-        boolean condition = checkFavorPoints(isUsed, player);
+        if(!checkFavorPoints(isUsed, player)) return false;
         //you need to check if two dice exist: if so there are 18 empty slots or less left
-        if(player.getWindow().countEmptySlots()>18) condition = false;
-        //you need to check if a die on the round tracker exists
-        if (board.getRoundTracker().isVoid()) condition = false;
-        return condition;
+        for(Square square: player.getWindow()) {
+            if(!square.isEmpty() && board.getRoundTracker().containsColor(square.getDie().getColor())) return true;
+        }
+        return false;
     }
 }

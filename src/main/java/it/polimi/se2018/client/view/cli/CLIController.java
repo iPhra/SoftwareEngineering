@@ -33,7 +33,6 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         cliView.print("\n"+description+"\n");
         if (playerID == cliModel.getBoard().getCurrentPlayerID()) {
             try {
-
                 chooseAction();
             } catch (RemoteException e) {
                 Logger logger = Logger.getAnonymousLogger();
