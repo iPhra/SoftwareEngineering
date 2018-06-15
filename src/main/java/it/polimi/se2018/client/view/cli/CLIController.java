@@ -30,8 +30,10 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     }
 
     private void checkTurn(String description) {
+        cliView.print("\n"+description+"\n");
         if (playerID == cliModel.getBoard().getCurrentPlayerID()) {
             try {
+
                 chooseAction();
             } catch (RemoteException e) {
                 Logger logger = Logger.getAnonymousLogger();
@@ -39,7 +41,6 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             }
         }
         else  {
-            cliView.print("\n" + description+"\n");
             cliModel.showDraftPool();
             cliModel.showPlayersWindows();
             cliView.print("It's not your turn. You can't do anything!\n");
