@@ -28,6 +28,10 @@ public class ClientModel {
         return playersNumber;
     }
 
+    public List<PublicObjective> getPublicObjectives() {
+        return publicObjectives;
+    }
+
     public void setPlayersNumber(int playersNumber) {
         this.playersNumber = playersNumber;
     }

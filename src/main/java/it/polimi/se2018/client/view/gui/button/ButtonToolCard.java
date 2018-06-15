@@ -32,8 +32,8 @@ public class ButtonToolCard extends ButtonGame {
 
     private void setImage(String imageUrl){
         ImageView imageView = new ImageView(new Image(imageUrl));
-        imageView.setFitHeight(50);
-        imageView.setFitWidth(50);
+        imageView.setFitHeight(211);
+        imageView.setFitWidth(151);
         setGraphic(imageView);
     }
 }
