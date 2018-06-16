@@ -29,173 +29,6 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         toolCardPlayerInput = new ToolCardPlayerInput(playerID, cliView, cliModel);
     }
 
-    private void checkTurn(String description) {
-        cliView.print("\n"+description+"\n");
-        if (playerID == cliModel.getBoard().getCurrentPlayerID()) {
-            try {
-                chooseAction();
-            } catch (RemoteException e) {
-                Logger logger = Logger.getAnonymousLogger();
-                logger.log(Level.ALL,e.getMessage());
-            }
-        }
-        else  {
-            cliModel.showDraftPool();
-            cliModel.showPlayersWindows();
-            cliView.print("It's not your turn. You can't do anything!\n");
-        }
-    }
-
-    @Override
-    //receives input from the network, called by class clientConnection
-    public void update(SyncResponse syncResponse) {
-        syncResponse.handle(this);
-    }
-
-    //updates the board
-    @Override
-    public void handleResponse(ModelViewResponse modelViewResponse) {
-        cliModel.setBoard(modelViewResponse.getModelView());
-        cliModel.setPrivateObjective(modelViewResponse.getPrivateObjective());
-        cliModel.setPublicObjectives(modelViewResponse.getPublicObjectives());
-        cliModel.setToolCards(modelViewResponse.getToolCards());
-        cliModel.showPrivateObjective();
-        cliModel.showPublicObjectives();
-        checkTurn(modelViewResponse.getDescription());
-    }
-
-    //prints the text message
-    @Override
-    public void handleResponse(TextResponse textResponse) {
-        cliView.print(textResponse.getMessage()+"\n");
-        try {
-            chooseAction();
-        } catch (RemoteException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
-        }
-    }
-
-    @Override
-    public void handleResponse(InputResponse inputResponse) {
-        cliView.print("Color of the die is " + inputResponse.getColor()+"\n");
-        try {
-            int choice = cliView.getDieValue();
-            cliView.handleNetworkOutput(new InputMessage(playerID, cliModel.getBoard().getStateID(), choice));
-        }
-        catch (HaltException ignored) {
-            //now i can stop the method
-        }
-    }
-
-    @Override
-    public void handleResponse(ToolCardResponse toolCardResponse) {
-        try {
-            useToolCard(toolCardResponse.getToolCardNumber());
-        }
-        catch (RemoteException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
-        }
-    }
-
-    //Set the objective and tool card copy to the value. Ask the window to select
-    @Override
-    public void handleResponse(SetupResponse setupResponse) {
-        cliModel.setPrivateObjective(setupResponse.getPrivateObjective());
-        cliModel.setPlayersNumber(setupResponse.getPlayersNumber());
-        cliView.print("");
-        cliModel.showPrivateObjective();
-        try {
-            int windowNumber = selectWindow(setupResponse.getWindows())-1;
-            cliView.print("Window sent. Waiting for other players to choose.\n");
-            cliView.handleNetworkOutput(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
-        } catch (HaltException ignored) {
-            //now i can stop the method
-        }
-    }
-
-    @Override
-    public void handleResponse(ScoreBoardResponse scoreBoardResponse){
-        if(!scoreBoardResponse.isLastPlayer()) {
-            cliView.print("\nFinal score:\n");
-            for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
-                cliView.print(i + 1 + "  Player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "     Score: " + scoreBoardResponse.getSortedPlayersScores().get(i) + "\n");
-            }
-        }
-        cliView.endGame();
-    }
-
-    @Override
-    public void handleResponse(ReconnectionResponse reconnectionResponse) {
-        cliModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
-        if(reconnectionResponse.isWindowsChosen()) {
-            ModelViewResponse response = reconnectionResponse.getModelViewResponse();
-            response.setDescription("Reconnected, wait for your turn\n");
-            handleResponse(response);
-        }
-        else cliView.print("\nReconnected, wait for other players to choose their Windows\n\n");
-    }
-
-    @Override
-    public void handleResponse(DraftPoolResponse draftPoolResponse) {
-        ModelView modelView = cliModel.getBoard();
-        modelView.setHasDieInHand(draftPoolResponse.hasDieInHand());
-        modelView.setHasDraftedDie(draftPoolResponse.hasDraftedDie());
-        modelView.setHasUsedCard(draftPoolResponse.hasUsedCard());
-        modelView.setDieInHand(draftPoolResponse.getDieInHand());
-        modelView.setToolCardUsability(draftPoolResponse.getToolCardUsability());
-        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(draftPoolResponse.getCurrentPlayerID()),draftPoolResponse.getFavorPoints());
-        modelView.setStateID(draftPoolResponse.getStateID());
-        modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
-        modelView.setDraftPool(draftPoolResponse.getDraftPool());
-        checkTurn(draftPoolResponse.getDescription());
-    }
-
-    @Override
-    public void handleResponse(RoundTrackerResponse roundTrackerResponse) {
-        ModelView modelView = cliModel.getBoard();
-        modelView.setHasDieInHand(roundTrackerResponse.hasDieInHand());
-        modelView.setHasDraftedDie(roundTrackerResponse.hasDraftedDie());
-        modelView.setHasUsedCard(roundTrackerResponse.hasUsedCard());
-        modelView.setDieInHand(roundTrackerResponse.getDieInHand());
-        modelView.setToolCardUsability(roundTrackerResponse.getToolCardUsability());
-        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(roundTrackerResponse.getCurrentPlayerID()),roundTrackerResponse.getFavorPoints());
-        modelView.setStateID(roundTrackerResponse.getStateID());
-        modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
-        modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
-        checkTurn(roundTrackerResponse.getDescription());
-    }
-
-    @Override
-    public void handleResponse(WindowResponse windowResponse) {
-        ModelView modelView = cliModel.getBoard();
-        modelView.setHasDieInHand(windowResponse.hasDieInHand());
-        modelView.setHasDraftedDie(windowResponse.hasDraftedDie());
-        modelView.setHasUsedCard(windowResponse.hasUsedCard());
-        modelView.setDieInHand(windowResponse.getDieInHand());
-        modelView.setToolCardUsability(windowResponse.getToolCardUsability());
-        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getFavorPoints());
-        modelView.setStateID(windowResponse.getStateID());
-        modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
-        modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
-        checkTurn(windowResponse.getDescription());
-    }
-
-    @Override
-    public void handleResponse(ModelUpdateResponse modelUpdateResponse) {
-        ModelView modelView = cliModel.getBoard();
-        modelView.setHasDieInHand(modelUpdateResponse.hasDieInHand());
-        modelView.setHasDraftedDie(modelUpdateResponse.hasDraftedDie());
-        modelView.setHasUsedCard(modelUpdateResponse.hasUsedCard());
-        modelView.setDieInHand(modelUpdateResponse.getDieInHand());
-        modelView.setToolCardUsability(modelUpdateResponse.getToolCardUsability());
-        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
-        modelView.setStateID(modelUpdateResponse.getStateID());
-        modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
-        checkTurn(modelUpdateResponse.getDescription());
-    }
-
     private List<Integer> actionPossible() {
         List<Integer> choosable = new ArrayList<>();
         if (!cliModel.getBoard().hasDraftedDie()) choosable.add(2);
@@ -214,7 +47,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
             if (i==5) cliView.print("[5] Pass\n");
         }
     }
-    
+
     private void chooseAction() throws RemoteException{
         try {
             int choice = -1;
@@ -363,5 +196,172 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
         catch (ChangeActionException e) {
             chooseAction();
         }
+    }
+
+    private void checkTurn(String description) {
+        cliView.print("\n"+description+"\n");
+        if (playerID == cliModel.getBoard().getCurrentPlayerID()) {
+            try {
+                chooseAction();
+            } catch (RemoteException e) {
+                Logger logger = Logger.getAnonymousLogger();
+                logger.log(Level.ALL,e.getMessage());
+            }
+        }
+        else  {
+            cliModel.showDraftPool();
+            cliModel.showPlayersWindows();
+            cliView.print("It's not your turn. You can't do anything!\n");
+        }
+    }
+
+    @Override
+    //receives input from the network, called by class clientConnection
+    public void update(SyncResponse syncResponse) {
+        syncResponse.handle(this);
+    }
+
+    //updates the board
+    @Override
+    public void handleResponse(ModelViewResponse modelViewResponse) {
+        cliModel.setBoard(modelViewResponse.getModelView());
+        cliModel.setPrivateObjective(modelViewResponse.getPrivateObjective());
+        cliModel.setPublicObjectives(modelViewResponse.getPublicObjectives());
+        cliModel.setToolCards(modelViewResponse.getToolCards());
+        cliModel.showPrivateObjective();
+        cliModel.showPublicObjectives();
+        checkTurn(modelViewResponse.getDescription());
+    }
+
+    //prints the text message
+    @Override
+    public void handleResponse(TextResponse textResponse) {
+        cliView.print(textResponse.getDescription()+"\n");
+        try {
+            chooseAction();
+        } catch (RemoteException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
+    }
+
+    @Override
+    public void handleResponse(InputResponse inputResponse) {
+        cliView.print("Color of the die is " + inputResponse.getColor()+"\n");
+        try {
+            int choice = cliView.getDieValue();
+            cliView.handleNetworkOutput(new InputMessage(playerID, cliModel.getBoard().getStateID(), choice));
+        }
+        catch (HaltException ignored) {
+            //now i can stop the method
+        }
+    }
+
+    @Override
+    public void handleResponse(ToolCardResponse toolCardResponse) {
+        try {
+            useToolCard(toolCardResponse.getToolCardNumber());
+        }
+        catch (RemoteException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
+    }
+
+    //Set the objective and tool card copy to the value. Ask the window to select
+    @Override
+    public void handleResponse(SetupResponse setupResponse) {
+        cliModel.setPrivateObjective(setupResponse.getPrivateObjective());
+        cliModel.setPlayersNumber(setupResponse.getPlayersNumber());
+        cliView.print("");
+        cliModel.showPrivateObjective();
+        try {
+            int windowNumber = selectWindow(setupResponse.getWindows())-1;
+            cliView.print("Window sent. Waiting for other players to choose.\n");
+            cliView.handleNetworkOutput(new SetupMessage(playerID,0,setupResponse.getWindows().get(windowNumber)));
+        } catch (HaltException ignored) {
+            //now i can stop the method
+        }
+    }
+
+    @Override
+    public void handleResponse(ScoreBoardResponse scoreBoardResponse){
+        if(!scoreBoardResponse.isLastPlayer()) {
+            cliView.print("\nFinal score:\n");
+            for (int i = 0; i < scoreBoardResponse.getSortedPlayersNames().size(); i++) {
+                cliView.print(i + 1 + "  Player: " + scoreBoardResponse.getSortedPlayersNames().get(i) + "     Score: " + scoreBoardResponse.getSortedPlayersScores().get(i) + "\n");
+            }
+        }
+        cliView.endGame();
+    }
+
+    @Override
+    public void handleResponse(ReconnectionResponse reconnectionResponse) {
+        cliModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
+        if(reconnectionResponse.isWindowsChosen()) {
+            ModelViewResponse response = reconnectionResponse.getModelViewResponse();
+            response.setDescription("Reconnected, wait for your turn\n");
+            handleResponse(response);
+        }
+        else cliView.print("\nReconnected, wait for other players to choose their Windows\n\n");
+    }
+
+    @Override
+    public void handleResponse(DraftPoolResponse draftPoolResponse) {
+        ModelView modelView = cliModel.getBoard();
+        modelView.setHasDieInHand(draftPoolResponse.hasDieInHand());
+        modelView.setHasDraftedDie(draftPoolResponse.hasDraftedDie());
+        modelView.setHasUsedCard(draftPoolResponse.hasUsedCard());
+        modelView.setDieInHand(draftPoolResponse.getDieInHand());
+        modelView.setToolCardUsability(draftPoolResponse.getToolCardUsability());
+        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(draftPoolResponse.getCurrentPlayerID()),draftPoolResponse.getFavorPoints());
+        modelView.setStateID(draftPoolResponse.getStateID());
+        modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
+        modelView.setDraftPool(draftPoolResponse.getDraftPool());
+        checkTurn(draftPoolResponse.getDescription());
+    }
+
+    @Override
+    public void handleResponse(RoundTrackerResponse roundTrackerResponse) {
+        ModelView modelView = cliModel.getBoard();
+        modelView.setHasDieInHand(roundTrackerResponse.hasDieInHand());
+        modelView.setHasDraftedDie(roundTrackerResponse.hasDraftedDie());
+        modelView.setHasUsedCard(roundTrackerResponse.hasUsedCard());
+        modelView.setDieInHand(roundTrackerResponse.getDieInHand());
+        modelView.setToolCardUsability(roundTrackerResponse.getToolCardUsability());
+        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(roundTrackerResponse.getCurrentPlayerID()),roundTrackerResponse.getFavorPoints());
+        modelView.setStateID(roundTrackerResponse.getStateID());
+        modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
+        modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
+        checkTurn(roundTrackerResponse.getDescription());
+    }
+
+    @Override
+    public void handleResponse(WindowResponse windowResponse) {
+        ModelView modelView = cliModel.getBoard();
+        modelView.setHasDieInHand(windowResponse.hasDieInHand());
+        modelView.setHasDraftedDie(windowResponse.hasDraftedDie());
+        modelView.setHasUsedCard(windowResponse.hasUsedCard());
+        modelView.setDieInHand(windowResponse.getDieInHand());
+        modelView.setToolCardUsability(windowResponse.getToolCardUsability());
+        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getFavorPoints());
+        modelView.setStateID(windowResponse.getStateID());
+        modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
+        modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
+        checkTurn(windowResponse.getDescription());
+    }
+
+    @Override
+    public void handleResponse(ModelUpdateResponse modelUpdateResponse) {
+        ModelView modelView = cliModel.getBoard();
+        modelView.setHasDieInHand(modelUpdateResponse.hasDieInHand());
+        modelView.setHasDraftedDie(modelUpdateResponse.hasDraftedDie());
+        modelView.setHasUsedCard(modelUpdateResponse.hasUsedCard());
+        modelView.setDieInHand(modelUpdateResponse.getDieInHand());
+        modelView.setToolCardUsability(modelUpdateResponse.getToolCardUsability());
+        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
+        modelView.setStateID(modelUpdateResponse.getStateID());
+        modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
+        checkTurn(modelUpdateResponse.getDescription());
     }
 }

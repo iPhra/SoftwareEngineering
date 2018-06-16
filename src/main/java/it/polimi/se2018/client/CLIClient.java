@@ -135,7 +135,7 @@ public class CLIClient extends Client {
                     playerID = manager.getID(nickname);
                 }
                 else {
-                    output.println("\nThis nickname is already take , please choose another one");
+                    output.println("\nThis nickname is too long or already taken, choose another one");
                 }
             }
             clientView = new CLIView(this,playerID);
@@ -169,7 +169,7 @@ public class CLIClient extends Client {
                     playerID = (int) in.readObject();
                 }
                 else {
-                    output.println("\nThis nickname is already taken, please choose another one");
+                    output.println("\nThis nickname is too long or already taken, choose another one");
                 }
             }
             clientView = new CLIView(this,playerID);

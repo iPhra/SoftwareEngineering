@@ -30,8 +30,11 @@ public class GUIView extends ClientView {
 
     @Override
     public void handleAsyncEvent(boolean halt, String message) {
-        if(halt) {
-            //implementare
-        }
+        guiController.refreshText(message);
+    }
+
+    @Override
+    public void endGame() {
+        stop();
     }
 }

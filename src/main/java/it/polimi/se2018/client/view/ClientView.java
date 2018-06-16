@@ -23,8 +23,9 @@ public abstract class ClientView extends Observable<SyncResponse> implements Run
     }
 
     public abstract void handleAsyncEvent(boolean halt, String message);
+    public abstract void endGame();
 
-    public void wakeUp() {
+    public void sleepTillMessage() {
         synchronized (events) {
             while (events.isEmpty()) {
                 try {
@@ -38,11 +39,6 @@ public abstract class ClientView extends Observable<SyncResponse> implements Run
         }
     }
 
-    public void endGame() {
-        stop();
-        client.setGameEnded();
-    }
-
     public void handleNetworkInput(SyncResponse syncResponse) {
         synchronized (events) {
             events.add(syncResponse);
@@ -53,6 +49,7 @@ public abstract class ClientView extends Observable<SyncResponse> implements Run
     public void setClientConnection(ClientConnection clientConnection) {
         this.clientConnection = clientConnection;
     }
+
     public void stop() {
         isOpen=false;
     }
@@ -66,7 +63,7 @@ public abstract class ClientView extends Observable<SyncResponse> implements Run
     @Override
     public void run() {
         while(isOpen) {
-            wakeUp();
+            sleepTillMessage();
         }
     }
 }

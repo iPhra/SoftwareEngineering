@@ -34,6 +34,11 @@ public class ScoreBoardSceneController implements Initializable, SceneController
         this.sortedPlayersScores = sortedPlayersScores;
     }
 
+    private void startNewGame() {
+        guiClient.setGameEnded();
+        changeScene(getScene());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         StringBuilder builder = new StringBuilder();
@@ -42,7 +47,7 @@ public class ScoreBoardSceneController implements Initializable, SceneController
             builder.append(tmp);
         }
         scoreboardLabel.setText(builder.toString());
-        newGameButton.setOnAction(e -> changeScene(getScene()));
+        newGameButton.setOnAction(e -> startNewGame());
     }
 
     public void setGuiClient(GUIClient guiClient) {

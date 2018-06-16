@@ -74,10 +74,10 @@ public class GameSceneController implements SceneController, Initializable{
     @FXML
     private Label favorPointsLabel;
 
-    public GameSceneController(GUIController guiController, GUIModel guiModel, int playerID){
+    public GameSceneController(GUIController guiController) {
         this.guiView = guiController.getGuiView();
-        this.guiModel = guiModel;
-        this.playerID = playerID;
+        this.guiModel = guiController.getGuiModel();
+        this.playerID = guiController.getPlayerID();
         toolCardGUI = new ToolCardGUI(this);
         currentState = new StateTurn(this);
     }
@@ -331,5 +331,9 @@ public class GameSceneController implements SceneController, Initializable{
         setRightGridpane();
         setBotGridPane();
         //to be implemented: initialization of draftpool and roundtracker
+    }
+
+    void setText(String text) {
+        //setta il text nella label
     }
 }

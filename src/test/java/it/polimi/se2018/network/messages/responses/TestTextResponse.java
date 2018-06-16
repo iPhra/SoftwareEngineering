@@ -15,13 +15,14 @@ public class TestTextResponse {
     @Before
     public void init() {
         message="test";
-        textResponse = new TextResponse(0,message);
+        textResponse = new TextResponse(0);
+        textResponse.setDescription(message);
     }
 
     @Test
     public void testGetMessage() {
-        Assert.assertEquals(message,textResponse.getMessage());
-        Assert.assertNotEquals("testo",textResponse.getMessage());
+        Assert.assertEquals(message,textResponse.getDescription());
+        Assert.assertNotEquals("testo",textResponse.getDescription());
     }
 
     @Test

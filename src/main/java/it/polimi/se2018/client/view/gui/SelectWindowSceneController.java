@@ -2,6 +2,7 @@ package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
+import it.polimi.se2018.network.messages.requests.SetupMessage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -84,8 +85,8 @@ public class SelectWindowSceneController implements SceneController, Initializab
         for(Button button : buttons){
             button.setDisable(true);
         }
-        label.setText("you chose window "+ windows.get(windowNumber).getTitle() + "! Waiting for other players.");
-        guiController.setWindowNumber(windowNumber);
+        label.setText("You chose window "+ windows.get(windowNumber).getTitle() + "! Waiting for other players.");
+        guiController.getGuiView().handleNetworkOutput(new SetupMessage(guiController.getPlayerID(),0,windows.get(windowNumber)));
     }
 
     public void setStage(Stage stage) {
@@ -96,7 +97,7 @@ public class SelectWindowSceneController implements SceneController, Initializab
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
         try {
-            GameSceneController gameSceneController = new GameSceneController(guiController, guiController.getGuiModel(), guiController.getPlayerID());
+            GameSceneController gameSceneController = new GameSceneController(guiController);
             loader.setController(gameSceneController);
             Parent root = loader.load();
             guiController.setSceneController(gameSceneController);

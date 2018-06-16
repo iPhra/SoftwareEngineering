@@ -42,22 +42,23 @@ public class SocketServerConnection implements ServerConnection, Runnable{
             boolean setup = true;
             while (setup) {
                 String nickname = (String) in.readObject();
-                if (nickname.length()<=15 && server.checkRegistration(nickname)) { //if he's not registered
-                    setup = false;
-                    out.writeObject(false);
-                    playerID = Server.generateID();
-                    out.writeObject(playerID);
-                    server.setPlayer(playerID, nickname, this);
-                }
-                else if (server.checkDisconnection(nickname)) { //if he's reconnecting
-                    setup = false;
-                    out.writeObject(false);
-                    playerID = server.getPlayerID(nickname);
-                    out.writeObject(playerID);
-                    server.handleReconnection(server.getPlayerID(nickname), this);
-                }
+                if(nickname.length()>15) out.writeObject(true);
                 else {
-                    out.writeObject(true);
+                    if (server.checkRegistration(nickname)) { //if he's not registered
+                        setup = false;
+                        out.writeObject(false);
+                        playerID = Server.generateID();
+                        out.writeObject(playerID);
+                        server.setPlayer(playerID, nickname, this);
+                    } else if (server.checkDisconnection(nickname)) { //if he's reconnecting
+                        setup = false;
+                        out.writeObject(false);
+                        playerID = server.getPlayerID(nickname);
+                        out.writeObject(playerID);
+                        server.handleReconnection(server.getPlayerID(nickname), this);
+                    } else {
+                        out.writeObject(true);
+                    }
                 }
             }
         }
