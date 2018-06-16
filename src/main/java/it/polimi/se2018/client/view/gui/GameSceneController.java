@@ -12,6 +12,7 @@ import it.polimi.se2018.network.messages.requests.PassMessage;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -327,13 +328,23 @@ public class GameSceneController implements SceneController, Initializable{
     }
 
     public void refresh(){
-        setTopGridpane();
-        setRightGridpane();
-        setBotGridPane();
-        //to be implemented: initialization of draftpool and roundtracker
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                setTopGridpane();
+                setRightGridpane();
+                setBotGridPane();
+                //to be implemented: initialization of draftpool and roundtracker
+            }
+        });
     }
 
     void setText(String text) {
-        //setta il text nella label
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                //setta il testo
+            }
+        });
     }
 }

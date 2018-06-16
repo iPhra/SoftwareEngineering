@@ -158,7 +158,7 @@ class CLIModel extends ClientModel {
         result.append(color.toLowerCase());
         result.append(generateSpaces(6 - color.length()));
         result.append(generateSpaces(2));
-        result.append(" VALUE: ");
+        result.append("VALUE: ");
         result.append(die.getValue());
         result.append(generateSpaces(5));
         cliView.print(result.toString());
