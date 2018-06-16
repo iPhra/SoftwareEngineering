@@ -16,8 +16,8 @@ public class ButtonDraftPool extends ButtonGame {
         this.die = die;
         this.playerID = playerID;
         ImageView imageView = new ImageView(new Image("./dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png"));
-        imageView.setFitHeight(50);
-        imageView.setFitWidth(50);
+        imageView.setFitHeight(20);
+        imageView.setFitWidth(20);
         setGraphic(imageView);
         disarm();
     }

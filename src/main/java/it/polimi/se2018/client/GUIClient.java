@@ -32,7 +32,7 @@ public class GUIClient extends Client implements Runnable{
 
 
 
-    private boolean getPlayerNameSocket(String playerName){
+    private boolean setPlayerNameSocket(String playerName){
         if (setup) {
             this.nickname = playerName;
             try{
@@ -55,7 +55,7 @@ public class GUIClient extends Client implements Runnable{
         return setup;
     }
 
-    private boolean getPlayerNameRMI(String playerName){
+    private boolean setPlayerNameRMI(String playerName){
         if (setup){
             this.nickname = playerName;
             try{
@@ -79,9 +79,9 @@ public class GUIClient extends Client implements Runnable{
         return setup;
     }
 
-    public boolean getPlayerName(String playerName){
-        if(isSocket) return getPlayerNameSocket(playerName);
-        else return getPlayerNameRMI(playerName);
+    public boolean setPlayerName(String playerName){
+        if(isSocket) return setPlayerNameSocket(playerName);
+        else return setPlayerNameRMI(playerName);
     }
 
     public ClientView getGUIView() {
@@ -113,6 +113,8 @@ public class GUIClient extends Client implements Runnable{
             logger.log(Level.ALL,e.getMessage());
         }
     }
+
+
 
     @Override
     void startNewGame() {

@@ -37,7 +37,7 @@ public class PlayerNameSceneController implements SceneController {
     }
 
     public void onReturnHandler(){
-        if (!guiClient.getPlayerName(nickTextField.getText())) {
+        if (!guiClient.setPlayerName(nickTextField.getText())) {
             ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(this);
             label.setText("Your nickname is ok. Waiting for other players");
             nickTextField.setEditable(false);

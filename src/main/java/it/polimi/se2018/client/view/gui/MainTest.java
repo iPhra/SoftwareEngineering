@@ -1,8 +1,10 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.GUIClient;
+import it.polimi.se2018.client.view.gui.button.ButtonDraftPool;
 import it.polimi.se2018.client.view.gui.button.ButtonSquare;
 import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.network.messages.Coordinate;
 import javafx.application.Application;
@@ -12,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,7 +43,7 @@ public class MainTest extends Application{
         GUIView guiView = new GUIView(new GUIClient(),1);
         GUIModel guiModel = new GUIModel(guiView,1);
         GUIController guiController = new GUIController(guiView,guiModel,1);
-        List<ButtonSquare> buttons = new ArrayList<>();
+        /*List<ButtonSquare> buttons = new ArrayList<>();
         for(int i=0; i < 4; i++){
             for(int j=0; j<5; j++){
                 buttons.add(new ButtonSquare(1,new Coordinate(i,j),new Square(Color.WHITE,1,new Coordinate(i,j),"/constraints/value/1.png")));
@@ -52,19 +55,19 @@ public class MainTest extends Application{
         Parent root = loader.load();
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 206, 182));
-        primaryStage.show();
+        primaryStage.show();*/
 
 
 
 
-        /*List<ButtonDraftPool> buttons = Arrays.asList(new ButtonDraftPool(1, new Die(1, Color.PURPLE)),new ButtonDraftPool(2, new Die(4,Color.YELLOW)));
+        List<ButtonDraftPool> buttons = Arrays.asList(new ButtonDraftPool(1, new Die(1, Color.PURPLE)),new ButtonDraftPool(2, new Die(4,Color.YELLOW)));
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/draftPoolScene.fxml")));
-        DraftPoolSceneController draftPoolSceneController = new DraftPoolSceneController(buttons);
+        DraftPoolSceneController draftPoolSceneController = new DraftPoolSceneController(buttons,new GameSceneController(guiController,guiModel,1));
         loader.setController(draftPoolSceneController);
         Parent root = loader.load();
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 1000, 700));
-        primaryStage.show();*/
+        primaryStage.show();
 
 
         /*List<Window> windows = WindowBuilder.extractWindows(1);

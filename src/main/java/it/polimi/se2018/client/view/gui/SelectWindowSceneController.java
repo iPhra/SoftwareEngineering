@@ -100,6 +100,8 @@ public class SelectWindowSceneController implements SceneController, Initializab
             loader.setController(gameSceneController);
             Parent root = loader.load();
             guiController.setSceneController(gameSceneController);
+            stage.setWidth(1440);
+            stage.setHeight(900);
             gameSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {

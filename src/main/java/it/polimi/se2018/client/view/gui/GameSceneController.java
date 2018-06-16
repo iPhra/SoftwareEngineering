@@ -17,7 +17,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +27,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ public class GameSceneController implements SceneController, Initializable{
     private final ToolCardGUI toolCardGUI;
     private State currentState;
     private Stage stage;
+    private List<String> sortedPlayersNames;
+    private List<Integer> sortedPlayersScores;
     private List<ButtonSquare> windowPlayerButtons;
     private List<ButtonDraftPool> draftPoolButtons;
     private List<List<MenuItemRoundTracker>> roundTrackerMenuItems;
@@ -63,9 +66,15 @@ public class GameSceneController implements SceneController, Initializable{
     private GridPane rightGridPane;
 
     @FXML
-    private GridPane leftGridPane;
+    private Label serviceLabel;
 
-    public GameSceneController(GUIController guiController, GUIModel guiModel, int playerID) {
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    private Label favorPointsLabel;
+
+    public GameSceneController(GUIController guiController, GUIModel guiModel, int playerID){
         this.guiView = guiController.getGuiView();
         this.guiModel = guiModel;
         this.playerID = playerID;
@@ -74,9 +83,9 @@ public class GameSceneController implements SceneController, Initializable{
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources){
         //this padding must be fixed
-        borderPane.setPadding(new Insets(100,100,100,100));
+        borderPane.setPadding(new Insets(100,100,150,50));
         windowPlayerButtons = new ArrayList<>();
         for(Square[] row : guiModel.getBoard().getPlayerWindows().get(guiModel.getBoard().getPlayerID().indexOf(playerID))){
             for(Square square : row){
@@ -101,10 +110,10 @@ public class GameSceneController implements SceneController, Initializable{
             }
         }
 
-        setRightPane();
+        setRightGridpane();
         setBotGridPane();
         setTopGridpane();
-        setLeftPane();
+        setLeft();
         //to be implemented: initialization of draftpool and roundtracker
     }
 
@@ -216,9 +225,30 @@ public class GameSceneController implements SceneController, Initializable{
         this.guiClient = guiClient;
     }
 
+    public void setSortedPlayersNames(List<String> sortedPlayersNames) {
+        this.sortedPlayersNames = sortedPlayersNames;
+    }
+
+    public void setSortedPlayersScores(List<Integer> sortedPlayersScores) {
+        this.sortedPlayersScores = sortedPlayersScores;
+    }
+
     @Override
     public void changeScene(Scene scene) {
-        //implement
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ScoreBoardScene.fxml")));
+        try {
+            ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames, sortedPlayersScores);
+            loader.setController(scoreBoardSceneController);
+            Parent root = loader.load();
+            ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(scoreBoardSceneController);
+            stage.setWidth(600);
+            stage.setHeight(623);
+            scoreBoardSceneController.setStage(stage);
+            scene.setRoot(root);
+        } catch (IOException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
     }
 
     @Override
@@ -226,7 +256,7 @@ public class GameSceneController implements SceneController, Initializable{
         return borderPane.getScene();
     }
 
-    private void setTopGridpane(){
+    private void setRightGridpane(){
         List<Square[][]> enemyWindows = new ArrayList<>(guiModel.getBoard().getPlayerWindows());
         enemyWindows.remove(guiModel.getBoard().getPlayerID().indexOf(playerID));
         for(int i=0; i < enemyWindows.size(); i++){
@@ -238,13 +268,12 @@ public class GameSceneController implements SceneController, Initializable{
                 pane.getChildren().add(node);
                 pane.setMaxWidth(206);
                 pane.setMaxHeight(182);
-                topGridPane.add(pane,i,0);
+                rightGridPane.add(pane,0,i);
             } catch (IOException e) {
                 Logger logger = Logger.getAnonymousLogger();
                 logger.log(Level.ALL,e.getMessage());
             }
         }
-        borderPane.setTop(topGridPane);
     }
 
     private void setBotGridPane(){
@@ -256,37 +285,51 @@ public class GameSceneController implements SceneController, Initializable{
             pane.getChildren().add(node);
             pane.setMaxWidth(206);
             pane.setMaxHeight(182);
-            botGridPane.add(pane,0,0);
+            botGridPane.add(pane,2,0);
         }catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }
-        borderPane.setBottom(botGridPane);
-
+        serviceLabel.setText("Game just started");
+        int myIndex = guiModel.getBoard().getPlayerID().indexOf(playerID);
+        nameLabel.setText(guiModel.getBoard().getPlayerNames().get(myIndex));
+        favorPointsLabel.setText(String.valueOf(guiModel.getBoard().getPlayerFavorPoint().get(myIndex)));
     }
 
-    private void setRightPane(){
+    private void setTopGridpane(){
         for(int i=0; i < toolCardButtons.size(); i++){
-            rightGridPane.add(toolCardButtons.get(i),0,i);
+            topGridPane.add(toolCardButtons.get(i),i,0);
         }
-        borderPane.setRight(rightGridPane);
-    }
-
-    private void setLeftPane(){
         for(int i=0; i < guiModel.getPublicObjectives().size(); i++){
             ImageView imageView = new ImageView(new Image(guiModel.getPublicObjectives().get(i).getImagePath()));
             imageView.setFitHeight(211);
             imageView.setFitWidth(151);
-            leftGridPane.add(imageView,0,i);
+            topGridPane.add(imageView,i,1);
         }
-        borderPane.setLeft(leftGridPane);
+        topGridPane.setVgap(200);
+        topGridPane.setHgap(5);
     }
 
-    private void refresh(){
+    private void setLeft(){
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/draftPoolScene.fxml")));
+        loader.setController((new DraftPoolSceneController(draftPoolButtons,this)));
+        try{
+            Node node = loader.load();
+            Pane pane = new Pane();
+            pane.getChildren().add(node);
+            pane.setMaxWidth(500);
+            pane.setMaxHeight(25);
+            borderPane.setLeft(pane);
+        }catch(IOException e){
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
+    }
+
+    public void refresh(){
         setTopGridpane();
-        setRightPane();
-        setRightPane();
-        setLeftPane();
+        setRightGridpane();
+        setBotGridPane();
         //to be implemented: initialization of draftpool and roundtracker
     }
 }
