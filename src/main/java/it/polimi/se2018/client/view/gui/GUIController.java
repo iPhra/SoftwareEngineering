@@ -61,8 +61,10 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
             isGameStarted = true;
             sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
         }
-        ((GameSceneController)sceneController).refresh();
-        refreshText(modelViewResponse.getDescription());
+        else {
+            ((GameSceneController) sceneController).refreshAll();
+            refreshText(modelViewResponse.getDescription());
+        }
     }
 
     @Override
