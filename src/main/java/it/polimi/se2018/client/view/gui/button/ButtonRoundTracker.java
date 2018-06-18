@@ -3,6 +3,9 @@ package it.polimi.se2018.client.view.gui.button;
 import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckUsabilityHandler;
 import it.polimi.se2018.network.messages.Coordinate;
 
+/**
+ * @deprecated replaced with MenuItemRoundTracker
+ */
 public class ButtonRoundTracker extends ButtonGame {
     private final int playerID;
     private final Coordinate coordinate;

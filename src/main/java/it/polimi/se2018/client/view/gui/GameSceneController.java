@@ -12,6 +12,7 @@ import it.polimi.se2018.network.messages.requests.PassMessage;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,13 +36,26 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * (by Emilio)
+ * This class is the controller of GameScene.fxml. Edoardo Note that every public method used by GUIController needs
+ * the Platform.runLater call, otherwise you will get an exception due to some thread problems. see method
+ * refreshRoundTracker() for an example.
+ * Furthermore, please note that i didn't write a method that refreshes a specific window, it's a mess. For now you can
+ * use refreshAll() if a window needs to be refreshed. If possible i will upgrade this some day.
+ * Finally, please note that i couldn't test a lot of staff that i wrote because i needed the logic of what happens if
+ * you click a button to be implemented. For example, i don't know if the drafted die is shown correctly, because by now
+ * i can't draft a die. Same for the dice on roundTracker.
+ */
 public class GameSceneController implements SceneController, Initializable{
     private final GUIView guiView;
     private final GUIModel guiModel;
     private GUIClient guiClient;
     private final int playerID;
-    private WindowSceneController windowSceneController;
-    private List<ButtonGame> buttons;
+    private Die dieInHand;
+    private ImageView privateObjectiveImageVIew;
+    private Pane draftPoolPane;
+    private Pane roundTrackerPane;
     private ToolCardMessage toolCardMessage;
     private final ToolCardGUI toolCardGUI;
     private State currentState;
@@ -57,13 +71,13 @@ public class GameSceneController implements SceneController, Initializable{
     private BorderPane borderPane;
 
     @FXML
-    private GridPane topGridPane;
-
-    @FXML
     private GridPane botGridPane;
 
     @FXML
     private GridPane rightGridPane;
+
+    @FXML
+    private GridPane leftGridPane;
 
     @FXML
     private Label serviceLabel;
@@ -84,8 +98,7 @@ public class GameSceneController implements SceneController, Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        //this padding must be fixed
-        borderPane.setPadding(new Insets(100,100,150,50));
+        borderPane.setPadding(new Insets(120,20,110,20));
         windowPlayerButtons = new ArrayList<>();
         for(Square[] row : guiModel.getBoard().getPlayerWindows().get(guiModel.getBoard().getPlayerID().indexOf(playerID))){
             for(Square square : row){
@@ -97,24 +110,11 @@ public class GameSceneController implements SceneController, Initializable{
             toolCardButtons.add(new ButtonToolCard(playerID, i, guiModel.getToolCards().get(i)));
         }
         draftPoolButtons = new ArrayList<>();
-        for(Die die : guiModel.getBoard().getDraftPool()){
-            draftPoolButtons.add(new ButtonDraftPool(playerID, die));
-        }
         roundTrackerMenuItems = new ArrayList<>();
-        List<List<Die>> roundTracker = new ArrayList<>(guiModel.getBoard().getRoundTracker());
-        for(int i=0; i < roundTracker.size(); i++){
-            List<MenuItemRoundTracker> singleRound = new ArrayList<>();
-            for(int j=0; j < roundTracker.get(0).size(); j++){
-                singleRound.add(new MenuItemRoundTracker(playerID,new Coordinate(i,j),roundTracker.get(i).get(j)));
-                roundTrackerMenuItems.add(singleRound);
-            }
-        }
-
+        serviceLabel.setText("Game just started");
         setRightGridpane();
         setBotGridPane();
-        setTopGridpane();
-        setLeft();
-        //to be implemented: initialization of draftpool and roundtracker
+        setLeftGridpane();
     }
 
     public void setStage(Stage stage) {
@@ -156,8 +156,8 @@ public class GameSceneController implements SceneController, Initializable{
                 menuItemRoundTracker.setDisable(true);
             }
         }
-        //to be implented: disarm the other buttons, for example the one that shows the roundtracker
-        refresh();
+        //(comment by emilio) I don't know why you call refreshAll(). It creates new staff with buttons that are not disabled
+        refreshAll();
     }
 
     public void setCurrentState(State currentState) {
@@ -225,10 +225,18 @@ public class GameSceneController implements SceneController, Initializable{
         this.guiClient = guiClient;
     }
 
+    /**
+     * This method is called (togheter with setSortedPlayersScores) when ScoreBoardResponse is received
+     * @param sortedPlayersNames it's the list of players in order
+     */
     public void setSortedPlayersNames(List<String> sortedPlayersNames) {
         this.sortedPlayersNames = sortedPlayersNames;
     }
 
+    /**
+     * This method is called (togheter with setSortedPlayersNames) when ScoreBoardResponse is received
+     * @param sortedPlayersScores it's the list of scores in order
+     */
     public void setSortedPlayersScores(List<Integer> sortedPlayersScores) {
         this.sortedPlayersScores = sortedPlayersScores;
     }
@@ -273,6 +281,7 @@ public class GameSceneController implements SceneController, Initializable{
                 Logger logger = Logger.getAnonymousLogger();
                 logger.log(Level.ALL,e.getMessage());
             }
+            rightGridPane.setVgap(200);
         }
     }
 
@@ -285,55 +294,180 @@ public class GameSceneController implements SceneController, Initializable{
             pane.getChildren().add(node);
             pane.setMaxWidth(206);
             pane.setMaxHeight(182);
-            botGridPane.add(pane,2,0);
+            botGridPane.add(pane,1,0);
         }catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }
-        serviceLabel.setText("Game just started");
         int myIndex = guiModel.getBoard().getPlayerID().indexOf(playerID);
         nameLabel.setText(guiModel.getBoard().getPlayerNames().get(myIndex));
         favorPointsLabel.setText(String.valueOf(guiModel.getBoard().getPlayerFavorPoint().get(myIndex)));
+        if(guiModel.getBoard().hasDieInHand()){
+            dieInHand = guiModel.getBoard().getDieInHand();
+            privateObjectiveImageVIew = new ImageView(new Image("./dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
+            privateObjectiveImageVIew.setFitWidth(30);
+            privateObjectiveImageVIew.setFitHeight(30);
+            botGridPane.add(privateObjectiveImageVIew,2,0);
+        }
+
+        ImageView imageView = new ImageView(new Image(guiModel.getPrivateObjective().getImagePath()));
+        imageView.setFitWidth(181);
+        imageView.setFitHeight(253);
+        botGridPane.add(imageView,3,2);
+        botGridPane.setHgap(80);
     }
 
-    private void setTopGridpane(){
+    private void setLeftGridpane(){
+        setDraftPoolButtons();
+        setRoundTrackerMenuItems();
         for(int i=0; i < toolCardButtons.size(); i++){
-            topGridPane.add(toolCardButtons.get(i),i,0);
+            leftGridPane.add(toolCardButtons.get(i),i,0);
         }
         for(int i=0; i < guiModel.getPublicObjectives().size(); i++){
             ImageView imageView = new ImageView(new Image(guiModel.getPublicObjectives().get(i).getImagePath()));
-            imageView.setFitHeight(211);
-            imageView.setFitWidth(151);
-            topGridPane.add(imageView,i,1);
+            imageView.setFitWidth(181);
+            imageView.setFitHeight(253);
+            leftGridPane.add(imageView,i,1);
+            draftPoolPane = paneDraftPool();
+            leftGridPane.add(draftPoolPane,3,0);
+            roundTrackerPane = paneRoundTracker();
+            leftGridPane.add(roundTrackerPane,3,1);
         }
-        topGridPane.setVgap(200);
-        topGridPane.setHgap(5);
+
+        leftGridPane.setVgap(220);
+        leftGridPane.setHgap(100);
     }
 
-    private void setLeft(){
+    /**
+     * This method loads the draftPool
+     * @return a pane containing the draftPool
+     */
+    private Pane paneDraftPool(){
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/draftPoolScene.fxml")));
-        loader.setController((new DraftPoolSceneController(draftPoolButtons,this)));
+        loader.setController(new DraftPoolSceneController(draftPoolButtons,this));
+        Pane pane = new Pane();
         try{
             Node node = loader.load();
-            Pane pane = new Pane();
             pane.getChildren().add(node);
             pane.setMaxWidth(500);
             pane.setMaxHeight(25);
-            borderPane.setLeft(pane);
         }catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }
+        return pane;
     }
 
-    public void refresh(){
-        setTopGridpane();
-        setRightGridpane();
-        setBotGridPane();
-        //to be implemented: initialization of draftpool and roundtracker
+    /**
+     * This method loads the roundTracker
+     * @return a pane containing the roundTracker
+     */
+    private Pane paneRoundTracker(){
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/RoundTrackerScene.fxml")));
+        loader.setController(new RoundTrackerSceneController(roundTrackerMenuItems));
+        Pane pane = new Pane();
+        try{
+            Node node = loader.load();
+            pane.getChildren().add(node);
+            pane.setMaxWidth(473);
+            pane.setMaxHeight(99);
+        }catch(IOException e){
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
+        return pane;
     }
 
+    private void setDraftPoolButtons(){
+        draftPoolButtons.clear();
+        for(Die die : guiModel.getBoard().getDraftPool()){
+            draftPoolButtons.add(new ButtonDraftPool(playerID, die));
+        }
+    }
+
+    private void setRoundTrackerMenuItems(){
+        roundTrackerMenuItems.clear();
+        List<List<Die>> roundTracker = new ArrayList<>(guiModel.getBoard().getRoundTracker());
+        for(int i=0; i < roundTracker.size(); i++){
+            List<MenuItemRoundTracker> singleRound = new ArrayList<>();
+            for(int j=0; j < roundTracker.get(0).size(); j++){
+                singleRound.add(new MenuItemRoundTracker(playerID,new Coordinate(i,j),roundTracker.get(i).get(j)));
+                roundTrackerMenuItems.add(singleRound);
+            }
+        }
+    }
+
+    /**
+     * This method is called when a ModelViewResponse is received. It refreshes the whole GameScene
+     */
+    public void refreshAll(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                leftGridPane.getChildren().clear();
+                botGridPane.getChildren().remove(dieInHand);
+                botGridPane.getChildren().remove(privateObjectiveImageVIew);
+                rightGridPane.getChildren().clear();
+                setLeftGridpane();
+                setRightGridpane();
+                setBotGridPane();
+            }
+        });
+    }
+
+    /**
+     * This method is called when something happened and you need to comunicate it to the player
+     * @param text it's the text you want to show
+     */
     void setText(String text) {
-        //setta il text nella label
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                serviceLabel.setText(text);
+            }
+        });
+    }
+
+    /**
+     * This method is called when the number of favor points of the player changed
+     * @param favorPoints it's the new number of favor points
+     */
+    public void refreshFavorPoints(int favorPoints){
+        Platform.runLater((new Runnable() {
+            @Override
+            public void run() {
+                favorPointsLabel.setText(String.valueOf(favorPoints));
+            }
+        }));
+    }
+
+    /**
+     * This method is called when draftPool needs to be refreshed
+     */
+    public void refreshDraftPool(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                leftGridPane.getChildren().remove(draftPoolPane);
+                setDraftPoolButtons();
+                draftPoolPane = paneDraftPool();
+                leftGridPane.add(draftPoolPane,3,0);
+            }
+        });
+    }
+
+    /**
+     * This method is called when roundTracker needs to be refreshed
+     */
+    public void refreshRoundTracker(){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                leftGridPane.getChildren().remove(roundTrackerPane);
+                setRoundTrackerMenuItems();
+                roundTrackerPane = paneRoundTracker();
+                leftGridPane.add(roundTrackerPane,3,1);
+            }
+        });
     }
 }

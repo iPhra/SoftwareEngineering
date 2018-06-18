@@ -32,6 +32,10 @@ public class ClientModel {
         return publicObjectives;
     }
 
+    public PrivateObjective getPrivateObjective() {
+        return privateObjective;
+    }
+
     public void setPlayersNumber(int playersNumber) {
         this.playersNumber = playersNumber;
     }
