@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controller implements Observer<Message>, MessageHandler, Stopper {
     private static final String PLAYER = "Player ";
@@ -118,7 +120,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             if (!(model.getRound().isYourTurn(player) || message.getStateID() == model.getStateID())) notifyError(message.getPlayerID(), "It's not your turn!");
             else message.handle(this);
         }
-        else message.handle(this);
+        else message.handle(this); //if this is a setup response i don't have to check if the turn is correct
         lock.unlock();
     }
 
@@ -156,14 +158,11 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
 
     @Override
     public void handleMove(SetupMessage setupMessage){
-        lock.lock();
         gameManager.createPlayer(setupMessage);
-        lock.unlock();
     }
 
     @Override
     public void handleMove(InputMessage inputMessage) {
-        lock.lock();
         Player player = model.getPlayerByID(inputMessage.getPlayerID());
         try {
             player.getDieInHand().setValue(inputMessage.getDieValue());
@@ -171,13 +170,11 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         } catch (DieException e) {
             notifyError(inputMessage.getPlayerID(), e.getMessage());
         }
-        finally {lock.unlock();}
     }
 
     //use a toolcards
     @Override
     public void handleMove(ToolCardMessage toolCardMessage) {
-        lock.lock();
         Player player = model.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             model.getToolCards()[player.getCardInUse()].handle(toolCardController,toolCardMessage);
@@ -185,14 +182,10 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         catch (ToolCardException e) {
             notifyError(toolCardMessage.getPlayerID(), e.getMessage());
         }
-        finally {
-            lock.unlock();
-        }
     }
 
     @Override
     public void handleMove(ToolCardRequestMessage toolCardRequestMessage) {
-        lock.lock();
         Player player = model.getPlayerByID(toolCardRequestMessage.getPlayerID());
         if(player.hasUsedCard()) notifyError(toolCardRequestMessage.getPlayerID(), "You have already used a Tool Card!");
         else {
@@ -203,12 +196,10 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             }
             else notifyError(toolCardRequestMessage.getPlayerID(), "You can't use that Tool Card!");
         }
-        lock.unlock();
     }
 
     @Override
     public void handleMove(PlaceMessage placeMessage) {
-        lock.lock();
         Player player = model.getPlayerByID(placeMessage.getPlayerID());
         if(!player.hasDieInHand()) notifyError(placeMessage.getPlayerID(), "You haven't selected a die!");
         else {
@@ -228,12 +219,10 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
                 notifyError(placeMessage.getPlayerID(), "You can't placed the die there!");
             }
         }
-        lock.unlock();
     }
 
     @Override
     public void handleMove(DraftMessage draftMessage) {
-        lock.lock();
         Player player = model.getPlayerByID(draftMessage.getPlayerID());
         if (player.hasDraftedDie()) notifyError(draftMessage.getPlayerID(), "You have already drafted!");
         else {
@@ -245,12 +234,10 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
                 notifyError(draftMessage.getPlayerID(), "The die you want to draft does not exist!");
             }
         }
-        lock.unlock();
     }
 
     @Override
     public void handleMove(PassMessage passMessage) {
-        lock.lock();
         clock.interrupt();
         Player player = model.getPlayerByID(passMessage.getPlayerID());
         if (model.getRound().getRoundNumber()!= Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
@@ -262,7 +249,6 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         else {
             endTurn(player,passMessage.isHalt());
         }
-        lock.unlock();
     }
 
     public void startMatch() {

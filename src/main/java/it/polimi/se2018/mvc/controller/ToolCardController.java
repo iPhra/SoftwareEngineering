@@ -113,9 +113,10 @@ public class ToolCardController implements ToolCardHandler{
     @Override
     public void useCard(FluxRemover toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
-        board.getBag().insertDie(player.getDieInHand());
         try {
+            Die die = player.getDieInHand();
             player.setDieInHand(board.getBag().extractDie());
+            board.getBag().insertDie(die);
             updateToolCard(toolCardMessage);
             board.notify(new InputResponse(toolCardMessage.getPlayerID(), player.getDieInHand().getColor()));
         }
@@ -186,7 +187,7 @@ public class ToolCardController implements ToolCardHandler{
     @Override
     public void useCard(Lathekin toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
-        boolean twoDiceNotCompatible = false; //this checks that the two die can be moved together
+        boolean twoDiceNotCompatible = false; //this checks if the two die can be moved together
         boolean diceGoInAdjacentPosition = false; //this checks if die go to adjacent position
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         Square squareTwo = player.getWindow().getSquare((toolCardMessage.getStartingPosition().get(1)));
@@ -225,12 +226,15 @@ public class ToolCardController implements ToolCardHandler{
             squareOne.setDie(dieOne);
             throw new ToolCardException("\nFirst die can't be moved there\n");
         }
-        Square squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));
-        Die dieTwo = squareTwo.popDie();
-        if (dieOne.getColor() != dieTwo.getColor())throw new ToolCardException("\nSecond die does not match the color on the Round Tracker\n");
-        if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) throw new ToolCardException("\nDice can't be moved together\n");
-        Coordinate finalPositionTwo = toolCardMessage.getFinalPosition().get(1);
+        Square squareTwo = null;
+        Die dieTwo = null;
+        Coordinate finalPositionTwo = null;
         if (twoDice) {
+            squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));
+            dieTwo = squareTwo.popDie();
+            if (dieOne.getColor() != dieTwo.getColor())throw new ToolCardException("\nSecond die does not match the color on the Round Tracker\n");
+            if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) throw new ToolCardException("\nDice can't be moved together\n");
+            finalPositionTwo = toolCardMessage.getFinalPosition().get(1);
             try {
                 new DiePlacerNoValue(dieTwo, finalPositionTwo, player.getWindow()).placeDie();
             }
@@ -240,6 +244,6 @@ public class ToolCardController implements ToolCardHandler{
             }
         }
         updateToolCard(toolCardMessage);
-        board.createWindowResponse(PLAYER + player.getName() + " used Tap Wheel: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + FROM + squareOne.getDescription() + " to " + finalPositionOne.getDescription() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor() + FROM + squareTwo.getDescription() + " to " + finalPositionTwo.getDescription()+"\n",player.getId());
+        board.createWindowResponse(PLAYER + player.getName() + " used Tap Wheel: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + FROM + squareOne.getDescription() + " to " + finalPositionOne.getDescription() + (twoDice? " and the die " + dieTwo.getValue() + " " + dieTwo.getColor() + FROM + squareTwo.getDescription() + " to " + finalPositionTwo.getDescription()+"\n":""),player.getId());
     }
 }

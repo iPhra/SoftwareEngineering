@@ -53,7 +53,7 @@ public class CLIView extends ClientView {
                 break;
             }
             catch(IOException | NumberFormatException e) {
-                printStream.println("Input is invalid");
+                printStream.println("Input is invalid\n");
             }
             catch(InterruptedException e) {
                 throw new HaltException();
@@ -65,11 +65,11 @@ public class CLIView extends ClientView {
 
     Coordinate getCoordinate() throws ChangeActionException, HaltException {
         cliModel.showYourWindow();
-        printStream.println("Choose the row");
+        printStream.println("\n\nChoose the row");
         int row = takeInput(0, 3);
-        printStream.println("Choose the column");
+        printStream.println("\n\nChoose the column");
         int col = takeInput(0, 4);
-        printStream.println("You chose the position. Press: \n [1] to accept \n [2] to change [3] to do another action");
+        printStream.println("\n\nYou chose the position. Press: \n [1] to accept  [2] to change  [3] to do another action");
         int choice = takeInput(1, 3);
         switch(choice) {
             case 1 : return new Coordinate(row,col);
@@ -85,17 +85,17 @@ public class CLIView extends ClientView {
         int choice = 2;
         cliModel.showRoundTracker();
         while (choice == 2) {
-            printStream.println("Choose the round index. Insert a value from 0 to 9");
+            printStream.println("\n\nChoose the round index. Insert a value from 0 to 9");
             turn = takeInput(0, 9);
             int size = cliModel.getBoard().getRoundTracker().get(turn).size();
-            printStream.println("Choose the position. Insert a value from 0 to " + (size-1));
-            printStream.println("[" + size + "] to change action");
+            printStream.println("\n\nChoose the position. Insert a value from 0 to " + (size-1));
+            printStream.print(" or [" + size + "] to change action");
             pos = takeInput(0, cliModel.getBoard().getRoundTracker().get(turn).size());
             if (pos == size) throw new ChangeActionException();
             else {
-                printStream.print("You selected this die: ");
+                printStream.print("\n\nYou selected this die: ");
                 cliModel.showExtendedDice(cliModel.getBoard().getRoundTracker().get(turn).get(pos));
-                printStream.println("Are you sure? \n [1] to accept  [2] to change position");
+                printStream.println("\n\nAre you sure? \n [1] to accept  [2] to change position");
                 choice = takeInput(1, 2);
             }
         }
@@ -105,12 +105,12 @@ public class CLIView extends ClientView {
     int getDraftPoolPosition() throws ChangeActionException, HaltException {
         int choice;
         int confirm;
-        printStream.print("Select the index of the die to choose. ");
+        printStream.print("\n\nSelect the index of the die to choose. ");
         cliModel.showDraftPool();
         choice = takeInput(0, cliModel.getBoard().getDraftPool().size() - 1);
-        printStream.println("You selected this die: ");
+        printStream.println("\n\nYou selected this die: ");
         cliModel.showExtendedDice(cliModel.getBoard().getDraftPool().get(choice));
-        printStream.println("Are you sure? \n [1] to accept  [2] to change \n [3] to choose another action");
+        printStream.println("\n\nAre you sure? \n [1] to accept  [2] to change  [3] to choose another action");
         confirm = takeInput(1, 3);
         switch(confirm) {
             case 1: return choice;
@@ -120,12 +120,12 @@ public class CLIView extends ClientView {
     }
 
     int getDieValue() throws HaltException {
-        printStream.print("Choose the value of the die (value goes from 1 to 6)");
+        printStream.print("\n\nChoose the value of the die (value goes from 1 to 6)");
         return takeInput(1,6);
     }
 
     int getIncrementOrDecrement() throws HaltException {
-        printStream.println("0 to decrease, 1 to increase.");
+        printStream.println("\n\n0 to decrease, 1 to increase.");
         return takeInput(0,1);
     }
 

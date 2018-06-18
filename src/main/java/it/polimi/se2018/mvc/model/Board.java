@@ -32,7 +32,7 @@ public class Board extends Observable<Response> {
     /**
      * value of rounds in one game
      */
-    public static final int ROUNDSNUMBER = 1;
+    public static final int ROUNDSNUMBER = 10;
     /**
      * value of tool cards in one game
      */
