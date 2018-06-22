@@ -96,7 +96,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         }
         model.incrementStateID();
         if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
-        model.createDraftPoolResponse(PLAYER + player.getName() + " passed the turn. It's "+ model.getPlayerByID(model.getRound().getCurrentPlayerID()).getName()+"'s turn.");
+        model.createDraftPoolResponse(PLAYER + player.getName() + " passed the turn.\nIt's "+ model.getPlayerByID(model.getRound().getCurrentPlayerID()).getName()+"'s turn.");
         startTimer();
     }
 
@@ -229,7 +229,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             try {
                 draft(draftMessage);
                 Die die= model.getPlayerByID(model.getRound().getCurrentPlayerID()).getDieInHand();
-                model.createDraftPoolResponse(PLAYER + player.getName() + " drafted the die " + die.getValue() + " " + die.getColor());
+                model.createDraftPoolResponse(PLAYER + player.getName() + " drafted a " + die.getValue() + " " + die.getColor());
             } catch (NoDieException e) {
                 notifyError(draftMessage.getPlayerID(), "The die you want to draft does not exist!");
             }

@@ -118,7 +118,6 @@ public class GameSceneController implements SceneController, Initializable{
         }
         draftPoolButtons = new ArrayList<>();
         roundTrackerMenuItems = new ArrayList<>();
-        serviceLabel.setText("Game just started");
         setRightGridpane();
         setBotGridPane();
         setLeftGridpane();

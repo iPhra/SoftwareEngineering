@@ -9,26 +9,19 @@ import it.polimi.se2018.utils.Observer;
 import java.util.List;
 
 public class GUIController implements SyncResponseHandler, Observer<SyncResponse> {
-    private static final String NOT_TURN = "\nIt's not your turn. You can't do anything";
     private final int playerID;
     private final GUIView guiView;
     private final GUIModel guiModel;
     private SceneController sceneController;
     private List<Window> windows;
     private boolean isGameStarted;
-    //qualcosa equivalente a toolcardplayerinput
+    //todo edo metti qualcosa di simile a toolCardPlayerInput
 
     GUIController(GUIView guiView, GUIModel guiModel, int playerID){
         this.playerID = playerID;
         this.guiView = guiView;
         this.guiModel = guiModel;
         isGameStarted = false;
-    }
-
-    public void refreshText(String description) {
-        if (playerID == guiModel.getBoard().getCurrentPlayerID())
-            ((GameSceneController) sceneController).setText(description);
-        else ((GameSceneController) sceneController).setText(description + NOT_TURN);
     }
 
     public GUIModel getGuiModel() {
@@ -51,6 +44,10 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         this.windows = windows;
     }
 
+    public void refreshText(String description) {
+        ((GameSceneController) sceneController).setText(description);
+    }
+
     @Override
     public void handleResponse(ModelViewResponse modelViewResponse) {
         guiModel.setBoard(modelViewResponse.getModelView());
@@ -61,20 +58,21 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
             isGameStarted = true;
             sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
         }
-        else {
-            ((GameSceneController) sceneController).refreshAll();
-            refreshText(modelViewResponse.getDescription());
-        }
+        else ((GameSceneController) sceneController).refreshAll();
+        String message = "";
+        if(modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
+        else message = "Started, ";
+        refreshText(message+(guiModel.getBoard().getCurrentPlayerID()==playerID? "it's your turn" : "it's not your turn"));
     }
 
     @Override
     public void handleResponse(TextResponse textResponse) {
-        refreshText(textResponse.getDescription());
+        refreshText("Invalid move");
     }
 
     @Override
     public void handleResponse(ToolCardResponse toolCardResponse) {
-        //cambia stato e permetti di usare la tool card adesso
+        //todo edo cambia stato e permetti di usare la tool card adesso
     }
 
     @Override
@@ -90,7 +88,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     @Override
     public void handleResponse(InputResponse inputResponse) {
         refreshText("Color of the die is " + inputResponse.getColor()+"\n");
-        /* cosa devo fare qui?
+        /* todo edo cosa devo fare qui?
         int choice = cliView.getDieValue();
         cliView.handleNetworkOutput(new InputMessage(playerID, cliModel.getBoard().getStateID(), choice));
         */
@@ -111,10 +109,10 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         guiModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
         if(reconnectionResponse.isWindowsChosen()) {
             ModelViewResponse response = reconnectionResponse.getModelViewResponse();
-            response.setDescription("Reconnected, wait for your turn\n");
+            response.setDescription("Reconnected\n");
             handleResponse(response);
         }
-        else refreshText("\nReconnected, wait for other players to choose their Windows\n\n");
+        else refreshText("\nReconnected\n\n");
     }
 
     @Override
@@ -131,7 +129,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setDraftPool(draftPoolResponse.getDraftPool());
         //refresha la draft pool, i favor points e il dado in mano
         //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
-        refreshText(draftPoolResponse.getDescription());
+        String message = draftPoolResponse.getDescription();
+        if(message.contains("passed")) refreshText("Turn ends, "+(modelView.getCurrentPlayerID()==playerID? "it's your turn" : "it's not your turn"));
+        else refreshText(message);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
         //refresha il round tracker, i favor points e il dado in mano
         //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
-        refreshText(roundTrackerResponse.getDescription());
+        refreshText("Round Tracker has been updated");
     }
 
     @Override
@@ -165,7 +165,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
         //refresha la window, i favor points e il dado in mano
         //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
-        refreshText(windowResponse.getDescription());
+        refreshText("Windows have been updated");
     }
 
     @Override
@@ -181,7 +181,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
         //refresha il dado in mano e i favor points
         //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
-        refreshText(modelUpdateResponse.getDescription());
     }
 
     @Override
