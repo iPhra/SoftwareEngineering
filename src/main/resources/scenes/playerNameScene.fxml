@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+
 <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="600.0" styleClass="anchor" stylesheets="@../background.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.client.view.gui.PlayerNameSceneController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="303.0" minWidth="10.0" prefWidth="111.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="440.0" minWidth="10.0" prefWidth="375.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="114.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="303.0" minWidth="9.0" prefWidth="18.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.0" minWidth="10.0" prefWidth="561.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="21.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -16,16 +20,11 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="label" alignment="CENTER" contentDisplay="RIGHT" prefHeight="31.0" prefWidth="450.0" text="Choose your nickname!" GridPane.columnIndex="1">
+      <Label fx:id="label" alignment="CENTER" contentDisplay="RIGHT" prefHeight="31.0" prefWidth="565.0" text="Choose your nickname!" GridPane.columnIndex="1">
          <font>
-            <Font size="21.0" />
+            <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <TextField fx:id="nickTextField" onAction="#onReturnHandler" prefHeight="25.0" prefWidth="355.0" promptText="Enter your nickname here" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="377.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
+      <TextField fx:id="nickTextField" maxWidth="-Infinity" onAction="#onReturnHandler" prefHeight="25.0" prefWidth="384.0" promptText="Enter your nickname here" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
    </children>
 </GridPane>

@@ -41,7 +41,7 @@ public class PlayerNameSceneController implements SceneController {
             ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(this);
             label.setText("Your nickname is ok. Waiting for other players");
             nickTextField.setEditable(false);
-        }else label.setText("This nickname is already taken, please choose another one");
+        }else label.setText("Nickname already taken, choose another one");
     }
 
     public void setGuiClient(GUIClient guiClient) {

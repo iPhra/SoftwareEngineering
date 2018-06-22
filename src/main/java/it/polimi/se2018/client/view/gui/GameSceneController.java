@@ -309,7 +309,7 @@ public class GameSceneController implements SceneController, Initializable{
         }
         int myIndex = guiModel.getBoard().getPlayerID().indexOf(playerID);
         nameLabel.setText(guiModel.getBoard().getPlayerNames().get(myIndex));
-        favorPointsLabel.setText(String.valueOf(guiModel.getBoard().getPlayerFavorPoint().get(myIndex)));
+        favorPointsLabel.setText("You have " + guiModel.getBoard().getPlayerFavorPoint().get(myIndex) + " Favor Points");
         if(guiModel.getBoard().hasDieInHand()){
             dieInHand = guiModel.getBoard().getDieInHand();
             dieInHandImageVIew = new ImageView(new Image("./dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
@@ -398,7 +398,7 @@ public class GameSceneController implements SceneController, Initializable{
         List<List<Die>> roundTracker = new ArrayList<>(guiModel.getBoard().getRoundTracker());
         for(int i=0; i < roundTracker.size(); i++){
             List<MenuItemRoundTracker> singleRound = new ArrayList<>();
-            for(int j=0; j < roundTracker.get(0).size(); j++){
+            for(int j=0; j < roundTracker.get(i).size(); j++){
                 singleRound.add(new MenuItemRoundTracker(playerID,new Coordinate(i,j),roundTracker.get(i).get(j)));
                 roundTrackerMenuItems.add(singleRound);
             }
