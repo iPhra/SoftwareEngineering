@@ -11,16 +11,16 @@ public class ButtonToolCard extends ButtonGame {
     private final int toolCardNumber;
     private ToolCard toolCard;
 
-    public int getToolCardNumber() {
-        return toolCardNumber;
-    }
-
     public ButtonToolCard(int playerID, int toolCardNumber, ToolCard toolCard) {
         this.playerID = playerID;
         this.toolCardNumber = toolCardNumber;
         this.toolCard = toolCard;
         setImage(toolCard.getImagePath());
         disarm();
+    }
+
+    public int getToolCardNumber() {
+        return toolCardNumber;
     }
 
     @Override

@@ -130,6 +130,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
         modelView.setDraftPool(draftPoolResponse.getDraftPool());
         //refresha la draft pool, i favor points e il dado in mano
+        //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
         refreshText(draftPoolResponse.getDescription());
     }
 
@@ -146,6 +147,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
         modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
         //refresha il round tracker, i favor points e il dado in mano
+        //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
         refreshText(roundTrackerResponse.getDescription());
     }
 
@@ -162,6 +164,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
         modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
         //refresha la window, i favor points e il dado in mano
+        //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
         refreshText(windowResponse.getDescription());
     }
 
@@ -177,6 +180,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(modelUpdateResponse.getStateID());
         modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
         //refresha il dado in mano e i favor points
+        //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
         refreshText(modelUpdateResponse.getDescription());
     }
 

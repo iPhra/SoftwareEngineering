@@ -20,6 +20,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,7 +54,7 @@ public class GameSceneController implements SceneController, Initializable{
     private GUIClient guiClient;
     private final int playerID;
     private Die dieInHand;
-    private ImageView privateObjectiveImageVIew;
+    private ImageView dieInHandImageVIew;
     private Pane draftPoolPane;
     private Pane roundTrackerPane;
     private ToolCardMessage toolCardMessage;
@@ -88,6 +89,9 @@ public class GameSceneController implements SceneController, Initializable{
     @FXML
     private Label favorPointsLabel;
 
+    @FXML
+    private Button passButton;
+
     public GameSceneController(GUIController guiController) {
         this.guiView = guiController.getGuiView();
         this.guiModel = guiController.getGuiModel();
@@ -98,6 +102,7 @@ public class GameSceneController implements SceneController, Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        passButton.setOnAction(e -> passTurnButtonClicked());
         borderPane.setPadding(new Insets(120,20,110,20));
         windowPlayerButtons = new ArrayList<>();
         for(Square[] row : guiModel.getBoard().getPlayerWindows().get(guiModel.getBoard().getPlayerID().indexOf(playerID))){
@@ -108,6 +113,8 @@ public class GameSceneController implements SceneController, Initializable{
         toolCardButtons = new ArrayList<>();
         for(int i=0; i < guiModel.getToolCards().size(); i++){
             toolCardButtons.add(new ButtonToolCard(playerID, i, guiModel.getToolCards().get(i)));
+            //here you define what happens if you click on a toolcard
+            toolCardButtons.get(i).setOnAction(e -> buttonToolCardClicked(((ButtonToolCard)e.getSource()).getToolCardNumber()));
         }
         draftPoolButtons = new ArrayList<>();
         roundTrackerMenuItems = new ArrayList<>();
@@ -156,7 +163,8 @@ public class GameSceneController implements SceneController, Initializable{
                 menuItemRoundTracker.setDisable(true);
             }
         }
-        //(comment by emilio) I don't know why you call refreshAll(). It creates new staff with buttons that are not disabled
+        //(comment by emilio, old) I don't know why you call refreshAll(). It creates new staff with buttons that are not disabled
+        //(comment by emilio 22/06/2018) actually i think it's right. you pass the disabled buttons to the sub-fxmls
         refreshAll();
     }
 
@@ -304,10 +312,10 @@ public class GameSceneController implements SceneController, Initializable{
         favorPointsLabel.setText(String.valueOf(guiModel.getBoard().getPlayerFavorPoint().get(myIndex)));
         if(guiModel.getBoard().hasDieInHand()){
             dieInHand = guiModel.getBoard().getDieInHand();
-            privateObjectiveImageVIew = new ImageView(new Image("./dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
-            privateObjectiveImageVIew.setFitWidth(30);
-            privateObjectiveImageVIew.setFitHeight(30);
-            botGridPane.add(privateObjectiveImageVIew,2,0);
+            dieInHandImageVIew = new ImageView(new Image("./dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
+            dieInHandImageVIew.setFitWidth(30);
+            dieInHandImageVIew.setFitHeight(30);
+            botGridPane.add(dieInHandImageVIew,2,0);
         }
 
         ImageView imageView = new ImageView(new Image(guiModel.getPrivateObjective().getImagePath()));
@@ -406,7 +414,7 @@ public class GameSceneController implements SceneController, Initializable{
             public void run() {
                 leftGridPane.getChildren().clear();
                 botGridPane.getChildren().remove(dieInHand);
-                botGridPane.getChildren().remove(privateObjectiveImageVIew);
+                botGridPane.getChildren().remove(dieInHandImageVIew);
                 rightGridPane.getChildren().clear();
                 setLeftGridpane();
                 setRightGridpane();
@@ -429,14 +437,21 @@ public class GameSceneController implements SceneController, Initializable{
     }
 
     /**
-     * This method is called when the number of favor points of the player changed
-     * @param favorPoints it's the new number of favor points
+     * This method is called when it's needed to refresh the die in hand of the player and the number of his favor points
      */
-    public void refreshFavorPoints(int favorPoints){
+    public void refreshFavorPointsAndDieInHand(){
         Platform.runLater((new Runnable() {
             @Override
             public void run() {
-                favorPointsLabel.setText(String.valueOf(favorPoints));
+                favorPointsLabel.setText(String.valueOf(guiModel.getBoard().getPlayerFavorPoint()));
+                botGridPane.getChildren().remove(dieInHandImageVIew);
+                if(guiModel.getBoard().hasDieInHand()) {
+                    dieInHand = guiModel.getBoard().getDieInHand();
+                    dieInHandImageVIew = new ImageView(new Image("./dice/" + dieInHand.getColor().getAbbreviation() + dieInHand.getValue() + ".png"));
+                    dieInHandImageVIew.setFitWidth(30);
+                    dieInHandImageVIew.setFitHeight(30);
+                    botGridPane.add(dieInHandImageVIew,2,0);
+                }else dieInHand = null;
             }
         }));
     }
