@@ -17,7 +17,7 @@ public abstract class Message implements Serializable {
      */
     private final int stateID;
 
-    Message(int playerID, int stateID) {
+    public Message(int playerID, int stateID) {
         this.playerID = playerID;
         this.stateID = stateID;
     }

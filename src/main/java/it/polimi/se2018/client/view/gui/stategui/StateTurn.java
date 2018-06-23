@@ -17,6 +17,7 @@ public class StateTurn extends State {
     @Override
     public void doActionWindow(Coordinate coordinate) {
         PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), coordinate);
+        gameSceneController.getGuiView().handleNetworkOutput(placeMessage);
         //send message
         gameSceneController.getGuiView().handleNetworkOutput(placeMessage);
         changeState(new StateTurn(gameSceneController));

@@ -1,10 +1,14 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Window;
+import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import it.polimi.se2018.utils.Observer;
+import it.polimi.se2018.utils.exceptions.ChangeActionException;
+import it.polimi.se2018.utils.exceptions.HaltException;
 
 import java.util.List;
 
@@ -44,6 +48,11 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         this.windows = windows;
     }
 
+    private void checkTurn() {
+        if (playerID != guiModel.getPlayerID()) ((GameSceneController) sceneController).disableAllButton();
+        else ((GameSceneController) sceneController).setAllButton();
+    }
+
     public void refreshText(String description) {
         ((GameSceneController) sceneController).setText(description);
     }
@@ -63,15 +72,27 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         if(modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
         else message = "Started, ";
         refreshText(message+(guiModel.getBoard().getCurrentPlayerID()==playerID? "it's your turn" : "it's not your turn"));
+        ((GameSceneController) sceneController).refreshAll();
+        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        checkTurn();
     }
 
     @Override
     public void handleResponse(TextResponse textResponse) {
         refreshText("Invalid move");
+        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        checkTurn();
     }
 
     @Override
     public void handleResponse(ToolCardResponse toolCardResponse) {
+        try {
+            ((GameSceneController) sceneController).useToolCard(toolCardResponse.getToolCardNumber());
+        } catch (ChangeActionException e) {
+            e.printStackTrace();
+        } catch (HaltException e) {
+            e.printStackTrace();
+        }
         //todo edo cambia stato e permetti di usare la tool card adesso
     }
 
@@ -82,7 +103,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         setWindows(setupResponse.getWindows());
         ((PlayerNameSceneController) sceneController).setWindows(windows);
         ((PlayerNameSceneController) sceneController).setPrivateObjective(setupResponse.getPrivateObjective());
-        sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to SelectWindowScene
+        sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to SelectWindowScene1
     }
 
     @Override
@@ -113,6 +134,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
             handleResponse(response);
         }
         else refreshText("\nReconnected\n\n");
+        ((GameSceneController) sceneController).refreshAll();
+        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        checkTurn();
     }
 
     @Override
@@ -132,6 +156,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         String message = draftPoolResponse.getDescription();
         if(message.contains("passed")) refreshText("Turn ends, "+(modelView.getCurrentPlayerID()==playerID? "it's your turn" : "it's not your turn"));
         else refreshText(message);
+        ((GameSceneController) sceneController).refreshAll();
+        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        checkTurn();
     }
 
     @Override
@@ -149,6 +176,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         //refresha il round tracker, i favor points e il dado in mano
         //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
         refreshText("Round Tracker has been updated");
+        ((GameSceneController) sceneController).refreshAll();
+        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        checkTurn();
     }
 
     @Override
@@ -166,6 +196,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         //refresha la window, i favor points e il dado in mano
         //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
         refreshText("Windows have been updated");
+        ((GameSceneController) sceneController).refreshAll();
+        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        checkTurn();
     }
 
     @Override
@@ -181,6 +214,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
         //refresha il dado in mano e i favor points
         //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
+        ((GameSceneController) sceneController).refreshAll();
+        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        checkTurn();
     }
 
     @Override

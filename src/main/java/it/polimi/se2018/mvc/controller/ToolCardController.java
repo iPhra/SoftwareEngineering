@@ -53,22 +53,6 @@ public class ToolCardController implements ToolCardHandler{
     }
 
     @Override
-    public void useCard (CorkBackedStraightedge toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
-        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
-        try {
-            Die dieToPlace = player.getDieInHand();
-            DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), player.getWindow());
-            placer.placeDie();
-            player.dropDieInHand();
-            updateToolCard(toolCardMessage);
-            board.createWindowResponse(PLAYER + player.getName() + " used Cork Backed Straightedge: \nhe/she placed the drafted die on " + toolCardMessage.getFinalPosition().get(0).getDescription()+"\n",player.getId());
-        }
-        catch (InvalidPlacementException e) {
-            throw new ToolCardException(INVALID_POSITION);
-        }
-    }
-
-    @Override
     public void useCard (CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
@@ -81,6 +65,22 @@ public class ToolCardController implements ToolCardHandler{
         }
         catch (InvalidPlacementException e) {
             revertSquare(squareStart, dieToMove);
+        }
+    }
+
+    @Override
+    public void useCard (CorkBackedStraightedge toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
+        try {
+            Die dieToPlace = player.getDieInHand();
+            DiePlacerAlone placer = new DiePlacerAlone(dieToPlace, toolCardMessage.getFinalPosition().get(0), player.getWindow());
+            placer.placeDie();
+            player.dropDieInHand();
+            updateToolCard(toolCardMessage);
+            board.createWindowResponse(PLAYER + player.getName() + " used Cork Backed Straightedge: \nhe/she placed the drafted die on " + toolCardMessage.getFinalPosition().get(0).getDescription()+"\n",player.getId());
+        }
+        catch (InvalidPlacementException e) {
+            throw new ToolCardException(INVALID_POSITION);
         }
     }
 
@@ -165,26 +165,6 @@ public class ToolCardController implements ToolCardHandler{
     }
 
     @Override
-    public void useCard(LensCutter toolCard, ToolCardMessage toolCardMessage) {
-        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
-        Die dieDrafted = player.getDieInHand();
-        Die dieFromRoundTrack = board.getRoundTracker().getDie(toolCardMessage.getRoundTrackerPosition().getRow(), toolCardMessage.getRoundTrackerPosition().getCol());
-        player.setDieInHand(dieFromRoundTrack);
-        board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().getRow(), dieDrafted);
-        updateToolCard(toolCardMessage);
-        board.createRoundTrackerResponse(PLAYER + player.getName() + " used Lens Cutter: \nhw/she swapped the drafted die with the die " + dieFromRoundTrack.getValue() + " " + dieFromRoundTrack.getColor() + " from the Round Tracker\n");
-    }
-
-    @Override
-    public void useCard(RunningPliers toolCard, ToolCardMessage toolCardMessage) {
-        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
-        player.setHasDraftedDie(false);
-        board.getRound().denyNextTurn();
-        updateToolCard(toolCardMessage);
-        board.createModelUpdateResponse(PLAYER + player.getName() + " used Running Pliers and is now playing another turn\n");
-    }
-
-    @Override
     public void useCard(Lathekin toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         boolean twoDiceNotCompatible = false; //this checks if the two die can be moved together
@@ -207,6 +187,26 @@ public class ToolCardController implements ToolCardHandler{
             squareTwo.setDie(dieTwo);
             throw new ToolCardException("Invalid move\n");
         }
+    }
+
+    @Override
+    public void useCard(LensCutter toolCard, ToolCardMessage toolCardMessage) {
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
+        Die dieDrafted = player.getDieInHand();
+        Die dieFromRoundTrack = board.getRoundTracker().getDie(toolCardMessage.getRoundTrackerPosition().getRow(), toolCardMessage.getRoundTrackerPosition().getCol());
+        player.setDieInHand(dieFromRoundTrack);
+        board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().getRow(), dieDrafted);
+        updateToolCard(toolCardMessage);
+        board.createRoundTrackerResponse(PLAYER + player.getName() + " used Lens Cutter: \nhw/she swapped the drafted die with the die " + dieFromRoundTrack.getValue() + " " + dieFromRoundTrack.getColor() + " from the Round Tracker\n");
+    }
+
+    @Override
+    public void useCard(RunningPliers toolCard, ToolCardMessage toolCardMessage) {
+        Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
+        player.setHasDraftedDie(false);
+        board.getRound().denyNextTurn();
+        updateToolCard(toolCardMessage);
+        board.createModelUpdateResponse(PLAYER + player.getName() + " used Running Pliers and is now playing another turn\n");
     }
 
     @Override
