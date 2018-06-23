@@ -50,16 +50,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         this.windows = windows;
     }
 
-    private void checkTurn() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (playerID != guiModel.getBoard().getCurrentPlayerID()) ((GameSceneController) sceneController).disableAllButton();
-                else ((GameSceneController) sceneController).setAllButton();
-            }
-        });
-    }
-
     public void refreshText(String description) {
         ((GameSceneController) sceneController).setText(description);
     }
@@ -75,9 +65,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
             sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
         }
         else {
-            ((GameSceneController) sceneController).refreshAll();
+            ((GameSceneController) sceneController).clearAndRefreshAll();
         }
-        checkTurn();
+        //checkTurn();
         String message = "";
         if (modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
         else message = "Started, ";
@@ -89,7 +79,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     public void handleResponse(TextResponse textResponse) {
         refreshText("Invalid move");
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        checkTurn();
     }
 
     @Override
@@ -137,7 +126,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         }
         else refreshText("\nReconnected\n\n");
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        checkTurn();
     }
 
     @Override
@@ -152,13 +140,14 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(draftPoolResponse.getStateID());
         modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
         modelView.setDraftPool(draftPoolResponse.getDraftPool());
-        ((GameSceneController) sceneController).refreshDraftPool();
-        ((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
+        //((GameSceneController) sceneController).refreshDraftPool();
+        //((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
+        ((GameSceneController) sceneController).clearAndRefreshAll();
         String message = draftPoolResponse.getDescription();
         if(message.contains("passed")) refreshText("Turn ends, "+(modelView.getCurrentPlayerID()==playerID? "it's your turn" : "it's not your turn"));
         else refreshText(message);
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        checkTurn();
+        //checkTurn();
     }
 
     @Override
@@ -173,11 +162,12 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(roundTrackerResponse.getStateID());
         modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
         modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
-        ((GameSceneController) sceneController).refreshRoundTracker();
-        ((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
+        //((GameSceneController) sceneController).refreshRoundTracker();
+        //((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
+        ((GameSceneController) sceneController).clearAndRefreshAll();
         refreshText("Round Tracker has been updated");
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        checkTurn();
+        //checkTurn();
     }
 
     @Override
@@ -193,10 +183,10 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
         modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
         //todo quando emilio implementa il metodo giusto, cambiare refreshAll con il refresh della window e quello del dado in mano
-        ((GameSceneController) sceneController).refreshAll();
+        ((GameSceneController) sceneController).clearAndRefreshAll();
         refreshText("Windows have been updated");
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        checkTurn();
+        //checkTurn();
     }
 
     @Override
@@ -210,9 +200,10 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
         modelView.setStateID(modelUpdateResponse.getStateID());
         modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
-        ((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
+        //((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
+        ((GameSceneController) sceneController).clearAndRefreshAll();
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        checkTurn();
+        //checkTurn();
     }
 
     @Override

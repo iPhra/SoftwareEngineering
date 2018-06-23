@@ -16,7 +16,7 @@ public class ButtonCheckUsabilityTurn implements ButtonCheckUsabilityHandler {
 
     @Override
     public boolean checkUsability(ButtonSquare buttonSquare) {
-        return (checkTurn() && (!gameSceneController.getGuiModel().getBoard().hasDieInHand()));
+        return (checkTurn() && (gameSceneController.getGuiModel().getBoard().hasDieInHand()));
     }
 
     @Override
