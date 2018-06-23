@@ -371,7 +371,7 @@ public class GameSceneController implements SceneController, Initializable{
      */
     private Pane paneRoundTracker(){
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/RoundTrackerScene.fxml")));
-        loader.setController(new RoundTrackerSceneController(roundTrackerMenuItems));
+        loader.setController(new RoundTrackerSceneController(roundTrackerMenuItems, this));
         Pane pane = new Pane();
         try{
             Node node = loader.load();

@@ -14,19 +14,36 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class RoundTrackerSceneController implements Initializable {
-    private final List<List<MenuItemRoundTracker>> roundTracker;
+    private List<List<MenuItemRoundTracker>> roundTracker;
+    private GameSceneController gameSceneController;
     private List<MenuButton> menuButtonList;
 
     @FXML
     private GridPane gridPane;
 
-    public RoundTrackerSceneController(List<List<MenuItemRoundTracker>> roundTracker){
+    public RoundTrackerSceneController(List<List<MenuItemRoundTracker>> roundTracker, GameSceneController gameSceneController){
         this.roundTracker = roundTracker;
+        this.gameSceneController = gameSceneController;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        int i=0;
+        for(int i=0; i < roundTracker.size(); i++){
+            MenuButton menuButton = new MenuButton();
+            for(int j=0; j<roundTracker.get(i).size(); j++){
+                MenuItemRoundTracker menuItemRoundTracker = roundTracker.get(i).get(j);
+                menuItemRoundTracker.setOnAction(e -> gameSceneController.buttonCoordinateClicked(((MenuItemRoundTracker)e.getSource()).getCoordinate()));
+                menuButton.getItems().add(menuItemRoundTracker);
+                menuButton.setStyle("-fx-background-color : transparent;");
+            }
+            menuButtonList.add(menuButton);
+            gridPane.add(menuButton, 9-i, 0);
+            GridPane.setHalignment(menuButton, HPos.CENTER);
+            GridPane.setValignment(menuButton, VPos.CENTER);
+        }
+
+        //deprecated but i may need it in the future
+        /*int i=0;
         menuButtonList = new ArrayList<>();
         for(List<MenuItemRoundTracker> menuItemRoundTrackerList : roundTracker){
             MenuButton menuButton = new MenuButton();
@@ -39,7 +56,7 @@ public class RoundTrackerSceneController implements Initializable {
             GridPane.setHalignment(menuButton, HPos.CENTER);
             GridPane.setValignment(menuButton, VPos.CENTER);
             i++;
-        }
+        }*/
 
 
         //deprecated but i may need it in the future

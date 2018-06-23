@@ -24,6 +24,10 @@ public class MenuItemRoundTracker extends MenuItem {
         setDisable(true);
     }
 
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
     public void checkCondition(ButtonCheckUsabilityHandler handler){
         usable = handler.checkUsability(this);
         if(usable) setDisable(false);
