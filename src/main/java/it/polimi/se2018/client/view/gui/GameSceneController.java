@@ -199,9 +199,8 @@ public class GameSceneController implements SceneController, Initializable{
 
     //togliere le eccezioni e capire se servono o come gestirle
     //This method is called by network input when you receive an ack that allow you to use the toolcard
-    public void useToolCard(int toolCardIndex) throws ChangeActionException, HaltException {
+    public void useToolCard(int toolCardIndex) {
         ToolCard toolCard = guiModel.getToolCards().get(toolCardIndex);
-        toolCardMessage = new ToolCardMessage(playerID, guiModel.getBoard().getStateID(), toolCardIndex);
         toolCard.handleGUI(toolCardGUI, toolCardIndex);
     }
 
@@ -442,15 +441,17 @@ public class GameSceneController implements SceneController, Initializable{
         Platform.runLater((new Runnable() {
             @Override
             public void run() {
-                favorPointsLabel.setText(String.valueOf(guiModel.getBoard().getPlayerFavorPoint()));
-                botGridPane.getChildren().remove(dieInHandImageVIew);
-                if(guiModel.getBoard().hasDieInHand()) {
-                    dieInHand = guiModel.getBoard().getDieInHand();
-                    dieInHandImageVIew = new ImageView(new Image("./dice/" + dieInHand.getColor().getAbbreviation() + dieInHand.getValue() + ".png"));
-                    dieInHandImageVIew.setFitWidth(30);
-                    dieInHandImageVIew.setFitHeight(30);
-                    botGridPane.add(dieInHandImageVIew,2,0);
-                }else dieInHand = null;
+                if(guiModel.getBoard().getCurrentPlayerID()==playerID) {
+                    favorPointsLabel.setText(String.valueOf(guiModel.getBoard().getPlayerFavorPoint()));
+                    botGridPane.getChildren().remove(dieInHandImageVIew);
+                    if (guiModel.getBoard().hasDieInHand()) {
+                        dieInHand = guiModel.getBoard().getDieInHand();
+                        dieInHandImageVIew = new ImageView(new Image("./dice/" + dieInHand.getColor().getAbbreviation() + dieInHand.getValue() + ".png"));
+                        dieInHandImageVIew.setFitWidth(30);
+                        dieInHandImageVIew.setFitHeight(30);
+                        botGridPane.add(dieInHandImageVIew, 2, 0);
+                    } else dieInHand = null;
+                }
             }
         }));
     }

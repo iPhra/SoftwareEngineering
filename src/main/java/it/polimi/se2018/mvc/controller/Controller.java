@@ -117,7 +117,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         lock.lock();
         if(gameManager.isMatchPlaying()) {
             Player player = model.getPlayerByID(message.getPlayerID());
-            if (!(model.getRound().isYourTurn(player) || message.getStateID() == model.getStateID())) notifyError(message.getPlayerID(), "It's not your turn!");
+            if (!model.getRound().isYourTurn(player) || message.getStateID() != model.getStateID()) notifyError(message.getPlayerID(), "It's not your turn!");
             else message.handle(this);
         }
         else message.handle(this); //if this is a setup response i don't have to check if the turn is correct

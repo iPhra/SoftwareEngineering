@@ -3,12 +3,10 @@ package it.polimi.se2018.client.view.gui;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Window;
-import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import it.polimi.se2018.utils.Observer;
-import it.polimi.se2018.utils.exceptions.ChangeActionException;
-import it.polimi.se2018.utils.exceptions.HaltException;
+import javafx.application.Platform;
 
 import java.util.List;
 
@@ -18,14 +16,14 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     private final GUIModel guiModel;
     private SceneController sceneController;
     private List<Window> windows;
-    private boolean isGameStarted;
+    private boolean gameStarted;
     //todo edo metti qualcosa di simile a toolCardPlayerInput
 
     GUIController(GUIView guiView, GUIModel guiModel, int playerID){
         this.playerID = playerID;
         this.guiView = guiView;
         this.guiModel = guiModel;
-        isGameStarted = false;
+        gameStarted = false;
     }
 
     public GUIModel getGuiModel() {
@@ -40,6 +38,10 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         return playerID;
     }
 
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
     public void setSceneController(SceneController sceneController){
         this.sceneController = sceneController;
     }
@@ -49,8 +51,13 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     }
 
     private void checkTurn() {
-        if (playerID != guiModel.getPlayerID()) ((GameSceneController) sceneController).disableAllButton();
-        else ((GameSceneController) sceneController).setAllButton();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (playerID != guiModel.getBoard().getCurrentPlayerID()) ((GameSceneController) sceneController).disableAllButton();
+                else ((GameSceneController) sceneController).setAllButton();
+            }
+        });
     }
 
     public void refreshText(String description) {
@@ -63,18 +70,19 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         guiModel.setPrivateObjective(modelViewResponse.getPrivateObjective());
         guiModel.setPublicObjectives(modelViewResponse.getPublicObjectives());
         guiModel.setToolCards(modelViewResponse.getToolCards());
-        if (!isGameStarted){
-            isGameStarted = true;
+        if (!gameStarted){
+            gameStarted = true;
             sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
         }
-        else ((GameSceneController) sceneController).refreshAll();
-        String message = "";
-        if(modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
-        else message = "Started, ";
-        refreshText(message+(guiModel.getBoard().getCurrentPlayerID()==playerID? "it's your turn" : "it's not your turn"));
-        ((GameSceneController) sceneController).refreshAll();
-        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        else {
+            ((GameSceneController) sceneController).refreshAll();
+        }
         checkTurn();
+        String message = "";
+        if (modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
+        else message = "Started, ";
+        refreshText(message + (guiModel.getBoard().getCurrentPlayerID() == playerID ? "it's your turn" : "it's not your turn"));
+        ((GameSceneController) sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
     }
 
     @Override
@@ -86,13 +94,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     @Override
     public void handleResponse(ToolCardResponse toolCardResponse) {
-        try {
-            ((GameSceneController) sceneController).useToolCard(toolCardResponse.getToolCardNumber());
-        } catch (ChangeActionException e) {
-            e.printStackTrace();
-        } catch (HaltException e) {
-            e.printStackTrace();
-        }
+        ((GameSceneController) sceneController).useToolCard(toolCardResponse.getToolCardNumber());
         //todo edo cambia stato e permetti di usare la tool card adesso
     }
 
@@ -134,7 +136,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
             handleResponse(response);
         }
         else refreshText("\nReconnected\n\n");
-        ((GameSceneController) sceneController).refreshAll();
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
         checkTurn();
     }
@@ -151,12 +152,11 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(draftPoolResponse.getStateID());
         modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
         modelView.setDraftPool(draftPoolResponse.getDraftPool());
-        //refresha la draft pool, i favor points e il dado in mano
-        //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
+        ((GameSceneController) sceneController).refreshDraftPool();
+        ((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
         String message = draftPoolResponse.getDescription();
         if(message.contains("passed")) refreshText("Turn ends, "+(modelView.getCurrentPlayerID()==playerID? "it's your turn" : "it's not your turn"));
         else refreshText(message);
-        ((GameSceneController) sceneController).refreshAll();
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
         checkTurn();
     }
@@ -173,10 +173,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(roundTrackerResponse.getStateID());
         modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
         modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
-        //refresha il round tracker, i favor points e il dado in mano
-        //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
+        ((GameSceneController) sceneController).refreshRoundTracker();
+        ((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
         refreshText("Round Tracker has been updated");
-        ((GameSceneController) sceneController).refreshAll();
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
         checkTurn();
     }
@@ -193,10 +192,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(windowResponse.getStateID());
         modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
         modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
-        //refresha la window, i favor points e il dado in mano
-        //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
-        refreshText("Windows have been updated");
+        //todo quando emilio implementa il metodo giusto, cambiare refreshAll con il refresh della window e quello del dado in mano
         ((GameSceneController) sceneController).refreshAll();
+        refreshText("Windows have been updated");
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
         checkTurn();
     }
@@ -212,9 +210,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
         modelView.setStateID(modelUpdateResponse.getStateID());
         modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
-        //refresha il dado in mano e i favor points
-        //non devi passare parametri, devi aggiornare dado e favor SOLO se è il tuo turno
-        ((GameSceneController) sceneController).refreshAll();
+        ((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
         checkTurn();
     }
