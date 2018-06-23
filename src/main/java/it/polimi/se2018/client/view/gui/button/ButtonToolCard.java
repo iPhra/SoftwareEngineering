@@ -6,17 +6,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ButtonToolCard extends ButtonGame {
-    private final int playerID;
-    private Boolean usable;
     private final int toolCardNumber;
-    private ToolCard toolCard;
 
-    public ButtonToolCard(int playerID, int toolCardNumber, ToolCard toolCard) {
-        this.playerID = playerID;
+    public ButtonToolCard(int toolCardNumber, ToolCard toolCard) {
         this.toolCardNumber = toolCardNumber;
-        this.toolCard = toolCard;
         setImage(toolCard.getImagePath());
-        disarm();
+        setDisable(true);
     }
 
     public int getToolCardNumber() {
@@ -25,9 +20,9 @@ public class ButtonToolCard extends ButtonGame {
 
     @Override
     public void checkCondition(ButtonCheckUsabilityHandler handler){
-        usable = handler.checkUsability(this);
-        if(usable) arm();
-        else disarm();
+        boolean usable = handler.checkUsability(this);
+        if(usable) setDisable(false);
+        else setDisable(true);
     }
 
     private void setImage(String imageUrl){

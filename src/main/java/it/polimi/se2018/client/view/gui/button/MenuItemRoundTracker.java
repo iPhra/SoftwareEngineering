@@ -8,15 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MenuItemRoundTracker extends MenuItem {
-    private final int playerID;
     private final Coordinate coordinate;
-    private Boolean usable;
-    private Die die;
 
-    public MenuItemRoundTracker(int playerID, Coordinate coordinate, Die die) {
-        this.playerID = playerID;
+    public MenuItemRoundTracker(Coordinate coordinate, Die die) {
         this.coordinate = coordinate;
-        this.die = die;
         ImageView imageView = new ImageView(new Image("./dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png"));
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
@@ -29,7 +24,7 @@ public class MenuItemRoundTracker extends MenuItem {
     }
 
     public void checkCondition(ButtonCheckUsabilityHandler handler){
-        usable = handler.checkUsability(this);
+        boolean usable = handler.checkUsability(this);
         if(usable) setDisable(false);
         else setDisable(true);
     }

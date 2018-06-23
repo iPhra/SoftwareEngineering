@@ -7,19 +7,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ButtonDraftPool extends ButtonGame {
-    private final int playerID;
-    private Boolean usable;
-    private final Die die;
     private int position;
 
-    public ButtonDraftPool(int playerID, Die die) {
-        this.die = die;
-        this.playerID = playerID;
+    public ButtonDraftPool(Die die) {
         ImageView imageView = new ImageView(new Image("./dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png"));
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
         setGraphic(imageView);
-        disarm();
+        setDisable(true);
     }
 
     public void setPosition(int position) {
@@ -32,8 +27,8 @@ public class ButtonDraftPool extends ButtonGame {
 
     @Override
     public void checkCondition(ButtonCheckUsabilityHandler handler){
-        usable = handler.checkUsability(this);
-        if(usable) arm();
-        else disarm();
+        boolean usable = handler.checkUsability(this);
+        if(usable) setDisable(false);
+        else setDisable(true);
     }
 }

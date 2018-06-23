@@ -60,7 +60,7 @@ public class MainTest extends Application{
 
 
 
-        List<ButtonDraftPool> buttons = Arrays.asList(new ButtonDraftPool(1, new Die(1, Color.PURPLE)),new ButtonDraftPool(2, new Die(4,Color.YELLOW)));
+        List<ButtonDraftPool> buttons = Arrays.asList(new ButtonDraftPool(new Die(1, Color.PURPLE)),new ButtonDraftPool(new Die(4,Color.YELLOW)));
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/draftPoolScene.fxml")));
         DraftPoolSceneController draftPoolSceneController = new DraftPoolSceneController(buttons,new GameSceneController(guiController));
         loader.setController(draftPoolSceneController);

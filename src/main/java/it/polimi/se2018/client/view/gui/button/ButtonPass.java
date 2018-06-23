@@ -4,18 +4,15 @@ import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckU
 
 
 public class ButtonPass extends ButtonGame{
-    private final int playerID;
-    private Boolean usable;
 
-    public ButtonPass(int playerID) {
-        this.playerID = playerID;
-        disarm();
+    public ButtonPass() {
+        setDisable(true);
     }
 
     @Override
     public void checkCondition(ButtonCheckUsabilityHandler handler){
-        usable = handler.checkUsability(this);
-        if(usable) arm();
-        else disarm();
+        boolean usable = handler.checkUsability(this);
+        if(usable) setDisable(false);
+        else setDisable(true);
     }
 }

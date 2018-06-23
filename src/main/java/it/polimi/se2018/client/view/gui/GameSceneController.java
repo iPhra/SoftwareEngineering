@@ -107,12 +107,12 @@ public class GameSceneController implements SceneController, Initializable{
         windowPlayerButtons = new ArrayList<>();
         for(Square[] row : guiModel.getBoard().getPlayerWindows().get(guiModel.getBoard().getPlayerID().indexOf(playerID))){
             for(Square square : row){
-                windowPlayerButtons.add(new ButtonSquare(playerID, new Coordinate(square.getRow(), square.getCol()),square));
+                windowPlayerButtons.add(new ButtonSquare(new Coordinate(square.getRow(), square.getCol()),square));
             }
         }
         toolCardButtons = new ArrayList<>();
         for(int i=0; i < guiModel.getToolCards().size(); i++){
-            toolCardButtons.add(new ButtonToolCard(playerID, i, guiModel.getToolCards().get(i)));
+            toolCardButtons.add(new ButtonToolCard(i, guiModel.getToolCards().get(i)));
             //here you define what happens if you click on a toolcard
             toolCardButtons.get(i).setOnAction(e -> buttonToolCardClicked(((ButtonToolCard)e.getSource()).getToolCardNumber()));
         }
@@ -387,7 +387,7 @@ public class GameSceneController implements SceneController, Initializable{
     private void setDraftPoolButtons(){
         draftPoolButtons.clear();
         for(Die die : guiModel.getBoard().getDraftPool()){
-            draftPoolButtons.add(new ButtonDraftPool(playerID, die));
+            draftPoolButtons.add(new ButtonDraftPool(die));
         }
     }
 
@@ -397,7 +397,7 @@ public class GameSceneController implements SceneController, Initializable{
         for(int i=0; i < roundTracker.size(); i++){
             List<MenuItemRoundTracker> singleRound = new ArrayList<>();
             for(int j=0; j < roundTracker.get(i).size(); j++){
-                singleRound.add(new MenuItemRoundTracker(playerID,new Coordinate(i,j),roundTracker.get(i).get(j)));
+                singleRound.add(new MenuItemRoundTracker(new Coordinate(i,j),roundTracker.get(i).get(j)));
                 roundTrackerMenuItems.add(singleRound);
             }
         }
