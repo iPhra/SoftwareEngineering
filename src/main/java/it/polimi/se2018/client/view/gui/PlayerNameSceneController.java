@@ -62,6 +62,7 @@ public class PlayerNameSceneController implements SceneController {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
             SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, ((GUIView) guiClient.getGUIView()).getGuiController());
+            selectWindowSceneController.setGuiClient(guiClient);
             loader.setController(selectWindowSceneController);
             Parent root = loader.load();
             ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(selectWindowSceneController);

@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.GUIClient;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
@@ -28,6 +29,7 @@ import java.util.logging.Logger;
 
 public class SelectWindowSceneController implements SceneController, Initializable{
     private final GUIController guiController;
+    private GUIClient guiClient;
     private final List<Window> windows;
     private final PrivateObjective privateObjective;
     private Stage stage;
@@ -87,6 +89,10 @@ public class SelectWindowSceneController implements SceneController, Initializab
         guiController.getGuiView().handleNetworkOutput(new SetupMessage(guiController.getPlayerID(),0,windows.get(windowNumber)));
     }
 
+    public void setGuiClient(GUIClient guiClient) {
+        this.guiClient = guiClient;
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -96,6 +102,7 @@ public class SelectWindowSceneController implements SceneController, Initializab
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
         try {
             GameSceneController gameSceneController = new GameSceneController(guiController);
+            gameSceneController.setClientGUI(guiClient);
             loader.setController(gameSceneController);
             Parent root = loader.load();
             guiController.setSceneController(gameSceneController);

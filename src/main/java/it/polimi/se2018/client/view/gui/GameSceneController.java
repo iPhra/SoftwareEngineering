@@ -52,7 +52,9 @@ public class GameSceneController implements SceneController, Initializable{
     private GUIClient guiClient;
     private final int playerID;
     private Die dieInHand;
-    private ImageView dieInHandImageVIew;
+    private ImageView dieInHandImageView;
+    private ImageView privateObjectiveImageView;
+    private Pane windowPane;
     private ToolCardMessage toolCardMessage;
     private final ToolCardGUI toolCardGUI;
     private State currentState;
@@ -137,11 +139,11 @@ public class GameSceneController implements SceneController, Initializable{
         loader.setController((new WindowSceneController(windowPlayerButtons,this)));
         try{
             Node node = loader.load();
-            Pane pane = new Pane();
-            pane.getChildren().add(node);
-            pane.setMaxWidth(206);
-            pane.setMaxHeight(182);
-            botGridPane.add(pane,1,0);
+            windowPane = new Pane();
+            windowPane.getChildren().add(node);
+            windowPane.setMaxWidth(206);
+            windowPane.setMaxHeight(182);
+            botGridPane.add(windowPane,1,0);
         }catch(IOException e){
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
@@ -151,16 +153,16 @@ public class GameSceneController implements SceneController, Initializable{
         favorPointsLabel.setText("You have " + guiModel.getBoard().getPlayerFavorPoint().get(myIndex) + " Favor Points");
         if(guiModel.getBoard().getCurrentPlayerID()==playerID && guiModel.getBoard().hasDieInHand()){
             dieInHand = guiModel.getBoard().getDieInHand();
-            dieInHandImageVIew = new ImageView(new Image("./dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
-            dieInHandImageVIew.setFitWidth(30);
-            dieInHandImageVIew.setFitHeight(30);
-            botGridPane.add(dieInHandImageVIew,2,0);
+            dieInHandImageView = new ImageView(new Image("./dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
+            dieInHandImageView.setFitWidth(30);
+            dieInHandImageView.setFitHeight(30);
+            botGridPane.add(dieInHandImageView,2,0);
         }
 
-        ImageView imageView = new ImageView(new Image(guiModel.getPrivateObjective().getImagePath()));
-        imageView.setFitWidth(181);
-        imageView.setFitHeight(253);
-        botGridPane.add(imageView,3,2);
+        privateObjectiveImageView = new ImageView(new Image(guiModel.getPrivateObjective().getImagePath()));
+        privateObjectiveImageView.setFitWidth(181);
+        privateObjectiveImageView.setFitHeight(253);
+        botGridPane.add(privateObjectiveImageView,3,2);
         botGridPane.setHgap(80);
     }
 
@@ -173,12 +175,11 @@ public class GameSceneController implements SceneController, Initializable{
             imageView.setFitWidth(181);
             imageView.setFitHeight(253);
             leftGridPane.add(imageView,i,1);
-            Pane draftPoolPane = paneDraftPool();
-            leftGridPane.add(draftPoolPane,3,0);
-            Pane roundTrackerPane = paneRoundTracker();
-            leftGridPane.add(roundTrackerPane,3,1);
         }
-
+        Pane draftPoolPane = paneDraftPool();
+        leftGridPane.add(draftPoolPane,3,0);
+        Pane roundTrackerPane = paneRoundTracker();
+        leftGridPane.add(roundTrackerPane,3,1);
         leftGridPane.setVgap(220);
         leftGridPane.setHgap(100);
     }
@@ -235,8 +236,8 @@ public class GameSceneController implements SceneController, Initializable{
             List<MenuItemRoundTracker> singleRound = new ArrayList<>();
             for(int j=0; j < roundTracker.get(i).size(); j++){
                 singleRound.add(new MenuItemRoundTracker(new Coordinate(i,j),roundTracker.get(i).get(j)));
-                roundTrackerMenuItems.add(singleRound);
             }
+            roundTrackerMenuItems.add(singleRound);
         }
     }
 
@@ -267,8 +268,9 @@ public class GameSceneController implements SceneController, Initializable{
             @Override
             public void run() {
                 leftGridPane.getChildren().clear();
-                botGridPane.getChildren().remove(dieInHand);
-                botGridPane.getChildren().remove(dieInHandImageVIew);
+                botGridPane.getChildren().remove(windowPane);
+                botGridPane.getChildren().remove(dieInHandImageView);
+                botGridPane.getChildren().remove(privateObjectiveImageView);
                 rightGridPane.getChildren().clear();
                 setLeftGridpane();
                 setRightGridpane();
@@ -534,13 +536,13 @@ public class GameSceneController implements SceneController, Initializable{
             public void run() {
                 if(guiModel.getBoard().getCurrentPlayerID()==playerID) {
                     favorPointsLabel.setText(String.valueOf(guiModel.getBoard().getPlayerFavorPoint()));
-                    botGridPane.getChildren().remove(dieInHandImageVIew);
+                    botGridPane.getChildren().remove(dieInHandImageView);
                     if (guiModel.getBoard().hasDieInHand()) {
                         dieInHand = guiModel.getBoard().getDieInHand();
-                        dieInHandImageVIew = new ImageView(new Image("./dice/" + dieInHand.getColor().getAbbreviation() + dieInHand.getValue() + ".png"));
-                        dieInHandImageVIew.setFitWidth(30);
-                        dieInHandImageVIew.setFitHeight(30);
-                        botGridPane.add(dieInHandImageVIew, 2, 0);
+                        dieInHandImageView = new ImageView(new Image("./dice/" + dieInHand.getColor().getAbbreviation() + dieInHand.getValue() + ".png"));
+                        dieInHandImageView.setFitWidth(30);
+                        dieInHandImageView.setFitHeight(30);
+                        botGridPane.add(dieInHandImageView, 2, 0);
                     } else dieInHand = null;
                 }
             }
