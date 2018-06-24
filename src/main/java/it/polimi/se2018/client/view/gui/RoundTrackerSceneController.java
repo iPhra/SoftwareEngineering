@@ -9,19 +9,18 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class RoundTrackerSceneController implements Initializable {
-    private List<List<MenuItemRoundTracker>> roundTracker;
-    private GameSceneController gameSceneController;
+    private final List<List<MenuItemRoundTracker>> roundTracker;
+    private final GameSceneController gameSceneController;
     private List<MenuButton> menuButtonList;
 
     @FXML
     private GridPane gridPane;
 
-    public RoundTrackerSceneController(List<List<MenuItemRoundTracker>> roundTracker, GameSceneController gameSceneController){
+    RoundTrackerSceneController(List<List<MenuItemRoundTracker>> roundTracker, GameSceneController gameSceneController){
         this.roundTracker = roundTracker;
         this.gameSceneController = gameSceneController;
     }

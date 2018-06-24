@@ -6,7 +6,6 @@ import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import it.polimi.se2018.utils.Observer;
-import javafx.application.Platform;
 
 import java.util.List;
 
@@ -67,8 +66,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         else {
             ((GameSceneController) sceneController).clearAndRefreshAll();
         }
-        //checkTurn();
-        String message = "";
+        String message;
         if (modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
         else message = "Started, ";
         refreshText(message + (guiModel.getBoard().getCurrentPlayerID() == playerID ? "it's your turn" : "it's not your turn"));
@@ -140,14 +138,11 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(draftPoolResponse.getStateID());
         modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
         modelView.setDraftPool(draftPoolResponse.getDraftPool());
-        //((GameSceneController) sceneController).refreshDraftPool();
-        //((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
         ((GameSceneController) sceneController).clearAndRefreshAll();
         String message = draftPoolResponse.getDescription();
         if(message.contains("passed")) refreshText("Turn ends, "+(modelView.getCurrentPlayerID()==playerID? "it's your turn" : "it's not your turn"));
         else refreshText(message);
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        //checkTurn();
     }
 
     @Override
@@ -162,12 +157,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(roundTrackerResponse.getStateID());
         modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
         modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
-        //((GameSceneController) sceneController).refreshRoundTracker();
-        //((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
         ((GameSceneController) sceneController).clearAndRefreshAll();
         refreshText("Round Tracker has been updated");
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        //checkTurn();
     }
 
     @Override
@@ -186,7 +178,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         ((GameSceneController) sceneController).clearAndRefreshAll();
         refreshText("Windows have been updated");
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        //checkTurn();
     }
 
     @Override
@@ -200,10 +191,8 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
         modelView.setStateID(modelUpdateResponse.getStateID());
         modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
-        //((GameSceneController) sceneController).refreshFavorPointsAndDieInHand();
         ((GameSceneController) sceneController).clearAndRefreshAll();
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-        //checkTurn();
     }
 
     @Override

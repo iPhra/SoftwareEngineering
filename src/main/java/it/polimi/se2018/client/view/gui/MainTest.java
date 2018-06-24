@@ -1,24 +1,7 @@
 package it.polimi.se2018.client.view.gui;
 
-import it.polimi.se2018.client.GUIClient;
-import it.polimi.se2018.client.view.gui.button.ButtonDraftPool;
-import it.polimi.se2018.client.view.gui.button.ButtonSquare;
-import it.polimi.se2018.mvc.model.Color;
-import it.polimi.se2018.mvc.model.Die;
-import it.polimi.se2018.mvc.model.Square;
-import it.polimi.se2018.network.messages.Coordinate;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This Class will be deleted, i use it to test specific scenes

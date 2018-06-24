@@ -10,8 +10,6 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.PassMessage;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-import it.polimi.se2018.utils.exceptions.ChangeActionException;
-import it.polimi.se2018.utils.exceptions.HaltException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,8 +53,6 @@ public class GameSceneController implements SceneController, Initializable{
     private final int playerID;
     private Die dieInHand;
     private ImageView dieInHandImageVIew;
-    private Pane draftPoolPane;
-    private Pane roundTrackerPane;
     private ToolCardMessage toolCardMessage;
     private final ToolCardGUI toolCardGUI;
     private State currentState;
@@ -177,9 +173,9 @@ public class GameSceneController implements SceneController, Initializable{
             imageView.setFitWidth(181);
             imageView.setFitHeight(253);
             leftGridPane.add(imageView,i,1);
-            draftPoolPane = paneDraftPool();
+            Pane draftPoolPane = paneDraftPool();
             leftGridPane.add(draftPoolPane,3,0);
-            roundTrackerPane = paneRoundTracker();
+            Pane roundTrackerPane = paneRoundTracker();
             leftGridPane.add(roundTrackerPane,3,1);
         }
 

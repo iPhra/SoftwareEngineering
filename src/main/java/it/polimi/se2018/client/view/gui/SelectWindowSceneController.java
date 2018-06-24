@@ -77,8 +77,6 @@ public class SelectWindowSceneController implements SceneController, Initializab
         imageView.setFitHeight(263);
         borderPane.setBottom(imageView);
         BorderPane.setAlignment(imageView, Pos.TOP_CENTER);
-        //imageView.maxHeight(200);
-        //imageView.maxWidth(200);
     }
 
     private void windowChosen(int windowNumber){

@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class DraftPoolSceneController implements Initializable{
-    private List<ButtonDraftPool> buttons;
-    private GameSceneController gameSceneController;
+    private final List<ButtonDraftPool> buttons;
+    private final GameSceneController gameSceneController;
 
     @FXML
     private GridPane gridPane;

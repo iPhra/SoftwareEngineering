@@ -1,7 +1,6 @@
 package it.polimi.se2018.mvc.controller;
 
 import it.polimi.se2018.mvc.model.Board;
-import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.*;

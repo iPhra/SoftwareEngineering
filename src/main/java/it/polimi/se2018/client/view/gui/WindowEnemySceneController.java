@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class WindowEnemySceneController implements Initializable{
-    private Square[][] playerWindow;
+    private final Square[][] playerWindow;
 
     @FXML
     private GridPane gridPane;

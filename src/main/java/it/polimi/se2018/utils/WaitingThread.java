@@ -1,13 +1,25 @@
 package it.polimi.se2018.utils;
 
 import java.time.Duration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+/**
+ * This class is used to implement timers
+ */
 public class WaitingThread extends Thread {
 
+    /**
+     * This is the duration of the timer
+     */
     private final Duration timeout;
+
+    /**
+     * This is the thread running this thread
+     */
     private final Stopper caller;
+
+    /**
+     * {@code true} if this thread was interrupted before waking up
+     */
     private Boolean stopped = false;
 
     public WaitingThread(Duration timeout, Stopper caller) {
@@ -24,9 +36,7 @@ public class WaitingThread extends Thread {
             stopped = true;
             Thread.currentThread().interrupt();
         }
-        if (!stopped) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,"Time is up");
+        if (!stopped) { //if no one interrupted this thread, then the timer has expired and i have to interrupt the caller
             caller.halt("Time is up");
         }
     }

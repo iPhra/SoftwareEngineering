@@ -16,16 +16,32 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- *
+ * This class extracts patterns for all Windows dynamically from a JSON file
+ * Used to implement one FA (additional functionality)
  */
 public class WindowBuilder {
+
+    /**
+     * This maps each colored constraint square to its image path in the folder resources
+     */
     private static Map<String,String> colorPaths;
+
+    /**
+     * This maps each valued constraint square to its image path in the folder resources
+     */
     private static Map<Integer,String> valuePaths;
+
+    /**
+     * This maps each level of difficulty of a Window to its image path in the folder resources
+     */
     private static Map<Integer,String> levelPaths;
 
     private WindowBuilder() {
     }
 
+    /**
+     * Initializes all three Maps with the right image paths
+     */
     private static void generatePaths() {
         colorPaths = new HashMap<>();
         valuePaths = new HashMap<>();
@@ -53,6 +69,10 @@ public class WindowBuilder {
         return levelPaths;
     }
 
+    /**
+     * Used by extractWindows(), parses the JSON and builds a list of pair of Windows
+     * @return a shuffled list of all pairs of windows in the file
+     */
     @SuppressWarnings("WhileLoopReplaceableByForEach")
     public static List<Pair<Window,Window>> create() {
         generatePaths();
@@ -87,6 +107,13 @@ public class WindowBuilder {
         }
     }
 
+    /**
+     * Used by create(), creates a single Window
+     * @param title is the title of the window
+     * @param level is the level of the window
+     * @param board is the pattern of this window
+     * @return the new created Window
+     */
     private static Window createMap(String title, int level, String board) {
         Square[][] squares = new Square[4][5];
         String[] tokens = board.split(",");
@@ -109,6 +136,11 @@ public class WindowBuilder {
         return new Window(title,level,squares,levelPaths.get(level));
     }
 
+    /**
+     * Extracts one pair of Windows for each player in the game, used by {@link it.polimi.se2018.mvc.controller.GameManager}
+     * @param players is the number of players in the game
+     * @return a list of pairs
+     */
     public static List<Window> extractWindows(int players) {
         List<Pair<Window, Window>> pairedWindows = WindowBuilder.create();
         List<Window> linearWindows = new ArrayList<>();

@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class WindowSceneController implements Initializable {
-    private List<ButtonSquare> buttons;
-    private GameSceneController gameSceneController;
+    private final List<ButtonSquare> buttons;
+    private final GameSceneController gameSceneController;
 
     @FXML
     private GridPane gridPane;
