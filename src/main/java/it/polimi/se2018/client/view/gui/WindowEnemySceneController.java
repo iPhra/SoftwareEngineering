@@ -1,5 +1,6 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,7 +30,12 @@ public class WindowEnemySceneController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         for(int row=0; row < playerWindow.length; row++) {
             for (int col = 0; col < playerWindow[0].length; col++) {
-                Image image = new Image(playerWindow[row][col].getConstraintPath());
+                Image image;
+                if (playerWindow[row][col].isEmpty()) image = new Image(playerWindow[row][col].getConstraintPath());
+                else {
+                    Die die = playerWindow[row][col].getDie();
+                    image = new Image("./dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png");
+                }
                 ImageView imageView = new ImageView(image);
                 imageView.setFitHeight(35);
                 imageView.setFitWidth(35);

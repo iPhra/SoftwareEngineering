@@ -8,10 +8,13 @@ import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.network.messages.Coordinate;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,9 +43,22 @@ public class MainTest extends Application{
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        GUIView guiView = new GUIView(new GUIClient(),1);
+        /*GUIView guiView = new GUIView(new GUIClient(),1);
         GUIModel guiModel = new GUIModel(guiView,1);
-        GUIController guiController = new GUIController(guiView,guiModel,1);
+        GUIController guiController = new GUIController(guiView,guiModel,1);*/
+
+
+
+
+        /*FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/provaPrincipale.fxml")));
+        Parent root = loader.load();
+        primaryStage.setTitle("Prova principale");
+        primaryStage.setScene(new Scene(root, 600, 623));
+        primaryStage.show();*/
+
+
+
+
         /*List<ButtonSquare> buttons = new ArrayList<>();
         for(int i=0; i < 4; i++){
             for(int j=0; j<5; j++){
@@ -60,14 +76,14 @@ public class MainTest extends Application{
 
 
 
-        List<ButtonDraftPool> buttons = Arrays.asList(new ButtonDraftPool(new Die(1, Color.PURPLE)),new ButtonDraftPool(new Die(4,Color.YELLOW)));
+        /*List<ButtonDraftPool> buttons = Arrays.asList(new ButtonDraftPool(new Die(1, Color.PURPLE)),new ButtonDraftPool(new Die(4,Color.YELLOW)));
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/draftPoolScene.fxml")));
         DraftPoolSceneController draftPoolSceneController = new DraftPoolSceneController(buttons,new GameSceneController(guiController));
         loader.setController(draftPoolSceneController);
         Parent root = loader.load();
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 1000, 700));
-        primaryStage.show();
+        primaryStage.show();*/
 
 
         /*List<Window> windows = WindowBuilder.extractWindows(1);

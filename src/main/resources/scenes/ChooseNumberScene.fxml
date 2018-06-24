@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="261.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.client.view.gui.ChooseNumberSceneController">
+   <children>
+      <Button fx:id="button1" layoutX="56.0" layoutY="38.0" mnemonicParsing="false" onAction="#button1Clicked" text="1" />
+      <Button fx:id="button2" layoutX="219.0" layoutY="38.0" mnemonicParsing="false" onAction="#button2Clicked" text="2" />
+      <Button fx:id="button3" layoutX="372.0" layoutY="38.0" mnemonicParsing="false" onAction="#button3Clicked" text="3" />
+      <Button fx:id="button4" layoutX="56.0" layoutY="201.0" mnemonicParsing="false" onAction="#button4Clicked" text="4" />
+      <Button fx:id="button5" layoutX="219.0" layoutY="201.0" mnemonicParsing="false" onAction="#button5Clicked" text="5" />
+      <Button fx:id="button6" layoutX="372.0" layoutY="201.0" mnemonicParsing="false" onAction="#button6Clicked" text="6" />
+   </children>
+</AnchorPane>

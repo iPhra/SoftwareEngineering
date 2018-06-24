@@ -263,7 +263,8 @@ public class GameSceneController implements SceneController, Initializable{
     }
 
     /**
-     * This method refreshes the whole GameScene
+     * This method refreshes reloads the sub-fxmls and puts in them the lists of buttons. So, it requires that those lists
+     * have been updated already before calling this
      */
     private void refreshAll(){
         Platform.runLater(new Runnable() {
@@ -285,6 +286,9 @@ public class GameSceneController implements SceneController, Initializable{
         else setAllButton();
     }
 
+    /**
+     * This method clears all the lists of buttons, after that, you typically call the method instantiateButtons
+     */
     private void clearAllButtonLists(){
         windowPlayerButtons.clear();
         draftPoolButtons.clear();
@@ -292,11 +296,55 @@ public class GameSceneController implements SceneController, Initializable{
         toolCardButtons.clear();
     }
 
+    /**
+     * This method fills the lists of buttons with the buttons. Requires that at first those list don't contain elements
+     */
     private void instantiateButtons(){
         setWindowPlayerButtons();
         setDraftPoolButtons();
         setRoundTrackerMenuItems();
         setToolCardButtons();
+    }
+
+    /**
+     * This method is called when the toolcard that lets you choose if increase or decrease by one the number of the die
+     * is used. It opens a new stage in which the player can choose. This stage will close after the choice and will
+     * send a message
+     */
+    private void createPlusOrMinusWindow(){
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChoosePlusOrMinusScene.fxml")));
+        ChoosePlusOrMinusSceneController controller = loader.getController();
+        controller.setGameSceneController(this);
+        try {
+            Parent root = loader.load();
+            Stage secondaryStage = new Stage();
+            secondaryStage.setTitle("Choose plus one or minus one");
+            secondaryStage.setScene(new Scene(root, 403, 119));
+            secondaryStage.show();
+        } catch (IOException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
+    }
+
+    /**
+     * This method is called when the toolcard that lets you choose the number of the die is used. It opens a new stage
+     * in which the player can choose. This stage will close after the choice and will send a message
+     */
+    private void createNumberWindow(){
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChooseNumberScene.fxml")));
+        ChooseNumberSceneController controller = loader.getController();
+        controller.setGameSceneController(this);
+        try {
+            Parent root = loader.load();
+            Stage secondaryStage = new Stage();
+            secondaryStage.setTitle("Choose the number");
+            secondaryStage.setScene(new Scene(root, 446, 261));
+            secondaryStage.show();
+        } catch (IOException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
     }
 
     /**
@@ -336,6 +384,10 @@ public class GameSceneController implements SceneController, Initializable{
         return currentState;
     }
 
+    /**
+     * This method disables all the buttons in the lists. After that, it calls method refreshAll in order to reloads the
+     * sub-fxmls and put in them the updated buttons
+     */
     public void disableAllButton(){
         for(ButtonSquare buttonSquare : windowPlayerButtons){
             buttonSquare.disarm();
@@ -351,8 +403,6 @@ public class GameSceneController implements SceneController, Initializable{
                 menuItemRoundTracker.setDisable(true);
             }
         }
-        //(comment by emilio, old) I don't know why you call refreshAll(). It creates new staff with buttons that are not disabled
-        //(comment by emilio 22/06/2018) actually i think it's right. you pass the disabled buttons to the sub-fxmls
         refreshAll();
     }
 
@@ -364,6 +414,10 @@ public class GameSceneController implements SceneController, Initializable{
         this.toolCardMessage = toolCardMessage;
     }
 
+    /**
+     * This method sets disable true or false on every button of the lists, based on the currentState. After that, it
+     * calls method refreshAll in order to reloads the sub-fxmls and put in them the updated buttons
+     */
     public void setAllButton(){
         for(ButtonSquare buttonSquare : windowPlayerButtons){
             buttonSquare.checkCondition(currentState.getButtonCheckUsabilityHandler());
@@ -460,11 +514,19 @@ public class GameSceneController implements SceneController, Initializable{
         }
     }
 
+    /**
+     * This method is called in {@link GUIController} when it's needed to refresh something in the scene. Actually,
+     * it refreshes everything. Also, it calls the method checkTurn
+     */
     public void clearAndRefreshAll(){
         clearAllButtonLists();
         instantiateButtons();
         checkTurn();
     }
+
+
+
+    //(emilio) The following methods are not used now, but i may need them for future fixes. please don't erase them.
 
 
     /**
