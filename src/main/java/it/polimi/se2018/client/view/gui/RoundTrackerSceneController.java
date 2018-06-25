@@ -38,42 +38,5 @@ public class RoundTrackerSceneController implements Initializable {
             GridPane.setHalignment(menuButton, HPos.CENTER);
             GridPane.setValignment(menuButton, VPos.CENTER);
         }
-
-        //deprecated but i may need it in the future
-        /*int i=0;
-        menuButtonList = new ArrayList<>();
-        for(List<MenuItemRoundTracker> menuItemRoundTrackerList : roundTracker){
-            MenuButton menuButton = new MenuButton();
-            for(MenuItemRoundTracker menuItemRoundTracker : menuItemRoundTrackerList){
-                menuButton.getItems().add(menuItemRoundTracker);
-                menuButton.setStyle("-fx-background-color : transparent;");
-            }
-            menuButtonList.add(menuButton);
-            gridPane.add(menuButton,9-i,0);
-            GridPane.setHalignment(menuButton, HPos.CENTER);
-            GridPane.setValignment(menuButton, VPos.CENTER);
-            i++;
-        }*/
-
-
-        //deprecated but i may need it in the future
-        /*for(List<Die> dieList : roundTracker){
-            MenuButton menuButton = new MenuButton();
-            for (Die die : dieList){
-                Label label = new Label();
-                label.setStyle("-fx-background-image:url('./dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png');");
-                label.setPrefHeight(50);
-                label.setPrefWidth(50);
-                MenuItem menuItem = new MenuItem();
-                menuItem.setGraphic(label);
-                menuButton.getItems().add(menuItem);
-                menuButton.setStyle("-fx-background-color : transparent;");
-            }
-            menuButtonList.add(menuButton);
-            gridPane.add(menuButton,9-i,0);
-            GridPane.setHalignment(menuButton, HPos.CENTER);
-            GridPane.setValignment(menuButton, VPos.CENTER);
-            i++;
-        }*/
     }
 }

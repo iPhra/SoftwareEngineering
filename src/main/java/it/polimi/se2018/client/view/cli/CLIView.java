@@ -141,7 +141,7 @@ public class CLIView extends ClientView {
     @Override
     public void handleAsyncEvent(boolean halt, String message) {
         out.println("\n"+message);
-        if(halt)currentThread.interrupt();
+        if(halt) currentThread.interrupt();
     }
 
     @Override

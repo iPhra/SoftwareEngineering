@@ -17,7 +17,7 @@ public class GUIMain extends Application {
         guiClient = new GUIClient();
     }
 
-    GUIClient getGuiClient() {
+    private GUIClient getGuiClient() {
         return guiClient;
     }
 

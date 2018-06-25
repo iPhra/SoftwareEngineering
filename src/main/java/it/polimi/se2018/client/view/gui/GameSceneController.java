@@ -46,12 +46,12 @@ import java.util.logging.Logger;
  * you click a button to be implemented. For example, i don't know if the drafted die is shown correctly, because by now
  * i can't draft a die. Same for the dice on roundTracker.
  */
+@SuppressWarnings("Convert2Lambda")
 public class GameSceneController implements SceneController, Initializable{
     private final GUIView guiView;
     private final GUIModel guiModel;
     private GUIClient guiClient;
     private final int playerID;
-    private Die dieInHand;
     private ImageView dieInHandImageView;
     private ImageView privateObjectiveImageView;
     private Pane windowPane;
@@ -152,13 +152,12 @@ public class GameSceneController implements SceneController, Initializable{
         nameLabel.setText(guiModel.getBoard().getPlayerNames().get(myIndex));
         favorPointsLabel.setText("You have " + guiModel.getBoard().getPlayerFavorPoint().get(myIndex) + " Favor Points");
         if(guiModel.getBoard().getCurrentPlayerID()==playerID && guiModel.getBoard().hasDieInHand()){
-            dieInHand = guiModel.getBoard().getDieInHand();
+            Die dieInHand = guiModel.getBoard().getDieInHand();
             dieInHandImageView = new ImageView(new Image("./dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
             dieInHandImageView.setFitWidth(30);
             dieInHandImageView.setFitHeight(30);
             botGridPane.add(dieInHandImageView,2,0);
         }
-
         privateObjectiveImageView = new ImageView(new Image(guiModel.getPrivateObjective().getImagePath()));
         privateObjectiveImageView.setFitWidth(181);
         privateObjectiveImageView.setFitHeight(253);
@@ -451,7 +450,6 @@ public class GameSceneController implements SceneController, Initializable{
         guiView.handleNetworkOutput(new PassMessage(playerID, guiModel.getBoard().getStateID(), false));
         disableAllButton();
     }
-
 
     //This method is called by controller of square button and round tracker button
     //Current state know how handle input
