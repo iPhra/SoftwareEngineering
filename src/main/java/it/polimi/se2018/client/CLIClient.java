@@ -150,7 +150,6 @@ public class CLIClient extends Client {
         clientView.setClientConnection(clientConnection);
         new Thread((RMIClientConnection) clientConnection).start();
         Thread thread = new Thread(clientView);
-        clientView.setCurrentThread(thread);
         thread.start();
     }
 
@@ -181,7 +180,6 @@ public class CLIClient extends Client {
         clientView.setClientConnection(clientConnection);
         new Thread((SocketClientConnection) clientConnection).start();
         Thread thread = new Thread(clientView);
-        clientView.setCurrentThread(thread);
         thread.start();
     }
 

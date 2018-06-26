@@ -20,7 +20,10 @@ public class CLIView extends ClientView {
     private final CLIModel cliModel;
     private final PrintStream printStream;
     private final BufferedReader bufferedReader;
-    private Thread currentThread;
+    private Thread inputGetter;
+    private boolean inputGiven;
+    private boolean stopped;
+    private int input;
 
     public CLIView(Client client, int playerID) {
         super(client);
@@ -34,33 +37,36 @@ public class CLIView extends ClientView {
     void print(String string) { printStream.print(string); }
 
     synchronized int takeInput(int bottom, int top) throws HaltException {
+        inputGetter = new Thread(new InputGetter(this, bufferedReader,printStream,top,bottom));
+        inputGetter.start();
         isIterating = true;
-        int res = 0;
-        try {
-            int junk = System.in.read(new byte[System.in.available()]);
-        }
-        catch (IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL, e.getMessage());
-        }
-        do {
+        while(!inputGiven) {
             try {
-                while(!bufferedReader.ready()) {
-                    wait(200);
-                }
-                res = Integer.parseInt(bufferedReader.readLine());
-                if (res > top || res < bottom) throw new NumberFormatException();
-                break;
-            }
-            catch(IOException | NumberFormatException e) {
-                printStream.println("Input is invalid\n");
+                this.wait();
             }
             catch(InterruptedException e) {
-                throw new HaltException();
+                Thread.currentThread().interrupt();
             }
         }
-        while(isIterating);
-        return res;
+        isIterating = false;
+        inputGiven = false;
+        if(stopped) {
+            stopped = false;
+            throw new HaltException();
+        }
+        else return input;
+    }
+
+    synchronized void giveInput(int input) {
+        this.input = input;
+        inputGiven = true;
+        notifyAll();
+    }
+
+    synchronized void setInterrupted() {
+        stopped = true;
+        inputGiven = true;
+        notifyAll();
     }
 
     Coordinate getCoordinate() throws ChangeActionException, HaltException {
@@ -129,10 +135,6 @@ public class CLIView extends ClientView {
         return takeInput(0,1);
     }
 
-    public void setCurrentThread(Thread currentThread) {
-        this.currentThread = currentThread;
-    }
-
     @Override
     public void handleNetworkOutput(Message message) {
         clientConnection.sendMessage(message);
@@ -141,7 +143,7 @@ public class CLIView extends ClientView {
     @Override
     public void handleAsyncEvent(boolean halt, String message) {
         out.println("\n"+message);
-        if(halt) currentThread.interrupt();
+        if(halt) inputGetter.interrupt();
     }
 
     @Override

@@ -70,13 +70,22 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         view.handleNetworkOutput(response);
     }
 
+    private void refreshPlayer(Player player, boolean backToDraftPool) {
+        player.setHasUsedCard(false);
+        player.setHasDraftedDie(false);
+        if (player.hasDieInHand()) {
+            Die die = player.getDieInHand();
+            player.dropDieInHand();
+            if(backToDraftPool) model.getDraftPool().addToDraftPool(die);
+        }
+        model.incrementStateID();
+    }
+
     private void endRound(Player player,boolean stopped) {
         model.setRound(model.getRound().changeRound());
         model.getRoundTracker().updateRoundTracker(model.getDraftPool().getAllDice());
         model.getDraftPool().fillDraftPool(model.getBag().drawDice(model.getPlayersNumber()));
-        player.setHasUsedCard(false);
-        player.setHasDraftedDie(false);
-        model.incrementStateID();
+        refreshPlayer(player,false);
         int round = model.getRound().getRoundNumber() - 1;
         if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
         model.createModelViews(PLAYER + player.getName() + " passed the turn. Round "+round+ " ends. It's "+ model.getPlayerByID(model.getRound().getCurrentPlayerID()).getName()+"'s turn.");
@@ -85,14 +94,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
 
     private void endTurn(Player player, boolean stopped) {
         model.getRound().changeTurn();
-        player.setHasUsedCard(false);
-        player.setHasDraftedDie(false);
-        if (player.hasDieInHand()) {
-            Die die = player.getDieInHand();
-            player.dropDieInHand();
-            model.getDraftPool().addToDraftPool(die);
-        }
-        model.incrementStateID();
+        refreshPlayer(player,true);
         if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
         model.createDraftPoolResponse(PLAYER + player.getName() + " passed the turn.\nIt's "+ model.getPlayerByID(model.getRound().getCurrentPlayerID()).getName()+"'s turn.");
         startTimer();
@@ -129,29 +131,30 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         return sortedPlayers;
     }
 
-    void endMatch(boolean lastPlayer, boolean playerPlaying, int lastPlayerID) {
+    private void endMatch(Player passingPlayer, boolean timeout) {
         gameManager.setMatchPlaying(false);
-        EndGameResponse endGameResponse;
-        if(lastPlayer) {
-            endGameResponse = new EndGameResponse(lastPlayerID);
-            endGameResponse.setScoreBoardResponse(new ArrayList<>(),true);
-            endGameResponse.setPlayerPlaying(playerPlaying || model.getRound().getCurrentPlayerID()==lastPlayerID);
+        if(timeout) view.handleNetworkOutput(new TimeUpResponse(passingPlayer.getId()));
+        for(Player player : model.getPlayers()) {
+            EndGameResponse endGameResponse = new EndGameResponse(player.getId());
+            List<Player> scoreBoard = playersScoreBoard();
+            endGameResponse.setScoreBoardResponse(scoreBoard,false);
+            endGameResponse.setPlayerPlaying(false);
             view.handleNetworkOutput(endGameResponse);
-        }
-        else {
-            for(Player player : model.getPlayers()) {
-                endGameResponse = new EndGameResponse(player.getId());
-                List<Player> scoreBoard = playersScoreBoard();
-                endGameResponse.setScoreBoardResponse(scoreBoard,false);
-                endGameResponse.setPlayerPlaying(false);
-                view.handleNetworkOutput(endGameResponse);
-            }
         }
         gameManager.endGame();
     }
 
     void setModel(Board model) {
         this.model = model;
+    }
+
+    void endMatchAsLast(boolean windowSelection, int lastPlayerID) {
+        gameManager.setMatchPlaying(false);
+        EndGameResponse endGameResponse = new EndGameResponse(lastPlayerID);
+        endGameResponse.setScoreBoardResponse(new ArrayList<>(),true);
+        endGameResponse.setPlayerPlaying(windowSelection || model.getRound().getCurrentPlayerID()==lastPlayerID); //true if it's the turn of the last player remaining, or if he was in window selection
+        view.handleNetworkOutput(endGameResponse);
+        gameManager.endGame();
     }
 
     @Override
@@ -242,7 +245,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             endRound(player,passMessage.isHalt());
         }
         else if (model.getRound().getRoundNumber() == Board.ROUNDSNUMBER && model.getRound().isLastTurn()) {
-            endMatch(false, false,0);
+            endMatch(player,passMessage.isHalt());
         }
         else {
             endTurn(player,passMessage.isHalt());

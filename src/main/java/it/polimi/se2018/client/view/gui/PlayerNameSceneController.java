@@ -22,43 +22,15 @@ public class PlayerNameSceneController implements SceneController {
     private List<Window> windows;
     private PrivateObjective privateObjective;
 
+    private boolean reconnecting;
+
     @FXML
     private TextField nickTextField;
 
     @FXML
     private Label label;
 
-    public void setWindows(List<Window> windows) {
-        this.windows = windows;
-    }
-
-    public void setPrivateObjective(PrivateObjective privateObjective) {
-        this.privateObjective = privateObjective;
-    }
-
-    public void onReturnHandler(){
-        if (!guiClient.setPlayerName(nickTextField.getText())) {
-            ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(this);
-            label.setText("Your nickname is ok. Waiting for other players");
-            nickTextField.setEditable(false);
-        }else label.setText("Nickname already taken, choose another one");
-    }
-
-    public void setGuiClient(GUIClient guiClient) {
-        this.guiClient = guiClient;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    @Override
-    public Scene getScene(){
-        return nickTextField.getScene();
-    }
-
-    @Override
-    public void changeScene(Scene scene) {
+    private void toWindowScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
             SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, ((GUIView) guiClient.getGUIView()).getGuiController());
@@ -74,6 +46,63 @@ public class PlayerNameSceneController implements SceneController {
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
         }
+    }
+
+    private void toMatchScene(Scene scene) {
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
+        try {
+            GameSceneController gameSceneController = new GameSceneController(((GUIView)(guiClient.getGUIView())).getGuiController());
+            gameSceneController.setClientGUI(guiClient);
+            loader.setController(gameSceneController);
+            Parent root = loader.load();
+            ((GUIView)(guiClient.getGUIView())).getGuiController().setSceneController(gameSceneController);
+            stage.setWidth(1440);
+            stage.setHeight(900);
+            gameSceneController.setStage(stage);
+            scene.setRoot(root);
+        } catch (IOException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
+    }
+
+    public void setWindows(List<Window> windows) {
+        this.windows = windows;
+    }
+
+    public void setPrivateObjective(PrivateObjective privateObjective) {
+        this.privateObjective = privateObjective;
+    }
+
+    public void onReturnHandler(){
+        if (!guiClient.setPlayerName(nickTextField.getText())) {
+            ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(this);
+            label.setText("Your nickname is ok. Waiting for other players");
+            nickTextField.setEditable(false);
+        } else label.setText("Nickname already taken, choose another one");
+    }
+
+    public void setGuiClient(GUIClient guiClient) {
+        this.guiClient = guiClient;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void setReconnecting() {
+        reconnecting = true;
+    }
+
+    @Override
+    public Scene getScene(){
+        return nickTextField.getScene();
+    }
+
+    @Override
+    public void changeScene(Scene scene) {
+        if(reconnecting) toMatchScene(scene);
+        else toWindowScene(scene);
     }
 }
 

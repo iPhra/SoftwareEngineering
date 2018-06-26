@@ -341,7 +341,7 @@ public class GameManager implements Stopper {
         serverConnections.remove(playerID);
         if (disconnectedPlayers.size() == playerIDs.size() - 1) {
             clock.interrupt();
-            controller.endMatch(true,!matchPlaying,getLastPlayerID());
+            controller.endMatchAsLast(!matchPlaying,getLastPlayerID());
         }
         else {
             for (int id : playerIDs) serverView.handleNetworkOutput(new DisconnectionResponse(id, playerNames.get(playerID)));

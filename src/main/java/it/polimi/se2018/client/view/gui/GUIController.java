@@ -92,7 +92,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         setWindows(setupResponse.getWindows());
         ((PlayerNameSceneController) sceneController).setWindows(windows);
         ((PlayerNameSceneController) sceneController).setPrivateObjective(setupResponse.getPrivateObjective());
-        sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to SelectWindowScene1
+        sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to SelectWindowScene
     }
 
     @Override
@@ -117,6 +117,8 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     @Override
     public void handleResponse(ReconnectionResponse reconnectionResponse) {
         guiModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
+        ((PlayerNameSceneController) sceneController).setReconnecting();
+        sceneController.changeScene(sceneController.getScene());
         if(reconnectionResponse.isWindowsChosen()) {
             ModelViewResponse response = reconnectionResponse.getModelViewResponse();
             response.setDescription("Reconnected\n");

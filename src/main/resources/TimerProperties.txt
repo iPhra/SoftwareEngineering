@@ -1,1 +1,1 @@
-lobby:10;windows:10;turn:50000;
+lobby:10;windows:10;turn:5000;
