@@ -497,6 +497,7 @@ public class GameSceneController implements SceneController, Initializable{
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ScoreBoardScene.fxml")));
         try {
             ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames, sortedPlayersScores);
+            scoreBoardSceneController.setGuiClient(guiClient);
             loader.setController(scoreBoardSceneController);
             Parent root = loader.load();
             ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(scoreBoardSceneController);

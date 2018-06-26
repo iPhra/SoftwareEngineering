@@ -7,6 +7,7 @@ import it.polimi.se2018.network.messages.requests.SetupMessage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -52,6 +53,7 @@ public class SelectWindowSceneController implements SceneController, Initializab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        borderPane.setPadding(new Insets(0,0,30,0));
         buttons = new Button[4];
         for (int i=0;i<4; i++){
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowImageScene.fxml")));
