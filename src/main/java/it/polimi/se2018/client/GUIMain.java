@@ -17,10 +17,6 @@ public class GUIMain extends Application {
         guiClient = new GUIClient();
     }
 
-    private GUIClient getGuiClient() {
-        return guiClient;
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/setConnectionScene.fxml")));
@@ -46,11 +42,8 @@ public class GUIMain extends Application {
 
 
 
-
-
     public static void main(String[] args) {
-        GUIMain guiMain = new GUIMain();
-        new Thread(guiMain.getGuiClient()).start();
+        new GUIMain();
         launch(args);
     }
 }

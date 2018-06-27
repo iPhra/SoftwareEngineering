@@ -9,8 +9,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public abstract class Client {
-    private boolean disconnected;
-    private boolean gameEnded;
     protected boolean setup;
     protected int playerID;
     protected String nickname;
@@ -20,34 +18,14 @@ public abstract class Client {
     ClientConnection clientConnection;
 
     public Client() {
-        disconnected = false;
-        gameEnded = false;
         setup = true;
     }
 
-    abstract void startNewGame();
-    abstract void handleDisconnection();
+    public abstract void setGameEnded();
+    public abstract void setDisconnected();
 
     public void setSocket(boolean socket) {
         isSocket = socket;
-    }
-
-    synchronized void waitForAction() {
-        while(!disconnected && !gameEnded) {
-            try {
-                this.wait();
-            } catch(InterruptedException e){
-                Thread.currentThread().interrupt();
-            }
-        }
-        if(gameEnded) {
-            gameEnded = false;
-            startNewGame();
-        }
-        else {
-            disconnected = false;
-            handleDisconnection();
-        }
     }
 
     public boolean isSocket() {
@@ -71,15 +49,5 @@ public abstract class Client {
         catch (IOException e) {
             System.exit(1);
         }
-    }
-
-    public synchronized void setDisconnected() {
-        disconnected = true;
-        this.notifyAll();
-    }
-
-    public synchronized void setGameEnded() {
-        gameEnded = true;
-        this.notifyAll();
     }
 }

@@ -19,18 +19,16 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class GUIClient extends Client implements Runnable{
+public class GUIClient extends Client {
     private GUIView clientView;
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private RemoteManager manager;
 
-    public GUIClient() {
+    GUIClient() {
         super();
     }
-
-
 
     private boolean setPlayerNameSocket(String playerName){
         if (setup) {
@@ -114,23 +112,14 @@ public class GUIClient extends Client implements Runnable{
         }
     }
 
-
-
     @Override
-    void startNewGame() {
-        setup = false;
-        //implementa
-        //alla fine devi tornare in wait tramite waitForAction()
+    public void setGameEnded() {
+        setup = true;
     }
 
     @Override
-    void handleDisconnection() {
-        //get del guiController che usa il sceneController per cambiare scena
-        //alla fine devi tornare in wait tramite waitForAction()
-    }
-
-    @Override
-    public void run() {
-        waitForAction();
+    public void setDisconnected() {
+        setup = true;
+        //disconnetti?
     }
 }

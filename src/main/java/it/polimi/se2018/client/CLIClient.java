@@ -19,11 +19,15 @@ import java.util.Scanner;
 public class CLIClient extends Client {
     private CLIView clientView;
     private Socket socket;
+    private boolean disconnected;
+    private boolean gameEnded;
     private final Scanner input;
     private final PrintStream output;
 
-    private CLIClient() {
+    public CLIClient() {
         super();
+        disconnected = false;
+        gameEnded = false;
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
     }
@@ -45,6 +49,24 @@ public class CLIClient extends Client {
                 "▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░░░░░░░░░░▌ ▐░▌       ▐░▌\n" +
                 " ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀   ▀         ▀ \n" +
                 "                                                                                           \n\n\n\n");
+    }
+
+    private synchronized void waitForAction() {
+        while(!disconnected && !gameEnded) {
+            try {
+                this.wait();
+            } catch(InterruptedException e){
+                Thread.currentThread().interrupt();
+            }
+        }
+        if(gameEnded) {
+            gameEnded = false;
+            startNewGame();
+        }
+        else {
+            disconnected = false;
+            handleDisconnection();
+        }
     }
 
     private String getNickname() {
@@ -183,22 +205,32 @@ public class CLIClient extends Client {
         thread.start();
     }
 
-    @Override
-    void handleDisconnection() {
+    private void handleDisconnection() {
         output.println("\nDisconnected, trying to reconnect..\n");
         clientConnection.stop();
         clientView.stop();
-        setup = true;
         chooseConnection();
     }
 
-    @Override
-    void startNewGame() {
-        setup = true;
+    private void startNewGame() {
         output.println("\nInsert [1] to start another game, anything else to quit");
         int choice = input.nextInt();
         if(choice==1) chooseConnection();
         else System.exit(0);
+    }
+
+    @Override
+    public synchronized void setDisconnected() {
+        disconnected = true;
+        setup = true;
+        this.notifyAll();
+    }
+
+    @Override
+    public synchronized void setGameEnded() {
+        gameEnded = true;
+        setup = true;
+        this.notifyAll();
     }
 
 
