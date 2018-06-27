@@ -16,13 +16,27 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     private SceneController sceneController;
     private List<Window> windows;
     private boolean gameStarted;
-    //todo edo metti qualcosa di simile a toolCardPlayerInput
+    private boolean reconnecting;
 
     GUIController(GUIView guiView, GUIModel guiModel, int playerID){
         this.playerID = playerID;
         this.guiView = guiView;
         this.guiModel = guiModel;
         gameStarted = false;
+    }
+
+    private void checkState() {
+        if (!gameStarted){
+            gameStarted = true;
+            sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
+        }
+        else if (reconnecting) {
+            reconnecting = false;
+            sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to GameScene
+        }
+        else {
+            ((GameSceneController) sceneController).clearAndRefreshAll();
+        }
     }
 
     public GUIModel getGuiModel() {
@@ -59,13 +73,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         guiModel.setPrivateObjective(modelViewResponse.getPrivateObjective());
         guiModel.setPublicObjectives(modelViewResponse.getPublicObjectives());
         guiModel.setToolCards(modelViewResponse.getToolCards());
-        if (!gameStarted){
-            gameStarted = true;
-            sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
-        }
-        else {
-            ((GameSceneController) sceneController).clearAndRefreshAll();
-        }
+        checkState();
         String message;
         if (modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
         else message = "Started, ";
@@ -83,7 +91,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     public void handleResponse(ToolCardResponse toolCardResponse) {
         ((GameSceneController) sceneController).setText("You can use the tool card!");
         ((GameSceneController) sceneController).useToolCard(toolCardResponse.getToolCardNumber());
-        //todo edo cambia stato e permetti di usare la tool card adesso
     }
 
     @Override
@@ -113,17 +120,16 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     }
 
     @Override
-    public void handleResponse(ReconnectionResponse reconnectionResponse) {
+    public synchronized void handleResponse(ReconnectionResponse reconnectionResponse) {
         guiModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
-        ((PlayerNameSceneController) sceneController).setReconnecting();
-        sceneController.changeScene(sceneController.getScene());
-        if(reconnectionResponse.isWindowsChosen()) {
+        if(reconnectionResponse.isWindowSelectionOver()) {
+            ((PlayerNameSceneController) sceneController).setReconnecting();
+            ((PlayerNameSceneController) sceneController).setWindowSelectionOver();
             ModelViewResponse response = reconnectionResponse.getModelViewResponse();
             response.setDescription("Reconnected\n");
             handleResponse(response);
         }
-        else refreshText("\nReconnected\n\n");
-        ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+        else sceneController.changeScene(sceneController.getScene());
     }
 
     @Override
@@ -174,7 +180,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         modelView.setStateID(windowResponse.getStateID());
         modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
         modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
-        //todo quando emilio implementa il metodo giusto, cambiare refreshAll con il refresh della window e quello del dado in mano
         ((GameSceneController) sceneController).clearAndRefreshAll();
         refreshText("Windows have been updated");
         ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));

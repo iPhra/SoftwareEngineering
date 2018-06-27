@@ -81,7 +81,7 @@ public class GUIClient extends Client {
         else return setPlayerNameRMI(playerName);
     }
 
-    public ClientView getGUIView() {
+    public GUIView getGUIView() {
         return clientView;
     }
 

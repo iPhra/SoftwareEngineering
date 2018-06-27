@@ -349,11 +349,13 @@ public class GameManager implements Stopper {
     }
 
     public void setReconnected(int playerID, ServerConnection serverConnection) {
-        if(getMissingPlayers().contains(playerID)) {
-            reconnect(playerID,serverConnection,true);
+        if(getMissingPlayers().contains(playerID) && getMissingPlayers().size()==1) { //if it's window selection and i'm the last one who has to choose his window
             createPlayer(new SetupMessage(playerID,0,windowsSetup.get(playerID).get(new Random().nextInt(4))));
         }
-        else reconnect(playerID, serverConnection,false);
+        else if(getMissingPlayers().contains(playerID)) { //if it's window selection but i'm not the last one who has to choose his window
+            reconnect(playerID,serverConnection,true);
+        }
+        else reconnect(playerID, serverConnection,false); //if it's not window selection
     }
 
     //when a player sends the map he chose

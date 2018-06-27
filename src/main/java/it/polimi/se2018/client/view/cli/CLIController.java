@@ -298,7 +298,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     @Override
     public void handleResponse(ReconnectionResponse reconnectionResponse) {
         cliModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
-        if(reconnectionResponse.isWindowsChosen()) {
+        if(reconnectionResponse.isWindowSelectionOver()) {
             ModelViewResponse response = reconnectionResponse.getModelViewResponse();
             response.setDescription("Reconnected, wait for your turn\n");
             handleResponse(response);

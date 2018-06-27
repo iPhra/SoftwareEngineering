@@ -11,19 +11,19 @@ public class ReconnectionResponse extends SyncResponse {
      */
     private int playersNumber;
 
-    private final boolean windowsChosen;
+    private final boolean windowSelectionOver;
 
-    public ReconnectionResponse(int playerID, boolean windowsChosen) {
+    public ReconnectionResponse(int playerID, boolean windowSelectionOver) {
         super(playerID);
-        this.windowsChosen = windowsChosen;
+        this.windowSelectionOver = windowSelectionOver;
     }
 
     public void setModelViewResponse(ModelViewResponse modelViewResponse) {
         this.modelViewResponse = modelViewResponse;
     }
 
-    public boolean isWindowsChosen() {
-        return windowsChosen;
+    public boolean isWindowSelectionOver() {
+        return windowSelectionOver;
     }
 
     public int getPlayersNumber() {
