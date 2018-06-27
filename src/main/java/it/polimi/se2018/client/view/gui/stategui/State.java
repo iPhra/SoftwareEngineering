@@ -17,8 +17,8 @@ public abstract class State {
     }
 
     public void changeState(State state){
-        gameSceneController.setText(descriptionOfState);
         gameSceneController.setCurrentState(state);
+        gameSceneController.setText(descriptionOfState);
         gameSceneController.setAllButton();
     }
 
