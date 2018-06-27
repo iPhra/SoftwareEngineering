@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="143.0" prefWidth="279.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.client.view.gui.AnotherDieYesOrNoSceneController">
+   <children>
+      <Button fx:id="buttonYes" layoutX="46.0" layoutY="59.0" mnemonicParsing="false" onAction="#buttonYesClicked" text="Yes" />
+      <Button fx:id="buttonNo" layoutX="198.0" layoutY="59.0" mnemonicParsing="false" onAction="#buttonNoClicked" text="No" />
+   </children>
+</AnchorPane>

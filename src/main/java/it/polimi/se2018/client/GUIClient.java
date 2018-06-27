@@ -46,8 +46,7 @@ public class GUIClient extends Client {
                 }
             }
             catch(IOException | ClassNotFoundException  e){
-                Logger logger = Logger.getAnonymousLogger();
-                logger.log(Level.ALL,e.getMessage());
+                e.printStackTrace();
             }
         }
         return setup;
@@ -107,8 +106,7 @@ public class GUIClient extends Client {
             out = new ObjectOutputStream(socket.getOutputStream());
         }
         catch(IOException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
     }
 

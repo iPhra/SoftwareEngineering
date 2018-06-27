@@ -32,8 +32,7 @@ public class SocketServerConnection implements ServerConnection, Runnable{
             in = new ObjectInputStream(socket.getInputStream());
         }
         catch (IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -90,8 +89,7 @@ public class SocketServerConnection implements ServerConnection, Runnable{
             out.close();
             socket.close();
         } catch (IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -106,8 +104,7 @@ public class SocketServerConnection implements ServerConnection, Runnable{
                 }
             }
             catch (ClassNotFoundException e) {
-                Logger logger = Logger.getAnonymousLogger();
-                logger.log(Level.ALL, e.getMessage());
+                e.printStackTrace();
             }
             catch (IOException e) {
                 server.handleDisconnection(playerID);

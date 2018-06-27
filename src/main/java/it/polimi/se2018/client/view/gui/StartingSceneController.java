@@ -55,8 +55,7 @@ public class StartingSceneController implements SceneController {
             setConnectionSceneController.setStage(stage);
             scene.setRoot(root);
         }catch(IOException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
     }
 }

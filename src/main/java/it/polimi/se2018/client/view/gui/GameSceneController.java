@@ -127,8 +127,7 @@ public class GameSceneController implements SceneController, Initializable{
                 pane.setMaxHeight(182);
                 rightGridPane.add(pane,0,i);
             } catch (IOException e) {
-                Logger logger = Logger.getAnonymousLogger();
-                logger.log(Level.ALL,e.getMessage());
+                e.printStackTrace();
             }
             rightGridPane.setVgap(200);
         }
@@ -145,8 +144,7 @@ public class GameSceneController implements SceneController, Initializable{
             windowPane.setMaxHeight(182);
             botGridPane.add(windowPane,1,0);
         }catch(IOException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
         int myIndex = guiModel.getBoard().getPlayerID().indexOf(playerID);
         nameLabel.setText(guiModel.getBoard().getPlayerNames().get(myIndex));
@@ -197,8 +195,7 @@ public class GameSceneController implements SceneController, Initializable{
             pane.setMaxWidth(500);
             pane.setMaxHeight(25);
         }catch(IOException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
         return pane;
     }
@@ -217,8 +214,7 @@ public class GameSceneController implements SceneController, Initializable{
             pane.setMaxWidth(473);
             pane.setMaxHeight(99);
         }catch(IOException e){
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
         return pane;
     }
@@ -323,16 +319,16 @@ public class GameSceneController implements SceneController, Initializable{
                     secondaryStage.setScene(new Scene(root, 403, 119));
                     secondaryStage.show();
                 } catch (IOException e) {
-                    Logger logger = Logger.getAnonymousLogger();
-                    logger.log(Level.ALL,e.getMessage());
+                    e.printStackTrace();
                 }
             }
         });
     }
 
     /**
-     * This method is called when the toolcard that lets you choose the number of the die is used. It opens a new stage
-     * in which the player can choose. This stage will close after the choice and will send a message
+     * This method is called when the toolcard that lets you move up to two dice is used. In particular, it's called
+     * when the player has already moved a die. It opens a new stage in which the player can choose if he wants to move
+     * another die or not. This stage will close after the choice and will send a message
      */
     public void createNumberWindow(){
         GameSceneController gameSceneController = this;
@@ -349,8 +345,32 @@ public class GameSceneController implements SceneController, Initializable{
                     secondaryStage.setScene(new Scene(root, 446, 261));
                     secondaryStage.show();
                 } catch (IOException e) {
-                    Logger logger = Logger.getAnonymousLogger();
-                    logger.log(Level.ALL,e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * This method is called when the toolcard that lets you choose the number of the die is used. It opens a new stage
+     * in which the player can choose. This stage will close after the choice and will send a message
+     */
+    public void createYesOrNoWindow(){
+        GameSceneController gameSceneController = this;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/anotherDieYesOrNoScene.fxml")));
+                try {
+                    Parent root = loader.load();
+                    AnotherDieYesOrNoSceneController controller = loader.getController();
+                    controller.setGameSceneController(gameSceneController);
+                    Stage secondaryStage = new Stage();
+                    secondaryStage.setTitle("Do you want to move another die?");
+                    secondaryStage.setScene(new Scene(root, 279, 143));
+                    secondaryStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -518,8 +538,7 @@ public class GameSceneController implements SceneController, Initializable{
             scoreBoardSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
     }
 

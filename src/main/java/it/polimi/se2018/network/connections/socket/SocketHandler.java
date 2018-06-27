@@ -30,8 +30,7 @@ public class SocketHandler implements Runnable {
         try {
             serverSocket.close();
         } catch (IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -44,8 +43,7 @@ public class SocketHandler implements Runnable {
             }
         }
         catch (IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
+            e.printStackTrace();
         }
     }
 }
