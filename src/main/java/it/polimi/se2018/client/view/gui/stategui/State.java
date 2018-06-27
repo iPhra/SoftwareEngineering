@@ -10,12 +10,14 @@ public abstract class State {
     protected GameSceneController gameSceneController;
     protected List<State> nextState;
     protected ButtonCheckUsabilityHandler buttonCheckUsabilityHandler;
+    protected String descriptionOfState;
 
     public void setNextState(List<State> nextState) {
         this.nextState = nextState;
     }
 
     public void changeState(State state){
+        gameSceneController.setText(descriptionOfState);
         gameSceneController.setCurrentState(state);
         gameSceneController.setAllButton();
     }

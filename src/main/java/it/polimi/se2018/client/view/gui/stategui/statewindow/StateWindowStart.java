@@ -11,6 +11,7 @@ public class StateWindowStart extends StateWindow {
     public StateWindowStart(GameSceneController gameSceneController) {
         this.gameSceneController = gameSceneController;
         buttonCheckUsabilityHandler = new ButtonCheckUsabilityWindow(gameSceneController);
+        descriptionOfState = "Select the die from your window";
     }
 
     @Override
@@ -19,7 +20,7 @@ public class StateWindowStart extends StateWindow {
         State state = nextState.get(0);
         nextState.remove(0);
         state.setNextState(nextState);
-        gameSceneController.setCurrentState(state);
+        changeState(state);
     }
 
     @Override

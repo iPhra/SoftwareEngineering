@@ -10,6 +10,7 @@ public class StateWindowPlace extends StateWindow {
     public StateWindowPlace(GameSceneController gameSceneController) {
         this.gameSceneController = gameSceneController;
         buttonCheckUsabilityHandler = new ButtonCheckUsabilityWindow(gameSceneController);
+        descriptionOfState = "Select where place your die in hand";
     }
 
     @Override

@@ -99,18 +99,6 @@ public class ToolCardGUI implements ToolCardGUIHandler {
 
     @Override
     public void getPlayerRequests(TapWheel toolCard, int toolCardNumber) {
-        StateWindowStart stateWindowStart = new StateWindowStart(gameSceneController);
-        StateWindowEnd stateWindowEnd = new StateWindowEnd(gameSceneController);
-        StateWindowStart stateWindowStart2 = new StateWindowStart(gameSceneController);
-        StateWindowEnd stateWindowEnd2 = new StateWindowEnd(gameSceneController);
-        StateRoundTracker stateRoundTracker = new StateRoundTracker(gameSceneController);
-        List<State> states = new ArrayList<>();
-        states.add(stateWindowEnd);
-        states.add(stateWindowStart2);
-        states.add(stateWindowEnd2);
-        states.add(stateRoundTracker);
-        stateWindowStart.setNextState(states);
-        gameSceneController.getCurrentState().changeState(stateWindowStart);
-        gameSceneController.setAllButton();
+        gameSceneController.createYesOrNoWindow();
     }
 }

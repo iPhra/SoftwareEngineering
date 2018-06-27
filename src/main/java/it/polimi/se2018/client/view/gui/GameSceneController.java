@@ -366,7 +366,7 @@ public class GameSceneController implements SceneController, Initializable{
                     AnotherDieYesOrNoSceneController controller = loader.getController();
                     controller.setGameSceneController(gameSceneController);
                     Stage secondaryStage = new Stage();
-                    secondaryStage.setTitle("Do you want to move another die?");
+                    secondaryStage.setTitle("Do you want to move one or two dice?");
                     secondaryStage.setScene(new Scene(root, 279, 143));
                     secondaryStage.show();
                 } catch (IOException e) {

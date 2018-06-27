@@ -12,6 +12,7 @@ public class StateTurn extends State {
     public StateTurn(GameSceneController gameSceneController) {
         this.gameSceneController = gameSceneController;
         buttonCheckUsabilityHandler = new ButtonCheckUsabilityTurn(gameSceneController);
+        descriptionOfState = "Choose your action";
     }
 
     @Override

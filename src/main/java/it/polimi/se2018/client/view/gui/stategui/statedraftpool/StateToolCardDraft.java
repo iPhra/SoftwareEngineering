@@ -12,6 +12,7 @@ public class StateToolCardDraft extends StateDraftPool {
     public StateToolCardDraft(GameSceneController gameSceneController) {
         this.gameSceneController = gameSceneController;
         buttonCheckUsabilityHandler = new ButtonCheckUsabilityDraftPool(gameSceneController);
+        descriptionOfState = "Select a die form Draft pool";
     }
 
     @Override
