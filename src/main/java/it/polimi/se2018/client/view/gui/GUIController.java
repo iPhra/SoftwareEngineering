@@ -17,12 +17,14 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     private List<Window> windows;
     private boolean gameStarted;
     private boolean reconnecting;
+    private String state;
 
     GUIController(GUIView guiView, GUIModel guiModel, int playerID){
         this.playerID = playerID;
         this.guiView = guiView;
         this.guiModel = guiModel;
         gameStarted = false;
+        //state = "not game started";
     }
 
     private void checkState() {
@@ -37,6 +39,18 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         else {
             ((GameSceneController) sceneController).clearAndRefreshAll();
         }
+
+        /*switch (state){
+            case "not game started" :
+                sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
+                break;
+            case "reconnecting to game" :
+                sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to GameScene
+                break;
+            case "reconnecting and wait" :
+                sceneController.changeScene(sceneController.getScene());
+        }*/
+
     }
 
     public GUIModel getGuiModel() {
@@ -123,13 +137,14 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     public synchronized void handleResponse(ReconnectionResponse reconnectionResponse) {
         guiModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
         if(reconnectionResponse.isWindowSelectionOver()) {
+            //state = "reconnecting to game";
             ((PlayerNameSceneController) sceneController).setReconnecting();
             ((PlayerNameSceneController) sceneController).setWindowSelectionOver();
             ModelViewResponse response = reconnectionResponse.getModelViewResponse();
             response.setDescription("Reconnected\n");
             handleResponse(response);
         }
-        else sceneController.changeScene(sceneController.getScene());
+        else sceneController.changeScene(sceneController.getScene());    //state = "reconnecting and wait";
     }
 
     @Override

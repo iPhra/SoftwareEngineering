@@ -65,17 +65,16 @@ public class PlayerNameSceneController implements SceneController {
     }
 
     private void toReconnectionScene(Scene scene) { //called when reconnecting during window selecton
-        //todo cambia il codice!
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
+        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/reconnectionScene.fxml")));
         try {
-            GameSceneController gameSceneController = new GameSceneController(guiClient.getGUIView().getGuiController());
-            gameSceneController.setClientGUI(guiClient);
-            loader.setController(gameSceneController);
+            ReconnectionSceneController reconnectionSceneController = loader.getController();
+            reconnectionSceneController.setClientGUI(guiClient);
+            loader.setController(reconnectionSceneController);
             Parent root = loader.load();
-            guiClient.getGUIView().getGuiController().setSceneController(gameSceneController);
-            stage.setWidth(1440);
-            stage.setHeight(900);
-            gameSceneController.setStage(stage);
+            guiClient.getGUIView().getGuiController().setSceneController(reconnectionSceneController);
+            stage.setWidth(600);
+            stage.setHeight(623);
+            reconnectionSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
