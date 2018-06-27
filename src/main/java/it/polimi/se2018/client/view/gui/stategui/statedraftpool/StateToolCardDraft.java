@@ -42,6 +42,7 @@ public class StateToolCardDraft extends StateDraftPool {
             gameSceneController.setToolCardMessage(null);
             changeState(new StateTurn(gameSceneController));
             gameSceneController.setAllButton();
+            gameSceneController.setText("You choose to reject the toolcard");
         }
     }
 }

@@ -19,12 +19,16 @@ public class ChoosePlusOrMinusSceneController{
 
     public void plusOne(){
         //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
+        gameSceneController.getToolCardMessage().setCondition(true);
+        gameSceneController.sendToolCardMessage();
         Stage stage = (Stage)plusOneButton.getScene().getWindow();
         stage.close();
     }
 
     public void minusOne(){
         //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
+        gameSceneController.getToolCardMessage().setCondition(true);
+        gameSceneController.sendToolCardMessage();
         Stage stage = (Stage)minusOneButton.getScene().getWindow();
         stage.close();
     }

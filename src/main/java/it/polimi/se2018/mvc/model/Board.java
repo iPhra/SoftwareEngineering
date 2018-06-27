@@ -58,7 +58,7 @@ public class Board extends Observable<Response> {
         for (Player player : players) {
             playersId.add(player.getId());
         }
-        round = new Round(playersId, 1);
+        round = new Round(playersId, 10);
         toolCardsUsage = new boolean[TOOLCARDSNUMBER];
         for(int i=0; i<TOOLCARDSNUMBER; i++) {
             toolCardsUsage[i]=false;

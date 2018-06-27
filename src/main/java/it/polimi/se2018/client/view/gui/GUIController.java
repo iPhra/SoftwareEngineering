@@ -81,6 +81,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     @Override
     public void handleResponse(ToolCardResponse toolCardResponse) {
+        ((GameSceneController) sceneController).setText("You can use the tool card!");
         ((GameSceneController) sceneController).useToolCard(toolCardResponse.getToolCardNumber());
         //todo edo cambia stato e permetti di usare la tool card adesso
     }
@@ -98,10 +99,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     @Override
     public void handleResponse(InputResponse inputResponse) {
         refreshText("Color of the die is " + inputResponse.getColor()+"\n");
-        /* todo edo cosa devo fare qui?
-        int choice = cliView.getDieValue();
-        cliView.handleNetworkOutput(new InputMessage(playerID, cliModel.getBoard().getStateID(), choice));
-        */
+        ((GameSceneController) sceneController).createNumberWindow();
     }
 
     @Override

@@ -308,7 +308,7 @@ public class GameSceneController implements SceneController, Initializable{
      * is used. It opens a new stage in which the player can choose. This stage will close after the choice and will
      * send a message
      */
-    private void createPlusOrMinusWindow(){
+    public void createPlusOrMinusWindow(){
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChoosePlusOrMinusScene.fxml")));
         ChoosePlusOrMinusSceneController controller = loader.getController();
         controller.setGameSceneController(this);
@@ -328,7 +328,7 @@ public class GameSceneController implements SceneController, Initializable{
      * This method is called when the toolcard that lets you choose the number of the die is used. It opens a new stage
      * in which the player can choose. This stage will close after the choice and will send a message
      */
-    private void createNumberWindow(){
+    public void createNumberWindow(){
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChooseNumberScene.fxml")));
         ChooseNumberSceneController controller = loader.getController();
         controller.setGameSceneController(this);
@@ -348,7 +348,7 @@ public class GameSceneController implements SceneController, Initializable{
      * This method is called when something happened and you need to comunicate it to the player
      * @param text it's the text you want to show
      */
-    void setText(String text) {
+    public void setText(String text) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -438,10 +438,10 @@ public class GameSceneController implements SceneController, Initializable{
         toolCardMessage = null;
     }
 
-    //togliere le eccezioni e capire se servono o come gestirle
     //This method is called by network input when you receive an ack that allow you to use the toolcard
     public void useToolCard(int toolCardIndex) {
         ToolCard toolCard = guiModel.getToolCards().get(toolCardIndex);
+        toolCardMessage = new ToolCardMessage(playerID, guiModel.getBoard().getStateID(), toolCardIndex);
         toolCard.handleGUI(toolCardGUI, toolCardIndex);
     }
 
