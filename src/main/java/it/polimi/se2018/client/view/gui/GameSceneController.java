@@ -309,19 +309,25 @@ public class GameSceneController implements SceneController, Initializable{
      * send a message
      */
     public void createPlusOrMinusWindow(){
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChoosePlusOrMinusScene.fxml")));
-        ChoosePlusOrMinusSceneController controller = loader.getController();
-        controller.setGameSceneController(this);
-        try {
-            Parent root = loader.load();
-            Stage secondaryStage = new Stage();
-            secondaryStage.setTitle("Choose plus one or minus one");
-            secondaryStage.setScene(new Scene(root, 403, 119));
-            secondaryStage.show();
-        } catch (IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
-        }
+        GameSceneController gameSceneController = this;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChoosePlusOrMinusScene.fxml")));
+                try {
+                    Parent root = loader.load();
+                    ChoosePlusOrMinusSceneController controller = loader.getController();
+                    controller.setGameSceneController(gameSceneController);
+                    Stage secondaryStage = new Stage();
+                    secondaryStage.setTitle("Choose plus one or minus one");
+                    secondaryStage.setScene(new Scene(root, 403, 119));
+                    secondaryStage.show();
+                } catch (IOException e) {
+                    Logger logger = Logger.getAnonymousLogger();
+                    logger.log(Level.ALL,e.getMessage());
+                }
+            }
+        });
     }
 
     /**
@@ -329,19 +335,25 @@ public class GameSceneController implements SceneController, Initializable{
      * in which the player can choose. This stage will close after the choice and will send a message
      */
     public void createNumberWindow(){
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChooseNumberScene.fxml")));
-        ChooseNumberSceneController controller = loader.getController();
-        controller.setGameSceneController(this);
-        try {
-            Parent root = loader.load();
-            Stage secondaryStage = new Stage();
-            secondaryStage.setTitle("Choose the number");
-            secondaryStage.setScene(new Scene(root, 446, 261));
-            secondaryStage.show();
-        } catch (IOException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
-        }
+        GameSceneController gameSceneController = this;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChooseNumberScene.fxml")));
+                try {
+                    Parent root = loader.load();
+                    ChooseNumberSceneController controller = loader.getController();
+                    controller.setGameSceneController(gameSceneController);
+                    Stage secondaryStage = new Stage();
+                    secondaryStage.setTitle("Choose the number");
+                    secondaryStage.setScene(new Scene(root, 446, 261));
+                    secondaryStage.show();
+                } catch (IOException e) {
+                    Logger logger = Logger.getAnonymousLogger();
+                    logger.log(Level.ALL,e.getMessage());
+                }
+            }
+        });
     }
 
     /**

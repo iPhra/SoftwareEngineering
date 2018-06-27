@@ -87,6 +87,7 @@ public class ToolCardGUI implements ToolCardGUIHandler {
     @Override
     public void getPlayerRequests(LensCutter toolCard, int toolCardNumber) {
         StateRoundTracker stateRoundTracker = new StateRoundTracker(gameSceneController);
+        stateRoundTracker.setNextState(new ArrayList<>());
         gameSceneController.getCurrentState().changeState(stateRoundTracker);
         gameSceneController.setAllButton();
     }

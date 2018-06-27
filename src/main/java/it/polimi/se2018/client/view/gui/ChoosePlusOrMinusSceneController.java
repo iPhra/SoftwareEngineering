@@ -27,7 +27,7 @@ public class ChoosePlusOrMinusSceneController{
 
     public void minusOne(){
         //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
-        gameSceneController.getToolCardMessage().setCondition(true);
+        gameSceneController.getToolCardMessage().setCondition(false);
         gameSceneController.sendToolCardMessage();
         Stage stage = (Stage)minusOneButton.getScene().getWindow();
         stage.close();
