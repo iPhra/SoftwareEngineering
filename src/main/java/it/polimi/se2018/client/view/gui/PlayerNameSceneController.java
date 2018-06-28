@@ -31,6 +31,7 @@ public class PlayerNameSceneController implements SceneController {
     private Label label;
 
     private void toWindowScene(Scene scene) { //called normally when not reconnecting
+        windowSelectionOver = false;
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
             SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (guiClient.getGUIView()).getGuiController());

@@ -16,41 +16,19 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     private SceneController sceneController;
     private List<Window> windows;
     private boolean gameStarted;
-    private boolean reconnecting;
-    private String state;
 
-    GUIController(GUIView guiView, GUIModel guiModel, int playerID){
+    GUIController(GUIView guiView, GUIModel guiModel, int playerID) {
         this.playerID = playerID;
         this.guiView = guiView;
         this.guiModel = guiModel;
         gameStarted = false;
-        //state = "not game started";
     }
 
     private void checkState() {
-        if (!gameStarted){
+        if(!gameStarted){
             gameStarted = true;
-            sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
+            sceneController.changeScene(sceneController.getScene());
         }
-        else if (reconnecting) {
-            reconnecting = false;
-            sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to GameScene
-        }
-        else {
-            ((GameSceneController) sceneController).clearAndRefreshAll();
-        }
-
-        /*switch (state){
-            case "not game started" :
-                sceneController.changeScene(sceneController.getScene()); //change the scene from SelectWindowScene to GameScene
-                break;
-            case "reconnecting to game" :
-                sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to GameScene
-                break;
-            case "reconnecting and wait" :
-                sceneController.changeScene(sceneController.getScene());
-        }*/
-
     }
 
     public GUIModel getGuiModel() {
@@ -65,10 +43,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         return playerID;
     }
 
-    public boolean isGameStarted() {
-        return gameStarted;
-    }
-
     public void setSceneController(SceneController sceneController){
         this.sceneController = sceneController;
     }
@@ -79,6 +53,10 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     public void refreshText(String description) {
         ((GameSceneController) sceneController).setText(description);
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
     }
 
     @Override
@@ -134,17 +112,18 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     }
 
     @Override
-    public synchronized void handleResponse(ReconnectionResponse reconnectionResponse) {
+    public void handleResponse(ReconnectionResponse reconnectionResponse) {
         guiModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
         if(reconnectionResponse.isWindowSelectionOver()) {
-            //state = "reconnecting to game";
             ((PlayerNameSceneController) sceneController).setReconnecting();
             ((PlayerNameSceneController) sceneController).setWindowSelectionOver();
             ModelViewResponse response = reconnectionResponse.getModelViewResponse();
             response.setDescription("Reconnected\n");
             handleResponse(response);
         }
-        else sceneController.changeScene(sceneController.getScene());    //state = "reconnecting and wait";
+        else {
+            sceneController.changeScene(sceneController.getScene());
+        }
     }
 
     @Override
