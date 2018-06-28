@@ -13,8 +13,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PlayerNameSceneController implements SceneController {
     private GUIClient guiClient;
@@ -68,10 +66,10 @@ public class PlayerNameSceneController implements SceneController {
     private void toReconnectionScene(Scene scene) { //called when reconnecting during window selecton
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/reconnectionScene.fxml")));
         try {
+            Parent root = loader.load();
             ReconnectionSceneController reconnectionSceneController = loader.getController();
             reconnectionSceneController.setClientGUI(guiClient);
             loader.setController(reconnectionSceneController);
-            Parent root = loader.load();
             guiClient.getGUIView().getGuiController().setSceneController(reconnectionSceneController);
             stage.setWidth(600);
             stage.setHeight(623);

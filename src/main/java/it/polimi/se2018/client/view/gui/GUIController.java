@@ -114,16 +114,14 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
     @Override
     public void handleResponse(ReconnectionResponse reconnectionResponse) {
         guiModel.setPlayersNumber(reconnectionResponse.getPlayersNumber());
+        ((PlayerNameSceneController) sceneController).setReconnecting();
         if(reconnectionResponse.isWindowSelectionOver()) {
-            ((PlayerNameSceneController) sceneController).setReconnecting();
             ((PlayerNameSceneController) sceneController).setWindowSelectionOver();
             ModelViewResponse response = reconnectionResponse.getModelViewResponse();
             response.setDescription("Reconnected\n");
             handleResponse(response);
         }
-        else {
-            sceneController.changeScene(sceneController.getScene());
-        }
+        else sceneController.changeScene(sceneController.getScene());
     }
 
     @Override

@@ -4,7 +4,6 @@ import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.client.view.gui.stategui.StateRoundTracker;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowEnd;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowStart;
-import it.polimi.se2018.network.messages.requests.InputMessage;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;

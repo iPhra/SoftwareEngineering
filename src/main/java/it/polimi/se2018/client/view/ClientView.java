@@ -25,7 +25,7 @@ public abstract class ClientView extends Observable<SyncResponse> implements Run
     public abstract void handleAsyncEvent(boolean halt, String message);
     public abstract void endGame();
 
-    public void sleepTillMessage() {
+    private void sleepTillMessage() {
         synchronized (events) {
             while (events.isEmpty()) {
                 try {

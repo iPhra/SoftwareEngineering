@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ReconnectionSceneController implements SceneController{
+public class ReconnectionSceneController implements SceneController {
     private GUIClient guiClient;
     private Stage stage;
 

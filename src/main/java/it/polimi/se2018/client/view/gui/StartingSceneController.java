@@ -9,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class StartingSceneController implements SceneController {
     private GUIClient guiClient;

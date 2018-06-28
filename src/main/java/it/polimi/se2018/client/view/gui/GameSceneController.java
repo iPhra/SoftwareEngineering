@@ -32,8 +32,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * (by Emilio)
@@ -46,7 +44,6 @@ import java.util.logging.Logger;
  * you click a button to be implemented. For example, i don't know if the drafted die is shown correctly, because by now
  * i can't draft a die. Same for the dice on roundTracker.
  */
-@SuppressWarnings("Convert2Lambda")
 public class GameSceneController implements SceneController, Initializable{
     private final GUIView guiView;
     private final GUIModel guiModel;
@@ -259,18 +256,15 @@ public class GameSceneController implements SceneController, Initializable{
      * have been updated already before calling this
      */
     private void refreshAll(){
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                leftGridPane.getChildren().clear();
-                botGridPane.getChildren().remove(windowPane);
-                botGridPane.getChildren().remove(dieInHandImageView);
-                botGridPane.getChildren().remove(privateObjectiveImageView);
-                rightGridPane.getChildren().clear();
-                setLeftGridpane();
-                setRightGridpane();
-                setBotGridPane();
-            }
+        Platform.runLater(() -> {
+            leftGridPane.getChildren().clear();
+            botGridPane.getChildren().remove(windowPane);
+            botGridPane.getChildren().remove(dieInHandImageView);
+            botGridPane.getChildren().remove(privateObjectiveImageView);
+            rightGridPane.getChildren().clear();
+            setLeftGridpane();
+            setRightGridpane();
+            setBotGridPane();
         });
     }
 
@@ -297,6 +291,18 @@ public class GameSceneController implements SceneController, Initializable{
         setDraftPoolButtons();
         setRoundTrackerMenuItems();
         setToolCardButtons();
+    }
+
+
+    //This method is called by the controller of the button pass turn
+    private void passTurnButtonClicked() {
+        guiView.handleNetworkOutput(new PassMessage(playerID, guiModel.getBoard().getStateID(), false));
+        disableAllButton();
+    }
+
+    //This method is called by controller of tool cards
+    private void buttonToolCardClicked(int toolCardIndex){
+        currentState.doActionToolCard(toolCardIndex);
     }
 
     /**
@@ -381,12 +387,7 @@ public class GameSceneController implements SceneController, Initializable{
      * @param text it's the text you want to show
      */
     public void setText(String text) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                serviceLabel.setText(text);
-            }
-        });
+        Platform.runLater(() -> serviceLabel.setText(text));
     }
 
     public void setStage(Stage stage) {
@@ -477,12 +478,6 @@ public class GameSceneController implements SceneController, Initializable{
         toolCard.handleGUI(toolCardGUI, toolCardIndex);
     }
 
-    //This method is called by the controller of the button pass turn
-    public void passTurnButtonClicked() {
-        guiView.handleNetworkOutput(new PassMessage(playerID, guiModel.getBoard().getStateID(), false));
-        disableAllButton();
-    }
-
     //This method is called by controller of square button and round tracker button
     //Current state know how handle input
     public void buttonCoordinateClicked(Coordinate coordinate) {
@@ -492,11 +487,6 @@ public class GameSceneController implements SceneController, Initializable{
     //This method is called by controller of draft pool button
     public void buttonDraftPoolClicked(int drafPoolPosition){
         currentState.doActionDraftPool(drafPoolPosition);
-    }
-
-    //This method is called by controller of tool cards
-    public void buttonToolCardClicked(int toolCardIndex){
-        currentState.doActionToolCard(toolCardIndex);
     }
 
     public void setClientGUI(GUIClient guiClient) {
@@ -532,7 +522,7 @@ public class GameSceneController implements SceneController, Initializable{
             scoreBoardSceneController.setGuiClient(guiClient);
             loader.setController(scoreBoardSceneController);
             Parent root = loader.load();
-            ((GUIView) guiClient.getGUIView()).getGuiController().setSceneController(scoreBoardSceneController);
+            guiClient.getGUIView().getGuiController().setSceneController(scoreBoardSceneController);
             stage.setWidth(600);
             stage.setHeight(623);
             scoreBoardSceneController.setStage(stage);

@@ -6,6 +6,7 @@ import it.polimi.se2018.network.messages.responses.Response;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+@SuppressWarnings("EmptyMethod")
 public interface RemoteConnection extends Remote{
 
     void getResponse(Response response) throws RemoteException;

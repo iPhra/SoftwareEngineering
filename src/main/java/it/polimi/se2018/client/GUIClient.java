@@ -2,7 +2,6 @@ package it.polimi.se2018.client;
 
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
-import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.client.view.gui.GUIView;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
@@ -16,8 +15,6 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GUIClient extends Client {
     private GUIView clientView;

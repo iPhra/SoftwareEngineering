@@ -25,7 +25,7 @@ public class MainTest extends Application{
      * @throws Exception an exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         /*GUIView guiView = new GUIView(new GUIClient(),1);
         GUIModel guiModel = new GUIModel(guiView,1);
         GUIController guiController = new GUIController(guiView,guiModel,1);*/

@@ -9,15 +9,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public abstract class Client {
-    protected boolean setup;
-    protected int playerID;
-    protected String nickname;
+    boolean setup;
+    int playerID;
+    String nickname;
     boolean isSocket;
     int port;
     String ip;
     ClientConnection clientConnection;
 
-    public Client() {
+    Client() {
         setup = true;
     }
 
