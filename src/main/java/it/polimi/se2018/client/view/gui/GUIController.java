@@ -107,8 +107,9 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         if(!scoreBoardResponse.isLastPlayer()) {
             ((GameSceneController) sceneController).setSortedPlayersNames(scoreBoardResponse.getSortedPlayersNames());
             ((GameSceneController) sceneController).setSortedPlayersScores(scoreBoardResponse.getSortedPlayersScores());
-            sceneController.changeScene(sceneController.getScene());
         }
+        ((GameSceneController) sceneController).setIsLastPlayer(scoreBoardResponse.isLastPlayer());
+        sceneController.changeScene(sceneController.getScene());
         guiView.endGame();
     }
 

@@ -58,10 +58,12 @@ public class GameSceneController implements SceneController, Initializable{
     private Stage stage;
     private List<String> sortedPlayersNames;
     private List<Integer> sortedPlayersScores;
+    private boolean isLastPlayer;
     private List<ButtonSquare> windowPlayerButtons;
     private List<ButtonDraftPool> draftPoolButtons;
     private List<List<MenuItemRoundTracker>> roundTrackerMenuItems;
     private List<ButtonToolCard> toolCardButtons;
+    private ButtonPass buttonPass;
 
     @FXML
     private BorderPane borderPane;
@@ -84,9 +86,6 @@ public class GameSceneController implements SceneController, Initializable{
     @FXML
     private Label favorPointsLabel;
 
-    @FXML
-    private Button passButton;
-
     public GameSceneController(GUIController guiController) {
         this.guiView = guiController.getGuiView();
         this.guiModel = guiController.getGuiModel();
@@ -97,7 +96,9 @@ public class GameSceneController implements SceneController, Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        passButton.setOnAction(e -> passTurnButtonClicked());
+        buttonPass = new ButtonPass();
+        buttonPass.setText("Pass");
+        buttonPass.setOnAction(e -> passTurnButtonClicked());
         borderPane.setPadding(new Insets(120,20,110,20));
         windowPlayerButtons = new ArrayList<>();
         toolCardButtons = new ArrayList<>();
@@ -157,6 +158,7 @@ public class GameSceneController implements SceneController, Initializable{
         privateObjectiveImageView.setFitWidth(181);
         privateObjectiveImageView.setFitHeight(253);
         botGridPane.add(privateObjectiveImageView,3,2);
+        botGridPane.add(buttonPass,4,2);
         botGridPane.setHgap(80);
     }
 
@@ -261,6 +263,7 @@ public class GameSceneController implements SceneController, Initializable{
             botGridPane.getChildren().remove(windowPane);
             botGridPane.getChildren().remove(dieInHandImageView);
             botGridPane.getChildren().remove(privateObjectiveImageView);
+            botGridPane.getChildren().remove(buttonPass);
             rightGridPane.getChildren().clear();
             setLeftGridpane();
             setRightGridpane();
@@ -433,6 +436,7 @@ public class GameSceneController implements SceneController, Initializable{
                 menuItemRoundTracker.setDisable(true);
             }
         }
+        buttonPass.setDisable(true);
         refreshAll();
     }
 
@@ -463,6 +467,7 @@ public class GameSceneController implements SceneController, Initializable{
                 menuItemRoundTracker.checkCondition(currentState.getButtonCheckUsabilityHandler());
             }
         }
+        buttonPass.checkCondition(currentState.getButtonCheckUsabilityHandler());
         refreshAll();
     }
 
@@ -509,6 +514,10 @@ public class GameSceneController implements SceneController, Initializable{
         this.sortedPlayersScores = sortedPlayersScores;
     }
 
+    public void setIsLastPlayer(boolean isLastPlayer){
+        this.isLastPlayer = isLastPlayer;
+    }
+
     @Override
     public Scene getScene() {
         return borderPane.getScene();
@@ -518,7 +527,7 @@ public class GameSceneController implements SceneController, Initializable{
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ScoreBoardScene.fxml")));
         try {
-            ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames, sortedPlayersScores);
+            ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames, sortedPlayersScores, isLastPlayer);
             scoreBoardSceneController.setGuiClient(guiClient);
             loader.setController(scoreBoardSceneController);
             Parent root = loader.load();
@@ -527,10 +536,11 @@ public class GameSceneController implements SceneController, Initializable{
             stage.setHeight(623);
             scoreBoardSceneController.setStage(stage);
             scene.setRoot(root);
-        } catch (IOException e) {
+            } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     /**
      * This method is called in {@link GUIController} when it's needed to refresh something in the scene. Actually,
