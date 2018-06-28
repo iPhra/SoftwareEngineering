@@ -29,6 +29,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
             gameStarted = true;
             sceneController.changeScene(sceneController.getScene());
         }
+        else ((GameSceneController) sceneController).clearAndRefreshAll();
     }
 
     public GUIModel getGuiModel() {

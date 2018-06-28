@@ -31,42 +31,36 @@ public class ChooseNumberSceneController {
     }
 
     public void button1Clicked(){
-        //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
         gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), 1));
         Stage stage = (Stage)button1.getScene().getWindow();
         stage.close();
     }
 
     public void button2Clicked(){
-        //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
         gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), 2));
         Stage stage = (Stage)button1.getScene().getWindow();
         stage.close();
     }
 
     public void button3Clicked(){
-        //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
         gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), 3));
         Stage stage = (Stage)button1.getScene().getWindow();
         stage.close();
     }
 
     public void button4Clicked(){
-        //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
         gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), 4));
         Stage stage = (Stage)button1.getScene().getWindow();
         stage.close();
     }
 
     public void button5Clicked(){
-        //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
         gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), 5));
         Stage stage = (Stage)button1.getScene().getWindow();
         stage.close();
     }
 
     public void button6Clicked(){
-        //TODO gameSceneController.getGuiView().handleNetworkOutput(?);
         gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), 6));
         Stage stage = (Stage)button1.getScene().getWindow();
         stage.close();
