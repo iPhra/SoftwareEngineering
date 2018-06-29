@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 public class ScoreBoardSceneController implements Initializable, SceneController{
     private final List<String> sortedPlayersNames;
     private final List<Integer> sortedPlayersScores;
+    private final boolean isLastPlayer;
     private GUIClient guiClient;
     private Stage stage;
 
@@ -32,9 +33,10 @@ public class ScoreBoardSceneController implements Initializable, SceneController
     @FXML
     private BorderPane borderPane;
 
-    ScoreBoardSceneController(List<String> sortedPlayersNames, List<Integer> sortedPlayersScores){
+    ScoreBoardSceneController(List<String> sortedPlayersNames, List<Integer> sortedPlayersScores, boolean isLastPlayer){
         this.sortedPlayersNames = sortedPlayersNames;
         this.sortedPlayersScores = sortedPlayersScores;
+        this.isLastPlayer = isLastPlayer;
     }
 
     public void startNewGame() {
@@ -44,13 +46,15 @@ public class ScoreBoardSceneController implements Initializable, SceneController
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        borderPane.setPadding(new Insets(0,0,50,0));
-        StringBuilder builder = new StringBuilder();
-        for(int i=0; i< sortedPlayersNames.size(); i++){
-            String tmp = i+1 + "  Player: " + sortedPlayersNames.get(i) + "     Score: " + sortedPlayersScores.get(i)+"\n";
-            builder.append(tmp);
-        }
-        scoreboardLabel.setText(builder.toString());
+        if(!isLastPlayer){
+            borderPane.setPadding(new Insets(0,0,50,0));
+            StringBuilder builder = new StringBuilder();
+            for(int i=0; i< sortedPlayersNames.size(); i++){
+                String tmp = i+1 + "  Player: " + sortedPlayersNames.get(i) + "     Score: " + sortedPlayersScores.get(i)+"\n";
+                builder.append(tmp);
+            }
+            scoreboardLabel.setText(builder.toString());
+        }else scoreboardLabel.setText("You are the last player remaining, you win!");
         newGameButton.setOnAction(e -> startNewGame());
     }
 
