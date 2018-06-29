@@ -13,7 +13,7 @@ import java.util.Objects;
 public class RoundTracker {
 
     /**
-     * This represents every die in the roundtracker. every position represents a round
+     * This represents every die in the roundtracker. Every position represents a round
      * and contains an list of dice, that are the dice put in the roundtracker in that round
      */
     private final List<List<Die>> dice;
@@ -32,7 +32,6 @@ public class RoundTracker {
     }
 
     /**
-     *
      * @param round it's the round user wants a die from
      * @param index it's the index that specifies exactly what die user wants from that round
      * @return the die on the roundtracker specified by round and index
@@ -42,7 +41,6 @@ public class RoundTracker {
     }
 
     /**
-     *
      * @return the value of the current round
      */
     public int getRound() {

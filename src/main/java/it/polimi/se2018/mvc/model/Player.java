@@ -50,7 +50,7 @@ public class Player {
     private Die dieInHand;
 
     /**
-     * This value identifies what tool card is the player using
+     * This number identifies what tool card is the player using
      */
     private int cardInUse;
 
@@ -75,60 +75,34 @@ public class Player {
         hasUsedCard = false;
     }
 
-    /**
-     * @return the name of the player
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @return the value of favor points of the player
-     */
     public int getFavorPoints() {
         return favorPoints;
     }
 
-    /**
-     * sets the value of favor points of the player
-     * @param favorPoints it's the new value of favor points the this player will have after calling this method
-     */
     public void setFavorPoints(int favorPoints) {
         this.favorPoints = favorPoints;
     }
 
-    /**
-     * @return the ID of this player
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * @return the window of this player
-     */
     public Window getWindow() {
         return window;
     }
 
-    /**
-     * @return the private objective of this player
-     */
     public PrivateObjective getPrivateObjective() {
         return privateObjective;
     }
 
-    /**
-     * @return the score of this player
-     */
     public int getScore() {
         return score;
     }
 
-    /**
-     * Sets the score of this player
-     * @param score it's the score that has to be setted
-     */
     public void setScore(int score) {
         this.score = score;
     }
@@ -220,7 +194,7 @@ public class Player {
     }
 
     /**
-     * Sets the value indicating what tool card is in use
+     * Sets the number indicating what tool card is in use
      * @param cardInUse it's the value indicating the tool card in use that has to be setted
      */
     public void setCardInUse(int cardInUse) {

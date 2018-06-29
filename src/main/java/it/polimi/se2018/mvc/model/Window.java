@@ -6,16 +6,17 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * This class represents a window of the game
+ * This class represents a window of a player
  */
 public class Window implements Iterable<Square>, Serializable {
+
     /**
      * This is the name of this window in the game
      */
     private final String title;
 
     /**
-     * This is the value of favour points that give to the Player
+     * This is the number of favour points that give to the Player
      * if he chooses this window. It's the level of difficulty
      */
     private final int level;
@@ -105,8 +106,7 @@ public class Window implements Iterable<Square>, Serializable {
     }
 
     /**
-     *
-     * @return return value of empty slot in a window
+     * @return return the number of empty slot in a window
      */
     public int countEmptySlots() {
         int countSlot = 0;
@@ -124,7 +124,7 @@ public class Window implements Iterable<Square>, Serializable {
 
     /**
      * Used by method adjacentOk
-     * @param coordinate of a Square. You have to cechk the position near it
+     * @param coordinate of a Square that uou have to check the position nearby
      * @return returns the adjacent dice of a die
      */
     public List<Die> adjacentDice(Coordinate coordinate) {

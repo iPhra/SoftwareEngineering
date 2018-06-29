@@ -27,9 +27,6 @@ public class Die implements Serializable {
         this.color = color;
     }
 
-    /**
-     * @return the value of this dice
-     */
     public int getValue() {
         return value;
     }

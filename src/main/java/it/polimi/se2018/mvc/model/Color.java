@@ -19,6 +19,9 @@ public enum Color implements Serializable {
         return abbreviation;
     }
 
+    /**
+     * @return a list containing all abbreviations for all colors
+     */
     public static List<String> getAllAbbreviations() {
         List<String> result = new ArrayList<>();
         result.add("W");

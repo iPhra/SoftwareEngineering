@@ -13,13 +13,14 @@ import java.util.Random;
  * It generate a new die each round and fills the (@link DraftPool)
  */
 public class Bag {
+
     /**
-     * This list of initeger represent the value of remaining dice for each color
+     * This list of initeger represent the number of remaining dice for each color
      */
     private final ArrayList<Integer> remainingColors;
 
     /**
-     * This is the total value of dice in the bag
+     * This is the total number of dice in the bag
      */
     private int diceNumber;
 
@@ -55,7 +56,7 @@ public class Bag {
     }
 
     /**
-     * inserts a single die in the bag, used by tool cards
+     * Inserts a single die in the bag, used by tool cards
      * @param die represent the die to put into
      */
     public void insertDie(Die die) {
@@ -65,7 +66,7 @@ public class Bag {
 
     /**
      * draws 2n+1 dice putting them in a arraylist, used by Board
-     * @param playersNumber value of player in the game. It's used to decide the value of die to extract
+     * @param playersNumber is the number of player in the game. It's used to decide the value of die to extract
      * @return The die created in a List. It's used to fill the (@link DraftPool)
      */
     public List<Die> drawDice(int playersNumber) {

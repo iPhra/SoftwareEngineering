@@ -11,12 +11,11 @@ import java.util.List;
 import static org.junit.Assert.fail;
 
 public class TestToolCardResponse {
-    private List<String> playerRequests;
     private ToolCardResponse toolCardResponse;
 
     @Before
     public void init() {
-        playerRequests= Arrays.asList("pradella","is","my","king");
+        List<String> playerRequests = Arrays.asList("pradella", "is", "my", "king");
         toolCardResponse= new ToolCardResponse(0,0);
     }
 

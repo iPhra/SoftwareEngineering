@@ -14,8 +14,9 @@ import java.util.Objects;
  * This class represents the Draft Pool containing all available dice in a turn
  */
 public class DraftPool {
+
     /**
-     * This List contains 2n+1 dice, where n is the value of players in the game
+     * This List contains 2n+1 dice, where n is the number of players in the game
      */
     private List<Die> dice;
 

@@ -18,7 +18,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,17 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * (by Emilio)
- * This class is the controller of GameScene.fxml. Edoardo Note that every public method used by GUIController needs
- * the Platform.runLater call, otherwise you will get an exception due to some thread problems. see method
- * refreshRoundTracker() for an example.
- * Furthermore, please note that i didn't write a method that refreshes a specific window, it's a mess. For now you can
- * use refreshAll() if a window needs to be refreshed. If possible i will upgrade this some day.
- * Finally, please note that i couldn't test a lot of staff that i wrote because i needed the logic of what happens if
- * you click a button to be implemented. For example, i don't know if the drafted die is shown correctly, because by now
- * i can't draft a die. Same for the dice on roundTracker.
- */
 public class GameSceneController implements SceneController, Initializable{
     private final GUIView guiView;
     private final GUIModel guiModel;

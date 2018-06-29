@@ -6,10 +6,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * This class represent a single Square. It's a part of a single (@link Window).
- * It could be empty or cointains a (@link Die)
+ * This class represents a single Square. It's a part of a single (@link Window).
+ * It could be empty or cointain a (@link Die)
  */
-public class Square implements Serializable{
+public class Square implements Serializable {
+
     /**
      * This is the possible limitation of color of the Square.
      * No Die of this color could be put by a normal action in this Square
@@ -23,7 +24,7 @@ public class Square implements Serializable{
     private final int value;
 
     /**
-     * This is the die in the Square. It could be null. At the beginning it must be null
+     * This is the die in the Square. It could be null. At the beginning it must be null.
      */
     private Die die;
 

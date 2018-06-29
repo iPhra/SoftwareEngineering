@@ -19,36 +19,39 @@ import java.util.List;
  * This class represents the board, that is considered the ClientModel in MVC
  */
 public class Board extends Observable<Response> {
+
     /**
-     * value of colors in the game, 5 in our instance
+     * This is the number of colors in the game, 5 in our instance
      */
     private static final int COLORSNUMBER = 5;
 
     /**
-     * value of dice in the game, 90 in our instance
+     * This is the number of dice in the game, 90 in our instance
      */
     private static final int DICENUMBER = 90;
 
     /**
-     * value of rounds in one game
+     * This is the number of rounds in one game
      */
     public static final int ROUNDSNUMBER = 10;
+
     /**
-     * value of tool cards in one game
+     * This is the number of tool cards in one game
      */
     private static final int TOOLCARDSNUMBER = 3;
     private Round round;
     private final int playersNumber;
     private final List<Player> players;
-    private final DraftPool draftPool; //draft pool
+    private final DraftPool draftPool;
+
     /**
      * This attribute is used to save, for each tool card, the information if it was used
      */
     private final boolean[] toolCardsUsage;
     private final ToolCard[] toolCards;
-    private final PublicObjective[] publicObjectives; //array che contiene le carte degli obbiettivi pubblici
-    private final Bag bag; //ha il riferimento al sacchetto dei dadi
-    private final RoundTracker roundTracker; //ha il riferimento al roundTracker
+    private final PublicObjective[] publicObjectives;
+    private final Bag bag;
+    private final RoundTracker roundTracker;
     private int stateID;
 
     public Board(List<Player> players, ToolCard[] toolCards, PublicObjective[] publicObjectives) {
@@ -110,16 +113,11 @@ public class Board extends Observable<Response> {
 
     public int getPlayersNumber() {return playersNumber;}
 
-    /**
-     * Sets the new given round when it starts
-     * @param round it's the new round
-     */
     public void setRound(Round round) {
         this.round=round;
     }
 
     /**
-     *
      * @param id it's the ID of the player that user wants to get
      * @return the player with the given ID, if exists
      * @throws InvalidParameterException if there is no player with that ID
@@ -131,50 +129,6 @@ public class Board extends Observable<Response> {
         throw new InvalidParameterException();
     }
 
-
-    public void createModelViews(String description) {
-        for(Player player: players) {
-            ModelViewResponse response = new ModelViewResponse(this,new ModelView(this),player.getId());
-            response.setDescription(description);
-            notify(response);
-        }
-    }
-
-    public void createDraftPoolResponse(String description) {
-        for(Player player: players) {
-            DraftPoolResponse response = new DraftPoolResponse(player.getId(),this);
-            response.setDescription(description);
-            notify(response);
-        }
-    }
-
-    public void createRoundTrackerResponse(String description) {
-        for(Player player: players) {
-            RoundTrackerResponse response = new RoundTrackerResponse(player.getId(),this);
-            response.setDescription(description);
-            notify(response);
-        }
-    }
-
-    public void createWindowResponse(String description, int playerWindowID) {
-        for(Player player: players) {
-            WindowResponse response = new WindowResponse(player.getId(),this,playerWindowID);
-            response.setDescription(description);
-            notify(response);
-        }
-    }
-
-    public void createModelUpdateResponse(String description) {
-        for(Player player: players) {
-            ModelUpdateResponse response = new ModelUpdateResponse(player.getId(),stateID,this);
-            response.setDescription(description);
-            notify(response);
-        }
-    }
-
-    /**
-     * @return this toolCardsUsage
-     */
     public boolean[] getToolCardsUsage() {
         return toolCardsUsage;
     }
@@ -185,5 +139,71 @@ public class Board extends Observable<Response> {
      */
     public void setAlreadyUsed(int index) {
         toolCardsUsage[index]=true;
+    }
+
+    /**
+     * Creates and sends a model view response to each player
+     * Used when the game begins, when a player reconnects or when a round ends
+     * @param description is the string to set as description of the message
+     */
+    public void createModelViews(String description) {
+        for(Player player: players) {
+            ModelViewResponse response = new ModelViewResponse(this,new ModelView(this),player.getId());
+            response.setDescription(description);
+            notify(response);
+        }
+    }
+
+    /**
+     * Creates and sends a draft pool response to each player
+     * Used when the {@link DraftPool} is updated
+     * @param description is the string to set as description of the message
+     */
+    public void createDraftPoolResponse(String description) {
+        for(Player player: players) {
+            DraftPoolResponse response = new DraftPoolResponse(player.getId(),this);
+            response.setDescription(description);
+            notify(response);
+        }
+    }
+
+    /**
+     * Creates and sends a round tracker response to each player
+     * Used when the {@link RoundTracker} is updated
+     * @param description is the string to set as description of the message
+     */
+    public void createRoundTrackerResponse(String description) {
+        for(Player player: players) {
+            RoundTrackerResponse response = new RoundTrackerResponse(player.getId(),this);
+            response.setDescription(description);
+            notify(response);
+        }
+    }
+
+    /**
+     * Creates and sends a window response to each player
+     * Used when a {@link Window} is updated
+     * @param description is the string to set as description of the message
+     * @param playerWindowID is the ID of the player whose window is being updated
+     */
+    public void createWindowResponse(String description, int playerWindowID) {
+        for(Player player: players) {
+            WindowResponse response = new WindowResponse(player.getId(),this,playerWindowID);
+            response.setDescription(description);
+            notify(response);
+        }
+    }
+
+    /**
+     * Creates and sends a model update to each player
+     * Used when the state of the game is updated (i.e. die in hand, tool card usage)
+     * @param description is the string to set as description of the message
+     */
+    public void createModelUpdateResponse(String description) {
+        for(Player player: players) {
+            ModelUpdateResponse response = new ModelUpdateResponse(player.getId(),stateID,this);
+            response.setDescription(description);
+            notify(response);
+        }
     }
 }
