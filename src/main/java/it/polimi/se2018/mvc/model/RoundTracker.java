@@ -40,22 +40,6 @@ public class RoundTracker {
         return dice.get(round).get(index);
     }
 
-    /**
-     * @return the value of the current round
-     */
-    public int getRound() {
-        return round;
-    }
-
-    /**
-     * @param die it's the die user wants to check if it's contained in the roundtracker
-     * @return true if die is in the roundtracker, false otherwise
-     */
-    public boolean contains(Die die) {
-        for (List<Die> array : dice) if (array.contains(die)) return true;
-        return false;
-    }
-
     public boolean containsColor(Color color) {
         for(List<Die> list: dice) {
             for(Die die : list) {
@@ -63,17 +47,6 @@ public class RoundTracker {
             }
         }
         return false;
-    }
-
-    /**
-     * Removes a given die from the roundtracker
-     * @param die it's the die tha has to be removed
-     */
-    public void removeFromRoundTracker(Die die) {
-        for (List<Die> currentList : dice) {
-            for (int j = 0; j < currentList.size(); j++)
-                if (currentList.get(j).equals(die)) currentList.remove(die);
-        }
     }
 
     /**

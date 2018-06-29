@@ -13,12 +13,11 @@ import java.util.List;
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class ModelView implements Serializable{
     private final List<String> playerNames;
-    private List<Integer> playerID;
+    private final List<Integer> playerID;
     private final List<Square[][]> playerWindows;
     private final List<Integer> playerFavorPoint;
     private List<Die> draftPool;
     private List<List<Die>> roundTracker;
-    private int round;
     private List<Boolean> toolCardUsability;
     private int stateID;
     private int currentPlayerID;
@@ -33,7 +32,6 @@ public class ModelView implements Serializable{
         playerNames = new ArrayList<>();
         playerID = new ArrayList<>();
         toolCardUsability = new ArrayList<>();
-        round = board.getRound().getRoundNumber();
         draftPool = board.getDraftPool().modelViewCopy();
         roundTracker = board.getRoundTracker().modelViewCopy();
         stateID = board.getStateID();
@@ -63,10 +61,6 @@ public class ModelView implements Serializable{
         }
     }
 
-    public void setPlayerID(List<Integer> playerID) {
-        this.playerID = playerID;
-    }
-
     public void setPlayerWindow(int playerID, Square[][] playerWindow) {
         playerWindows.set(playerID,playerWindow);
     }
@@ -81,10 +75,6 @@ public class ModelView implements Serializable{
 
     public void setRoundTracker(List<List<Die>> roundTracker) {
         this.roundTracker = roundTracker;
-    }
-
-    public void setRound(int round) {
-        this.round = round;
     }
 
     public void setToolCardUsability(List<Boolean> toolCardUsability) {
@@ -149,10 +139,6 @@ public class ModelView implements Serializable{
 
     public List<List<Die>> getRoundTracker() {
         return roundTracker;
-    }
-
-    public int getRound() {
-        return round;
     }
 
     public boolean hasDieInHand() {

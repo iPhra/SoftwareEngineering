@@ -36,12 +36,15 @@ public class SelectWindowSceneController implements SceneController, Initializab
     private Stage stage;
     private Button[] buttons;
 
+    @SuppressWarnings("unused")
     @FXML
     private GridPane gridPane;
 
+    @SuppressWarnings("unused")
     @FXML
     private Label label;
 
+    @SuppressWarnings("unused")
     @FXML
     private BorderPane borderPane;
 

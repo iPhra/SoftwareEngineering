@@ -20,14 +20,6 @@ public class ClientModel {
         this.playerID = playerID;
     }
 
-    public int getPlayerID() {
-        return playerID;
-    }
-
-    public int getPlayersNumber() {
-        return playersNumber;
-    }
-
     public List<PublicObjective> getPublicObjectives() {
         return publicObjectives;
     }

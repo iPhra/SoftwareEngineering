@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings("unused")
 public class InputGetter implements Runnable {
     private final CLIView cliView;
     private final BufferedReader bufferedReader;

@@ -21,9 +21,7 @@ public class StateWindowStart extends StateWindow {
         State state = nextState.get(0);
         nextState.remove(0);
         state.setNextState(nextState);
-        Platform.runLater(() -> {
-            changeState(state);
-        });
+        Platform.runLater(() -> changeState(state));
     }
 
     @Override

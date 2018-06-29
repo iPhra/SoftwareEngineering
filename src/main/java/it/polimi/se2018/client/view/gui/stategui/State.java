@@ -3,7 +3,6 @@ package it.polimi.se2018.client.view.gui.stategui;
 import it.polimi.se2018.client.view.gui.GameSceneController;
 import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckUsabilityHandler;
 import it.polimi.se2018.network.messages.Coordinate;
-import javafx.application.Platform;
 
 import java.util.List;
 

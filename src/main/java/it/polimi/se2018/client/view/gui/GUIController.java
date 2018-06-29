@@ -67,16 +67,13 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         guiModel.setPrivateObjective(modelViewResponse.getPrivateObjective());
         guiModel.setPublicObjectives(modelViewResponse.getPublicObjectives());
         guiModel.setToolCards(modelViewResponse.getToolCards());
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                checkState();
-                String message;
-                if (modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
-                else message = "Started, ";
-                refreshText(message + (guiModel.getBoard().getCurrentPlayerID() == playerID ? "it's your turn" : "it's not your turn"));
-                ((GameSceneController) sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
-            }
+        Platform.runLater(() -> {
+            checkState();
+            String message;
+            if (modelViewResponse.getDescription().contains("passed")) message = "Round ends, ";
+            else message = "Started, ";
+            refreshText(message + (guiModel.getBoard().getCurrentPlayerID() == playerID ? "it's your turn" : "it's not your turn"));
+            ((GameSceneController) sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
         });
 
     }
@@ -91,9 +88,7 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     @Override
     public void handleResponse(ToolCardResponse toolCardResponse) {
-        Platform.runLater(() -> {
-            ((GameSceneController) sceneController).setText("You can use the tool card!");
-        });
+        Platform.runLater(() -> ((GameSceneController) sceneController).setText("You can use the tool card!"));
         ((GameSceneController) sceneController).useToolCard(toolCardResponse.getToolCardNumber());
     }
 
@@ -104,16 +99,13 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         setWindows(setupResponse.getWindows());
         ((PlayerNameSceneController) sceneController).setWindows(windows);
         ((PlayerNameSceneController) sceneController).setPrivateObjective(setupResponse.getPrivateObjective());
-        Platform.runLater(() -> {
-            sceneController.changeScene(sceneController.getScene()); //change from PlayerNameScene to SelectWindowScene
-        });
+        Platform.runLater(() ->
+            sceneController.changeScene(sceneController.getScene())); //change from PlayerNameScene to SelectWindowScene
     }
 
     @Override
     public void handleResponse(InputResponse inputResponse) {
-        Platform.runLater(() -> {
-            refreshText("Color of the die is " + inputResponse.getColor()+"\n");
-        });
+        Platform.runLater(() -> refreshText("Color of the die is " + inputResponse.getColor()+"\n"));
         ((GameSceneController) sceneController).createNumberWindow();
     }
 

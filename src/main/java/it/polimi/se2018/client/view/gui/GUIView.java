@@ -7,21 +7,16 @@ import javafx.application.Platform;
 
 public class GUIView extends ClientView {
     private final GUIController guiController;
-    private final GUIModel guiModel;
 
     public GUIView(Client client, int playerID) {
         super(client);
-        guiModel = new GUIModel(playerID);
-        guiController = new GUIController(this,guiModel,playerID);
+        GUIModel guiModel = new GUIModel(playerID);
+        guiController = new GUIController(this, guiModel,playerID);
         register(guiController);
     }
 
     public GUIController getGuiController() {
         return guiController;
-    }
-
-    public GUIModel getGuiModel() {
-        return guiModel;
     }
 
     @Override
@@ -32,9 +27,7 @@ public class GUIView extends ClientView {
     @Override
     public void handleAsyncEvent(boolean halt, String message) {
         if(guiController.isGameStarted()) {
-            Platform.runLater(() -> {
-                guiController.refreshText(message);
-            });
+            Platform.runLater(() -> guiController.refreshText(message));
         }
     }
 

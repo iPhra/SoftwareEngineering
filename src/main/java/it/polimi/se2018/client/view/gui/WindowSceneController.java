@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("unused")
 public class WindowSceneController implements Initializable {
     private final List<ButtonSquare> buttons;
     private final GameSceneController gameSceneController;

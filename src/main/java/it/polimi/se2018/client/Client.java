@@ -28,10 +28,6 @@ public abstract class Client {
         isSocket = socket;
     }
 
-    public boolean isSocket() {
-        return isSocket;
-    }
-
     public void setDefaultParams() {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("NetworkProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
