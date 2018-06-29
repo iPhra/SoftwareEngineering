@@ -24,7 +24,7 @@ public class ButtonSquare extends ButtonGame {
 
     //this method is called when ia die is put on this square
     public void setDie(Die die) {
-        setImage("./dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png");
+        setImage("/dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png");
     }
 
     //this method is called where the die is removed from this square

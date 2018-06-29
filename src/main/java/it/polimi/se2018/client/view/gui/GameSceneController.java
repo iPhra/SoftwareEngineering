@@ -137,7 +137,7 @@ public class GameSceneController implements SceneController, Initializable{
         favorPointsLabel.setText("You have " + guiModel.getBoard().getPlayerFavorPoint().get(myIndex) + " Favor Points");
         if(guiModel.getBoard().getCurrentPlayerID()==playerID && guiModel.getBoard().hasDieInHand()){
             Die dieInHand = guiModel.getBoard().getDieInHand();
-            dieInHandImageView = new ImageView(new Image("./dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
+            dieInHandImageView = new ImageView(new Image("/dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
             dieInHandImageView.setFitWidth(30);
             dieInHandImageView.setFitHeight(30);
             botGridPane.add(dieInHandImageView,2,0);

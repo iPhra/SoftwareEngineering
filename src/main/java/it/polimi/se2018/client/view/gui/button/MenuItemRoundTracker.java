@@ -12,7 +12,7 @@ public class MenuItemRoundTracker extends MenuItem {
 
     public MenuItemRoundTracker(Coordinate coordinate, Die die) {
         this.coordinate = coordinate;
-        ImageView imageView = new ImageView(new Image("./dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png"));
+        ImageView imageView = new ImageView(new Image("/dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png"));
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
         setGraphic(imageView);

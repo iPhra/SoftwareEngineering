@@ -34,7 +34,7 @@ public class WindowEnemySceneController implements Initializable{
                 if (playerWindow[row][col].isEmpty()) image = new Image(playerWindow[row][col].getConstraintPath());
                 else {
                     Die die = playerWindow[row][col].getDie();
-                    image = new Image("./dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png");
+                    image = new Image("/dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png");
                 }
                 ImageView imageView = new ImageView(image);
                 imageView.setFitHeight(35);
