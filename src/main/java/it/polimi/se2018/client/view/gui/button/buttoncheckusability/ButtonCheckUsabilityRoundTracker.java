@@ -32,7 +32,7 @@ public class ButtonCheckUsabilityRoundTracker implements ButtonCheckUsabilityHan
     @Override
     public boolean checkUsability(ButtonToolCard buttonToolCard) {
         //implement
-        return checkTurn();
+        return checkTurn() && gameSceneController.getToolCardMessage().getToolCardNumber()==buttonToolCard.getToolCardNumber();
     }
 
     @Override

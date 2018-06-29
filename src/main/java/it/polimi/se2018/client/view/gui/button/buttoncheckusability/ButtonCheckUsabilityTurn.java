@@ -31,7 +31,7 @@ public class ButtonCheckUsabilityTurn implements ButtonCheckUsabilityHandler {
 
     @Override
     public boolean checkUsability(ButtonToolCard buttonToolCard) {
-        return (checkTurn() && (gameSceneController.getGuiModel().getBoard().getToolCardUsability().get(buttonToolCard.getToolCardNumber())));
+        return (checkTurn() && !gameSceneController.getGuiModel().getBoard().hasUsedCard() && (gameSceneController.getGuiModel().getBoard().getToolCardUsability().get(buttonToolCard.getToolCardNumber())));
     }
 
     @Override

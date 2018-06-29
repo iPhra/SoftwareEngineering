@@ -34,7 +34,7 @@ public class ButtonCheckUsabilityWindow implements ButtonCheckUsabilityHandler {
         // adesso funziona così: se sto usando una toolcarda posso schiacciare su tutte le toolcard
         //se premo su un'altra toolcard non succede niente, se premom su quella scelta precedentemente
         //butto tutte le selezioni effettuate e faccio ripartire le scelte iniziali, come nella CLi
-        return checkTurn();
+        return checkTurn() && gameSceneController.getToolCardMessage().getToolCardNumber()==buttonToolCard.getToolCardNumber();
     }
 
     @Override
