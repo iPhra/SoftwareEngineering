@@ -4,6 +4,7 @@ import it.polimi.se2018.client.view.gui.GameSceneController;
 import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckUsabilityRoundTracker;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindow;
 import it.polimi.se2018.network.messages.Coordinate;
+import javafx.application.Platform;
 
 public class StateRoundTracker extends StateWindow {
 
@@ -18,8 +19,10 @@ public class StateRoundTracker extends StateWindow {
         gameSceneController.getToolCardMessage().addRoundTrackerPosition(coordinate);
         //if (nextState.isEmpty()){
             gameSceneController.sendToolCardMessage();
-            changeState(new StateTurn(gameSceneController));
-            gameSceneController.disableAllButton();
+            Platform.runLater(() -> {
+                changeState(new StateTurn(gameSceneController));
+                gameSceneController.disableAllButton();
+            });
         /*}
         else {
             State state = nextState.get(0);
@@ -39,8 +42,10 @@ public class StateRoundTracker extends StateWindow {
     public void doActionToolCard(int toolCardIndex) {
         if (toolCardIndex == gameSceneController.getToolCardMessage().getToolCardNumber()) {
             gameSceneController.setToolCardMessage(null);
-            changeState(new StateTurn(gameSceneController));
-            gameSceneController.setAllButton();
+            Platform.runLater(() -> {
+                changeState(new StateTurn(gameSceneController));
+                gameSceneController.setAllButton();
+            });
         }
     }
 }

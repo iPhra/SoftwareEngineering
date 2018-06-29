@@ -46,8 +46,8 @@ public class ScoreBoardSceneController implements Initializable, SceneController
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        borderPane.setPadding(new Insets(0,0,50,0));
         if(!isLastPlayer){
-            borderPane.setPadding(new Insets(0,0,50,0));
             StringBuilder builder = new StringBuilder();
             for(int i=0; i< sortedPlayersNames.size(); i++){
                 String tmp = i+1 + "  Player: " + sortedPlayersNames.get(i) + "     Score: " + sortedPlayersScores.get(i)+"\n";

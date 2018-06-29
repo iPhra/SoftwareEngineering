@@ -3,6 +3,7 @@ package it.polimi.se2018.client.view.gui;
 import it.polimi.se2018.client.Client;
 import it.polimi.se2018.client.view.ClientView;
 import it.polimi.se2018.network.messages.requests.Message;
+import javafx.application.Platform;
 
 public class GUIView extends ClientView {
     private final GUIController guiController;
@@ -30,7 +31,11 @@ public class GUIView extends ClientView {
 
     @Override
     public void handleAsyncEvent(boolean halt, String message) {
-        if(guiController.isGameStarted()) guiController.refreshText(message);
+        if(guiController.isGameStarted()) {
+            Platform.runLater(() -> {
+                guiController.refreshText(message);
+            });
+        }
     }
 
     @Override

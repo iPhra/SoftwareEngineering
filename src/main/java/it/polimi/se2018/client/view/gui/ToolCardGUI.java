@@ -6,7 +6,7 @@ import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowEnd;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowPlace;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowStart;
 import it.polimi.se2018.mvc.model.toolcards.*;
-
+import javafx.application.Platform;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +25,19 @@ public class ToolCardGUI implements ToolCardGUIHandler {
         List<State> states = new ArrayList<>();
         states.add(stateWindowEnd);
         stateWindowStart.setNextState(states);
-        gameSceneController.getCurrentState().changeState(stateWindowStart);
-        gameSceneController.setAllButton();
+        Platform.runLater(() -> {
+            gameSceneController.getCurrentState().changeState(stateWindowStart);
+            gameSceneController.setAllButton();
+        });
     }
 
     @Override
     public void getPlayerRequests(CorkBackedStraightedge toolCard, int toolCardNumber) {
         StateWindowPlace stateWindowPlace = new StateWindowPlace(gameSceneController);
-        gameSceneController.getCurrentState().changeState(stateWindowPlace);
-        gameSceneController.setAllButton();
+        Platform.runLater(() -> {
+            gameSceneController.getCurrentState().changeState(stateWindowPlace);
+            gameSceneController.setAllButton();
+        });
     }
 
     @Override
@@ -43,8 +47,10 @@ public class ToolCardGUI implements ToolCardGUIHandler {
         List<State> states = new ArrayList<>();
         states.add(stateWindowEnd);
         stateWindowStart.setNextState(states);
-        gameSceneController.getCurrentState().changeState(stateWindowStart);
-        gameSceneController.setAllButton();
+        Platform.runLater(() -> {
+            gameSceneController.getCurrentState().changeState(stateWindowStart);
+            gameSceneController.setAllButton();
+        });
     }
 
     @Override
@@ -80,16 +86,20 @@ public class ToolCardGUI implements ToolCardGUIHandler {
         states.add(new StateWindowStart(gameSceneController));
         states.add(new StateWindowEnd(gameSceneController));
         stateWindowStart.setNextState(states);
-        gameSceneController.getCurrentState().changeState(stateWindowStart);
-        gameSceneController.setAllButton();
+        Platform.runLater(() -> {
+            gameSceneController.getCurrentState().changeState(stateWindowStart);
+            gameSceneController.setAllButton();
+        });
     }
 
     @Override
     public void getPlayerRequests(LensCutter toolCard, int toolCardNumber) {
         StateRoundTracker stateRoundTracker = new StateRoundTracker(gameSceneController);
         stateRoundTracker.setNextState(new ArrayList<>());
-        gameSceneController.getCurrentState().changeState(stateRoundTracker);
-        gameSceneController.setAllButton();
+        Platform.runLater(() -> {
+            gameSceneController.getCurrentState().changeState(stateRoundTracker);
+            gameSceneController.setAllButton();
+        });
     }
 
     @Override

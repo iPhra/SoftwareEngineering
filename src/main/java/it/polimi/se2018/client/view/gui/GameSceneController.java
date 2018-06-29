@@ -246,7 +246,6 @@ public class GameSceneController implements SceneController, Initializable{
      * have been updated already before calling this
      */
     private void refreshAll(){
-        Platform.runLater(() -> {
             leftGridPane.getChildren().clear();
             botGridPane.getChildren().remove(windowPane);
             botGridPane.getChildren().remove(dieInHandImageView);
@@ -256,7 +255,6 @@ public class GameSceneController implements SceneController, Initializable{
             setLeftGridpane();
             setRightGridpane();
             setBotGridPane();
-        });
     }
 
     private void checkTurn(){
@@ -378,7 +376,7 @@ public class GameSceneController implements SceneController, Initializable{
      * @param text it's the text you want to show
      */
     public void setText(String text) {
-        Platform.runLater(() -> serviceLabel.setText(text));
+        serviceLabel.setText(text);
     }
 
     public void setStage(Stage stage) {
@@ -513,20 +511,22 @@ public class GameSceneController implements SceneController, Initializable{
 
     @Override
     public void changeScene(Scene scene) {
-        FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ScoreBoardScene.fxml")));
-        try {
-            ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames, sortedPlayersScores, isLastPlayer);
-            scoreBoardSceneController.setGuiClient(guiClient);
-            loader.setController(scoreBoardSceneController);
-            Parent root = loader.load();
-            guiClient.getGUIView().getGuiController().setSceneController(scoreBoardSceneController);
-            stage.setWidth(600);
-            stage.setHeight(623);
-            scoreBoardSceneController.setStage(stage);
-            scene.setRoot(root);
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ScoreBoardScene.fxml")));
+            try {
+                ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames, sortedPlayersScores, isLastPlayer);
+                scoreBoardSceneController.setGuiClient(guiClient);
+                loader.setController(scoreBoardSceneController);
+                Parent root = loader.load();
+                guiClient.getGUIView().getGuiController().setSceneController(scoreBoardSceneController);
+                stage.setWidth(600);
+                stage.setHeight(623);
+                scoreBoardSceneController.setStage(stage);
+                scene.setRoot(root);
             } catch (IOException e) {
-            e.printStackTrace();
-        }
+                e.printStackTrace();
+            }
+        });
     }
 
 

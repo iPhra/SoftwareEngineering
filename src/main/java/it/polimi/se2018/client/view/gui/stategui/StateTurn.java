@@ -6,6 +6,7 @@ import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.network.messages.requests.DraftMessage;
 import it.polimi.se2018.network.messages.requests.PlaceMessage;
 import it.polimi.se2018.network.messages.requests.ToolCardRequestMessage;
+import javafx.application.Platform;
 
 public class StateTurn extends State {
 
@@ -19,21 +20,27 @@ public class StateTurn extends State {
     public void doActionWindow(Coordinate coordinate) {
         PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), coordinate);
         gameSceneController.getGuiView().handleNetworkOutput(placeMessage);
-        changeState(new StateTurn(gameSceneController));
-        gameSceneController.disableAllButton();
+        Platform.runLater(() -> {
+            changeState(new StateTurn(gameSceneController));
+            gameSceneController.disableAllButton();
+        });
     }
 
     @Override
     public void doActionDraftPool(int draftPoolPosition) {
         gameSceneController.getGuiView().handleNetworkOutput(new DraftMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), draftPoolPosition));
-        changeState(new StateTurn(gameSceneController));
-        gameSceneController.disableAllButton();
+        Platform.runLater(() -> {
+            changeState(new StateTurn(gameSceneController));
+            gameSceneController.disableAllButton();
+        });
     }
 
     @Override
     public void doActionToolCard(int toolCardIndex) {
         gameSceneController.getGuiView().handleNetworkOutput(new ToolCardRequestMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), toolCardIndex));
-        changeState(new StateTurn(gameSceneController));
-        gameSceneController.disableAllButton();
+        Platform.runLater(() -> {
+            changeState(new StateTurn(gameSceneController));
+            gameSceneController.disableAllButton();
+        });
     }
 }
