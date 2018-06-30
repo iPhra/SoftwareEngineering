@@ -103,93 +103,6 @@ public class GameManager implements Stopper {
     }
 
     /**
-     * @param playerID is the id of the player you want to know the nickname of
-     * @return the nickname associated to a specific playerID
-     */
-    public String getNicknameById(int playerID) {
-        return playerNames.get(playerID);
-    }
-
-    /**
-     * @param playerID is the id of the player you want to get the ServerConnection of
-     * @return the ServerConnection associated to a specific playerID
-     */
-    public ServerConnection getServerConnection(int playerID) {
-        return serverConnections.get(playerID);
-    }
-
-    /**
-     * @param playerID is the id of the player you want to add the ServerConnection of
-     * @param serverConnection is the player's ServerConnection
-     */
-    public void addServerConnection(int playerID ,ServerConnection serverConnection) {
-        this.serverConnections.put(playerID, serverConnection);
-    }
-
-    public void setMatchPlaying(boolean matchPlaying) {
-        this.matchPlaying = matchPlaying;
-    }
-
-    /**
-     * @param playerID is the id of the player you want to add to the lobby
-     * @param playerName is the nickname of the player you want to add to the lobby
-     */
-    public void addPlayerName(int playerID, String playerName) {
-        playerNames.put(playerID,playerName);
-    }
-
-    /**
-     * @param playerID is the id of the player to add to the lobby
-     */
-    public void addPlayerID(int playerID){
-        playerIDs.add(playerID);
-    }
-
-    /**
-     * Sets the ServerView
-     * @param serverView is the ServerView associated to this match
-     */
-    public void setServerView(ServerView serverView){
-        this.serverView = serverView;
-    }
-
-    /**
-     * @return the ServerView associated to this match
-     */
-    public ServerView getServerView() {
-        return serverView;
-    }
-
-    /**
-     * @return {@code true} if the match has been created, i.e. the timer in {@link Server} has ran out and two or more players are connected
-     */
-    public boolean isMatchCreated() {
-        return matchCreated;
-    }
-
-    /**
-     * @return {@code true} if all players chose their windows, or time has ran out
-     */
-    public boolean isMatchPlaying() {
-        return matchPlaying;
-    }
-
-    /**
-     * @param playerID is the id of the player you want to check if he's disconnected
-     * @return {@code true} if the player is disconnected
-     */
-    public boolean isDisconnected(int playerID) {
-        return disconnectedPlayers.contains(playerID);
-    }
-
-    /**
-     * @return the number of players actually connected to the game, even just in the lobby
-     */
-    public int playersNumber(){
-        return playerIDs.size();
-    }
-
-    /**
      * Creates 4 windows for each player in the match, does not assign them yet
      */
     private void createWindows(){
@@ -288,6 +201,101 @@ public class GameManager implements Stopper {
         disconnectedPlayers.remove(disconnectedPlayers.indexOf(playerID));
         serverView.addServerConnection(playerID,serverConnection);
         notifyReconnection(playerID, isWindowSelection);
+    }
+
+    /**
+     * @param playerID is the id of the player you want to know the nickname of
+     * @return the nickname associated to a specific playerID
+     */
+    public String getNicknameById(int playerID) {
+        return playerNames.get(playerID);
+    }
+
+    /**
+     * @param playerID is the id of the player you want to get the ServerConnection of
+     * @return the ServerConnection associated to a specific playerID
+     */
+    public ServerConnection getServerConnection(int playerID) {
+        return serverConnections.get(playerID);
+    }
+
+    /**
+     * @param playerID is the id of the player you want to add the ServerConnection of
+     * @param serverConnection is the player's ServerConnection
+     */
+    public void addServerConnection(int playerID ,ServerConnection serverConnection) {
+        this.serverConnections.put(playerID, serverConnection);
+    }
+
+    public void setMatchPlaying(boolean matchPlaying) {
+        this.matchPlaying = matchPlaying;
+    }
+
+    /**
+     * @param playerID is the id of the player you want to add to the lobby
+     * @param playerName is the nickname of the player you want to add to the lobby
+     */
+    public void addPlayerName(int playerID, String playerName) {
+        playerNames.put(playerID,playerName);
+    }
+
+    /**
+     * @param playerID is the id of the player to add to the lobby
+     */
+    public void addPlayerID(int playerID){
+        playerIDs.add(playerID);
+    }
+
+    /**
+     * Sets the ServerView
+     * @param serverView is the ServerView associated to this match
+     */
+    public void setServerView(ServerView serverView){
+        this.serverView = serverView;
+    }
+
+    /**
+     * @return the ServerView associated to this match
+     */
+    public ServerView getServerView() {
+        return serverView;
+    }
+
+    /**
+     * @return {@code true} if the match has been created, i.e. the timer in {@link Server} has ran out and two or more players are connected
+     */
+    public boolean isMatchCreated() {
+        return matchCreated;
+    }
+
+    /**
+     * @return {@code true} if all players chose their windows, or time has ran out
+     */
+    public boolean isMatchPlaying() {
+        return matchPlaying;
+    }
+
+    /**
+     * @param playerID is the id of the player you want to check if he's disconnected
+     * @return {@code true} if the player is disconnected
+     */
+    public boolean isDisconnected(int playerID) {
+        return disconnectedPlayers.contains(playerID);
+    }
+
+    /**
+     * @return the number of players actually connected to the game, even just in the lobby
+     */
+    public int playersNumber(){
+        return playerIDs.size();
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public Board getModel() {
+        return model;
     }
 
     /**

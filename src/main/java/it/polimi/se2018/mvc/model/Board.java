@@ -70,7 +70,7 @@ public class Board extends Observable<Response> {
         this.publicObjectives = publicObjectives;
         bag = new Bag(COLORSNUMBER, DICENUMBER);
         roundTracker = new RoundTracker(ROUNDSNUMBER);
-        draftPool=new DraftPool();
+        draftPool = new DraftPool();
         draftPool.fillDraftPool(bag.drawDice(playersNumber));
         stateID = 0;
     }

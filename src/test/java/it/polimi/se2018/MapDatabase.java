@@ -10,11 +10,11 @@ import javafx.util.Pair;
 
 import java.util.List;
 
-public class Database {
+public class MapDatabase {
     private Square[][] matrix;
     private final List<Pair<Window,Window>> defaultMaps;
 
-    public Database() {
+    public MapDatabase() {
         defaultMaps = WindowBuilder.create();
     }
 

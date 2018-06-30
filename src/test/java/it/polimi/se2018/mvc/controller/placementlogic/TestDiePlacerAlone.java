@@ -1,7 +1,6 @@
 package it.polimi.se2018.mvc.controller.placementlogic;
 
-import it.polimi.se2018.Database;
-import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerAlone;
+import it.polimi.se2018.MapDatabase;
 import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Window;
@@ -16,7 +15,7 @@ public class TestDiePlacerAlone {
 
     @Test
     public void testCheckCondition() {
-        Window window = new Database().generateWindowByTitle("KALEIDOSCOPIC DREAM");
+        Window window = new MapDatabase().generateWindowByTitle("KALEIDOSCOPIC DREAM");
         Die die = new Die(4, Color.RED);
         DiePlacerAlone placer = new DiePlacerAlone(die,new Coordinate(1,4), window);
         Assert.assertTrue(placer.checkCondition());
