@@ -29,12 +29,10 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SelectWindowSceneController implements SceneController, Initializable{
+public class SelectWindowSceneController extends DisconnectionHandler implements SceneController, Initializable{
     private final GUILogic guiLogic;
-    private GUIClient guiClient;
     private final List<Window> windows;
     private final PrivateObjective privateObjective;
-    private Stage stage;
     private Button[] buttons;
 
     @SuppressWarnings("unused")
@@ -93,14 +91,6 @@ public class SelectWindowSceneController implements SceneController, Initializab
         }
         label.setText("You chose window "+ windows.get(windowNumber).getTitle() + "! Waiting for other players.");
         guiLogic.getGuiView().handleNetworkOutput(new SetupMessage(guiLogic.getPlayerID(),0,windows.get(windowNumber)));
-    }
-
-    public void setGuiClient(GUIClient guiClient) {
-        this.guiClient = guiClient;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     @Override

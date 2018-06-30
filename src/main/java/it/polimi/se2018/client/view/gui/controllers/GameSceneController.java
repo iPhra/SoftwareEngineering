@@ -33,10 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class GameSceneController implements SceneController, Initializable{
+public class GameSceneController extends DisconnectionHandler implements SceneController, Initializable{
     private final GUIView guiView;
     private final GUIData guiModel;
-    private GUIClient guiClient;
     private final int playerID;
     private ImageView dieInHandImageView;
     private ImageView privateObjectiveImageView;
@@ -44,7 +43,6 @@ public class GameSceneController implements SceneController, Initializable{
     private ToolCardMessage toolCardMessage;
     private final ToolCardGUI toolCardGUI;
     private State currentState;
-    private Stage stage;
     private List<String> sortedPlayersNames;
     private List<Integer> sortedPlayersScores;
     private boolean isLastPlayer;
@@ -380,10 +378,6 @@ public class GameSceneController implements SceneController, Initializable{
         serviceLabel.setText(text);
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     public GUIData getGuiModel() {
         return guiModel;
     }
@@ -479,10 +473,6 @@ public class GameSceneController implements SceneController, Initializable{
     //This method is called by controller of draft pool button
     public void buttonDraftPoolClicked(int drafPoolPosition){
         currentState.doActionDraftPool(drafPoolPosition);
-    }
-
-    public void setClientGUI(GUIClient guiClient) {
-        this.guiClient = guiClient;
     }
 
     /**
