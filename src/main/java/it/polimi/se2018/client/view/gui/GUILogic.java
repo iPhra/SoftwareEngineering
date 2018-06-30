@@ -64,6 +64,10 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         return gameStarted;
     }
 
+    public SceneController getSceneController() {
+        return sceneController;
+    }
+
     @Override
     public void handleResponse(ModelViewResponse modelViewResponse) {
         guiModel.setBoard(modelViewResponse.getModelView());

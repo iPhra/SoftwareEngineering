@@ -1,6 +1,5 @@
 package it.polimi.se2018.client.view.gui.controllers;
 
-import it.polimi.se2018.client.GUIClient;
 import it.polimi.se2018.client.view.gui.GUILogic;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
@@ -20,7 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;

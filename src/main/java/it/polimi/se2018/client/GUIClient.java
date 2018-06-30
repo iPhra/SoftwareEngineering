@@ -3,8 +3,11 @@ package it.polimi.se2018.client;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.gui.GUIView;
+import it.polimi.se2018.client.view.gui.controllers.DisconnectionHandler;
+import it.polimi.se2018.client.view.gui.controllers.SceneController;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,7 +20,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class GUIClient extends Client {
-    private GUIView clientView;
+    private GUIView guiView;
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
@@ -35,11 +38,11 @@ public class GUIClient extends Client {
                 setup = (boolean) in.readObject();
                 if (!setup) {
                     playerID = (int) in.readObject();
-                    clientView = new GUIView(this,playerID);
-                    clientConnection = new SocketClientConnection(this, clientView, socket,in,out);
-                    clientView.setClientConnection(clientConnection);
+                    guiView = new GUIView(this,playerID);
+                    clientConnection = new SocketClientConnection(this, guiView, socket,in,out);
+                    guiView.setClientConnection(clientConnection);
                     new Thread((SocketClientConnection) clientConnection).start();
-                    new Thread(clientView).start();
+                    new Thread(guiView).start();
                 }
             }
             catch(IOException | ClassNotFoundException  e){
@@ -56,14 +59,14 @@ public class GUIClient extends Client {
                 setup = manager.checkName(playerName);
                 if(!setup) {
                     playerID = manager.getID(playerName);
-                    clientView = new GUIView(this,playerID);
-                    clientConnection = new RMIClientConnection(this, clientView);
+                    guiView = new GUIView(this,playerID);
+                    clientConnection = new RMIClientConnection(this, guiView);
                     manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
                     RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
                     ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
-                    clientView.setClientConnection(clientConnection);
+                    guiView.setClientConnection(clientConnection);
                     new Thread((RMIClientConnection) clientConnection).start();
-                    new Thread(clientView).start();
+                    new Thread(guiView).start();
                 }
             }
             catch(RemoteException | NotBoundException | MalformedURLException e){
@@ -79,7 +82,7 @@ public class GUIClient extends Client {
     }
 
     public GUIView getGUIView() {
-        return clientView;
+        return guiView;
     }
 
     public void setDifferentParams(String ip, int port) {
@@ -115,6 +118,11 @@ public class GUIClient extends Client {
     @Override
     public void setDisconnected() {
         setup = true;
-        //disconnetti?
+        clientConnection.stop();
+        guiView.stop();
+        Platform.runLater(() -> {
+            SceneController sceneController = guiView.getGuiLogic().getSceneController();
+            ((DisconnectionHandler)sceneController).returnToSetConnectionScene(sceneController.getScene());
+        });
     }
 }

@@ -13,7 +13,7 @@ public class SocketHandler implements Runnable {
     private final Server server;
     private final ServerSocket serverSocket;
     private final ExecutorService pool;
-    private boolean isOpen;
+    private final boolean isOpen;
 
     public SocketHandler(Server server, ServerSocket serverSocket) {
         this.server = server;

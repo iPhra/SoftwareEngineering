@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class DisconnectionHandler {
-    protected GUIClient guiClient;
+    GUIClient guiClient;
     protected Stage stage;
 
     public void setClientGUI(GUIClient guiClient) {

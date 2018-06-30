@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class Server implements Stopper {
     private static final int PORT = 1234;
     private static int matchID = 1;
