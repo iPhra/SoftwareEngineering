@@ -7,7 +7,7 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
 import java.util.List;
 
-public class ClientModel {
+public class ClientData {
     protected final int playerID;
     protected int playersNumber;
     protected List<String> playerNames;
@@ -16,7 +16,7 @@ public class ClientModel {
     protected PrivateObjective privateObjective;
     protected List<PublicObjective> publicObjectives;
 
-    public ClientModel(int playerID) {
+    protected ClientData(int playerID) {
         this.playerID = playerID;
     }
 

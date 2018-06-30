@@ -1,6 +1,6 @@
 package it.polimi.se2018.client.view.gui.stategui.statewindow;
 
-import it.polimi.se2018.client.view.gui.GameSceneController;
+import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
 import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckUsabilityWindow;
 import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;

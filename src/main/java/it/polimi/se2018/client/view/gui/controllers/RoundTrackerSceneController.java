@@ -1,6 +1,7 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.view.gui.button.MenuItemRoundTracker;
+import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
@@ -12,7 +13,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RoundTrackerSceneController implements Initializable {
+class RoundTrackerSceneController implements Initializable {
     private final List<List<MenuItemRoundTracker>> roundTracker;
     private final GameSceneController gameSceneController;
 

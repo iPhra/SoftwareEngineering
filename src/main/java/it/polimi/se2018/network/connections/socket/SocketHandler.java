@@ -22,16 +22,6 @@ public class SocketHandler implements Runnable {
         isOpen = true;
     }
 
-    public void stop() {
-        isOpen = false;
-        pool.shutdown();
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void run() {
         try {
             while (isOpen) {

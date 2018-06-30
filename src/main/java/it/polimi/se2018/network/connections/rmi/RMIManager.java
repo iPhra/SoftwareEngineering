@@ -19,6 +19,18 @@ public class RMIManager implements RemoteManager {
         this.registry = registry;
     }
 
+    private void closeConnection() {
+        try {
+            registry.unbind("RemoteManager");
+            UnicastRemoteObject.unexportObject(this, true);
+            UnicastRemoteObject.unexportObject(registry, true);
+        }
+        catch (RemoteException | NotBoundException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.SEVERE,"error while closing",e);
+        }
+    }
+
     //false if he's not registered or reconnecting
     public boolean checkName(String nickname) {
         return nickname.length()>15 || !(server.checkRegistration(nickname) || server.checkDisconnection(nickname));
@@ -50,18 +62,6 @@ public class RMIManager implements RemoteManager {
         catch (NotBoundException | RemoteException e) {
             Logger logger = Logger.getAnonymousLogger();
             logger.log(Level.ALL,e.getMessage());
-        }
-    }
-
-    public void closeConnection() {
-        try {
-            registry.unbind("RemoteManager");
-            UnicastRemoteObject.unexportObject(this, true);
-            UnicastRemoteObject.unexportObject(registry, true);
-        }
-        catch (RemoteException | NotBoundException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.SEVERE,"error while closing",e);
         }
     }
 }

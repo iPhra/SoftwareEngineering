@@ -1,4 +1,4 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.network.messages.Coordinate;
@@ -13,7 +13,7 @@ import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class WindowImageSceneController implements Initializable{
+class WindowImageSceneController implements Initializable{
     private final Window window;
 
     @FXML

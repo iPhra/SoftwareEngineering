@@ -121,13 +121,6 @@ public class Server implements Stopper {
         }
     }
 
-    private void close() {
-        socketHandler.stop();
-        remoteManager.closeConnection();
-        nicknames.clear();
-        matches.clear();
-    }
-
     public int getPlayerID(String nickname) {
         return nicknames.get(nickname);
     }

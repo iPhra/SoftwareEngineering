@@ -1,4 +1,4 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.GUIClient;
 import javafx.fxml.FXML;
@@ -39,7 +39,7 @@ public class ScoreBoardSceneController implements Initializable, SceneController
         this.isLastPlayer = isLastPlayer;
     }
 
-    public void startNewGame() {
+    private void startNewGame() {
         guiClient.setGameEnded();
         changeScene(getScene());
     }

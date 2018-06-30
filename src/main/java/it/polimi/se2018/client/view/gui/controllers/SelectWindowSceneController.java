@@ -1,6 +1,7 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.GUIClient;
+import it.polimi.se2018.client.view.gui.GUILogic;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
@@ -29,7 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SelectWindowSceneController implements SceneController, Initializable{
-    private final GUIController guiController;
+    private final GUILogic guiLogic;
     private GUIClient guiClient;
     private final List<Window> windows;
     private final PrivateObjective privateObjective;
@@ -48,10 +49,10 @@ public class SelectWindowSceneController implements SceneController, Initializab
     @FXML
     private BorderPane borderPane;
 
-    SelectWindowSceneController(List<Window> windows, PrivateObjective privateObjective, GUIController guiController){
+    SelectWindowSceneController(List<Window> windows, PrivateObjective privateObjective, GUILogic guiLogic){
         this.windows = windows;
         this.privateObjective = privateObjective;
-        this.guiController = guiController;
+        this.guiLogic = guiLogic;
     }
 
     @Override
@@ -91,7 +92,7 @@ public class SelectWindowSceneController implements SceneController, Initializab
             button.setDisable(true);
         }
         label.setText("You chose window "+ windows.get(windowNumber).getTitle() + "! Waiting for other players.");
-        guiController.getGuiView().handleNetworkOutput(new SetupMessage(guiController.getPlayerID(),0,windows.get(windowNumber)));
+        guiLogic.getGuiView().handleNetworkOutput(new SetupMessage(guiLogic.getPlayerID(),0,windows.get(windowNumber)));
     }
 
     public void setGuiClient(GUIClient guiClient) {
@@ -106,11 +107,11 @@ public class SelectWindowSceneController implements SceneController, Initializab
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
         try {
-            GameSceneController gameSceneController = new GameSceneController(guiController);
+            GameSceneController gameSceneController = new GameSceneController(guiLogic);
             gameSceneController.setClientGUI(guiClient);
             loader.setController(gameSceneController);
             Parent root = loader.load();
-            guiController.setSceneController(gameSceneController);
+            guiLogic.setSceneController(gameSceneController);
             stage.setWidth(1440);
             stage.setHeight(900);
             gameSceneController.setStage(stage);

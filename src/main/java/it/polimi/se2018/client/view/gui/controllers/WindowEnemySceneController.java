@@ -1,4 +1,4 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
@@ -12,7 +12,7 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class WindowEnemySceneController implements Initializable{
+class WindowEnemySceneController implements Initializable{
     private final Square[][] playerWindow;
 
     @FXML

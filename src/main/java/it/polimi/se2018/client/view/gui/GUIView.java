@@ -6,17 +6,17 @@ import it.polimi.se2018.network.messages.requests.Message;
 import javafx.application.Platform;
 
 public class GUIView extends ClientView {
-    private final GUIController guiController;
+    private final GUILogic guiLogic;
 
     public GUIView(Client client, int playerID) {
         super(client);
-        GUIModel guiModel = new GUIModel(playerID);
-        guiController = new GUIController(this, guiModel,playerID);
-        register(guiController);
+        GUIData guiModel = new GUIData(playerID);
+        guiLogic = new GUILogic(this, guiModel,playerID);
+        register(guiLogic);
     }
 
-    public GUIController getGuiController() {
-        return guiController;
+    public GUILogic getGuiLogic() {
+        return guiLogic;
     }
 
     @Override
@@ -26,8 +26,8 @@ public class GUIView extends ClientView {
 
     @Override
     public void handleAsyncEvent(boolean halt, String message) {
-        if(guiController.isGameStarted()) {
-            Platform.runLater(() -> guiController.refreshText(message));
+        if(guiLogic.isGameStarted()) {
+            Platform.runLater(() -> guiLogic.refreshText(message));
         }
     }
 

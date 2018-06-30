@@ -7,7 +7,7 @@ import it.polimi.se2018.mvc.controller.ToolCardCheckerHandler;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
+import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 
 public class LensCutter extends ToolCard {
     private static LensCutter instance = null;
@@ -27,7 +27,7 @@ public class LensCutter extends ToolCard {
         handler.useCard(this, message);
     }
     @Override
-    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws HaltException, ChangeActionException {
+    public ToolCardMessage handleView(ToolCardCLIHandler handler, int toolCardNumber) throws HaltException, ChangeActionException {
         return handler.getPlayerRequests(this, toolCardNumber);
     }
 

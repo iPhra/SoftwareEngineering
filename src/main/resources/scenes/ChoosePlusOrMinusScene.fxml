@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="119.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.client.view.gui.ChoosePlusOrMinusSceneController">
+<AnchorPane prefHeight="119.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.client.view.gui.controllers.ChoosePlusOrMinusSceneController">
    <children>
       <Button fx:id="plusOneButton" layoutX="80.0" layoutY="47.0" mnemonicParsing="false" onAction="#plusOne" text="+1" />
       <Button fx:id="minusOneButton" layoutX="297.0" layoutY="47.0" mnemonicParsing="false" onAction="#minusOne" text="-1" />

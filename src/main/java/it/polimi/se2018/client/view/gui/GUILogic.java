@@ -1,5 +1,8 @@
 package it.polimi.se2018.client.view.gui;
 
+import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
+import it.polimi.se2018.client.view.gui.controllers.PlayerNameSceneController;
+import it.polimi.se2018.client.view.gui.controllers.SceneController;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Window;
@@ -10,15 +13,15 @@ import javafx.application.Platform;
 
 import java.util.List;
 
-public class GUIController implements SyncResponseHandler, Observer<SyncResponse> {
+public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
     private final int playerID;
     private final GUIView guiView;
-    private final GUIModel guiModel;
+    private final GUIData guiModel;
     private SceneController sceneController;
     private List<Window> windows;
     private boolean gameStarted;
 
-    GUIController(GUIView guiView, GUIModel guiModel, int playerID) {
+    GUILogic(GUIView guiView, GUIData guiModel, int playerID) {
         this.playerID = playerID;
         this.guiView = guiView;
         this.guiModel = guiModel;
@@ -33,7 +36,11 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
         else ((GameSceneController) sceneController).clearAndRefreshAll();
     }
 
-    public GUIModel getGuiModel() {
+    private void setWindows(List<Window> windows) {
+        this.windows = windows;
+    }
+
+    public GUIData getGuiModel() {
         return guiModel;
     }
 
@@ -47,10 +54,6 @@ public class GUIController implements SyncResponseHandler, Observer<SyncResponse
 
     public void setSceneController(SceneController sceneController){
         this.sceneController = sceneController;
-    }
-
-    public void setWindows(List<Window> windows) {
-        this.windows = windows;
     }
 
     public void refreshText(String description) {

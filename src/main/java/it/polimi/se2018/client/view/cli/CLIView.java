@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import static java.lang.System.*;
 
 public class CLIView extends ClientView {
-    private final CLIModel cliModel;
+    private final CLIData cliModel;
     private final PrintStream printStream;
     private final BufferedReader bufferedReader;
     private Thread inputGetter;
@@ -24,9 +24,9 @@ public class CLIView extends ClientView {
 
     public CLIView(Client client, int playerID) {
         super(client);
-        cliModel = new CLIModel(this,playerID);
-        CLIController cliController = new CLIController(this, cliModel, playerID);
-        register(cliController);
+        cliModel = new CLIData(this,playerID);
+        CLILogic cliLogic = new CLILogic(this, cliModel, playerID);
+        register(cliLogic);
         printStream = new PrintStream(out);
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }

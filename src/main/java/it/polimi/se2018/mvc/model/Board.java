@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents the board, that is considered the ClientModel in MVC
+ * This class represents the board, that is considered the ClientData in MVC
  */
 public class Board extends Observable<Response> {
 

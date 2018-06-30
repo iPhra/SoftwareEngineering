@@ -1,4 +1,4 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.GUIClient;
 import javafx.fxml.FXML;
@@ -34,11 +34,11 @@ public class ReconnectionSceneController implements SceneController {
     public void changeScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
         try {
-            GameSceneController gameSceneController = new GameSceneController(guiClient.getGUIView().getGuiController());
+            GameSceneController gameSceneController = new GameSceneController(guiClient.getGUIView().getGuiLogic());
             gameSceneController.setClientGUI(guiClient);
             loader.setController(gameSceneController);
             Parent root = loader.load();
-            guiClient.getGUIView().getGuiController().setSceneController(gameSceneController);
+            guiClient.getGUIView().getGuiLogic().setSceneController(gameSceneController);
             stage.setWidth(1440);
             stage.setHeight(900);
             gameSceneController.setStage(stage);

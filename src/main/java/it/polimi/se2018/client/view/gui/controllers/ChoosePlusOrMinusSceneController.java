@@ -1,4 +1,4 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

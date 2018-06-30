@@ -6,12 +6,12 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 
-public class ToolCardPlayerInput implements ToolCardPlayerInputHandler {
+public class ToolCardCLI implements ToolCardCLIHandler {
     private final int playerID;
-    private final CLIModel cliModel;
+    private final CLIData cliModel;
     private final CLIView cliView;
 
-    ToolCardPlayerInput (int playerID, CLIView cliView, CLIModel cliModel) {
+    ToolCardCLI(int playerID, CLIView cliView, CLIData cliModel) {
         this.playerID=playerID;
         this.cliModel = cliModel;
         this.cliView = cliView;

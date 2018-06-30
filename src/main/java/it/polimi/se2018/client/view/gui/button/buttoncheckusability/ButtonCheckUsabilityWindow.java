@@ -1,6 +1,6 @@
 package it.polimi.se2018.client.view.gui.button.buttoncheckusability;
 
-import it.polimi.se2018.client.view.gui.GameSceneController;
+import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
 import it.polimi.se2018.client.view.gui.button.*;
 
 public class ButtonCheckUsabilityWindow implements ButtonCheckUsabilityHandler {

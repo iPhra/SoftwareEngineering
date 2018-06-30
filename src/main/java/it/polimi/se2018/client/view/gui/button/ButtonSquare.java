@@ -9,11 +9,10 @@ import javafx.scene.image.ImageView;
 
 public class ButtonSquare extends ButtonGame {
     private final Coordinate coordinate;
-    private final String squareImage;
 
     public ButtonSquare(Coordinate coordinate, Square square) {
         this.coordinate = coordinate;
-        squareImage = square.getConstraintPath();
+        String squareImage = square.getConstraintPath();
         setImage(squareImage);
         setDisable(true);
     }
@@ -25,11 +24,6 @@ public class ButtonSquare extends ButtonGame {
     //this method is called when ia die is put on this square
     public void setDie(Die die) {
         setImage("/dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png");
-    }
-
-    //this method is called where the die is removed from this square
-    public void removeDie(){
-        setImage(squareImage);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package it.polimi.se2018.client.view.cli;
 
-import it.polimi.se2018.client.view.ClientModel;
+import it.polimi.se2018.client.view.ClientData;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.Window;
@@ -10,10 +10,10 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import java.util.ArrayList;
 import java.util.List;
 
-class CLIModel extends ClientModel {
+class CLIData extends ClientData {
     private final CLIView cliView;
 
-    CLIModel(CLIView cliView, int playerID) {
+    CLIData(CLIView cliView, int playerID) {
         super(playerID);
         this.cliView = cliView;
     }

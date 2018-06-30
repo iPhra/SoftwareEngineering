@@ -8,7 +8,7 @@ import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
+import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 
 
 public class Lathekin extends ToolCard {
@@ -29,7 +29,7 @@ public class Lathekin extends ToolCard {
         handler.useCard(this, message);
     }
     @Override
-    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolcardnumber) throws HaltException, ChangeActionException {
+    public ToolCardMessage handleView(ToolCardCLIHandler handler, int toolcardnumber) throws HaltException, ChangeActionException {
         return handler.getPlayerRequests(this, toolcardnumber);
     }
 

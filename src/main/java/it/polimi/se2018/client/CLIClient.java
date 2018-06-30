@@ -16,6 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class CLIClient extends Client {
     private CLIView clientView;
     private Socket socket;
@@ -24,7 +25,7 @@ public class CLIClient extends Client {
     private final Scanner input;
     private final PrintStream output;
 
-    public CLIClient() {
+    private CLIClient() {
         super();
         disconnected = false;
         gameEnded = false;

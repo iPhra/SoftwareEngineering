@@ -1,6 +1,7 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.GUIClient;
+import it.polimi.se2018.client.view.gui.*;
 import it.polimi.se2018.client.view.gui.button.*;
 import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
@@ -34,7 +35,7 @@ import java.util.ResourceBundle;
 
 public class GameSceneController implements SceneController, Initializable{
     private final GUIView guiView;
-    private final GUIModel guiModel;
+    private final GUIData guiModel;
     private GUIClient guiClient;
     private final int playerID;
     private ImageView dieInHandImageView;
@@ -74,10 +75,10 @@ public class GameSceneController implements SceneController, Initializable{
     @FXML
     private Label favorPointsLabel;
 
-    public GameSceneController(GUIController guiController) {
-        this.guiView = guiController.getGuiView();
-        this.guiModel = guiController.getGuiModel();
-        this.playerID = guiController.getPlayerID();
+    public GameSceneController(GUILogic guiLogic) {
+        this.guiView = guiLogic.getGuiView();
+        this.guiModel = guiLogic.getGuiModel();
+        this.playerID = guiLogic.getPlayerID();
         toolCardGUI = new ToolCardGUI(this);
         currentState = new StateTurn(this);
     }
@@ -383,7 +384,7 @@ public class GameSceneController implements SceneController, Initializable{
         this.stage = stage;
     }
 
-    public GUIModel getGuiModel() {
+    public GUIData getGuiModel() {
         return guiModel;
     }
 
@@ -518,7 +519,7 @@ public class GameSceneController implements SceneController, Initializable{
                 scoreBoardSceneController.setGuiClient(guiClient);
                 loader.setController(scoreBoardSceneController);
                 Parent root = loader.load();
-                guiClient.getGUIView().getGuiController().setSceneController(scoreBoardSceneController);
+                guiClient.getGUIView().getGuiLogic().setSceneController(scoreBoardSceneController);
                 stage.setWidth(600);
                 stage.setHeight(623);
                 scoreBoardSceneController.setStage(stage);
@@ -531,7 +532,7 @@ public class GameSceneController implements SceneController, Initializable{
 
 
     /**
-     * This method is called in {@link GUIController} when it's needed to refresh something in the scene. Actually,
+     * This method is called in {@link GUILogic} when it's needed to refresh something in the scene. Actually,
      * it refreshes everything. Also, it calls the method checkTurn
      */
     public void clearAndRefreshAll(){

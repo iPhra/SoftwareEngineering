@@ -1,6 +1,6 @@
 package it.polimi.se2018.client;
 
-import it.polimi.se2018.client.view.gui.SetConnectionSceneController;
+import it.polimi.se2018.client.view.gui.controllers.SetConnectionSceneController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

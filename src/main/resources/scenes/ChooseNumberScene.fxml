@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="261.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.client.view.gui.ChooseNumberSceneController">
+<AnchorPane prefHeight="261.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.se2018.client.view.gui.controllers.ChooseNumberSceneController">
    <children>
       <Button fx:id="button1" layoutX="56.0" layoutY="38.0" mnemonicParsing="false" onAction="#button1Clicked" text="1" />
       <Button fx:id="button2" layoutX="219.0" layoutY="38.0" mnemonicParsing="false" onAction="#button2Clicked" text="2" />

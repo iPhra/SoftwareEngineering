@@ -10,7 +10,7 @@ import it.polimi.se2018.utils.exceptions.ToolCardException;
 
 
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
+import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 
 public class TapWheel extends ToolCard {
     private static TapWheel instance = null;
@@ -31,7 +31,7 @@ public class TapWheel extends ToolCard {
     }
 
     @Override
-    public ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws HaltException, ChangeActionException {
+    public ToolCardMessage handleView(ToolCardCLIHandler handler, int toolCardNumber) throws HaltException, ChangeActionException {
         return handler.getPlayerRequests(this, toolCardNumber);
     }
 

@@ -1,5 +1,6 @@
 package it.polimi.se2018.mvc.model.toolcards;
 
+import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 import it.polimi.se2018.client.view.gui.ToolCardGUIHandler;
 import it.polimi.se2018.mvc.controller.ToolCardHandler;
 import it.polimi.se2018.mvc.model.Player;
@@ -8,7 +9,6 @@ import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-import it.polimi.se2018.client.view.cli.ToolCardPlayerInputHandler;
 
 import java.io.Serializable;
 
@@ -31,7 +31,7 @@ public abstract class ToolCard implements Serializable {
 
     public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 
-    public abstract ToolCardMessage handleView(ToolCardPlayerInputHandler handler, int toolCardNumber) throws ChangeActionException, HaltException;
+    public abstract ToolCardMessage handleView(ToolCardCLIHandler handler, int toolCardNumber) throws ChangeActionException, HaltException;
 
     public abstract Boolean handleCheck(ToolCardCheckerHandler handler, boolean isUsed, Player player);
 

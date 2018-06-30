@@ -1,4 +1,4 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.view.gui.button.ButtonDraftPool;
 import javafx.fxml.FXML;
@@ -9,7 +9,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DraftPoolSceneController implements Initializable{
+class DraftPoolSceneController implements Initializable{
     private final List<ButtonDraftPool> buttons;
     private final GameSceneController gameSceneController;
 

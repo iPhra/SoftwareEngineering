@@ -16,17 +16,17 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CLIController implements SyncResponseHandler, Observer<SyncResponse> {
+public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
     private final int playerID;
     private final CLIView cliView;
-    private final CLIModel cliModel;
-    private final ToolCardPlayerInput toolCardPlayerInput;
+    private final CLIData cliModel;
+    private final ToolCardCLI toolCardCLI;
 
-    public CLIController(CLIView cliView, CLIModel cliModel, int playerID) {
+    public CLILogic(CLIView cliView, CLIData cliModel, int playerID) {
         this.playerID = playerID;
         this.cliView = cliView;
         this.cliModel = cliModel;
-        toolCardPlayerInput = new ToolCardPlayerInput(playerID, cliView, cliModel);
+        toolCardCLI = new ToolCardCLI(playerID, cliView, cliModel);
     }
 
     private List<Integer> actionPossible() {
@@ -175,7 +175,7 @@ public class CLIController implements SyncResponseHandler, Observer<SyncResponse
     private void useToolCard(int toolCardIndex) throws RemoteException {
         ToolCard toolCard = cliModel.getToolCards().get(toolCardIndex);
         try {
-            ToolCardMessage toolCardMessage = toolCard.handleView(toolCardPlayerInput, toolCardIndex);
+            ToolCardMessage toolCardMessage = toolCard.handleView(toolCardCLI, toolCardIndex);
             cliView.handleNetworkOutput(toolCardMessage);
         }
         catch (HaltException ignored) {

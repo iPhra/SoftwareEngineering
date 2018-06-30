@@ -1,4 +1,4 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.GUIClient;
 import it.polimi.se2018.mvc.model.Window;
@@ -32,11 +32,11 @@ public class PlayerNameSceneController implements SceneController {
         windowSelectionOver = false;
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/selectWindowScene.fxml")));
         try {
-            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (guiClient.getGUIView()).getGuiController());
+            SelectWindowSceneController selectWindowSceneController = new SelectWindowSceneController(windows, privateObjective, (guiClient.getGUIView()).getGuiLogic());
             selectWindowSceneController.setGuiClient(guiClient);
             loader.setController(selectWindowSceneController);
             Parent root = loader.load();
-            guiClient.getGUIView().getGuiController().setSceneController(selectWindowSceneController);
+            guiClient.getGUIView().getGuiLogic().setSceneController(selectWindowSceneController);
             stage.setWidth(1000);
             stage.setHeight(700);
             selectWindowSceneController.setStage(stage);
@@ -49,11 +49,11 @@ public class PlayerNameSceneController implements SceneController {
     private void toMatchScene(Scene scene) { //called if i'm reconnecting when the game is already after window selection
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
         try {
-            GameSceneController gameSceneController = new GameSceneController(guiClient.getGUIView().getGuiController());
+            GameSceneController gameSceneController = new GameSceneController(guiClient.getGUIView().getGuiLogic());
             gameSceneController.setClientGUI(guiClient);
             loader.setController(gameSceneController);
             Parent root = loader.load();
-            guiClient.getGUIView().getGuiController().setSceneController(gameSceneController);
+            guiClient.getGUIView().getGuiLogic().setSceneController(gameSceneController);
             stage.setWidth(1440);
             stage.setHeight(900);
             gameSceneController.setStage(stage);
@@ -70,7 +70,7 @@ public class PlayerNameSceneController implements SceneController {
             ReconnectionSceneController reconnectionSceneController = loader.getController();
             reconnectionSceneController.setClientGUI(guiClient);
             loader.setController(reconnectionSceneController);
-            guiClient.getGUIView().getGuiController().setSceneController(reconnectionSceneController);
+            guiClient.getGUIView().getGuiLogic().setSceneController(reconnectionSceneController);
             stage.setWidth(600);
             stage.setHeight(623);
             reconnectionSceneController.setStage(stage);
@@ -106,7 +106,7 @@ public class PlayerNameSceneController implements SceneController {
 
     public void onReturnHandler(){
         if (!guiClient.setPlayerName(nickTextField.getText())) {
-            guiClient.getGUIView().getGuiController().setSceneController(this);
+            guiClient.getGUIView().getGuiLogic().setSceneController(this);
             label.setText("Your nickname is ok. Waiting for other players");
             nickTextField.setEditable(false);
         } else label.setText("Nickname already taken, choose another one");

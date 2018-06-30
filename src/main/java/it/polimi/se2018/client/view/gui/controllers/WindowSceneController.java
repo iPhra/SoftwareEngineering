@@ -1,6 +1,7 @@
-package it.polimi.se2018.client.view.gui;
+package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.view.gui.button.ButtonSquare;
+import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
