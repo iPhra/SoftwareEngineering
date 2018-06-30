@@ -17,7 +17,6 @@ public class ToolCardGUI implements ToolCardGUIHandler {
         this.gameSceneController = gameSceneController;
     }
 
-
     @Override
     public void getPlayerRequests(CopperFoilBurnisher toolCard, int toolCardNumber) {
         StateWindowStart stateWindowStart = new StateWindowStart(gameSceneController);
