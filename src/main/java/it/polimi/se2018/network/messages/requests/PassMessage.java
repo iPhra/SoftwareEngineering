@@ -4,6 +4,11 @@ package it.polimi.se2018.network.messages.requests;
  * This class represents a message from a player wishing to end his turn
  */
 public class PassMessage extends Message {
+
+    /**
+     * {@code true} if the timer of the turn has ran out.
+     * Used by {@link it.polimi.se2018.mvc.controller.Controller}
+     */
     private final boolean halt;
 
     public PassMessage(int playerID, int stateID, boolean halt) {

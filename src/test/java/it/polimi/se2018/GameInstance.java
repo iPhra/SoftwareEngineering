@@ -42,6 +42,7 @@ public class GameInstance {
         dice.add(new Die(6, Color.BLUE));
         dice.add(new Die(5, Color.YELLOW));
         dice.add(new Die(4, Color.GREEN));
+        dice.add(new Die(4, Color.GREEN));
         dice.add(new Die(3, Color.PURPLE));
         dice.add(new Die(2, Color.YELLOW));
         dice.add(new Die(2, Color.BLUE));

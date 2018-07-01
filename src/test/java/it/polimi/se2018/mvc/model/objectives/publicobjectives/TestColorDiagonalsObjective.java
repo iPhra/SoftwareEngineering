@@ -59,6 +59,6 @@ public class TestColorDiagonalsObjective {
 
     @Test
     public void testGetImagePath() {
-        Assert.assertEquals("imagePath",colorDiagonalsObjective.getImagePath());
+        Assert.assertEquals("/objectives/public_objectives/color_diagonals.png",colorDiagonalsObjective.getImagePath());
     }
 }
