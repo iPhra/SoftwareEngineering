@@ -24,10 +24,10 @@ public class TestRowColorVarietyObjective {
         mapDatabase = new MapDatabase();
         mapDatabase.standardWhiteMatrix();
         matrix = mapDatabase.getMatrix();
-        rowColorVarietyObjective = RowColorVarietyObjective.instance("imagePath");
-        rowColorVarietyObjective = RowColorVarietyObjective.instance("imagePath");
+        rowColorVarietyObjective = RowColorVarietyObjective.instance();
+        rowColorVarietyObjective = RowColorVarietyObjective.instance();
         Window window = new Window("BasicMap",0, matrix,WindowBuilder.getLevelPaths().get(0));
-        shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath");
+        shadesOfGreenObjective= ShadesOfGreenObjective.instance();
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 

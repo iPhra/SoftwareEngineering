@@ -31,7 +31,7 @@ public class Server implements Stopper {
     private SocketHandler socketHandler;
     private Duration timeout;
 
-    private Server() {
+    public Server() {
         getDuration();
         matches = new HashMap<>();
         nicknames = new HashMap<>();

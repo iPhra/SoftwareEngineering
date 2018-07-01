@@ -24,8 +24,8 @@ public class RowShadeVarietyObjective  extends PublicObjective{
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static RowShadeVarietyObjective instance(String imagePath){
-        if (instance==null) instance = new RowShadeVarietyObjective(imagePath);
+    public static RowShadeVarietyObjective instance(){
+        if (instance==null) instance = new RowShadeVarietyObjective("/objectives/public_objectives/row_shade_variety.png");
         return instance;
     }
 

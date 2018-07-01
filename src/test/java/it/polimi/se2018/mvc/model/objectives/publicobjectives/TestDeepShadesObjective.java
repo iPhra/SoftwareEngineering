@@ -24,10 +24,10 @@ public class TestDeepShadesObjective {
         mapDatabase = new MapDatabase();
         mapDatabase.standardWhiteMatrix();
         matrix = mapDatabase.getMatrix();
-        deepShadesObjective = DeepShadesObjective.instance("imagePath");
-        deepShadesObjective = DeepShadesObjective.instance("imagePath");
+        deepShadesObjective = DeepShadesObjective.instance();
+        deepShadesObjective = DeepShadesObjective.instance();
         Window window = new Window("BasicMap",0, matrix, WindowBuilder.getLevelPaths().get(0));
-        shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath");
+        shadesOfGreenObjective= ShadesOfGreenObjective.instance();
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 

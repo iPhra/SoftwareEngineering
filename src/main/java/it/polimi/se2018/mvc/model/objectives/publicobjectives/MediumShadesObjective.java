@@ -23,8 +23,8 @@ public class MediumShadesObjective extends PublicObjective {
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static MediumShadesObjective instance(String imagePath){
-        if (instance==null) instance = new MediumShadesObjective(imagePath);
+    public static MediumShadesObjective instance(){
+        if (instance==null) instance = new MediumShadesObjective("/objectives/public_objectives/medium_shades.png");
         return instance;
     }
 

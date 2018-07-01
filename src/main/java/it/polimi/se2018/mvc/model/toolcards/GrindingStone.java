@@ -10,8 +10,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 public class GrindingStone extends ToolCard {
     private static GrindingStone instance = null;
 
-    public static GrindingStone instance(String imagePath){
-        if (instance==null) instance = new GrindingStone(imagePath);
+    public static GrindingStone instance(){
+        if (instance==null) instance = new GrindingStone("/toolcards/grinding_stone.png");
         return instance;
     }
 

@@ -15,8 +15,8 @@ import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 public class TapWheel extends ToolCard {
     private static TapWheel instance = null;
 
-    public static TapWheel instance(String imagePath){
-        if (instance==null) instance = new TapWheel(imagePath);
+    public static TapWheel instance(){
+        if (instance==null) instance = new TapWheel("/toolcards/tap_wheel.png");
         return instance;
     }
 

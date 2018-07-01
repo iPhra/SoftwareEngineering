@@ -13,8 +13,8 @@ import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 public class EglomiseBrush extends ToolCard {
     private static EglomiseBrush instance = null;
 
-    public static EglomiseBrush instance(String imagePath){
-        if (instance==null) instance = new EglomiseBrush(imagePath);
+    public static EglomiseBrush instance(){
+        if (instance==null) instance = new EglomiseBrush("/toolcards/eglomise_brush.png");
         return instance;
     }
 

@@ -24,10 +24,10 @@ public class TestMediumShadesObjective {
         mapDatabase = new MapDatabase();
         mapDatabase.standardWhiteMatrix();
         matrix = mapDatabase.getMatrix();
-        mediumShadesObjective = MediumShadesObjective.instance("imagePath");
-        mediumShadesObjective = MediumShadesObjective.instance("imagePath");
+        mediumShadesObjective = MediumShadesObjective.instance();
+        mediumShadesObjective = MediumShadesObjective.instance();
         Window window = new Window("BasicMap",0, matrix, WindowBuilder.getLevelPaths().get(0));
-        shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath");
+        shadesOfGreenObjective= ShadesOfGreenObjective.instance();
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 

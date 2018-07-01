@@ -23,8 +23,8 @@ public class DeepShadesObjective extends PublicObjective {
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static DeepShadesObjective instance(String imagePath) {
-        if (instance == null) instance = new DeepShadesObjective(imagePath);
+    public static DeepShadesObjective instance() {
+        if (instance == null) instance = new DeepShadesObjective("/objectives/public_objectives/deep_shades.png");
         return instance;
     }
 

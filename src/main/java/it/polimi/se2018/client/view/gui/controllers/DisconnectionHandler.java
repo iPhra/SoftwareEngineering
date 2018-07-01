@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class DisconnectionHandler {
     GUIClient guiClient;
-    protected Stage stage;
+    Stage stage;
 
     public void setClientGUI(GUIClient guiClient) {
         this.guiClient = guiClient;

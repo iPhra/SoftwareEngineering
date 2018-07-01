@@ -13,8 +13,8 @@ import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 public class CopperFoilBurnisher extends ToolCard {
     private static CopperFoilBurnisher instance = null;
 
-    public static CopperFoilBurnisher instance(String imagePath){
-        if (instance==null) instance = new CopperFoilBurnisher(imagePath);
+    public static CopperFoilBurnisher instance(){
+        if (instance==null) instance = new CopperFoilBurnisher("/toolcards/copper_foil_burnisher.png");
         return instance;
     }
 

@@ -73,6 +73,7 @@ public class Player {
         isFirstMove = true;
         hasDraftedDie = false;
         hasUsedCard = false;
+        cardInUse = -1;
     }
 
     public String getName() {

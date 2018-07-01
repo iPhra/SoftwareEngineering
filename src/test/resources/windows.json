@@ -36,7 +36,7 @@
 		{ "window": [
 			{ "title" : "GRAVITAS",
 			  "level" : 5,
-			  "board" : "1,W,3,B,1,W,2,B,W,W,6,B,W,4,W,B,5,2,W,1"
+			  "board" : "1,W,3,B,W,W,2,B,W,W,6,B,W,4,W,B,5,2,W,1"
 			},
 			{ "title" : "WATER OF LIFE",
 			  "level" : 6,

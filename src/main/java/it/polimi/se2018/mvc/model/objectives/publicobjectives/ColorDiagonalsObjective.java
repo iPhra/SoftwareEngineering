@@ -31,8 +31,8 @@ public class ColorDiagonalsObjective extends PublicObjective {
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static ColorDiagonalsObjective instance(String imagePath){
-        if (instance==null) instance = new ColorDiagonalsObjective(imagePath);
+    public static ColorDiagonalsObjective instance(){
+        if (instance==null) instance = new ColorDiagonalsObjective("/objectives/public_objectives/color_diagonals.png");
         return instance;
     }
 

@@ -14,8 +14,8 @@ import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 public class Lathekin extends ToolCard {
     private static Lathekin instance = null;
 
-    public static Lathekin instance(String imagePath){
-        if (instance==null) instance = new Lathekin(imagePath);
+    public static Lathekin instance(){
+        if (instance==null) instance = new Lathekin("/toolcards/lathekin.png");
         return instance;
     }
 

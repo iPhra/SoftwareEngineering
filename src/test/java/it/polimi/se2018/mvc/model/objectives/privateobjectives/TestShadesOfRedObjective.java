@@ -20,8 +20,8 @@ public class TestShadesOfRedObjective {
         mapDatabase = new MapDatabase();
         mapDatabase.standardWhiteMatrix();
         matrix = mapDatabase.getMatrix();
-        shadesOfRedObjective =ShadesOfRedObjective.instance("imagePath");
-        shadesOfRedObjective =ShadesOfRedObjective.instance("imagePath");
+        shadesOfRedObjective =ShadesOfRedObjective.instance();
+        shadesOfRedObjective =ShadesOfRedObjective.instance();
         Window window = new Window("BasicMap",0,matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window, shadesOfRedObjective);
     }

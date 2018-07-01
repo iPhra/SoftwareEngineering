@@ -23,8 +23,8 @@ public class TestShadesOfYellowObjective {
         mapDatabase = new MapDatabase();
         mapDatabase.standardWhiteMatrix();
         matrix = mapDatabase.getMatrix();
-        shadesOfYellowObjective =ShadesOfYellowObjective.instance("imagePath");
-        shadesOfYellowObjective =ShadesOfYellowObjective.instance("imagePath");
+        shadesOfYellowObjective =ShadesOfYellowObjective.instance();
+        shadesOfYellowObjective =ShadesOfYellowObjective.instance();
         Window window = new Window("BasicMap",0,matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window, shadesOfYellowObjective);
     }

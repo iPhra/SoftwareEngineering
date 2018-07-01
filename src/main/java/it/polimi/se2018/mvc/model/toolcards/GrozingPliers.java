@@ -12,8 +12,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 public class GrozingPliers extends ToolCard {
     private static GrozingPliers instance = null;
 
-    public static GrozingPliers instance(String imagePath){
-        if (instance==null) instance = new GrozingPliers(imagePath);
+    public static GrozingPliers instance(){
+        if (instance==null) instance = new GrozingPliers("/toolcards/grozling_pliers.png");
         return instance;
     }
 

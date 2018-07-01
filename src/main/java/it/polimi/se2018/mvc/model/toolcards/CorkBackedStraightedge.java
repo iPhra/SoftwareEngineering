@@ -13,8 +13,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 public class CorkBackedStraightedge extends ToolCard {
     private static CorkBackedStraightedge instance = null;
 
-    public static CorkBackedStraightedge instance(String imagePath){
-        if (instance==null) instance = new CorkBackedStraightedge(imagePath);
+    public static CorkBackedStraightedge instance(){
+        if (instance==null) instance = new CorkBackedStraightedge("/toolcards/cork_backed_straightedge.png");
         return instance;
     }
 

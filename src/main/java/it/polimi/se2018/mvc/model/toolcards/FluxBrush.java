@@ -10,8 +10,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 public class FluxBrush extends ToolCard {
     private static FluxBrush instance = null;
 
-    public static FluxBrush instance(String imagePath){
-        if (instance==null) instance = new FluxBrush(imagePath);
+    public static FluxBrush instance(){
+        if (instance==null) instance = new FluxBrush("/toolcards/flux_brush.png");
         return instance;
     }
 

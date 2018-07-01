@@ -10,8 +10,8 @@ import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 public class GlazingHammer extends ToolCard {
     private static GlazingHammer instance = null;
 
-    public static GlazingHammer instance(String imagePath){
-        if (instance==null) instance = new GlazingHammer(imagePath);
+    public static GlazingHammer instance(){
+        if (instance==null) instance = new GlazingHammer("/toolcards/glazing_hammer.png");
         return instance;
     }
 

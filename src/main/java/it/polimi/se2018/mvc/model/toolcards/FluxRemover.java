@@ -11,8 +11,8 @@ import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 public class FluxRemover extends ToolCard {
     private static FluxRemover instance = null;
 
-    public static FluxRemover instance(String imagePath){
-        if (instance==null) instance = new FluxRemover(imagePath);
+    public static FluxRemover instance(){
+        if (instance==null) instance = new FluxRemover("/toolcards/flux_remover.png");
         return instance;
     }
 

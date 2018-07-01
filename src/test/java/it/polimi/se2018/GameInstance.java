@@ -1,13 +1,11 @@
 package it.polimi.se2018;
 
 import it.polimi.se2018.mvc.controller.GameManager;
-import it.polimi.se2018.mvc.model.Color;
-import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Round;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.view.ServerView;
+import it.polimi.se2018.network.Server;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
-import it.polimi.se2018.utils.WindowBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +15,8 @@ public class GameInstance {
     private ServerView serverView;
 
     private void createPlayers() {
-        for(int i=1; i<5; i++) {;
+        for(int i=1; i<5; i++) {
             manager.addPlayerName(i, "Player " + String.valueOf(i));
-            manager.addServerConnection(i, null);
             manager.addPlayerID(i);
         }
     }
@@ -36,20 +33,6 @@ public class GameInstance {
         }
     }
 
-    private void createDraftPool() {
-        List<Die> dice = new ArrayList<>();
-        dice.add(new Die(6, Color.RED));
-        dice.add(new Die(6, Color.BLUE));
-        dice.add(new Die(5, Color.YELLOW));
-        dice.add(new Die(4, Color.GREEN));
-        dice.add(new Die(4, Color.GREEN));
-        dice.add(new Die(3, Color.PURPLE));
-        dice.add(new Die(2, Color.YELLOW));
-        dice.add(new Die(2, Color.BLUE));
-        dice.add(new Die(1, Color.RED));
-        manager.getModel().getDraftPool().fillDraftPool(dice);
-    }
-
     private void createFirstRound() {
         List<Integer> order = new ArrayList<>();
         for(int i=1;i<5;i++) {
@@ -63,14 +46,13 @@ public class GameInstance {
     }
 
     public void createGame() {
-        manager = new GameManager(null);
+        manager = new GameManager(new Server());
         serverView = new ServerView();
         manager.setServerView(serverView);
         manager.startSetup();
         createPlayers();
         manager.sendWindows();
         createSetupMessages();
-        createDraftPool();
         createFirstRound();
     }
 }

@@ -12,8 +12,8 @@ import it.polimi.se2018.client.view.cli.ToolCardCLIHandler;
 public class LensCutter extends ToolCard {
     private static LensCutter instance = null;
 
-    public static LensCutter instance(String imagePath){
-        if (instance==null) instance = new LensCutter(imagePath);
+    public static LensCutter instance(){
+        if (instance==null) instance = new LensCutter("/toolcards/lens_cutter.png");
         return instance;
     }
 

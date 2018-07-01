@@ -23,8 +23,8 @@ public class LightShadesObjective extends PublicObjective {
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static LightShadesObjective instance(String imagePath){
-        if (instance==null) instance = new LightShadesObjective(imagePath);
+    public static LightShadesObjective instance(){
+        if (instance==null) instance = new LightShadesObjective("/objectives/public_objectives/light_shades.png");
         return instance;
     }
 

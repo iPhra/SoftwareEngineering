@@ -48,7 +48,7 @@ public class Board extends Observable<Response> {
      * This attribute is used to save, for each tool card, the information if it was used
      */
     private final boolean[] toolCardsUsage;
-    private final ToolCard[] toolCards;
+    private ToolCard[] toolCards;
     private final PublicObjective[] publicObjectives;
     private final Bag bag;
     private final RoundTracker roundTracker;
@@ -115,6 +115,10 @@ public class Board extends Observable<Response> {
 
     public void setRound(Round round) {
         this.round=round;
+    }
+
+    public void setToolCards(ToolCard[] toolCards) {
+        this.toolCards = toolCards;
     }
 
     /**

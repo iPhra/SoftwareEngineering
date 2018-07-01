@@ -24,10 +24,10 @@ public class TestLightShadesObjective {
         mapDatabase = new MapDatabase();
         mapDatabase.standardWhiteMatrix();
         matrix = mapDatabase.getMatrix();
-        lightShadesObjective = LightShadesObjective.instance( "imagePath");
-        lightShadesObjective = LightShadesObjective.instance("imagePath");
+        lightShadesObjective = LightShadesObjective.instance( );
+        lightShadesObjective = LightShadesObjective.instance();
         Window window = new Window("BasicMap",0, matrix,WindowBuilder.getLevelPaths().get(0));
-        shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath");
+        shadesOfGreenObjective= ShadesOfGreenObjective.instance();
         player = new Player("name",1, window,shadesOfGreenObjective);
     }
 

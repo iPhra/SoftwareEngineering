@@ -33,7 +33,7 @@ public class TestBoard {
         MapDatabase mapDatabase = new MapDatabase();
         mapDatabase.standardWhiteMatrix();
         Square[][] matrix = mapDatabase.getMatrix();
-        ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance("imagePath");
+        ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance();
         Window window = new Window("BasicMap",0,matrix, WindowBuilder.getLevelPaths().get(0));
         Player player1 = new Player("player1",1, window,shadesOfGreenObjective);
         player2 = new Player("player2",2, window,shadesOfGreenObjective);
@@ -41,12 +41,12 @@ public class TestBoard {
         players.add(player1);
         players.add(player2);
         toolCards = new ToolCard[3];
-        toolCards[0] = EglomiseBrush.instance("imagePath");
-        toolCards[1] = FluxBrush.instance("imagePath");
-        toolCards[2] = TapWheel.instance("imagePath");
+        toolCards[0] = EglomiseBrush.instance();
+        toolCards[1] = FluxBrush.instance();
+        toolCards[2] = TapWheel.instance();
         publicObjectives = new PublicObjective[2];
-        publicObjectives[0] = DeepShadesObjective.instance("imagePath");
-        publicObjectives[1] = RowColorVarietyObjective.instance("imagePath");
+        publicObjectives[0] = DeepShadesObjective.instance();
+        publicObjectives[1] = RowColorVarietyObjective.instance();
         board = new Board (players,toolCards, publicObjectives);
     }
 

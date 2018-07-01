@@ -10,8 +10,8 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 public class RunningPliers extends ToolCard {
     private static RunningPliers instance = null;
 
-    public static RunningPliers instance(String imagePath){
-        if (instance==null) instance = new RunningPliers(imagePath);
+    public static RunningPliers instance(){
+        if (instance==null) instance = new RunningPliers("/toolcards/running_pliers.png");
         return instance;
     }
 

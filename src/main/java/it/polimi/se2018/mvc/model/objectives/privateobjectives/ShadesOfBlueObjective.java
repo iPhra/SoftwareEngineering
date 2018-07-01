@@ -18,8 +18,8 @@ public class ShadesOfBlueObjective extends PrivateObjective {
      * @return a new instance of this card if does not exist, the existing instance otherwise (as expected in the
      * Singleton pattern)
      */
-    public static ShadesOfBlueObjective instance(String imagePath){
-        if (instance==null) instance = new ShadesOfBlueObjective(imagePath);
+    public static ShadesOfBlueObjective instance(){
+        if (instance==null) instance = new ShadesOfBlueObjective("/objectives/private_objectives/shades_of_blue.png");
         return instance;
     }
 }

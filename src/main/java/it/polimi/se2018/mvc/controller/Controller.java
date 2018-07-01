@@ -81,21 +81,21 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         model.incrementStateID();
     }
 
-    private void endRound(Player player,boolean stopped) {
+    private void endRound(Player player, boolean timeout) {
         model.setRound(model.getRound().changeRound());
         model.getRoundTracker().updateRoundTracker(model.getDraftPool().getAllDice());
         model.getDraftPool().fillDraftPool(model.getBag().drawDice(model.getPlayersNumber()));
         refreshPlayer(player,false);
         int round = model.getRound().getRoundNumber() - 1;
-        if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
+        if(timeout) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
         model.createModelViews(PLAYER + player.getName() + " passed the turn. Round "+round+ " ends. It's "+ model.getPlayerByID(model.getRound().getCurrentPlayerID()).getName()+"'s turn.");
         startTimer();
     }
 
-    private void endTurn(Player player, boolean stopped) {
+    private void endTurn(Player player, boolean timeout) {
         model.getRound().changeTurn();
         refreshPlayer(player,true);
-        if(stopped) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
+        if(timeout) view.handleNetworkOutput(new TimeUpResponse(player.getId()));
         model.createDraftPoolResponse(PLAYER + player.getName() + " passed the turn.\nIt's "+ model.getPlayerByID(model.getRound().getCurrentPlayerID()).getName()+"'s turn.");
         startTimer();
     }
