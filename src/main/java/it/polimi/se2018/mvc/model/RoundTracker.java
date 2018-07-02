@@ -40,6 +40,18 @@ public class RoundTracker {
         return dice.get(round).get(index);
     }
 
+
+    /**
+     * Removes a given die from the roundtracker
+     * @param index it's the index that specifies exactly what die user wants from that round
+     * @return the die on the roundtracker specified by round and index
+     */
+    public  Die popDie(int round, int index) {
+        Die die =  dice.get(round).get(index);
+        dice.get(round).remove(index);
+        return die;
+    }
+
     public boolean containsColor(Color color) {
         for(List<Die> list: dice) {
             for(Die die : list) {

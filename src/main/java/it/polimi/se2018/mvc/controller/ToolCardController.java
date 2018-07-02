@@ -193,7 +193,7 @@ public class ToolCardController implements ToolCardHandler{
     public void useCard(LensCutter toolCard, ToolCardMessage toolCardMessage) {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         Die dieDrafted = player.getDieInHand();
-        Die dieFromRoundTrack = board.getRoundTracker().getDie(toolCardMessage.getRoundTrackerPosition().getRow(), toolCardMessage.getRoundTrackerPosition().getCol());
+        Die dieFromRoundTrack = board.getRoundTracker().popDie(toolCardMessage.getRoundTrackerPosition().getRow(), toolCardMessage.getRoundTrackerPosition().getCol());
         player.setDieInHand(dieFromRoundTrack);
         board.getRoundTracker().addToRoundTracker(toolCardMessage.getRoundTrackerPosition().getRow(), dieDrafted);
         updateToolCard(toolCardMessage);
