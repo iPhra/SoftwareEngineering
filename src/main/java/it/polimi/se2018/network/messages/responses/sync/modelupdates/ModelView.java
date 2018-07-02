@@ -1,5 +1,6 @@
-package it.polimi.se2018.mvc.controller;
+package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
+import it.polimi.se2018.mvc.controller.ToolCardChecker;
 import it.polimi.se2018.mvc.model.Board;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Player;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-public class ModelView implements Serializable{
+public class ModelView implements Serializable {
     private final List<String> playerNames;
     private final List<Integer> playerID;
     private final List<Square[][]> playerWindows;

@@ -6,6 +6,7 @@ import it.polimi.se2018.mvc.model.Window;
  * This class represents a message from the Client to the Server with the window chosen by said player
  */
 public class SetupMessage extends Message{
+
     /**
      * This is the window chosen by the player
      */

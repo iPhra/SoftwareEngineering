@@ -1,6 +1,5 @@
 package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
-import it.polimi.se2018.mvc.controller.ModelView;
 import it.polimi.se2018.mvc.model.Board;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;

@@ -4,7 +4,7 @@ import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
 import it.polimi.se2018.client.view.gui.controllers.PlayerNameSceneController;
 import it.polimi.se2018.client.view.gui.controllers.SceneController;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
-import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelView;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;

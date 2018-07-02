@@ -1,6 +1,6 @@
 package it.polimi.se2018.mvc.model;
 
-import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelView;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.responses.Response;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;

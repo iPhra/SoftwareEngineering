@@ -1,6 +1,6 @@
 package it.polimi.se2018.mvc.model;
 
-import it.polimi.se2018.mvc.controller.ModelView;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelView;
 import it.polimi.se2018.mvc.controller.ToolCardController;
 
 import java.util.ArrayList;

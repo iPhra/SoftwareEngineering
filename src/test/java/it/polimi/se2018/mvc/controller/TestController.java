@@ -7,10 +7,7 @@ import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.toolcards.*;
 import it.polimi.se2018.mvc.view.ServerView;
 import it.polimi.se2018.network.messages.Coordinate;
-import it.polimi.se2018.network.messages.requests.DraftMessage;
-import it.polimi.se2018.network.messages.requests.PassMessage;
-import it.polimi.se2018.network.messages.requests.PlaceMessage;
-import it.polimi.se2018.network.messages.requests.ToolCardRequestMessage;
+import it.polimi.se2018.network.messages.requests.*;
 import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,6 +21,7 @@ import static junit.framework.TestCase.fail;
 public class TestController {
     private ServerView serverView;
     private Board model;
+    private GameManager gameManager;
 
     private void createDraftPool() {
         List<Die> dice = new ArrayList<>();
@@ -41,7 +39,7 @@ public class TestController {
 
     private void createToolCards() {
         ToolCard[] toolCards = new ToolCard[3];
-        toolCards[0] = Lathekin.instance();
+        toolCards[0] = GrindingStone.instance();
         toolCards[1] = GlazingHammer.instance();
         toolCards[2] = LensCutter.instance();
         model.setToolCards(toolCards);
@@ -51,8 +49,9 @@ public class TestController {
     public void init() {
         GameInstance gameInstance = new GameInstance();
         gameInstance.createGame();
-        serverView = gameInstance.getManager().getServerView();
-        model = gameInstance.getManager().getModel();
+        gameManager = gameInstance.getManager();
+        serverView = gameManager.getServerView();
+        model = gameManager.getModel();
         createDraftPool();
         createToolCards();
     }
@@ -122,6 +121,7 @@ public class TestController {
 
     @Test
     public void testPassing() {
+        Assert.assertTrue(gameManager.isMatchPlaying()); //game is started
         for(int i=1; i<=80; i++) {
             int current = model.getRound().getCurrentPlayerID();
             Assert.assertEquals(i, model.getStateID()); //stateID is now increased
@@ -129,6 +129,7 @@ public class TestController {
             Assert.assertFalse(model.getPlayerByID(current).hasUsedCard()); //no tool card used
             serverView.handleNetworkInput(new PassMessage(current,i,false)); //pass
         }
+        Assert.assertFalse(gameManager.isMatchPlaying()); //game is now over
     }
 
     @Test
@@ -140,6 +141,29 @@ public class TestController {
         }
         catch(ToolCardException ignored) {
             //correct
+        }
+
+        serverView.handleNetworkInput(new DraftMessage(1,1,0)); //succesful drafting
+        Assert.assertEquals(new Die(6,Color.RED),model.getPlayerByID(1).getDieInHand());
+
+        serverView.handleNetworkInput(new ToolCardRequestMessage(1,1,0)); //succesful request
+        try {
+            Assert.assertEquals(0,model.getPlayerByID(1).getCardInUse()); //card in use is number 0
+        }
+        catch(ToolCardException ignored) {
+            fail();
+        }
+
+        serverView.handleNetworkInput(new ToolCardMessage(1,1,0)); //using tool card 0, no input is required
+        Assert.assertEquals(new Die(1,Color.RED),model.getPlayerByID(1).getDieInHand()); //value of the die is now 1, flipped a 6
+
+        serverView.handleNetworkInput(new ToolCardRequestMessage(1,1,0)); //fail request, already used a tool card
+        try {
+            model.getPlayerByID(1).getCardInUse(); //card in use is number 0
+            fail();
+        }
+        catch(ToolCardException ignored) {
+            //sucess, i have no card in hand
         }
     }
 }

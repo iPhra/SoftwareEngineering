@@ -14,6 +14,7 @@ import it.polimi.se2018.network.messages.responses.TimeUpResponse;
 import it.polimi.se2018.network.messages.responses.ReconnectionNotificationResponse;
 import it.polimi.se2018.network.messages.responses.sync.ReconnectionResponse;
 import it.polimi.se2018.network.messages.responses.sync.SetupResponse;
+import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelView;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelViewResponse;
 import it.polimi.se2018.utils.DeckBuilder;
 import it.polimi.se2018.utils.Stopper;
@@ -196,10 +197,12 @@ public class GameManager implements Stopper {
      * @param isWindowSelection is {@code true} if the player has reconnected during window selection
      */
     private void reconnect(int playerID, ServerConnection serverConnection, boolean isWindowSelection) {
-        serverConnection.setServerView(serverView);
-        serverConnections.put(playerID,serverConnection);
+        if(serverConnection!=null) {
+            serverConnection.setServerView(serverView);
+            serverConnections.put(playerID,serverConnection);
+            serverView.addServerConnection(playerID,serverConnection);
+        }
         disconnectedPlayers.remove(disconnectedPlayers.indexOf(playerID));
-        serverView.addServerConnection(playerID,serverConnection);
         notifyReconnection(playerID, isWindowSelection);
     }
 
@@ -345,8 +348,10 @@ public class GameManager implements Stopper {
     public void setDisconnected(int playerID) {
         disconnectedPlayers.add(playerID);
         serverView.removePlayerConnection(playerID);
-        serverConnections.get(playerID).stop();
-        serverConnections.remove(playerID);
+        if(serverConnections.containsKey(playerID)) {
+            serverConnections.get(playerID).stop();
+            serverConnections.remove(playerID);
+        }
         if (disconnectedPlayers.size() == playerIDs.size() - 1) {
             clock.interrupt();
             controller.endMatchAsLast(!matchPlaying,getLastPlayerID());
