@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class GameSceneController extends DisconnectionHandler implements SceneController, Initializable{
+public class GameSceneController extends MatchHandler implements SceneController, Initializable {
     private final GUIView guiView;
     private final GUIData guiModel;
     private final int playerID;
@@ -42,9 +42,6 @@ public class GameSceneController extends DisconnectionHandler implements SceneCo
     private ToolCardMessage toolCardMessage;
     private final ToolCardGUI toolCardGUI;
     private State currentState;
-    private List<String> sortedPlayersNames;
-    private List<Integer> sortedPlayersScores;
-    private boolean isLastPlayer;
     private List<ButtonSquare> windowPlayerButtons;
     private List<ButtonDraftPool> draftPoolButtons;
     private List<List<MenuItemRoundTracker>> roundTrackerMenuItems;
@@ -474,26 +471,6 @@ public class GameSceneController extends DisconnectionHandler implements SceneCo
         currentState.doActionDraftPool(drafPoolPosition);
     }
 
-    /**
-     * This method is called (togheter with setSortedPlayersScores) when ScoreBoardResponse is received
-     * @param sortedPlayersNames it's the list of players in order
-     */
-    public void setSortedPlayersNames(List<String> sortedPlayersNames) {
-        this.sortedPlayersNames = sortedPlayersNames;
-    }
-
-    /**
-     * This method is called (togheter with setSortedPlayersNames) when ScoreBoardResponse is received
-     * @param sortedPlayersScores it's the list of scores in order
-     */
-    public void setSortedPlayersScores(List<Integer> sortedPlayersScores) {
-        this.sortedPlayersScores = sortedPlayersScores;
-    }
-
-    public void setIsLastPlayer(boolean isLastPlayer){
-        this.isLastPlayer = isLastPlayer;
-    }
-
     @Override
     public Scene getScene() {
         return borderPane.getScene();
@@ -518,7 +495,6 @@ public class GameSceneController extends DisconnectionHandler implements SceneCo
             }
         });
     }
-
 
     /**
      * This method is called in {@link GUILogic} when it's needed to refresh something in the scene. Actually,

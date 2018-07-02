@@ -2,13 +2,9 @@ package it.polimi.se2018.network.messages.requests;
 
 import it.polimi.se2018.MapDatabase;
 import it.polimi.se2018.mvc.model.Window;
-import it.polimi.se2018.utils.DeckBuilder;
-import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Random;
 
 import static junit.framework.TestCase.fail;
 

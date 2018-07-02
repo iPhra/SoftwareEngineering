@@ -1,10 +1,10 @@
 package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
+import it.polimi.se2018.client.view.gui.controllers.MatchHandler;
 import it.polimi.se2018.client.view.gui.controllers.PlayerNameSceneController;
 import it.polimi.se2018.client.view.gui.controllers.SceneController;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
-import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelView;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
@@ -119,10 +119,11 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
     @Override
     public void handleResponse(ScoreBoardResponse scoreBoardResponse) {
         if(!scoreBoardResponse.isLastPlayer()) {
-            ((GameSceneController) sceneController).setSortedPlayersNames(scoreBoardResponse.getSortedPlayersNames());
-            ((GameSceneController) sceneController).setSortedPlayersScores(scoreBoardResponse.getSortedPlayersScores());
+            ((MatchHandler) sceneController).setSortedPlayersNames(scoreBoardResponse.getSortedPlayersNames());
+            ((MatchHandler) sceneController).setSortedPlayersScores(scoreBoardResponse.getSortedPlayersScores());
         }
-        ((GameSceneController) sceneController).setIsLastPlayer(scoreBoardResponse.isLastPlayer());
+        ((MatchHandler) sceneController).setIsLastPlayer(scoreBoardResponse.isLastPlayer());
+        ((MatchHandler) sceneController).setGameEnd();
         sceneController.changeScene(sceneController.getScene());
         guiView.endGame();
     }

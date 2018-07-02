@@ -3,7 +3,7 @@ package it.polimi.se2018.client;
 import it.polimi.se2018.client.network.RMIClientConnection;
 import it.polimi.se2018.client.network.SocketClientConnection;
 import it.polimi.se2018.client.view.gui.GUIView;
-import it.polimi.se2018.client.view.gui.controllers.DisconnectionHandler;
+import it.polimi.se2018.client.view.gui.controllers.MatchHandler;
 import it.polimi.se2018.client.view.gui.controllers.SceneController;
 import it.polimi.se2018.network.connections.rmi.RemoteConnection;
 import it.polimi.se2018.network.connections.rmi.RemoteManager;
@@ -122,7 +122,7 @@ public class GUIClient extends Client {
         guiView.stop();
         Platform.runLater(() -> {
             SceneController sceneController = guiView.getGuiLogic().getSceneController();
-            ((DisconnectionHandler)sceneController).returnToSetConnectionScene(sceneController.getScene());
+            ((MatchHandler)sceneController).returnToSetConnectionScene(sceneController.getScene());
         });
     }
 }

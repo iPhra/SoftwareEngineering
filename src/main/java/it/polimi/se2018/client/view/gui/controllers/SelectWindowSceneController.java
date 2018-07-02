@@ -4,6 +4,7 @@ import it.polimi.se2018.client.view.gui.GUILogic;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,7 +28,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SelectWindowSceneController extends DisconnectionHandler implements SceneController, Initializable{
+public class SelectWindowSceneController extends MatchHandler implements SceneController, Initializable {
     private final GUILogic guiLogic;
     private final List<Window> windows;
     private final PrivateObjective privateObjective;
@@ -91,8 +92,26 @@ public class SelectWindowSceneController extends DisconnectionHandler implements
         guiLogic.getGuiView().handleNetworkOutput(new SetupMessage(guiLogic.getPlayerID(),0,windows.get(windowNumber)));
     }
 
-    @Override
-    public void changeScene(Scene scene) {
+    private void toScoreBoardScene(Scene scene) {
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ScoreBoardScene.fxml")));
+            try {
+                ScoreBoardSceneController scoreBoardSceneController = new ScoreBoardSceneController(sortedPlayersNames, sortedPlayersScores, isLastPlayer);
+                scoreBoardSceneController.setGuiClient(guiClient);
+                loader.setController(scoreBoardSceneController);
+                Parent root = loader.load();
+                guiClient.getGUIView().getGuiLogic().setSceneController(scoreBoardSceneController);
+                stage.setWidth(600);
+                stage.setHeight(623);
+                scoreBoardSceneController.setStage(stage);
+                scene.setRoot(root);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void toMatchScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
         try {
             GameSceneController gameSceneController = new GameSceneController(guiLogic);
@@ -107,6 +126,12 @@ public class SelectWindowSceneController extends DisconnectionHandler implements
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void changeScene(Scene scene) {
+        if(toScoreBoardScene) toScoreBoardScene(scene);
+        else toMatchScene(scene);
     }
 
     @Override
