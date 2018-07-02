@@ -1,7 +1,14 @@
 package it.polimi.se2018.mvc.model;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestRoundTracker {
-    /*private RoundTracker roundTracker;
+    private RoundTracker roundTracker;
     private List<Die> dice1;
     private List<Die> dice2;
 
@@ -20,13 +27,13 @@ public class TestRoundTracker {
         roundTracker.updateRoundTracker(dice1);
         Die die5 = new Die(4,Color.RED);
         Die die6 = new Die(3,Color.BLUE);
-        Die die7 = new Die(1,Color.YELLOW);
+        Die die7 = new Die(1,Color.BLUE);
         Die die8 = new Die(5,Color.GREEN);
         dice2 = new ArrayList<>();
-        dice2.add(die1);
-        dice2.add(die2);
-        dice2.add(die3);
-        dice2.add(die4);
+        dice2.add(die5);
+        dice2.add(die6);
+        dice2.add(die7);
+        dice2.add(die8);
         roundTracker.updateRoundTracker(dice2);
     }
 
@@ -39,45 +46,54 @@ public class TestRoundTracker {
     @Test
     public void testGetDie(){
         for(int i=0;i<4;i++){
-            assertEquals(dice1.get(i),roundTracker.getDie(0,i));
+            Assert.assertEquals(dice1.get(i),roundTracker.getDie(0,i));
         }
         for(int i=0;i<4;i++){
-            assertEquals(dice2.get(i),roundTracker.getDie(1,i));
+            Assert.assertEquals(dice2.get(i),roundTracker.getDie(1,i));
         }
     }
 
     @Test
-    public void testContains() {
-        assertTrue(roundTracker.contains(dice1.get(2)));
-        assertTrue(!roundTracker.contains(new Die(4, Color.BLUE)));
+    public void testPopDie(){
+        RoundTracker oneDieRoundTracker = new RoundTracker(2);
+        List<Die> dice = new ArrayList<>();
+        dice.add(new Die(2,Color.GREEN));
+        oneDieRoundTracker.updateRoundTracker(dice);
+        oneDieRoundTracker.popDie(0,0);
+        Assert.assertTrue(oneDieRoundTracker.isVoid());
     }
 
-    //Non puoi rimuovere il dado mentre stai usando l'iteratore, cerca di risolvere in qualche modo
+
     @Test
-    public void testRemoveFromRoundTracker(){
-        Die die = roundTracker.getDie(0,3);
-        roundTracker.removeFromRoundTracker(die);
-        assertTrue(!roundTracker.contains(die));
+    public void testContainsColor(){
+        Assert.assertTrue(roundTracker.containsColor(Color.GREEN));
+        Assert.assertTrue(roundTracker.containsColor(Color.BLUE));
+        Assert.assertTrue(roundTracker.containsColor(Color.RED));
+        Assert.assertTrue(roundTracker.containsColor(Color.PURPLE));
+        Assert.assertFalse(roundTracker.containsColor(Color.YELLOW));
+        Assert.assertFalse(roundTracker.containsColor(Color.WHITE));
+        RoundTracker noDiceRoundTracker = new RoundTracker(10);
+        Assert.assertFalse(noDiceRoundTracker.containsColor(Color.GREEN));
+        Assert.assertFalse(noDiceRoundTracker.containsColor(Color.BLUE));
+        Assert.assertFalse(noDiceRoundTracker.containsColor(Color.RED));
+        Assert.assertFalse(noDiceRoundTracker.containsColor(Color.PURPLE));
+        Assert.assertFalse(noDiceRoundTracker.containsColor(Color.YELLOW));
+        Assert.assertFalse(noDiceRoundTracker.containsColor(Color.WHITE));
     }
 
     @Test
     public void testAddToRoundTracker(){
         Die die = new Die(3,Color.RED);
         roundTracker.addToRoundTracker(1,die);
-        assertEquals(die,roundTracker.getDie(1,4));
-    }
-
-    @Test
-    public void testGetTurn() {
-        Assert.assertEquals(2,roundTracker.getRound());
+        Assert.assertEquals(die,roundTracker.getDie(1,4));
     }
 
     @Test
     public void testModelViewCopy() {
-        assertTrue(dice1.containsAll(roundTracker.modelViewCopy().get(0)) && roundTracker.modelViewCopy().get(0).containsAll(dice1));
-        assertTrue(dice2.containsAll(roundTracker.modelViewCopy().get(1)) && roundTracker.modelViewCopy().get(1).containsAll(dice2));
+        Assert.assertTrue(dice1.containsAll(roundTracker.modelViewCopy().get(0)) && roundTracker.modelViewCopy().get(0).containsAll(dice1));
+        Assert.assertTrue(dice2.containsAll(roundTracker.modelViewCopy().get(1)) && roundTracker.modelViewCopy().get(1).containsAll(dice2));
         roundTracker=new RoundTracker(10);
-        assertTrue(dice1.containsAll(roundTracker.modelViewCopy().get(0)) && roundTracker.modelViewCopy().get(0).containsAll(new ArrayList<>()));
+        Assert.assertTrue(dice1.containsAll(roundTracker.modelViewCopy().get(0)) && roundTracker.modelViewCopy().get(0).containsAll(new ArrayList<>()));
     }
 
     @Test
@@ -91,5 +107,6 @@ public class TestRoundTracker {
         Assert.assertNotEquals(null, roundTracker);
         Assert.assertEquals(roundTracker, roundTracker);
         Assert.assertNotEquals(new RoundTracker(3), roundTracker);
-    }*/
+    }
+
 }

@@ -58,6 +58,7 @@ public class WindowBuilder {
     }
 
     public static Map<String, String> getColorPaths() {
+        generatePaths();
         return colorPaths;
     }
 

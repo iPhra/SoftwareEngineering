@@ -16,7 +16,6 @@ public class TestSquare {
     private Color color;
     private int value;
     private Coordinate coordinate;
-    private Die die;
 
     @Before
     public void init() {
@@ -106,5 +105,25 @@ public class TestSquare {
         Die die = new Die(valueDie, colorDie);
         square.setDie(die);
         Assert.assertFalse(square.isEmpty());
+    }
+
+    @Test
+    public void testToString(){
+        Square blankSquare = new Square(Color.WHITE, 0 , new Coordinate(1,2), "path0");
+        Assert.assertEquals(blankSquare.toString(), "-- ");
+        Square colorSquare = new Square(Color.GREEN, 0, new Coordinate(1,1),"path1");
+        Assert.assertEquals(colorSquare.toString(), "-" + Color.GREEN.getAbbreviation().toLowerCase() + " ");
+        Square valueSquare = new Square(Color.WHITE, 5, new Coordinate(2,3), "path2");
+        Assert.assertEquals(valueSquare.toString(), "-" + 5 + " ");
+        Die die = new Die(value,color);
+        square.setDie(die);
+        Assert.assertEquals(square.toString(), die.toString());
+    }
+
+    @Test
+    public void testPopDie(){
+        square.setDie(new Die(value, color));
+        square.popDie();
+        Assert.assertEquals(square.getDie(), null);
     }
 }
