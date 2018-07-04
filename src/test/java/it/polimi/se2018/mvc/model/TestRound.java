@@ -43,4 +43,9 @@ public class TestRound {
         Assert.assertEquals(Arrays.asList(1,2,3,4,4,3,2,1),round.getPlayersOrder());
     }
 
+    @Test
+    public void testDenyNextTurn(){
+        round.denyNextTurn();
+        Assert.assertEquals(Arrays.asList(1,2,3,4,4,3,2), round.getPlayersOrder());
+    }
 }
