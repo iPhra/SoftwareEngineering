@@ -400,13 +400,13 @@ public class GameSceneController extends MatchHandler implements SceneController
      */
     public void disableAllButton(){
         for(ButtonSquare buttonSquare : windowPlayerButtons){
-            buttonSquare.disarm();
+            buttonSquare.setDisable(true);
         }
         for(ButtonDraftPool buttonDraftPool : draftPoolButtons){
-            buttonDraftPool.disarm();
+            buttonDraftPool.setDisable(true);
         }
         for(ButtonToolCard buttonToolCard : toolCardButtons){
-            buttonToolCard.disarm();
+            buttonToolCard.setDisable(true);
         }
         for(List<MenuItemRoundTracker> round : roundTrackerMenuItems){
             for(MenuItemRoundTracker menuItemRoundTracker : round){

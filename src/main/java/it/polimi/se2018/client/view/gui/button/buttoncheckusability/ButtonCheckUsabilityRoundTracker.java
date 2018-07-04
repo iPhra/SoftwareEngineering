@@ -21,7 +21,7 @@ public class ButtonCheckUsabilityRoundTracker implements ButtonCheckUsabilityHan
 
     @Override
     public boolean checkUsability(ButtonDraftPool buttonDraftPool) {
-        return checkTurn();
+        return false;
     }
 
     @Override

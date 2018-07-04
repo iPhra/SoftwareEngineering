@@ -90,6 +90,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         Platform.runLater(() -> {
             refreshText("Invalid move");
             ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));
+            ((GameSceneController)sceneController).setAllButton();
         });
     }
 

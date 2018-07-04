@@ -1,6 +1,7 @@
 package it.polimi.se2018.mvc.controller;
 
 import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerAlone;
+import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerNormal;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.toolcards.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.InputResponse;
@@ -177,8 +178,8 @@ public class ToolCardController implements ToolCardHandler{
         if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) diceGoInAdjacentPosition = true;
         if (twoDiceNotCompatible && diceGoInAdjacentPosition) throw new ToolCardException("Both dice can't be moved together\n");
         try {
-            new DiePlacerNoValue(dieOne, toolCardMessage.getFinalPosition().get(0), player.getWindow()).placeDie();
-            new DiePlacerNoValue(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow()).placeDie();
+            new DiePlacerNormal(dieOne, toolCardMessage.getFinalPosition().get(0), player.getWindow()).placeDie();
+            new DiePlacerNormal(dieTwo, toolCardMessage.getFinalPosition().get(1), player.getWindow()).placeDie();
             updateToolCard(toolCardMessage);
             board.createWindowResponse(PLAYER + player.getName() + " used Lathekin: \nhe/she moved the die " + dieOne.getValue() + " " + dieOne.getColor() + " and the die " + dieTwo.getValue() + " " + dieTwo.getColor()+"\n",player.getId());
         }
@@ -217,26 +218,29 @@ public class ToolCardController implements ToolCardHandler{
         Die dieOne = squareOne.popDie();
         Coordinate roundTrackerIndex = toolCardMessage.getRoundTrackerPosition();
         Die roundTrackerDie = board.getRoundTracker().getDie(roundTrackerIndex.getRow(), roundTrackerIndex.getCol());
-        if (dieOne.getColor() != roundTrackerDie.getColor()) throw new ToolCardException("First die does not match the color on the Round Tracker\n");
-        Coordinate finalPositionOne = toolCardMessage.getFinalPosition().get(0);
-        try {
-            new DiePlacerNoValue(dieOne, finalPositionOne, player.getWindow()).placeDie();
-        }
-        catch(InvalidPlacementException e) {
-            squareOne.setDie(dieOne);
-            throw new ToolCardException("\nFirst die can't be moved there\n");
-        }
         Square squareTwo = null;
         Die dieTwo = null;
         Coordinate finalPositionTwo = null;
-        if (twoDice) {
+        if (dieOne.getColor() != roundTrackerDie.getColor()) throw new ToolCardException("First die does not match the color on the Round Tracker\n");
+        Coordinate finalPositionOne = toolCardMessage.getFinalPosition().get(0);
+        if(twoDice){
             squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));
             dieTwo = squareTwo.popDie();
+        }
+        try {
+            new DiePlacerNormal(dieOne, finalPositionOne, player.getWindow()).placeDie();
+        }
+        catch(InvalidPlacementException e) {
+            squareOne.setDie(dieOne);
+            if (twoDice) squareTwo.setDie(dieTwo);
+            throw new ToolCardException("\nFirst die can't be moved there\n");
+        }
+        if (twoDice) {
             if (dieOne.getColor() != dieTwo.getColor())throw new ToolCardException("\nSecond die does not match the color on the Round Tracker\n");
             if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) throw new ToolCardException("\nDice can't be moved together\n");
             finalPositionTwo = toolCardMessage.getFinalPosition().get(1);
             try {
-                new DiePlacerNoValue(dieTwo, finalPositionTwo, player.getWindow()).placeDie();
+                new DiePlacerNormal(dieTwo, finalPositionTwo, player.getWindow()).placeDie();
             }
             catch(InvalidPlacementException e) {
                 squareTwo.setDie(dieTwo);

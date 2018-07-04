@@ -50,11 +50,11 @@ public abstract class DiePlacer {
         if (!surrounding.isEmpty()) return true;
         if (square.getRow() > 0 && square.getCol() > 0 && !window.getSquare(new Coordinate(square.getRow() - 1, square.getCol() - 1)).isEmpty())
             return true;
-        if (square.getRow() > 0 && square.getCol() < window.getCols() && !window.getSquare(new Coordinate(square.getRow() - 1, square.getCol() + 1)).isEmpty())
+        if (square.getRow() > 0 && square.getCol() < window.getCols() - 1 && !window.getSquare(new Coordinate(square.getRow() - 1, square.getCol() + 1)).isEmpty())
             return true;
-        if (square.getRow() < window.getRows() && square.getCol() > 0 && !window.getSquare(new Coordinate(square.getRow() + 1, square.getCol() - 1)).isEmpty())
+        if (square.getRow() < window.getRows() - 1 && square.getCol() > 0 && !window.getSquare(new Coordinate(square.getRow() + 1, square.getCol() - 1)).isEmpty())
             return true;
-        return square.getRow() < window.getRows() && square.getCol() < window.getCols() && !window.getSquare(new Coordinate(square.getRow() + 1, square.getCol() + 1)).isEmpty();
+        return square.getRow() < window.getRows() - 1 && square.getCol() < window.getCols() - 1 && !window.getSquare(new Coordinate(square.getRow() + 1, square.getCol() + 1)).isEmpty();
     }
 
     public void placeDie() throws InvalidPlacementException {
