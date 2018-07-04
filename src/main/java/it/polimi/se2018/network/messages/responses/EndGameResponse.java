@@ -26,7 +26,7 @@ public class EndGameResponse extends Response {
     }
 
     public void setScoreBoardResponse(List<Player> players, boolean lastPlayer) {
-        scoreBoardResponse = new ScoreBoardResponse(getPlayer(),players,lastPlayer);
+        scoreBoardResponse = new ScoreBoardResponse(getPlayerID(),players,lastPlayer);
     }
 
     @Override

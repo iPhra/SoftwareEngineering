@@ -9,9 +9,6 @@ import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
-import it.polimi.se2018.utils.exceptions.ChangeActionException;
-import it.polimi.se2018.utils.exceptions.HaltException;
-import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,7 +57,6 @@ public class TestGrindingStone {
 
             @Override
             public void useCard(GrindingStone toolCard, ToolCardMessage toolCardMessage) {
-
             }
 
             @Override

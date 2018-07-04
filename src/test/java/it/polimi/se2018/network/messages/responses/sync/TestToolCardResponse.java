@@ -1,7 +1,8 @@
-package it.polimi.se2018.network.messages.responses;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,8 +16,12 @@ public class TestToolCardResponse {
 
     @Before
     public void init() {
-        List<String> playerRequests = Arrays.asList("pradella", "is", "my", "king");
         toolCardResponse= new ToolCardResponse(0,0);
+    }
+
+    @Test
+    public void testGetToolCardNumber() {
+        Assert.assertEquals(0,toolCardResponse.getToolCardNumber());
     }
 
     @Test

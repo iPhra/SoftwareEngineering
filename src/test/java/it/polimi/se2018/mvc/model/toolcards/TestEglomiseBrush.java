@@ -41,7 +41,6 @@ public class TestEglomiseBrush {
 
                 @Override
                 public void useCard(EglomiseBrush toolCard, ToolCardMessage toolCardMessage){
-
                 }
 
                 @Override

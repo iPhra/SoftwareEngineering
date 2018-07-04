@@ -71,7 +71,6 @@ public class TestLathekin {
 
                 @Override
                 public void useCard(Lathekin toolCard, ToolCardMessage toolCardMessage) {
-
                 }
 
                 @Override

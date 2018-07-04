@@ -9,6 +9,7 @@ import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
 
 
 public abstract class ClientConnection implements ResponseHandler {
+    private static final String LAST_PLAYER = "You are the last player remaining, you win!";
     private final ClientView clientView;
     Client client;
     boolean matchPlaying;
@@ -62,10 +63,10 @@ public abstract class ClientConnection implements ResponseHandler {
         if (endGameResponse.getScoreBoardResponse().isLastPlayer()) {
             Thread thread;
             if (endGameResponse.isPlayerPlaying()) {
-                thread = new Thread(new StopperThread(clientView, "You are the last player remaining, you win!",true));
+                thread = new Thread(new StopperThread(clientView, LAST_PLAYER,true));
             }
             else {
-                thread = new Thread(new StopperThread(clientView, "You are the last player remaining, you win!",false));
+                thread = new Thread(new StopperThread(clientView, LAST_PLAYER,false));
             }
             thread.start();
             try {

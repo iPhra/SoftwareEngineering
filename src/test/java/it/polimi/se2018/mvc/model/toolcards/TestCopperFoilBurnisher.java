@@ -31,7 +31,6 @@ public class TestCopperFoilBurnisher {
             copperFoilBurnisher.handle(new ToolCardHandler() {
                 @Override
                 public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) {
-
                 }
 
                 @Override

@@ -11,7 +11,6 @@ import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObje
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
-import it.polimi.se2018.utils.exceptions.ToolCardException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -75,7 +74,6 @@ public class TestLensCutter {
 
             @Override
             public void useCard(LensCutter toolCard, ToolCardMessage toolCardMessage) {
-
             }
 
             @Override

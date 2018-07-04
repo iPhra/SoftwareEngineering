@@ -15,7 +15,7 @@ public abstract class Response implements Serializable{
     /**
      * @return the ID of the player this message will be sent to
      */
-    public int getPlayer() {
+    public int getPlayerID() {
         return playerID;
     }
 

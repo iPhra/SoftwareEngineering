@@ -1,4 +1,4 @@
-package it.polimi.se2018.network.messages.responses;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
@@ -22,7 +22,6 @@ public class TestTextResponse {
     @Test
     public void testGetMessage() {
         Assert.assertEquals(message,textResponse.getDescription());
-        Assert.assertNotEquals("testo",textResponse.getDescription());
     }
 
     @Test

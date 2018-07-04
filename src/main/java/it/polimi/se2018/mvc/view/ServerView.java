@@ -29,7 +29,7 @@ public class ServerView extends Observable<Message> implements Observer<Response
      * @param response is the message to send on the network
      */
     public void handleNetworkOutput(Response response) {
-        if (playerConnections.containsKey(response.getPlayer())) playerConnections.get(response.getPlayer()).sendResponse(response);
+        if (playerConnections.containsKey(response.getPlayerID())) playerConnections.get(response.getPlayerID()).sendResponse(response);
     }
 
     /**

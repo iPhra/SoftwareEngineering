@@ -36,7 +36,6 @@ public class TestCorkBackedStraightedge {
 
                 @Override
                 public void useCard(CorkBackedStraightedge toolCard, ToolCardMessage toolCardMessage){
-
                 }
 
                 @Override

@@ -86,7 +86,6 @@ public class TestTapWheel {
 
                 @Override
                 public void useCard(TapWheel toolCard, ToolCardMessage toolCardMessage) {
-
                 }
             }, new ToolCardMessage(1, 1, 1));
         }
