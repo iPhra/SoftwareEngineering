@@ -23,20 +23,4 @@ public class StateWindowStart extends StateWindow {
         state.setNextState(nextState);
         Platform.runLater(() -> changeState(state));
     }
-
-    @Override
-    public void doActionDraftPool(int draftPoolPosition) {
-        //To do something?
-    }
-
-    @Override
-    public void doActionToolCard(int toolCardIndex) {
-        if (toolCardIndex == gameSceneController.getToolCardMessage().getToolCardNumber()) {
-            gameSceneController.setToolCardMessage(null);
-            Platform.runLater(() -> {
-                changeState(new StateTurn(gameSceneController));
-                gameSceneController.setAllButton();
-            });
-        }
-    }
 }

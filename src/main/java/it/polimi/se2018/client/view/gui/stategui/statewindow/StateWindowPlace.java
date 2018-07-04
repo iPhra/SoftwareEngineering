@@ -15,30 +15,11 @@ public class StateWindowPlace extends StateWindow {
 
     @Override
     public void doActionWindow(Coordinate coordinate) {
-        /*PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), coordinate);
-        gameSceneController.getGuiView().handleNetworkOutput(placeMessage);
-        */
         gameSceneController.getToolCardMessage().addFinalPosition(coordinate);
         gameSceneController.sendToolCardMessage();
         Platform.runLater(() -> {
             changeState(new StateTurn(gameSceneController));
             gameSceneController.disableAllButton();
         });
-    }
-
-    @Override
-    public void doActionDraftPool(int draftPoolPosition) {
-        //To do something?
-    }
-
-    @Override
-    public void doActionToolCard(int toolCardIndex) {
-        if (toolCardIndex == gameSceneController.getToolCardMessage().getToolCardNumber()) {
-            gameSceneController.setToolCardMessage(null);
-            Platform.runLater(() -> {
-                changeState(new StateTurn(gameSceneController));
-                gameSceneController.setAllButton();
-            });
-        }
     }
 }

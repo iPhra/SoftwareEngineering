@@ -63,10 +63,12 @@ public class WindowBuilder {
     }
 
     public static Map<Integer, String> getValuePaths() {
+        generatePaths();
         return valuePaths;
     }
 
     public static Map<Integer, String> getLevelPaths() {
+        generatePaths();
         return levelPaths;
     }
 

@@ -106,7 +106,7 @@ public class GUIClient extends Client {
             out = new ObjectOutputStream(socket.getOutputStream());
         }
         catch(IOException e){
-            e.printStackTrace();
+            System.exit(1);
         }
     }
 

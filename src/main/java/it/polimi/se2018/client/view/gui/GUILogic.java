@@ -31,7 +31,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
     private void checkState() {
         if(!gameStarted){
             gameStarted = true;
-            sceneController.changeScene(sceneController.getScene());
+            sceneController.changeScene(sceneController.getScene()); //from playerName to SelectWindowScene
         }
         else ((GameSceneController) sceneController).clearAndRefreshAll();
     }
@@ -124,7 +124,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         }
         ((MatchHandler) sceneController).setIsLastPlayer(scoreBoardResponse.isLastPlayer());
         ((MatchHandler) sceneController).setGameEnd();
-        sceneController.changeScene(sceneController.getScene());
+        sceneController.changeScene(sceneController.getScene()); //from SelectWindowScene or GameScene to ScoreBoard
         guiView.endGame();
     }
 

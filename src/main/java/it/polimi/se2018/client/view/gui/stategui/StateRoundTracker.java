@@ -35,7 +35,7 @@ public class StateRoundTracker extends StateWindow {
 
     @Override
     public void doActionDraftPool(int draftPoolPosition) {
-        //To do something?
+        //This has to be empty
     }
 
     @Override
