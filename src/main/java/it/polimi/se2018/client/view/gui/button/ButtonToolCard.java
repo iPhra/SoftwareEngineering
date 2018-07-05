@@ -7,9 +7,11 @@ import javafx.scene.image.ImageView;
 
 public class ButtonToolCard extends ButtonGame {
     private final int toolCardNumber;
+    private final boolean used;
 
-    public ButtonToolCard(int toolCardNumber, ToolCard toolCard) {
+    public ButtonToolCard(int toolCardNumber, ToolCard toolCard, boolean used) {
         this.toolCardNumber = toolCardNumber;
+        this.used = used;
         setImage(toolCard.getImagePath());
         setDisable(true);
     }
@@ -26,6 +28,7 @@ public class ButtonToolCard extends ButtonGame {
     }
 
     private void setImage(String imageUrl){
+        if(used) imageUrl = imageUrl.split(".png")[0]+"_used.png";
         ImageView imageView = new ImageView(new Image(imageUrl));
         imageView.setFitWidth(181);
         imageView.setFitHeight(253);

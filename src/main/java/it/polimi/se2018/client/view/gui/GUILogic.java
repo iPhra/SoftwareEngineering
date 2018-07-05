@@ -154,6 +154,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         modelView.setStateID(draftPoolResponse.getStateID());
         modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
         modelView.setDraftPool(draftPoolResponse.getDraftPool());
+        modelView.setToolCardUsage(draftPoolResponse.getToolCardUsage());
         Platform.runLater(() -> {
             ((GameSceneController) sceneController).clearAndRefreshAll();
             String message = draftPoolResponse.getDescription();
@@ -175,6 +176,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         modelView.setStateID(roundTrackerResponse.getStateID());
         modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
         modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
+        modelView.setToolCardUsage(roundTrackerResponse.getToolCardUsage());
         Platform.runLater(() -> {
             ((GameSceneController) sceneController).clearAndRefreshAll();
             refreshText("Round Tracker has been updated");
@@ -194,6 +196,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         modelView.setStateID(windowResponse.getStateID());
         modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
         modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
+        modelView.setToolCardUsage(windowResponse.getToolCardUsage());
         Platform.runLater(() -> {
             ((GameSceneController) sceneController).clearAndRefreshAll();
             refreshText("Windows have been updated");
@@ -212,6 +215,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
         modelView.setStateID(modelUpdateResponse.getStateID());
         modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
+        modelView.setToolCardUsage(modelUpdateResponse.getToolCardUsage());
         Platform.runLater(() -> {
             ((GameSceneController) sceneController).clearAndRefreshAll();
             ((GameSceneController)sceneController).setCurrentState(new StateTurn((GameSceneController) sceneController));

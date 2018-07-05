@@ -8,8 +8,7 @@ import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class ModelView implements Serializable {
@@ -20,6 +19,7 @@ public class ModelView implements Serializable {
     private List<Die> draftPool;
     private List<List<Die>> roundTracker;
     private List<Boolean> toolCardUsability;
+    private List<Boolean> toolCardUsage;
     private int stateID;
     private int currentPlayerID;
     private boolean hasDieInHand;
@@ -33,6 +33,7 @@ public class ModelView implements Serializable {
         playerNames = new ArrayList<>();
         playerID = new ArrayList<>();
         toolCardUsability = new ArrayList<>();
+        toolCardUsage = new ArrayList<>();
         draftPool = board.getDraftPool().modelViewCopy();
         roundTracker = board.getRoundTracker().modelViewCopy();
         stateID = board.getStateID();
@@ -58,6 +59,7 @@ public class ModelView implements Serializable {
         if (hasDieInHand) dieInHand = board.getPlayerByID(currentPlayerID).getDieInHand();
         for (int i = 0; i < board.getToolCards().length; i++) {
             ToolCard toolCard = board.getToolCards()[i];
+            toolCardUsage.add(board.getToolCardsUsage()[i]);
             toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(board), board.getToolCardsUsage()[i], currentPlayer));
         }
     }
@@ -80,6 +82,10 @@ public class ModelView implements Serializable {
 
     public void setToolCardUsability(List<Boolean> toolCardUsability) {
         this.toolCardUsability = toolCardUsability;
+    }
+
+    public void setToolCardUsage(List<Boolean> toolCardUsage) {
+        this.toolCardUsage = toolCardUsage;
     }
 
     public void setStateID(int stateID) {
@@ -110,6 +116,10 @@ public class ModelView implements Serializable {
 
     public List<Boolean> getToolCardUsability() {
         return toolCardUsability;
+    }
+
+    public List<Boolean> getToolCardUsage() {
+        return toolCardUsage;
     }
 
     public Die getDieInHand() { return dieInHand; }

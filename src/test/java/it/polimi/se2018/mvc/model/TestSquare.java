@@ -27,6 +27,30 @@ public class TestSquare {
     }
 
     @Test
+    public void testGetColor(){
+        Square square0 = new Square(Color.GREEN,0, new Coordinate(1,2), "path");
+        Assert.assertEquals(Color.GREEN,square0.getColor());
+    }
+
+    @Test
+    public void testGetValue(){
+        Square square0 = new Square(Color.WHITE,5, new Coordinate(0,4), "path");
+        Assert.assertEquals(5, square0.getValue());
+    }
+
+    @Test
+    public void testGetConstraintPath(){
+        Square square0 = new Square(Color.BLUE, 0, new Coordinate(2,2), "path");
+        Assert.assertEquals("path", square0.getConstraintPath());
+    }
+
+    @Test
+    public void testGetDescription(){
+        Square square0 = new Square(Color.YELLOW, 0, new Coordinate(2,3),"path");
+        Assert.assertEquals("row " + 2 + " col " + 3, square0.getDescription());
+    }
+
+    @Test
     public void testGetRow() {
         Assert.assertEquals(coordinate.getRow(), square.getRow());
         Assert.assertNotEquals(coordinate.getRow() - 1, square.getRow());

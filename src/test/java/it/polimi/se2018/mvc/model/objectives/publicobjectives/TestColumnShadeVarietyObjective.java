@@ -1,6 +1,6 @@
 package it.polimi.se2018.mvc.model.objectives.publicobjectives;
 
-import it.polimi.se2018.MapDatabase;
+import it.polimi.se2018.WindowDatabase;
 import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.model.Player;
@@ -14,16 +14,16 @@ import static org.junit.Assert.assertEquals;
 
 public class TestColumnShadeVarietyObjective {
     private Square[][] matrix;
-    private MapDatabase mapDatabase;
+    private WindowDatabase windowDatabase;
     private ColumnShadeVarietyObjective columnShadeVarietyObjective;
     private ShadesOfGreenObjective shadesOfGreenObjective;
     private Player player;
 
     @Before
     public void init(){
-        mapDatabase = new MapDatabase();
-        mapDatabase.standardWhiteMatrix();
-        matrix = mapDatabase.getMatrix();
+        windowDatabase = new WindowDatabase();
+        windowDatabase.standardWhiteMatrix();
+        matrix = windowDatabase.getMatrix();
         columnShadeVarietyObjective = ColumnShadeVarietyObjective.instance();
         columnShadeVarietyObjective = ColumnShadeVarietyObjective.instance();
         Window window = new Window("BasicMap",0, matrix, WindowBuilder.getLevelPaths().get(0));
@@ -34,13 +34,13 @@ public class TestColumnShadeVarietyObjective {
     @Test
     public void testEvalPoints(){
         assertEquals(0, columnShadeVarietyObjective.evalPoints(player));
-        mapDatabase.sixSameColoredDice(Color.GREEN);
-        matrix = mapDatabase.getMatrix();
+        windowDatabase.sixSameColoredDice(Color.GREEN);
+        matrix = windowDatabase.getMatrix();
         Window window1 = new Window("sixSameColoredDiceMap",0, matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window1,shadesOfGreenObjective);
         assertEquals(0, columnShadeVarietyObjective.evalPoints(player));
-        mapDatabase.initMatrixFullOfDice();
-        matrix = mapDatabase.getMatrix();
+        windowDatabase.initMatrixFullOfDice();
+        matrix = windowDatabase.getMatrix();
         Window window2 = new Window("FullOfDiceMap",0, matrix,WindowBuilder.getLevelPaths().get(0));
         player = new Player("name",1, window2,shadesOfGreenObjective);
         assertEquals(20, columnShadeVarietyObjective.evalPoints(player));

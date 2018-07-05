@@ -10,15 +10,15 @@ import javafx.util.Pair;
 
 import java.util.List;
 
-public class MapDatabase {
+public class WindowDatabase {
     private Square[][] matrix;
-    private final List<Pair<Window,Window>> defaultMaps;
+    private final List<Pair<Window,Window>> defaultWIndows;
 
-    public MapDatabase() {
-        defaultMaps = WindowBuilder.create();
+    public WindowDatabase() {
+        defaultWIndows = WindowBuilder.create();
     }
 
-    public List<Pair<Window,Window>> getDefaultMaps() {return defaultMaps;}
+    public List<Pair<Window,Window>> getDefaultWIndows() {return defaultWIndows;}
 
     public Square[][] getMatrix() {
         return matrix;
@@ -34,7 +34,7 @@ public class MapDatabase {
     }
 
     public Window generateWindowByTitle(String title) {
-        for(Pair<Window,Window> pair: defaultMaps) {
+        for(Pair<Window,Window> pair: defaultWIndows) {
             if (pair.getKey().getTitle().equals(title)) return pair.getKey();
             if (pair.getValue().getTitle().equals(title)) return pair.getValue();
         }

@@ -1,6 +1,6 @@
 package it.polimi.se2018.network.messages.requests;
 
-import it.polimi.se2018.MapDatabase;
+import it.polimi.se2018.WindowDatabase;
 import it.polimi.se2018.mvc.model.Window;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,7 +14,7 @@ public class TestSetupMessage {
 
     @Before
     public void init() {
-        window = new MapDatabase().generateWindowByTitle("GRAVITAS");
+        window = new WindowDatabase().generateWindowByTitle("GRAVITAS");
         setupMessage = new SetupMessage(0,0,window);
     }
 

@@ -18,6 +18,7 @@ public class ModelUpdateResponse extends SyncResponse {
     private final boolean hasDraftedDie;
     private final boolean hasUsedCard;
     private final int favorPoints;
+    private final List<Boolean> toolCardUsage;
     private Die dieInHand;
     private final List<Boolean> toolCardUsability;
 
@@ -25,6 +26,7 @@ public class ModelUpdateResponse extends SyncResponse {
         super(playerID);
         this.stateID = stateID;
         toolCardUsability = new ArrayList<>();
+        toolCardUsage = new ArrayList<>();
         currentPlayerID = board.getRound().getCurrentPlayerID();
         Player currentPlayer = board.getPlayerByID(currentPlayerID);
         favorPoints = board.getPlayerByID(currentPlayerID).getFavorPoints();
@@ -34,6 +36,7 @@ public class ModelUpdateResponse extends SyncResponse {
         if (hasDieInHand) dieInHand = currentPlayer.getDieInHand();
         for (int i = 0; i < board.getToolCards().length; i++) {
             ToolCard toolCard = board.getToolCards()[i];
+            toolCardUsage.add(board.getToolCardsUsage()[i]);
             toolCardUsability.add(toolCard.handleCheck(new ToolCardChecker(board), board.getToolCardsUsage()[i], currentPlayer));
         }
     }
@@ -64,6 +67,10 @@ public class ModelUpdateResponse extends SyncResponse {
 
     public List<Boolean> getToolCardUsability() {
         return toolCardUsability;
+    }
+
+    public List<Boolean> getToolCardUsage() {
+        return toolCardUsage;
     }
 
     public int getStateID() {

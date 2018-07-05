@@ -22,7 +22,7 @@ public class GameInstance {
     }
 
     private void createSetupMessages() {
-        MapDatabase database = new MapDatabase();
+        WindowDatabase database = new WindowDatabase();
         List<Window> windows = new ArrayList<>();
         windows.add(database.generateWindowByTitle("KALEIDOSCOPIC DREAM"));
         windows.add(database.generateWindowByTitle("FRACTAL DROPS"));

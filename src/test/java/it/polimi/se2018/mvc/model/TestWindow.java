@@ -1,9 +1,6 @@
 package it.polimi.se2018.mvc.model;
 
-import it.polimi.se2018.mvc.model.Color;
-import it.polimi.se2018.mvc.model.Die;
-import it.polimi.se2018.mvc.model.Square;
-import it.polimi.se2018.mvc.model.Window;
+import it.polimi.se2018.WindowDatabase;
 import it.polimi.se2018.network.messages.Coordinate;
 import it.polimi.se2018.utils.WindowBuilder;
 import org.junit.Assert;
@@ -136,5 +133,11 @@ public class TestWindow {
         result = window.adjacentDice(new Coordinate(2, 3));
         result = window.adjacentDice(new Coordinate(0, 0));
         result = window.adjacentDice(new Coordinate(window.getRows() - 1, window.getCols() - 1));
+    }
+
+    @Test
+    public void testToString(){
+        Window window0 =  new WindowDatabase().generateWindowByTitle("KALEIDOSCOPIC DREAM");
+        Assert.assertEquals("-y -b -- -- -1 \n" + "-g -- -5 -- -4 \n" + "-3 -- -r -- -g \n" + "-2 -- -- -b -y \n" ,window0.toString());
     }
 }

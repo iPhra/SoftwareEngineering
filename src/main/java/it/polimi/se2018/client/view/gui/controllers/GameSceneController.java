@@ -230,7 +230,7 @@ public class GameSceneController extends MatchHandler implements SceneController
 
     private void setToolCardButtons(){
         for(int i=0; i < guiModel.getToolCards().size(); i++){
-            toolCardButtons.add(new ButtonToolCard(i, guiModel.getToolCards().get(i)));
+            toolCardButtons.add(new ButtonToolCard(i, guiModel.getToolCards().get(i),guiModel.getBoard().getToolCardUsage().get(i)));
             //here you define what happens if you click on a toolcard
             toolCardButtons.get(i).setOnAction(e -> buttonToolCardClicked(((ButtonToolCard)e.getSource()).getToolCardNumber()));
         }
@@ -331,7 +331,7 @@ public class GameSceneController extends MatchHandler implements SceneController
                     ChooseNumberSceneController controller = loader.getController();
                     controller.setGameSceneController(gameSceneController);
                     Stage secondaryStage = new Stage();
-                    secondaryStage.setTitle("Choose the number");
+                    secondaryStage.setTitle("Choose the value");
                     secondaryStage.setScene(new Scene(root, 446, 261));
                     secondaryStage.show();
                 } catch (IOException e) {

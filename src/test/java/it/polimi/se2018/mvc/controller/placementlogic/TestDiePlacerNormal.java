@@ -1,6 +1,6 @@
 package it.polimi.se2018.mvc.controller.placementlogic;
 
-import it.polimi.se2018.MapDatabase;
+import it.polimi.se2018.WindowDatabase;
 import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Window;
@@ -16,7 +16,7 @@ public class TestDiePlacerNormal {
 
     @Test
     public void testCheckCondition(){
-        Window window = new MapDatabase().generateWindowByTitle("KALEIDOSCOPIC DREAM");
+        Window window = new WindowDatabase().generateWindowByTitle("KALEIDOSCOPIC DREAM");
         Die die = new Die(2, Color.BLUE);
         try{
             //check !isEmpty

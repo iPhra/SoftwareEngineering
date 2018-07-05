@@ -1,6 +1,6 @@
 package it.polimi.se2018.mvc.model;
 
-import it.polimi.se2018.MapDatabase;
+import it.polimi.se2018.WindowDatabase;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfGreenObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.DeepShadesObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
@@ -30,9 +30,9 @@ public class TestBoard {
 
     @Before
     public void init(){
-        MapDatabase mapDatabase = new MapDatabase();
-        mapDatabase.standardWhiteMatrix();
-        Square[][] matrix = mapDatabase.getMatrix();
+        WindowDatabase windowDatabase = new WindowDatabase();
+        windowDatabase.standardWhiteMatrix();
+        Square[][] matrix = windowDatabase.getMatrix();
         ShadesOfGreenObjective shadesOfGreenObjective= ShadesOfGreenObjective.instance();
         Window window = new Window("BasicMap",0,matrix, WindowBuilder.getLevelPaths().get(0));
         Player player1 = new Player("player1",1, window,shadesOfGreenObjective);
