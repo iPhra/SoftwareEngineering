@@ -17,7 +17,7 @@ public class Round {
      */
     private final List<Integer> playersOrder;
 
-    private final int numberOfPlayer;
+    private final int playersNumber;
 
     /**
      * This is the number of unique players who still haven't played in the round. it's 0 when you are in the middle of the array (every played played once)
@@ -47,7 +47,15 @@ public class Round {
         currentPlayerIndex=0;
         currentPlayer=playersOrder.get(currentPlayerIndex);
         missingPlayers=playersOrder.size()/2;
-        numberOfPlayer = playersOrder.size()/2;
+        playersNumber = playersOrder.size()/2;
+    }
+
+    /**
+     * This method changes the current player that must perform a turn
+     */
+    private void changePlayer() {
+        currentPlayerIndex++;
+        currentPlayer=playersOrder.get(currentPlayerIndex);
     }
 
     /**
@@ -95,14 +103,6 @@ public class Round {
     }
 
     /**
-     * This method changes the current player that must perform a turn
-     */
-    private void changePlayer() {
-        currentPlayerIndex++;
-        currentPlayer=playersOrder.get(currentPlayerIndex);
-    }
-
-    /**
      * This method is called when a player ended his turn and you need to change player with the following player
      */
     public void changeTurn() {
@@ -118,7 +118,7 @@ public class Round {
      */
     public Round changeRound() {
         List<Integer> newPlayersOrder = new ArrayList<>();
-        for(int i=0; i < numberOfPlayer - 1; i++){
+        for(int i = 0; i < playersNumber - 1; i++){
             newPlayersOrder.add(playersOrder.get(i+1));
         }    //given ABCDDCBA, now we have BCD
         newPlayersOrder.add(playersOrder.get(0)); //BCDA
