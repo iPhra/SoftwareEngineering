@@ -77,7 +77,7 @@ public class DraftPool {
      * Used by {@link Controller} when a turn ends in order to fill the Round Tracker
      * @return a new {@link ArrayList} containing all dice
      */
-    public List<Die> getAllDice  () {
+    public List<Die> getAllDice() {
         return new ArrayList<>(dice);
     }
 

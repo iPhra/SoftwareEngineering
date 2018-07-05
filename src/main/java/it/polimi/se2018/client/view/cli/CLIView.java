@@ -88,11 +88,11 @@ public class CLIView extends ClientView {
         int choice = 2;
         cliModel.showRoundTracker();
         while (choice == 2) {
-            printStream.println("\n\nChoose the round index. Insert a value from 0 to 9");
+            printStream.println("\n\nChoose the round index. Insert a value from 0 to 9\n");
             turn = takeInput(0, 9);
             int size = cliModel.getBoard().getRoundTracker().get(turn).size();
-            printStream.println("\n\nChoose the position. Insert a value from 0 to " + (size-1));
-            printStream.print(" or [" + size + "] to change action");
+            printStream.println("\n\nChoose the position. Insert a value from 0 to " + (size-1)+"\n");
+            printStream.print(" or [" + size + "] to change action\n");
             pos = takeInput(0, cliModel.getBoard().getRoundTracker().get(turn).size());
             if (pos == size) throw new ChangeActionException();
             else {

@@ -81,6 +81,19 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         model.incrementStateID();
     }
 
+    private void endMatch(Player passingPlayer, boolean timeout) {
+        gameManager.setMatchPlaying(false);
+        if(timeout) view.handleNetworkOutput(new TimeUpResponse(passingPlayer.getId()));
+        for(Player player : model.getPlayers()) {
+            EndGameResponse endGameResponse = new EndGameResponse(player.getId());
+            List<Player> scoreBoard = playersScoreBoard();
+            endGameResponse.setScoreBoardResponse(scoreBoard,false);
+            endGameResponse.setPlayerPlaying(false);
+            view.handleNetworkOutput(endGameResponse);
+        }
+        gameManager.endGame();
+    }
+
     private void endRound(Player player, boolean timeout) {
         model.setRound(model.getRound().changeRound());
         model.getRoundTracker().updateRoundTracker(model.getDraftPool().getAllDice());
@@ -127,19 +140,6 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         sortedPlayers.sort(new ScoreComparator(Arrays.asList(model.getPublicObjectives()), model.getRound()));
         Collections.reverse(sortedPlayers);
         return sortedPlayers;
-    }
-
-    private void endMatch(Player passingPlayer, boolean timeout) {
-        gameManager.setMatchPlaying(false);
-        if(timeout) view.handleNetworkOutput(new TimeUpResponse(passingPlayer.getId()));
-        for(Player player : model.getPlayers()) {
-            EndGameResponse endGameResponse = new EndGameResponse(player.getId());
-            List<Player> scoreBoard = playersScoreBoard();
-            endGameResponse.setScoreBoardResponse(scoreBoard,false);
-            endGameResponse.setPlayerPlaying(false);
-            view.handleNetworkOutput(endGameResponse);
-        }
-        gameManager.endGame();
     }
 
     void setModel(Board model) {
