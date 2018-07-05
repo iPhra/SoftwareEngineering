@@ -11,7 +11,7 @@ public class StateRoundTracker extends StateWindow {
     public StateRoundTracker(GameSceneController gameSceneController) {
         this.gameSceneController = gameSceneController;
         buttonCheckUsabilityHandler = new ButtonCheckUsabilityRoundTracker(gameSceneController);
-        descriptionOfState = "Select a die from round tracker";
+        descriptionOfState = "Select a die from the Round Tracker";
     }
 
     @Override

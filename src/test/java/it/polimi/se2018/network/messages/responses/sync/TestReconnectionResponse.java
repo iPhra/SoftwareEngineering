@@ -1,26 +1,37 @@
 package it.polimi.se2018.network.messages.responses.sync;
 
+import it.polimi.se2018.mvc.model.Board;
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfBlueObjective;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.fail;
+import java.util.ArrayList;
+import java.util.Random;
 
-public class TestTextResponse {
-    private TextResponse response;
-    private String message;
+import static junit.framework.TestCase.fail;
+
+public class TestReconnectionResponse {
+    private ReconnectionResponse response;
+    private int playerID;
 
     @Before
     public void init() {
-        message="test";
-        response = new TextResponse(0);
-        response.setDescription(message);
+        playerID = new Random().nextInt();
+        response = new ReconnectionResponse(playerID,true);
     }
 
     @Test
-    public void testGetDescription() {
-        Assert.assertEquals(message, response.getDescription());
+    public void testGetters() {
+        Assert.assertEquals(playerID, response.getPlayerID());
+        Assert.assertTrue(response.isWindowSelectionOver());
+
+        response.setPlayersNumber(4);
+        Assert.assertEquals(4,response.getPlayersNumber());
+
+        response.setModelViewResponse(null);
+        Assert.assertEquals(null,response.getModelViewResponse());
     }
 
     @Test
@@ -33,6 +44,7 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(TextResponse textResponse) {
+                fail();
             }
 
             @Override
@@ -47,11 +59,12 @@ public class TestTextResponse {
             public void handleResponse(InputResponse inputMessage) {fail();}
 
             @Override
-            public void handleResponse(ScoreBoardResponse scoreBoardResponse) {fail();}
+            public void handleResponse(ScoreBoardResponse scoreBoardResponse) {
+                fail();
+            }
 
             @Override
             public void handleResponse(ReconnectionResponse reconnectionResponse) {
-                fail();
             }
 
             @Override

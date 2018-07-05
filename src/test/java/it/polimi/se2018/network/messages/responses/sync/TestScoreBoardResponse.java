@@ -1,26 +1,21 @@
 package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.fail;
+import java.util.ArrayList;
+import java.util.Random;
 
-public class TestTextResponse {
-    private TextResponse response;
-    private String message;
+import static junit.framework.TestCase.fail;
+
+public class TestScoreBoardResponse {
+    private ScoreBoardResponse response;
 
     @Before
     public void init() {
-        message="test";
-        response = new TextResponse(0);
-        response.setDescription(message);
-    }
-
-    @Test
-    public void testGetDescription() {
-        Assert.assertEquals(message, response.getDescription());
+        int playerID = new Random().nextInt();
+        response = new ScoreBoardResponse(playerID,new ArrayList<>(),true);
     }
 
     @Test
@@ -33,6 +28,7 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(TextResponse textResponse) {
+                fail();
             }
 
             @Override
@@ -47,7 +43,8 @@ public class TestTextResponse {
             public void handleResponse(InputResponse inputMessage) {fail();}
 
             @Override
-            public void handleResponse(ScoreBoardResponse scoreBoardResponse) {fail();}
+            public void handleResponse(ScoreBoardResponse scoreBoardResponse) {
+            }
 
             @Override
             public void handleResponse(ReconnectionResponse reconnectionResponse) {
