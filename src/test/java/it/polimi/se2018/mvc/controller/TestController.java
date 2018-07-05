@@ -64,7 +64,7 @@ public class TestController {
         Assert.assertFalse(model.getPlayerByID(1).hasDraftedDie());
 
         serverView.handleNetworkInput(new PlaceMessage(1,1,new Coordinate(0,3))); //fail because i haven't drafted
-        Assert.assertEquals(null, model.getPlayerByID(1).getWindow().getDie(new Coordinate(0,3)));
+        Assert.assertNull(model.getPlayerByID(1).getWindow().getDie(new Coordinate(0, 3)));
 
         serverView.handleNetworkInput(new DraftMessage(1,1,2)); //successful drafting
         Assert.assertTrue(model.getPlayerByID(1).hasDraftedDie());
@@ -96,7 +96,7 @@ public class TestController {
         serverView.handleNetworkInput(new PlaceMessage(2,2,new Coordinate(0,3))); //failed placement
         Assert.assertTrue(model.getPlayerByID(2).hasDieInHand()); //die is still in hand
         Assert.assertTrue(model.getPlayerByID(2).hasDraftedDie());
-        Assert.assertEquals(null, model.getPlayerByID(2).getWindow().getDie(new Coordinate(0,4)));
+        Assert.assertNull(model.getPlayerByID(2).getWindow().getDie(new Coordinate(0, 4)));
 
         serverView.handleNetworkInput(new PlaceMessage(2,2,new Coordinate(0,4))); //successful placement
         Assert.assertFalse(model.getPlayerByID(2).hasDieInHand()); //die is not in hand

@@ -91,7 +91,7 @@ public class TestDie {
     @Test
     public void testEquals() {
         Assert.assertEquals(die.hashCode(),new Die(value,color).hashCode());
-        Assert.assertTrue(die.equals(new Die(value,color)));
+        Assert.assertEquals(die, new Die(value, color));
         if (value<6) {
             Assert.assertNotEquals(die.hashCode(),new Die(value+1,color));
             Assert.assertTrue(!die.equals(new Die(value+1,color)));

@@ -28,7 +28,7 @@ public class TestColor {
         Assert.assertEquals(Color.YELLOW,Color.fromAbbreviation("Y"));
         Assert.assertEquals(Color.BLUE,Color.fromAbbreviation("B"));
         Assert.assertEquals(Color.WHITE,Color.fromAbbreviation("W"));
-        Assert.assertEquals(null,Color.fromAbbreviation("Z"));
+        Assert.assertNull(Color.fromAbbreviation("Z"));
     }
 
     @Test

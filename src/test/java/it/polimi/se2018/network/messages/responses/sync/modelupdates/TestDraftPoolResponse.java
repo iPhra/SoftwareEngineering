@@ -3,14 +3,12 @@ package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 import it.polimi.se2018.GameInstance;
 import it.polimi.se2018.mvc.model.Board;
 import it.polimi.se2018.mvc.model.Die;
-import it.polimi.se2018.mvc.model.DraftPool;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Random;
 
 import static junit.framework.TestCase.fail;
 

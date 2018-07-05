@@ -134,7 +134,7 @@ public class TestSquare {
     @Test
     public void testToString(){
         Square blankSquare = new Square(Color.WHITE, 0 , new Coordinate(1,2), "path0");
-        Assert.assertEquals(blankSquare.toString(), "-- ");
+        Assert.assertEquals("-- ", blankSquare.toString());
         Square colorSquare = new Square(Color.GREEN, 0, new Coordinate(1,1),"path1");
         Assert.assertEquals(colorSquare.toString(), "-" + Color.GREEN.getAbbreviation().toLowerCase() + " ");
         Square valueSquare = new Square(Color.WHITE, 5, new Coordinate(2,3), "path2");
@@ -148,6 +148,6 @@ public class TestSquare {
     public void testPopDie(){
         square.setDie(new Die(value, color));
         square.popDie();
-        Assert.assertEquals(square.getDie(), null);
+        Assert.assertNull(square.getDie());
     }
 }

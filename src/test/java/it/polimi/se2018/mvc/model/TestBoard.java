@@ -142,11 +142,11 @@ public class TestBoard {
 
     @Test
     public void testToolCardUsage() {
-        Assert.assertEquals(true,!board.getToolCardsUsage()[0]);
+        Assert.assertTrue(!board.getToolCardsUsage()[0]);
         board.setAlreadyUsed(0);
-        Assert.assertEquals(true,board.getToolCardsUsage()[0]);
-        Assert.assertEquals(false,board.getToolCardsUsage()[1]);
-        Assert.assertEquals(false,board.getToolCardsUsage()[2]);
+        Assert.assertTrue(board.getToolCardsUsage()[0]);
+        Assert.assertFalse(board.getToolCardsUsage()[1]);
+        Assert.assertFalse(board.getToolCardsUsage()[2]);
     }
 
     @Test

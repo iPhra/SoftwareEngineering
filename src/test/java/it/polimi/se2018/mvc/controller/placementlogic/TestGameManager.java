@@ -23,9 +23,9 @@ public class TestGameManager {
         Assert.assertFalse(manager.isMatchPlaying());
 
         manager.removePlayer(1);
-        Assert.assertEquals(null,manager.getNicknameById(1));
+        Assert.assertNull(manager.getNicknameById(1));
 
-        Assert.assertEquals(null,manager.getServerConnection(1));
+        Assert.assertNull(manager.getServerConnection(1));
 
         manager.addPlayerID(2);
         manager.addPlayerName(2,"Player 2");

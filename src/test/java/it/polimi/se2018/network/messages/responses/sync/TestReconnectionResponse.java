@@ -1,13 +1,10 @@
 package it.polimi.se2018.network.messages.responses.sync;
 
-import it.polimi.se2018.mvc.model.Board;
-import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfBlueObjective;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import static junit.framework.TestCase.fail;
@@ -31,7 +28,7 @@ public class TestReconnectionResponse {
         Assert.assertEquals(4,response.getPlayersNumber());
 
         response.setModelViewResponse(null);
-        Assert.assertEquals(null,response.getModelViewResponse());
+        Assert.assertNull(response.getModelViewResponse());
     }
 
     @Test

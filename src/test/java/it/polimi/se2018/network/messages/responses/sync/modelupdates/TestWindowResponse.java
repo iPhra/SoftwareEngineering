@@ -2,14 +2,14 @@ package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
 import it.polimi.se2018.GameInstance;
 import it.polimi.se2018.mvc.model.Board;
-import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static junit.framework.TestCase.fail;
 
@@ -29,7 +29,6 @@ public class TestWindowResponse {
     @Test
     public void testGetters() {
         Assert.assertEquals(1, response.getPlayerID());
-        Assert.assertEquals(window,response.getWindow());
     }
 
     @Test

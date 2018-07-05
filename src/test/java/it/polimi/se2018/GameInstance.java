@@ -6,7 +6,6 @@ import it.polimi.se2018.mvc.model.Window;
 import it.polimi.se2018.mvc.view.ServerView;
 import it.polimi.se2018.network.Server;
 import it.polimi.se2018.network.messages.requests.SetupMessage;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;

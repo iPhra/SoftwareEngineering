@@ -2,7 +2,6 @@ package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
 import it.polimi.se2018.GameInstance;
 import it.polimi.se2018.mvc.model.Board;
-import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,10 +28,10 @@ public class TestModelUpdateResponse {
         Assert.assertEquals(id,response.getCurrentPlayerID());
         Assert.assertEquals(board.getPlayerByID(id).getFavorPoints(),response.getFavorPoints());
         Assert.assertEquals(0,response.getStateID());
-        Assert.assertEquals(null,response.getDieInHand());
-        Assert.assertEquals(false,response.hasDieInHand());
-        Assert.assertEquals(false,response.hasDraftedDie());
-        Assert.assertEquals(false,response.hasUsedCard());
+        Assert.assertNull(response.getDieInHand());
+        Assert.assertFalse(response.hasDieInHand());
+        Assert.assertFalse(response.hasDraftedDie());
+        Assert.assertFalse(response.hasUsedCard());
     }
 
     @Test

@@ -19,6 +19,6 @@ public class TestToolCard {
 
     @Test
     public void testToString(){
-        Assert.assertEquals("Title: \"" + "Grozing Pliers" + "\", Effect: \"" + "After drafting, increase or decrease the value of the drafted die by 1" + "\"" + "\n", grozingPliers.toString());
+        Assert.assertEquals("Title: \"" + "Grozing Pliers" + "\", Effect: \"" + "After drafting, increase or decrease the value of the drafted die by 1" + "\"", grozingPliers.toString());
     }
 }

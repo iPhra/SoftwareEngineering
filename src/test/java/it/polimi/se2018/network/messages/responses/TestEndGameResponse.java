@@ -28,7 +28,7 @@ public class TestEndGameResponse {
         Assert.assertFalse(response.isPlayerPlaying());
 
         response.setScoreBoardResponse(new ArrayList<>(),true);
-        Assert.assertEquals(true,response.getScoreBoardResponse().isLastPlayer());
+        Assert.assertTrue(response.getScoreBoardResponse().isLastPlayer());
         Assert.assertEquals(new ArrayList<>(),response.getScoreBoardResponse().getSortedPlayersScores());
         Assert.assertEquals(new ArrayList<>(),response.getScoreBoardResponse().getSortedPlayersNames());
     }

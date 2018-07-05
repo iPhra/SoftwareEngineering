@@ -1,16 +1,13 @@
 package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
 import it.polimi.se2018.GameInstance;
-import it.polimi.se2018.mvc.controller.GameManager;
 import it.polimi.se2018.mvc.model.Board;
-import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static junit.framework.TestCase.fail;
 
@@ -36,10 +33,10 @@ public class TestModelViewResponse {
         Assert.assertEquals(board.getRound().getCurrentPlayerID(),response.getModelView().getCurrentPlayerID());
         Assert.assertEquals(board.getRoundTracker().modelViewCopy(),response.getModelView().getRoundTracker());
         Assert.assertEquals(board.getDraftPool().modelViewCopy(),response.getModelView().getDraftPool());
-        Assert.assertEquals(false,response.getModelView().hasUsedCard());
-        Assert.assertEquals(false,response.getModelView().hasDieInHand());
-        Assert.assertEquals(false,response.getModelView().hasDraftedDie());
-        Assert.assertEquals(null,response.getModelView().getDieInHand());
+        Assert.assertFalse(response.getModelView().hasUsedCard());
+        Assert.assertFalse(response.getModelView().hasDieInHand());
+        Assert.assertFalse(response.getModelView().hasDraftedDie());
+        Assert.assertNull(response.getModelView().getDieInHand());
     }
 
     @Test

@@ -1,7 +1,6 @@
 package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfBlueObjective;
-import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,7 +8,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import static junit.framework.TestCase.fail;
 
