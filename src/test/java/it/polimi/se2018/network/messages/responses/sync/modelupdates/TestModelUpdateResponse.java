@@ -1,26 +1,38 @@
-package it.polimi.se2018.network.messages.responses.sync;
+package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
-import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
+import it.polimi.se2018.GameInstance;
+import it.polimi.se2018.mvc.model.Board;
+import it.polimi.se2018.mvc.model.Color;
+import it.polimi.se2018.network.messages.responses.sync.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.fail;
+import static junit.framework.TestCase.fail;
 
-public class TestTextResponse {
-    private TextResponse response;
-    private String message;
+public class TestModelUpdateResponse {
+    private ModelUpdateResponse response;
+    private Board board;
 
     @Before
     public void init() {
-        message="test";
-        response = new TextResponse(0);
-        response.setDescription(message);
+        GameInstance gameInstance = new GameInstance();
+        gameInstance.createGame();
+        board = gameInstance.getManager().getModel();
+        response = new ModelUpdateResponse(1,0,board);
     }
 
     @Test
-    public void testGetDescription() {
-        Assert.assertEquals(message, response.getDescription());
+    public void testGetters() {
+        int id = board.getRound().getCurrentPlayerID();
+        Assert.assertEquals(1, response.getPlayerID());
+        Assert.assertEquals(id,response.getCurrentPlayerID());
+        Assert.assertEquals(board.getPlayerByID(id).getFavorPoints(),response.getFavorPoints());
+        Assert.assertEquals(0,response.getStateID());
+        Assert.assertEquals(null,response.getDieInHand());
+        Assert.assertEquals(false,response.hasDieInHand());
+        Assert.assertEquals(false,response.hasDraftedDie());
+        Assert.assertEquals(false,response.hasUsedCard());
     }
 
     @Test
@@ -33,6 +45,7 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(TextResponse textResponse) {
+                fail();
             }
 
             @Override
@@ -44,10 +57,14 @@ public class TestTextResponse {
             public void handleResponse(SetupResponse setupResponse) {fail();}
 
             @Override
-            public void handleResponse(InputResponse inputMessage) {fail();}
+            public void handleResponse(InputResponse inputMessage) {
+                fail();
+            }
 
             @Override
-            public void handleResponse(ScoreBoardResponse scoreBoardResponse) {fail();}
+            public void handleResponse(ScoreBoardResponse scoreBoardResponse) {
+                fail();
+            }
 
             @Override
             public void handleResponse(ReconnectionResponse reconnectionResponse) {
@@ -71,7 +88,6 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(ModelUpdateResponse modelUpdateResponse) {
-                fail();
             }
         });
     }

@@ -171,7 +171,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         }
     }
 
-    //use a toolcards
+    //use a toolcard
     @Override
     public void handleMove(ToolCardMessage toolCardMessage) {
         Player player = model.getPlayerByID(toolCardMessage.getPlayerID());
@@ -179,6 +179,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
             model.getToolCards()[player.getCardInUse()].handle(toolCardController,toolCardMessage);
         }
         catch (ToolCardException e) {
+            player.dropCardInUse();
             notifyError(toolCardMessage.getPlayerID(), e.getMessage());
         }
     }

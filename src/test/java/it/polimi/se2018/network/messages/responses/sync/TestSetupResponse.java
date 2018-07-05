@@ -1,26 +1,34 @@
 package it.polimi.se2018.network.messages.responses.sync;
 
+import it.polimi.se2018.mvc.model.objectives.privateobjectives.ShadesOfBlueObjective;
+import it.polimi.se2018.network.messages.responses.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.fail;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
 
-public class TestTextResponse {
-    private TextResponse response;
-    private String message;
+import static junit.framework.TestCase.fail;
+
+public class TestSetupResponse {
+    private SetupResponse response;
+    private int playerID;
 
     @Before
     public void init() {
-        message="test";
-        response = new TextResponse(0);
-        response.setDescription(message);
+        playerID = new Random().nextInt();
+        response = new SetupResponse(playerID,new ArrayList<>(), ShadesOfBlueObjective.instance(),4);
     }
 
     @Test
-    public void testGetDescription() {
-        Assert.assertEquals(message, response.getDescription());
+    public void testGetters() {
+        Assert.assertEquals(playerID, response.getPlayerID());
+        Assert.assertEquals(4,response.getPlayersNumber());
+        Assert.assertEquals(new ArrayList<>(),response.getWindows());
+        Assert.assertEquals(ShadesOfBlueObjective.instance(),response.getPrivateObjective());
     }
 
     @Test
@@ -33,6 +41,7 @@ public class TestTextResponse {
 
             @Override
             public void handleResponse(TextResponse textResponse) {
+                fail();
             }
 
             @Override
@@ -41,7 +50,8 @@ public class TestTextResponse {
             }
 
             @Override
-            public void handleResponse(SetupResponse setupResponse) {fail();}
+            public void handleResponse(SetupResponse setupResponse) {
+            }
 
             @Override
             public void handleResponse(InputResponse inputMessage) {fail();}
