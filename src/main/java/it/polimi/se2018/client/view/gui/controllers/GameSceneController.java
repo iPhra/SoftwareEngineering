@@ -8,6 +8,7 @@ import it.polimi.se2018.mvc.model.Die;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import it.polimi.se2018.network.messages.Coordinate;
+import it.polimi.se2018.network.messages.requests.InputMessage;
 import it.polimi.se2018.network.messages.requests.PassMessage;
 import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import javafx.application.Platform;
@@ -33,6 +34,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class GameSceneController extends MatchHandler implements SceneController, Initializable {
@@ -351,6 +353,9 @@ public class GameSceneController extends MatchHandler implements SceneController
                     secondaryStage.setTitle("Choose plus one or minus one");
                     secondaryStage.setScene(new Scene(root, 403, 119));
                     secondaryStage.show();
+                    secondaryStage.setOnCloseRequest(t -> {
+                        gameSceneController.getCurrentState().changeState(new StateTurn(gameSceneController));
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -377,6 +382,9 @@ public class GameSceneController extends MatchHandler implements SceneController
                     secondaryStage.setTitle("Choose the value");
                     secondaryStage.setScene(new Scene(root, 446, 261));
                     secondaryStage.show();
+                    secondaryStage.setOnCloseRequest(t -> {
+                        gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), new Random().nextInt(6) + 1));
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -402,6 +410,9 @@ public class GameSceneController extends MatchHandler implements SceneController
                     secondaryStage.setTitle("Do you want to move one or two dice?");
                     secondaryStage.setScene(new Scene(root, 279, 143));
                     secondaryStage.show();
+                    secondaryStage.setOnCloseRequest(t -> {
+                        gameSceneController.getCurrentState().changeState(new StateTurn(gameSceneController));
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

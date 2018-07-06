@@ -118,6 +118,7 @@ public class Window implements Iterable<Square>, Serializable {
         return countSlot;
     }
 
+    @Override
     public Iterator<Square> iterator(){
         return new SquareIterator();
     }

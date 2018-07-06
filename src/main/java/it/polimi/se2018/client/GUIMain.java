@@ -28,6 +28,7 @@ public class GUIMain extends Application {
             Platform.exit();
             System.exit(0);
         });
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
