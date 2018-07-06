@@ -1,11 +1,9 @@
-package it.polimi.se2018.network.messages.responses.sync.modelupdates;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.model.Board;
 import it.polimi.se2018.mvc.model.objectives.privateobjectives.PrivateObjective;
 import it.polimi.se2018.mvc.model.objectives.publicobjectives.PublicObjective;
 import it.polimi.se2018.mvc.model.toolcards.ToolCard;
-import it.polimi.se2018.network.messages.responses.sync.SyncResponse;
-import it.polimi.se2018.network.messages.responses.sync.SyncResponseHandler;
 
 import java.util.Arrays;
 import java.util.List;

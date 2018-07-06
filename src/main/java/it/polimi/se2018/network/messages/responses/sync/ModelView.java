@@ -1,4 +1,4 @@
-package it.polimi.se2018.network.messages.responses.sync.modelupdates;
+package it.polimi.se2018.network.messages.responses.sync;
 
 import it.polimi.se2018.mvc.controller.ToolCardChecker;
 import it.polimi.se2018.mvc.model.Board;

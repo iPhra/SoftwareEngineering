@@ -4,7 +4,7 @@ import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerAlone;
 import it.polimi.se2018.mvc.controller.placementlogic.DiePlacerNormal;
 import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.toolcards.*;
-import it.polimi.se2018.network.messages.responses.sync.modelupdates.InputResponse;
+import it.polimi.se2018.network.messages.responses.sync.InputResponse;
 import it.polimi.se2018.utils.exceptions.*;
 import it.polimi.se2018.mvc.model.Board;
 import it.polimi.se2018.mvc.model.Die;

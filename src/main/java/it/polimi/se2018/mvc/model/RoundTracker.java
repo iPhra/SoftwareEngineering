@@ -1,6 +1,6 @@
 package it.polimi.se2018.mvc.model;
 
-import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelView;
+import it.polimi.se2018.network.messages.responses.sync.ModelView;
 import it.polimi.se2018.mvc.controller.ToolCardController;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class RoundTracker {
      * @param index it's the index that specifies exactly what die user wants from that round
      * @return the die on the roundtracker specified by round and index
      */
-    public  Die popDie(int round, int index) {
+    public Die popDie(int round, int index) {
         Die die =  dice.get(round).get(index);
         dice.get(round).remove(index);
         return die;

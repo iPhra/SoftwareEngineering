@@ -1,8 +1,6 @@
 package it.polimi.se2018.network.messages.responses.sync;
 
 
-import it.polimi.se2018.network.messages.responses.sync.modelupdates.ModelViewResponse;
-
 public class ReconnectionResponse extends SyncResponse {
    private ModelViewResponse modelViewResponse;
 

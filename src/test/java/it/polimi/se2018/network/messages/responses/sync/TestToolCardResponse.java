@@ -1,6 +1,5 @@
 package it.polimi.se2018.network.messages.responses.sync;
 
-import it.polimi.se2018.network.messages.responses.sync.*;
 import it.polimi.se2018.network.messages.responses.sync.modelupdates.*;
 import org.junit.Assert;
 import org.junit.Before;
