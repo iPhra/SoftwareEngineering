@@ -173,6 +173,8 @@ class CLIData extends ClientData {
             result.append(i);
             result.append(": ");
             result.append(toolCard);
+            result.append("  (Cost: ");
+            result.append(board.getToolCardUsage().get(i)? "2)\n":"1)\n");
             if (!board.getToolCardUsability().get(i)) {
                 result.append("You can't use this Tool Card right now!");
                 result.append("\n");

@@ -172,6 +172,7 @@ public class ToolCardController implements ToolCardHandler{
         boolean diceGoInAdjacentPosition = false; //this checks if die go to adjacent position
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         Square squareTwo = player.getWindow().getSquare((toolCardMessage.getStartingPosition().get(1)));
+        if (squareOne.isEmpty() || squareTwo.isEmpty()) throw new ToolCardException("You don't select two dice");
         Die dieOne = squareOne.popDie();
         Die dieTwo = squareTwo.popDie();
         if (dieOne.getColor() == dieTwo.getColor() || dieOne.getValue() == dieTwo.getValue()) twoDiceNotCompatible = true;
@@ -236,13 +237,23 @@ public class ToolCardController implements ToolCardHandler{
             throw new ToolCardException("\nFirst die can't be moved there\n");
         }
         if (twoDice) {
-            if (dieOne.getColor() != dieTwo.getColor())throw new ToolCardException("\nSecond die does not match the color on the Round Tracker\n");
-            if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) throw new ToolCardException("\nDice can't be moved together\n");
+            if (dieOne.getColor() != dieTwo.getColor()){
+                squareOne.setDie(dieOne);
+                player.getWindow().getSquare(finalPositionOne).setDie(null);
+                throw new ToolCardException("\nSecond die does not match the color on the Round Tracker\n");
+            }
+            if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) {
+                squareOne.setDie(dieOne);
+                player.getWindow().getSquare(finalPositionOne).setDie(null);
+                throw new ToolCardException("\nDice can't be moved together\n");
+            }
             finalPositionTwo = toolCardMessage.getFinalPosition().get(1);
             try {
                 new DiePlacerNormal(dieTwo, finalPositionTwo, player.getWindow()).placeDie();
             }
             catch(InvalidPlacementException e) {
+                squareOne.setDie(dieOne);
+                player.getWindow().getSquare(finalPositionOne).setDie(null);
                 squareTwo.setDie(dieTwo);
                 throw new ToolCardException("\nSecond die can't be moved there\n");
             }

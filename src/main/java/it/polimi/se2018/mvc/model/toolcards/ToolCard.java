@@ -39,6 +39,6 @@ public abstract class ToolCard implements Serializable {
 
     @Override
     public String toString() {
-        return "Title: \"" + getTitle() + "\", Effect: \"" + getDescription() + "\"" + "\n";
+        return "Title: \"" + getTitle() + "\", Effect: \"" + getDescription() + "\"";
     }
 }

@@ -308,6 +308,7 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
     @Override
     public void handleResponse(DraftPoolResponse draftPoolResponse) {
         ModelView modelView = cliModel.getBoard();
+        modelView.setToolCardUsage(draftPoolResponse.getToolCardUsage());
         modelView.setHasDieInHand(draftPoolResponse.hasDieInHand());
         modelView.setHasDraftedDie(draftPoolResponse.hasDraftedDie());
         modelView.setHasUsedCard(draftPoolResponse.hasUsedCard());
@@ -323,6 +324,7 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
     @Override
     public void handleResponse(RoundTrackerResponse roundTrackerResponse) {
         ModelView modelView = cliModel.getBoard();
+        modelView.setToolCardUsage(roundTrackerResponse.getToolCardUsage());
         modelView.setHasDieInHand(roundTrackerResponse.hasDieInHand());
         modelView.setHasDraftedDie(roundTrackerResponse.hasDraftedDie());
         modelView.setHasUsedCard(roundTrackerResponse.hasUsedCard());
@@ -338,6 +340,7 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
     @Override
     public void handleResponse(WindowResponse windowResponse) {
         ModelView modelView = cliModel.getBoard();
+        modelView.setToolCardUsage(windowResponse.getToolCardUsage());
         modelView.setHasDieInHand(windowResponse.hasDieInHand());
         modelView.setHasDraftedDie(windowResponse.hasDraftedDie());
         modelView.setHasUsedCard(windowResponse.hasUsedCard());
@@ -353,6 +356,7 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
     @Override
     public void handleResponse(ModelUpdateResponse modelUpdateResponse) {
         ModelView modelView = cliModel.getBoard();
+        modelView.setToolCardUsage(modelUpdateResponse.getToolCardUsage());
         modelView.setHasDieInHand(modelUpdateResponse.hasDieInHand());
         modelView.setHasDraftedDie(modelUpdateResponse.hasDraftedDie());
         modelView.setHasUsedCard(modelUpdateResponse.hasUsedCard());
