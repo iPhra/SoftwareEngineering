@@ -23,12 +23,13 @@ public class GUIMain extends Application {
         setConnectionSceneController.setGuiClient(guiClient);
         primaryStage.setTitle("Sagrada Online");
         primaryStage.setScene(new Scene(root, 1000, 667));
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(667);
         setConnectionSceneController.setStage(primaryStage);
         primaryStage.setOnCloseRequest(t -> {
             Platform.exit();
             System.exit(0);
         });
-        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

@@ -46,8 +46,8 @@ public abstract class ToolCard implements Serializable {
     /**
      * This method do the action of the tool card
      * @param handler is the handler used to understand the specific imlementation to use
-     * @param toolCardMessage
-     * @throws ToolCardException
+     * @param toolCardMessage is the message relative to this tool card
+     * @throws ToolCardException if a problem arises when using the tool card
      */
     public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 

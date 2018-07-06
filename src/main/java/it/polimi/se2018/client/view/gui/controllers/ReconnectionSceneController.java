@@ -48,8 +48,6 @@ public class ReconnectionSceneController implements SceneController {
             guiClient.getGUIView().getGuiLogic().setSceneController(gameSceneController);
             stage.setMinWidth(1440);
             stage.setMinHeight(900);
-            stage.setMaximized(true);
-            stage.setResizable(true);
             gameSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {

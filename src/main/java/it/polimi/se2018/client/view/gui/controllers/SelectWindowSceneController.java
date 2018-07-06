@@ -90,7 +90,7 @@ public class SelectWindowSceneController extends MatchHandler implements SceneCo
 
     /**
      * This method is called when player chose his window. It sends that to the server
-     * @param windowNumber
+     * @param windowNumber is the number of the window i chose
      */
     private void windowChosen(int windowNumber){
         for(Button button : buttons){
@@ -114,6 +114,8 @@ public class SelectWindowSceneController extends MatchHandler implements SceneCo
                 loader.setController(scoreBoardSceneController);
                 Parent root = loader.load();
                 guiClient.getGUIView().getGuiLogic().setSceneController(scoreBoardSceneController);
+                stage.setMinWidth(600);
+                stage.setMinHeight(623);
                 stage.setWidth(600);
                 stage.setHeight(623);
                 scoreBoardSceneController.setStage(stage);
@@ -138,8 +140,6 @@ public class SelectWindowSceneController extends MatchHandler implements SceneCo
             guiLogic.setSceneController(gameSceneController);
             stage.setMinWidth(1440);
             stage.setMinHeight(900);
-            stage.setMaximized(true);
-            stage.setResizable(true);
             gameSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {

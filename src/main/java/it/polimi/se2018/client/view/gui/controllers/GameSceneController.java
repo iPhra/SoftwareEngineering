@@ -553,20 +553,29 @@ public class GameSceneController extends MatchHandler implements SceneController
         toolCardMessage = null;
     }
 
-    //This method is called by network input when you receive an ack that allow you to use the toolcard
+    /**
+     * This method is called by network input when you receive an ack that allow you to use the toolcard
+     * @param toolCardIndex is the index (0-2) of the toolcard used
+     */
     public void useToolCard(int toolCardIndex) {
         ToolCard toolCard = guiModel.getToolCards().get(toolCardIndex);
         toolCardMessage = new ToolCardMessage(playerID, guiModel.getBoard().getStateID(), toolCardIndex);
         toolCard.handleGUI(toolCardGUI, toolCardIndex);
     }
 
-    //This method is called by controller of square button and round tracker button
-    //Current state know how handle input
+    /**
+     *This method is called by controller of square button and round tracker button
+     *Current state know how handle input
+     * @param coordinate is the coordinate of the button press
+     */
     public void buttonCoordinateClicked(Coordinate coordinate) {
         currentState.doActionWindow(coordinate);
     }
 
-    //This method is called by controller of draft pool button
+    /**
+     * This method is called by controller of draft pool button
+     * @param drafPoolPosition is the position of the die to draft in the list
+     */
     public void buttonDraftPoolClicked(int drafPoolPosition){
         currentState.doActionDraftPool(drafPoolPosition);
     }
@@ -586,6 +595,8 @@ public class GameSceneController extends MatchHandler implements SceneController
                 loader.setController(scoreBoardSceneController);
                 Parent root = loader.load();
                 guiClient.getGUIView().getGuiLogic().setSceneController(scoreBoardSceneController);
+                stage.setMinWidth(600);
+                stage.setMinHeight(623);
                 stage.setWidth(600);
                 stage.setHeight(623);
                 scoreBoardSceneController.setStage(stage);

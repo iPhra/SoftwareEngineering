@@ -91,8 +91,8 @@ public class ScoreBoardSceneController implements Initializable, SceneController
             Parent root = loader.load();
             SetConnectionSceneController setConnectionSceneController = loader.getController();
             setConnectionSceneController.setGuiClient(guiClient);
-            stage.setWidth(1000);
-            stage.setHeight(667);
+            stage.setMinWidth(1000);
+            stage.setMinHeight(667);
             setConnectionSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {

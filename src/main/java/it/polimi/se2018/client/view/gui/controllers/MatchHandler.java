@@ -33,6 +33,8 @@ public class MatchHandler {
             Parent root = loader.load();
             SetConnectionSceneController setConnectionSceneController = loader.getController();
             setConnectionSceneController.setGuiClient(guiClient);
+            stage.setMinWidth(1000);
+            stage.setMinHeight(667);
             stage.setWidth(1000);
             stage.setHeight(667);
             setConnectionSceneController.setStage(stage);

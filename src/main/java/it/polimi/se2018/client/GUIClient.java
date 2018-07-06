@@ -19,6 +19,10 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * This class is the implementation of the client for the GUI. It handle the message from the server
+ * and manage the RMI or socket connection to the sever
+ */
 public class GUIClient extends Client {
     private GUIView guiView;
     private Socket socket;
@@ -30,6 +34,11 @@ public class GUIClient extends Client {
         super();
     }
 
+    /**
+     * This method set the name of the player if the server says that it's ok
+     * @param playerName the name of the player
+     * @return true if the name is ok, false otherwise
+     */
     private boolean setPlayerNameSocket(String playerName){
         if (setup) {
             this.nickname = playerName;
@@ -52,6 +61,11 @@ public class GUIClient extends Client {
         return setup;
     }
 
+    /**
+     * This method set the name of the player if the server says that it's ok
+     * @param playerName the name of the player
+     * @return true if the name is ok, false otherwise
+     */
     private boolean setPlayerNameRMI(String playerName){
         if (setup){
             this.nickname = playerName;
@@ -76,6 +90,12 @@ public class GUIClient extends Client {
         return setup;
     }
 
+    /**
+     * This method set the name of the player if the server says that it's ok.
+     * It selects if you have to use RMI of Socket
+     * @param playerName the name of the player
+     * @return true if the name is ok, false otherwise
+     */
     public boolean setPlayerName(String playerName){
         if(isSocket) return setPlayerNameSocket(playerName);
         else return setPlayerNameRMI(playerName);

@@ -39,7 +39,6 @@ class WindowImageSceneController implements Initializable{
                 gridImageView[x][y] = imageView;
                 imageView.setFitHeight(35);
                 imageView.setFitWidth(35);
-
                 gridPane.add(gridImageView[x][y],y,x);
                 GridPane.setHalignment(gridImageView[x][y], HPos.CENTER);
                 GridPane.setValignment(gridImageView[x][y], VPos.CENTER);

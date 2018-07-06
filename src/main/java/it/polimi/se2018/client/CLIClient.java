@@ -16,6 +16,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * This class is the implementation of the client for the CLI. It handle the message from the server
+ * and manage the RMI or socket connection to the sever
+ */
 @SuppressWarnings("FieldCanBeLocal")
 public class CLIClient extends Client {
     private CLIView clientView;
@@ -33,6 +37,9 @@ public class CLIClient extends Client {
         output = new PrintStream(System.out);
     }
 
+    /**
+     * This method prints text to player
+     */
     private void welcome() {
         output.println(" _  _  _ _______        _______  _____  _______ _______      _______  _____     \n" +
                 " |  |  | |______ |      |       |     | |  |  | |______         |    |     |    \n" +
@@ -52,6 +59,9 @@ public class CLIClient extends Client {
                 "                                                                                           \n\n\n\n");
     }
 
+    /**
+     * This method sends this thread in wait
+     */
     private synchronized void waitForAction() {
         while(!disconnected && !gameEnded) {
             try {
@@ -70,11 +80,18 @@ public class CLIClient extends Client {
         }
     }
 
+    /**
+     * This method asks and takes the nickname frotm the player
+     * @return the nickname chosen by the player
+     */
     private String getNickname() {
         output.println("\nChoose your nickname");
         return input.nextLine();
     }
 
+    /**
+     * This method sets the setting of the connection taking it from player or from default settings
+     */
     private void getSettings() {
         boolean settings = true;
         do {
@@ -102,6 +119,9 @@ public class CLIClient extends Client {
         while(settings);
     }
 
+    /**
+     * This method gets Ip and port settings from the player
+     */
     private void getDifferentParams() {
         output.println("\nInsert server's IP");
         ip = input.nextLine();
@@ -116,6 +136,9 @@ public class CLIClient extends Client {
         }
     }
 
+    /**
+     * This method asks to the player the type of connection that he would use
+     */
     private void chooseConnection() {
         boolean connection = true;
         output.println("\nWhat type of connection do you want to use?");
@@ -146,6 +169,9 @@ public class CLIClient extends Client {
         waitForAction();
     }
 
+    /**
+     * This methods creates a RMI connection
+     */
     private void createRMIConnection() {
         try {
             getSettings();
@@ -176,6 +202,9 @@ public class CLIClient extends Client {
         thread.start();
     }
 
+    /**
+     * Creates a socket connection
+     */
     private void createSocketConnection(){
         try {
             getSettings();
@@ -206,6 +235,9 @@ public class CLIClient extends Client {
         thread.start();
     }
 
+    /**
+     * This method handles the disconnection from server
+     */
     private void handleDisconnection() {
         output.println("\nDisconnected, trying to reconnect..\n");
         clientConnection.stop();
@@ -213,6 +245,9 @@ public class CLIClient extends Client {
         chooseConnection();
     }
 
+    /**
+     * This methods start a new game
+     */
     private void startNewGame() {
         output.println("\nInsert [1] to start another game, anything else to quit");
         int choice = input.nextInt();

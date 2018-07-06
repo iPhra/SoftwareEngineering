@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * This class is the abstract class extended by CLI and GUI
+ */
 public abstract class Client {
     boolean setup;
     int playerID;
@@ -28,6 +31,10 @@ public abstract class Client {
         isSocket = socket;
     }
 
+    /**
+     * This method sets the default params of connection read from the file of network properties.
+     * It's used if the player chooses to use the default settings.
+     */
     public void setDefaultParams() {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("NetworkProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {

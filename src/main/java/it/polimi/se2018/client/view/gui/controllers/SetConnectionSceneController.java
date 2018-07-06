@@ -108,6 +108,8 @@ public class SetConnectionSceneController implements SceneController {
             Parent root = loader.load();
             PlayerNameSceneController playerNameSceneController = loader.getController();
             playerNameSceneController.setGuiClient(guiClient);
+            stage.setMinWidth(600);
+            stage.setMinHeight(623);
             stage.setWidth(600);
             stage.setHeight(623);
             playerNameSceneController.setStage(stage);

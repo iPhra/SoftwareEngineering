@@ -48,8 +48,8 @@ public class PlayerNameSceneController implements SceneController {
             loader.setController(selectWindowSceneController);
             Parent root = loader.load();
             guiClient.getGUIView().getGuiLogic().setSceneController(selectWindowSceneController);
-            stage.setWidth(1000);
-            stage.setHeight(700);
+            stage.setMinWidth(1000);
+            stage.setMinHeight(700);
             selectWindowSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
@@ -71,8 +71,6 @@ public class PlayerNameSceneController implements SceneController {
             guiClient.getGUIView().getGuiLogic().setSceneController(gameSceneController);
             stage.setMinWidth(1440);
             stage.setMinHeight(900);
-            stage.setMaximized(true);
-            stage.setResizable(true);
             gameSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
@@ -92,6 +90,8 @@ public class PlayerNameSceneController implements SceneController {
             reconnectionSceneController.setClientGUI(guiClient);
             loader.setController(reconnectionSceneController);
             guiClient.getGUIView().getGuiLogic().setSceneController(reconnectionSceneController);
+            stage.setMinWidth(600);
+            stage.setMinHeight(623);
             stage.setWidth(600);
             stage.setHeight(623);
             reconnectionSceneController.setStage(stage);
