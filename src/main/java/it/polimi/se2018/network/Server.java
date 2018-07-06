@@ -214,13 +214,15 @@ public class Server implements Stopper {
      * @param playerID is the id of the player disconnecting
      */
     public synchronized void handleDisconnection(int playerID) {
-        int match = playerID/1000;
+        int match = playerID / 1000;
         GameManager manager = matches.get(match);
-        if(manager.isMatchCreated()) manager.setDisconnected(playerID);
-        else {
-            ServerConnection connection = manager.getServerConnection(playerID);
-            removePlayer(playerID);
-            connection.stop();
+        if (manager != null) {
+            if (manager.isMatchCreated()) manager.setDisconnected(playerID);
+            else {
+                ServerConnection connection = manager.getServerConnection(playerID);
+                removePlayer(playerID);
+                connection.stop();
+            }
         }
     }
 
