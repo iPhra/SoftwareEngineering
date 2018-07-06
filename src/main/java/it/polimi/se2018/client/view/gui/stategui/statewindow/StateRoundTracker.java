@@ -1,7 +1,8 @@
-package it.polimi.se2018.client.view.gui.stategui;
+package it.polimi.se2018.client.view.gui.stategui.statewindow;
 
 import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
 import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckUsabilityRoundTracker;
+import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindow;
 import it.polimi.se2018.network.messages.Coordinate;
 import javafx.application.Platform;
