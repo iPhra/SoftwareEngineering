@@ -19,7 +19,7 @@ public class DeckBuilder {
         toolCards = new ArrayList<>();
         publicObjectives = new ArrayList<>();
         privateObjectives = new ArrayList<>();
-        /*toolCards.add(CopperFoilBurnisher.instance());
+        toolCards.add(CopperFoilBurnisher.instance());
         toolCards.add(CorkBackedStraightedge.instance());
         toolCards.add(EglomiseBrush.instance());
         toolCards.add(FluxBrush.instance());
@@ -27,7 +27,7 @@ public class DeckBuilder {
         toolCards.add(GlazingHammer.instance());
         toolCards.add(GrindingStone.instance());
         toolCards.add(GrozingPliers.instance());
-        toolCards.add(Lathekin.instance());*/
+        toolCards.add(Lathekin.instance());
         toolCards.add(LensCutter.instance());
         toolCards.add(RunningPliers.instance());
         toolCards.add(TapWheel.instance());

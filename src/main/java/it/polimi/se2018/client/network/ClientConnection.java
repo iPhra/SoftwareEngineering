@@ -19,7 +19,7 @@ public abstract class ClientConnection implements ResponseHandler {
     private final ClientView clientView;
 
     /**
-     * This is the client of the game
+     * This is the reference to the client of the game
      */
     Client client;
 

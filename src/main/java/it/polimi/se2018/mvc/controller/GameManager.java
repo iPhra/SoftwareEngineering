@@ -27,14 +27,33 @@ import java.io.*;
 import java.time.Duration;
 import java.util.*;
 
+/**
+ * This is the lobby of the match, which actually starts the game and handles events relative to the match, i.e. disconnections and reconnections
+ */
 public class GameManager implements Stopper {
     private final Server server;
     private final DeckBuilder deckBuilder;
     private final List<Integer> playerIDs;
-    private final Map<Integer,ServerConnection> serverConnections; //maps playerID to its connection
-    private final Map<Integer, String> playerNames; //maps playerID to its name
+
+    /**
+     * This maps playerIDs to their connection
+     */
+    private final Map<Integer,ServerConnection> serverConnections;
+
+    /**
+     * This maps playerIDs to their nicknames
+     */
+    private final Map<Integer, String> playerNames;
+
+    /**
+     * This maps each playerID to the 4 windows he can choose from
+     */
     private final Map<Integer, List<Window>> windowsSetup;
     private final List<Player> players;
+
+    /**
+     * This is the list of all players disconnected in a given moment
+     */
     private final List<Integer> disconnectedPlayers;
     private ServerView serverView;
     private Controller controller;
@@ -43,8 +62,20 @@ public class GameManager implements Stopper {
     private List<PublicObjective> publicObjectives;
     private List<ToolCard> toolCards;
     private List<Window> windows;
+
+    /**
+     * This is the number of players who chose their windows yet
+     */
     private int setupsCompleted;
+
+    /**
+     * {@code true} if the match has been created, i.e. windows have been sent to the players
+     */
     private boolean matchCreated;
+
+    /**
+     * {@code true} if the match is started, i.e. every player chose its window or it was given to him randomly
+     */
     private boolean matchPlaying;
     private WaitingThread clock;
     private Duration timeout;
@@ -207,6 +238,35 @@ public class GameManager implements Stopper {
     }
 
     /**
+     * This is called once a player has chosen its window
+     * @param setupMessage is the message containing the chosen window
+     */
+    void createPlayer(SetupMessage setupMessage){
+        int playerID = setupMessage.getPlayerID();
+        windowsSetup.remove(playerID);
+        players.add(new Player(playerNames.get(playerID),playerID,setupMessage.getWindow(),privateObjectives.get(playerIDs.indexOf(playerID))));
+        setupsCompleted++;
+        if(setupsCompleted==playerIDs.size()) { //when every played sent his window
+            clock.interrupt();
+            createMVC();
+        }
+    }
+
+    /**
+     * This is called by the {@link Controller} when the match ends
+     */
+    void endGame() {
+        for (ServerConnection connection : serverConnections.values()) {
+            connection.stop();
+        }
+        for(String nickname: playerNames.values()) {
+            server.deregisterPlayer(nickname);
+        }
+        server.deregisterMatch(playerIDs.get(0)/1000);
+        matchCreated = false;
+    }
+
+    /**
      * @param playerID is the id of the player you want to know the nickname of
      * @return the nickname associated to a specific playerID
      */
@@ -361,35 +421,17 @@ public class GameManager implements Stopper {
         }
     }
 
+    /**
+     * This is called to reconnect a player to the match
+     * @param playerID is the player reconnecting
+     * @param serverConnection is the new {@link ServerConnection} of the player
+     */
     public void setReconnected(int playerID, ServerConnection serverConnection) {
         if (getMissingPlayers().contains(playerID)) { //if it's window selection but i'm not the last one who has to choose his window
             reconnect(playerID, serverConnection, true);
             createPlayer(new SetupMessage(playerID, 0, windowsSetup.get(playerID).get(new Random().nextInt(4))));
         }
         else reconnect(playerID, serverConnection, false); //if it's not window selection
-    }
-
-    //when a player sends the map he chose
-    public void createPlayer(SetupMessage setupMessage){
-        int playerID = setupMessage.getPlayerID();
-        windowsSetup.remove(playerID);
-        players.add(new Player(playerNames.get(playerID),playerID,setupMessage.getWindow(),privateObjectives.get(playerIDs.indexOf(playerID))));
-        setupsCompleted++;
-        if(setupsCompleted==playerIDs.size()) { //when every played sent his window
-            clock.interrupt();
-            createMVC();
-        }
-    }
-
-    public void endGame() {
-        for (ServerConnection connection : serverConnections.values()) {
-            connection.stop();
-        }
-        for(String nickname: playerNames.values()) {
-            server.deregisterPlayer(nickname);
-        }
-        server.deregisterMatch(playerIDs.get(0)/1000);
-        matchCreated = false;
     }
 
     @Override

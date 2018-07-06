@@ -29,6 +29,10 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     private final ServerView view;
     private ToolCardController toolCardController;
     private final GameManager gameManager;
+
+    /**
+     * This lock is used to ensure that timer thread and the thread making moves don't interfer with each other
+     */
     private final ReentrantLock lock;
     private WaitingThread clock;
     private Duration timeout;
@@ -42,7 +46,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     /**
-     * This method get the time of the timer from the file of configuration
+     * This method reads the duration of the timer from a configuration file
      */
     private void getDuration() {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
@@ -63,7 +67,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
     }
 
     /**
-     * This method start the timer
+     * This method launches a thread that wakes up after the timer has ran out
      */
     private void startTimer() {
         clock = new WaitingThread(timeout, this);
@@ -166,8 +170,6 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         diePlacer.placeDie();
     }
 
-    //reads player, checks if it's his turn, call handleMove
-
     /**
      * Check is the message receive is legit. If it's the turn of the player who give the message and the message it is of the current turn
      * @param message is the message received from the client
@@ -183,7 +185,7 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
 
     /**
      * Generate the final standing of players according to public and private objective and other points
-     * @return
+     * @return a ordered list of players based on their scores
      */
     private List<Player> playersScoreBoard(){
         List<Player> sortedPlayers = new ArrayList<>(model.getPlayers());
@@ -208,6 +210,23 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         endGameResponse.setPlayerPlaying(windowSelection || model.getRound().getCurrentPlayerID()==lastPlayerID); //true if it's the turn of the last player remaining, or if he was in window selection
         view.handleNetworkOutput(endGameResponse);
         gameManager.endGame();
+    }
+
+    /**
+     * This method starts the match, it's called by {@link GameManager}
+     */
+    public void startMatch() {
+        toolCardController = new ToolCardController(model);
+        model.incrementStateID();
+        StringBuilder description = new StringBuilder();
+        description.append("List of player is: ");
+        for(Player player : model.getPlayers()) {
+            description.append(player.getName());
+            if(model.getPlayers().indexOf(player)!=model.getPlayers().size()-1) description.append(", ");
+        }
+        description.append("\n\n");
+        model.createModelViews(description.toString());
+        startTimer();
     }
 
     @Override
@@ -304,23 +323,6 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         else {
             endTurn(player,passMessage.isHalt());
         }
-    }
-
-    /**
-     * This method set the model at the beginning of the game
-     */
-    public void startMatch() {
-        toolCardController = new ToolCardController(model);
-        model.incrementStateID();
-        StringBuilder description = new StringBuilder();
-        description.append("List of player is: ");
-        for(Player player : model.getPlayers()) {
-            description.append(player.getName());
-            if(model.getPlayers().indexOf(player)!=model.getPlayers().size()-1) description.append(", ");
-        }
-        description.append("\n\n");
-        model.createModelViews(description.toString());
-        startTimer();
     }
 
     @Override

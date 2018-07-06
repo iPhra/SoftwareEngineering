@@ -13,8 +13,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SocketClientConnection extends ClientConnection implements Runnable {
+
+    /**
+     * This is a reference to the socket used to communicate with the Server
+     */
     private final Socket socket;
+
+    /**
+     * This is the outputstream to send messages on
+     */
     private final ObjectOutputStream out;
+
+    /**
+     * This is the inputstream to receive messages from
+     */
     private final ObjectInputStream in;
 
     public SocketClientConnection(Client client, ClientView clientView, Socket socket, ObjectInputStream in, ObjectOutputStream out){

@@ -17,8 +17,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RMIClientConnection extends ClientConnection implements RemoteConnection, Runnable, Stopper {
+
+    /**
+     * This is a blocking list of responses from the Server
+     */
     private final List<Response> events;
+
+    /**
+     * This is the reference to {@link it.polimi.se2018.network.connections.ServerConnection}
+     */
     private RemoteConnection serverConnection;
+
+    /**
+     * This is the timer
+     */
     private WaitingThread clock;
 
     public RMIClientConnection(Client client, ClientView clientView) {
@@ -29,22 +41,31 @@ public class RMIClientConnection extends ClientConnection implements RemoteConne
         isOpen = true;
     }
 
+    /**
+     * This method is used to launch a Thread that pings the Server every 5 seconds
+     */
     private void startTimer() {
         Duration timeout = Duration.ofSeconds(5);
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
 
+    /**
+     * This method pings the Server
+     */
     private void pingClient() {
         try {
             serverConnection.ping();
         }
-        catch(RemoteException e) {
+        catch(RemoteException e) { //if i couldn't ping the Server i'm disconnected
             disconnect();
         }
         startTimer();
     }
 
+    /**
+     * This method is used to make this thread wait until events is empty
+     */
     private void updateView() {
         synchronized (events) {
             while (events.isEmpty()) {
@@ -73,12 +94,12 @@ public class RMIClientConnection extends ClientConnection implements RemoteConne
 
     @Override
     public void ping() {
-        //empty method
+        //This has to be empty
     }
 
     @Override
     public void getMessage(Message message) {
-        //not implemented client-side
+        //This is not implemented client-side
     }
 
     @Override
