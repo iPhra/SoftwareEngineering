@@ -16,10 +16,10 @@ public class StateWindowPlace extends StateWindow {
     @Override
     public void doActionWindow(Coordinate coordinate) {
         gameSceneController.getToolCardMessage().addFinalPosition(coordinate);
-        gameSceneController.sendToolCardMessage();
         Platform.runLater(() -> {
             changeState(new StateTurn(gameSceneController));
             gameSceneController.disableAllButton();
         });
+        gameSceneController.sendToolCardMessage();
     }
 }

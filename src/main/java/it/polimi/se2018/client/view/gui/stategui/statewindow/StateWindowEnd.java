@@ -18,11 +18,11 @@ public class StateWindowEnd extends StateWindow {
     public void doActionWindow(Coordinate coordinate) {
         gameSceneController.getToolCardMessage().addFinalPosition(coordinate);
         if (nextState.isEmpty()){
-            gameSceneController.sendToolCardMessage();
             Platform.runLater(() -> {
                 changeState(new StateTurn(gameSceneController));
                 gameSceneController.disableAllButton();
             });
+            gameSceneController.sendToolCardMessage();
         }
         else {
             State state = nextState.get(0);

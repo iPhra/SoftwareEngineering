@@ -35,8 +35,8 @@ public class ButtonSquare extends ButtonGame {
 
     private void setImage(String imageUrl){
         ImageView imageView = new ImageView(new Image(imageUrl));
-        imageView.setFitHeight(20);
-        imageView.setFitWidth(20);
+        imageView.setFitHeight(40);
+        imageView.setFitWidth(40);
         setGraphic(imageView);
     }
 }

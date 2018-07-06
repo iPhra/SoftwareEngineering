@@ -109,6 +109,6 @@ public class ToolCardGUI implements ToolCardGUIHandler {
 
     @Override
     public void getPlayerRequests(TapWheel toolCard, int toolCardNumber) {
-        gameSceneController.createYesOrNoWindow();
+        gameSceneController.createOneOrTwo();
     }
 }

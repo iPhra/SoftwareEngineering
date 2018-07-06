@@ -24,6 +24,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -83,6 +86,7 @@ public class GameSceneController extends MatchHandler implements SceneController
         buttonPass.setText("Pass");
         buttonPass.setOnAction(e -> passTurnButtonClicked());
         borderPane.setPadding(new Insets(120,20,110,20));
+        borderPane.setStyle("-fx-background-image:url('otherimages/spiral-light-stained-glass.jpg');");
         windowPlayerButtons = new ArrayList<>();
         toolCardButtons = new ArrayList<>();
         draftPoolButtons = new ArrayList<>();
@@ -96,17 +100,28 @@ public class GameSceneController extends MatchHandler implements SceneController
 
     private void setRightGridpane(){
         List<Square[][]> enemyWindows = new ArrayList<>(guiModel.getBoard().getPlayerWindows());
-        enemyWindows.remove(guiModel.getBoard().getPlayerID().indexOf(playerID));
+        int indexOfThisPlayer = guiModel.getBoard().getPlayerID().indexOf(playerID);
+        enemyWindows.remove(indexOfThisPlayer);
+        List<String> enemyNames = new ArrayList<>(guiModel.getBoard().getPlayerNames());
+        enemyNames.remove(indexOfThisPlayer);
+        int j=0;
         for(int i=0; i < enemyWindows.size(); i++){
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowEnemyScene.fxml")));
             loader.setController(new WindowEnemySceneController(enemyWindows.get(i)));
+            Label label = new Label();
+            label.setText(enemyNames.get(i));
+            label.setFont(Font.font("System", FontWeight.BOLD, 14));
+            label.setTextFill(Paint.valueOf("RED"));
+            rightGridPane.add(label,0,j);
             try {
                 Node node = loader.load();
                 Pane pane = new Pane();
                 pane.getChildren().add(node);
                 pane.setMaxWidth(206);
                 pane.setMaxHeight(182);
-                rightGridPane.add(pane,0,i);
+                rightGridPane.add(pane,0,j+1);
+                GridPane.setMargin(pane,new Insets(0,0,400,0));
+                j++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -121,9 +136,10 @@ public class GameSceneController extends MatchHandler implements SceneController
             Node node = loader.load();
             windowPane = new Pane();
             windowPane.getChildren().add(node);
-            windowPane.setMaxWidth(206);
-            windowPane.setMaxHeight(182);
+            windowPane.setMaxWidth(321);
+            windowPane.setMaxHeight(283);
             botGridPane.add(windowPane,1,0);
+            GridPane.setMargin(windowPane, new Insets(0,20,160,0));
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -133,21 +149,48 @@ public class GameSceneController extends MatchHandler implements SceneController
         if(guiModel.getBoard().getCurrentPlayerID()==playerID && guiModel.getBoard().hasDieInHand()){
             Die dieInHand = guiModel.getBoard().getDieInHand();
             dieInHandImageView = new ImageView(new Image("/dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
-            dieInHandImageView.setFitWidth(30);
-            dieInHandImageView.setFitHeight(30);
+            dieInHandImageView.setFitWidth(50);
+            dieInHandImageView.setFitHeight(50);
             botGridPane.add(dieInHandImageView,2,0);
+            GridPane.setMargin(dieInHandImageView, new Insets(0,0,0,100));
         }
         privateObjectiveImageView = new ImageView(new Image(guiModel.getPrivateObjective().getImagePath()));
         privateObjectiveImageView.setFitWidth(181);
         privateObjectiveImageView.setFitHeight(253);
         botGridPane.add(privateObjectiveImageView,3,2);
+        GridPane.setMargin(privateObjectiveImageView, new Insets(0,0,0,30));
         botGridPane.add(buttonPass,4,2);
+        GridPane.setMargin(buttonPass, new Insets(0,0,0,30));
         botGridPane.setHgap(80);
     }
 
     private void setLeftGridpane(){
+        boolean[] toolCardPanesHaveImage = new boolean[3];
+        for(int i=0; i<3; i++) toolCardPanesHaveImage[i] = false;
         for(int i=0; i < toolCardButtons.size(); i++){
-            leftGridPane.add(toolCardButtons.get(i),i,0);
+            Pane pane = new Pane();
+            pane.getChildren().add(toolCardButtons.get(i));
+            pane.setOnMouseEntered(e -> {
+                ButtonToolCard buttonToolCard = (ButtonToolCard)((Pane) e.getSource()).getChildren().get(0);
+                if(buttonToolCard.isDisabled()){
+                    int toolCardNumber = buttonToolCard.getToolCardNumber();
+                    ImageView imageView = new ImageView(new Image(guiModel.getToolCards().get(toolCardNumber).getImagePath()));
+                    imageView.setFitWidth(181);
+                    imageView.setFitHeight(253);
+                    ((Pane) e.getSource()).getChildren().add(imageView);
+                    toolCardPanesHaveImage[toolCardNumber] = true;
+                }
+            });
+            pane.setOnMouseExited(e -> {
+                ButtonToolCard buttonToolCard = (ButtonToolCard)((Pane) e.getSource()).getChildren().get(0);
+                int toolCardNumber = buttonToolCard.getToolCardNumber();
+                if(toolCardPanesHaveImage[toolCardNumber]){
+                    ((Pane) e.getSource()).getChildren().remove(1);
+                    toolCardPanesHaveImage[toolCardNumber] = false;
+                }
+            });
+            leftGridPane.add(pane,i,0);
+            GridPane.setMargin(pane, new Insets(0,0,180,0));
         }
         for(int i=0; i < guiModel.getPublicObjectives().size(); i++){
             ImageView imageView = new ImageView(new Image(guiModel.getPublicObjectives().get(i).getImagePath()));
@@ -159,7 +202,7 @@ public class GameSceneController extends MatchHandler implements SceneController
         leftGridPane.add(draftPoolPane,3,0);
         Pane roundTrackerPane = paneRoundTracker();
         leftGridPane.add(roundTrackerPane,3,1);
-        leftGridPane.setVgap(220);
+        leftGridPane.setVgap(320);
         leftGridPane.setHgap(100);
     }
 
@@ -345,12 +388,12 @@ public class GameSceneController extends MatchHandler implements SceneController
      * This method is called when the toolcard that lets you choose the number of the die is used. It opens a new stage
      * in which the player can choose. This stage will close after the choice and will send a message
      */
-    public void createYesOrNoWindow(){
+    public void createOneOrTwo(){
         GameSceneController gameSceneController = this;
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/anotherDieYesOrNoScene.fxml")));
+                FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/OneOrTwoDice.fxml")));
                 try {
                     Parent root = loader.load();
                     AnotherDieYesOrNoSceneController controller = loader.getController();
