@@ -5,5 +5,9 @@ package it.polimi.se2018.utils;
  */
 public interface Stopper {
 
+    /**
+     * This method stops the thread
+     * @param message is the message to provide as a reason to be stopped
+     */
     void halt(String message);
 }

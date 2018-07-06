@@ -10,6 +10,9 @@ import it.polimi.se2018.mvc.model.toolcards.ToolCard;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains the information of the state of the game useful for the player
+ */
 class CLIData extends ClientData {
     private final CLIView cliView;
 
@@ -18,6 +21,10 @@ class CLIData extends ClientData {
         this.cliView = cliView;
     }
 
+    /**
+     *
+     * @return
+     */
     private StringBuilder generateUpperDashes() {
         StringBuilder result = new StringBuilder();
         result.append("╔");

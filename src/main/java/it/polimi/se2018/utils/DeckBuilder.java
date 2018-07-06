@@ -6,6 +6,10 @@ import it.polimi.se2018.mvc.model.toolcards.*;
 
 import java.util.*;
 
+/**
+ * This class creates all the Private Objectives, Public Objectives and Tool Cards
+ * Pattern Singleton prevents to create more than one istance of each card, the same one is always returned
+ */
 public class DeckBuilder {
     private final List<ToolCard> toolCards;
     private final List<PublicObjective> publicObjectives;
@@ -44,6 +48,11 @@ public class DeckBuilder {
         privateObjectives.add(ShadesOfYellowObjective.instance());
     }
 
+    /**
+     * Extracts a given number of Tool Cards
+     * @param number is the number of cards to extract
+     * @return a list containing the extracted cards
+     */
     public List<ToolCard> extractToolCards(int number) {
         List<ToolCard> result = new ArrayList<>();
         Collections.shuffle(toolCards);
@@ -53,6 +62,11 @@ public class DeckBuilder {
         return result;
     }
 
+    /**
+     * Extracts a given number of Public Objectives
+     * @param number is the number of cards to extract
+     * @return a list containing the extracted cards
+     */
     public List<PublicObjective> extractPublicObjectives(int number) {
         List<PublicObjective> result = new ArrayList<>();
         Collections.shuffle(publicObjectives);
@@ -62,6 +76,11 @@ public class DeckBuilder {
         return result;
     }
 
+    /**
+     * Extracts a given number of Private Objectives
+     * @param number is the number of cards to extract
+     * @return a list containing the extracted cards
+     */
     public List<PrivateObjective> extractPrivateObjectives(int number) {
         List<PrivateObjective> result = new ArrayList<>();
         Collections.shuffle(privateObjectives);

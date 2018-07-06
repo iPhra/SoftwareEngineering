@@ -6,6 +6,9 @@ package it.polimi.se2018.utils;
  */
 public interface Observer<T> {
 
+    /**
+     * This method is called when you want to notify the observer
+     * @param message is the message to notify
+     */
     void update(T message);
-
 }

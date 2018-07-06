@@ -15,6 +15,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class handle inputs for player and from the server
+ */
 public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
     private final int playerID;
     private final CLIView cliView;
@@ -28,6 +31,10 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
         toolCardCLI = new ToolCardCLI(playerID, cliView, cliModel);
     }
 
+    /**
+     * This method create a list of integer that represents the action possible
+     * @return a list di integer. Every integer represent an action possible
+     */
     private List<Integer> actionPossible() {
         List<Integer> choosable = new ArrayList<>();
         if (!cliModel.getBoard().hasDraftedDie()) choosable.add(2);
@@ -37,6 +44,11 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
         return choosable;
     }
 
+    /**
+     * This method print to the player the list of action possible and the number
+     * to press to do that action
+     * @param choosable list of number. Every number represent an action possible
+     */
     private void printActionPermitted(List<Integer> choosable) {
         cliView.print("[1] Ask for informations\n");
         for (int i : choosable) {
@@ -47,6 +59,10 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
         }
     }
 
+    /**
+     * This method allow the player to do an action
+     * @throws RemoteException is called if RMI connection falls
+     */
     private void chooseAction() throws RemoteException{
         try {
             int choice = -1;
@@ -75,11 +91,18 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
         }
     }
 
+    /**
+     * This method print to the player his die in hand
+     */
     private void showDieInHand() {
         cliView.print("\nYou have this die in your hand: ");
         cliModel.showExtendedDice(cliModel.getBoard().getDieInHand());
     }
 
+    /**
+     * This method allow the player to ask information about the state of the game
+     * @throws HaltException is called if the timer of the turn is up and client receive the message from the server
+     */
     private void askInformation() throws HaltException {
         int choice;
         int top = 8;
@@ -112,6 +135,12 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
         }
     }
 
+    /**
+     * This method allow the player to choose the window that he will use for the game
+     * @param windows list of windows
+     * @return the number of the window chosen
+     * @throws HaltException is throwed if the timer is up
+     */
     private int selectWindow(List<Window> windows) throws HaltException {
         int choice;
         boolean iterate = true;
@@ -125,6 +154,7 @@ public class CLILogic implements SyncResponseHandler, Observer<SyncResponse> {
         cliView.print("\n");
         return choice;
     }
+
 
     private void passTurn() {
         cliView.handleNetworkOutput(new PassMessage(playerID, cliModel.getBoard().getStateID(),false));
