@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MatchHandler {
     GUIClient guiClient;
@@ -35,8 +37,8 @@ public class MatchHandler {
             stage.setHeight(667);
             setConnectionSceneController.setStage(stage);
             scene.setRoot(root);
-        }catch(IOException e){
-            e.printStackTrace();
+        } catch(IOException e) {
+            Logger.getAnonymousLogger().log(Level.SEVERE,"MatchHandler",e);
         }
     }
 

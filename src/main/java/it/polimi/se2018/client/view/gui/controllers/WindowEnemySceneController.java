@@ -12,7 +12,13 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the controller of scenes of the windows of wnwmy players
+ */
 class WindowEnemySceneController implements Initializable{
+    /**
+     * This is the window of the enemy player
+     */
     private final Square[][] playerWindow;
 
     @FXML

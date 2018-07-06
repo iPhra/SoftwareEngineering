@@ -6,6 +6,10 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import it.polimi.se2018.utils.exceptions.ChangeActionException;
 import it.polimi.se2018.utils.exceptions.HaltException;
 
+/**
+ * This class is used by the pattern visitor.
+ * It's used to understand and ask to the player the information to use a specific toolcard using the CLI
+ */
 public class ToolCardCLI implements ToolCardCLIHandler {
     private final int playerID;
     private final CLIData cliModel;

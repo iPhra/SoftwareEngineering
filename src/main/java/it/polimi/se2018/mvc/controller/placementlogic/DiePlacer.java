@@ -8,12 +8,15 @@ import it.polimi.se2018.mvc.model.Square;
 
 import java.util.List;
 
-@SuppressWarnings("SimplifiableIfStatement")
+
+
 /**
  * This class place a die in a specific square and check the condition.
  * Used by the toolcard when move a die or by the standard placement of the turn
  */
+@SuppressWarnings("SimplifiableIfStatement")
 public abstract class DiePlacer {
+
     /**
      * This is the die thata the placer has to place in a square
      */

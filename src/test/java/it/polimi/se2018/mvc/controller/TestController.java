@@ -108,15 +108,15 @@ public class TestController {
 
         serverView.handleNetworkInput(new DraftMessage(4,4,0)); //succesful drafting
         Assert.assertEquals(new Die(6, Color.RED), model.getPlayerByID(4).getDieInHand());
-        serverView.handleNetworkInput(new PlaceMessage(4,4,new Coordinate(0,4))); //successful placement
-        Assert.assertEquals(new Die(6,Color.RED), model.getPlayerByID(4).getWindow().getDie(new Coordinate(0,4)));
+        serverView.handleNetworkInput(new PlaceMessage(4,4,new Coordinate(0,0))); //successful placement
+        Assert.assertEquals(new Die(6,Color.RED), model.getPlayerByID(4).getWindow().getDie(new Coordinate(0,0)));
 
         serverView.handleNetworkInput(new PassMessage(4,4,false)); //player 4 passes
 
         serverView.handleNetworkInput(new DraftMessage(4,5,0)); //succesful drafting
         Assert.assertEquals(new Die(4, Color.GREEN), model.getPlayerByID(4).getDieInHand());
-        serverView.handleNetworkInput(new PlaceMessage(4,5,new Coordinate(1,4))); //successful placement
-        Assert.assertEquals(new Die(4,Color.GREEN), model.getPlayerByID(4).getWindow().getDie(new Coordinate(1,4)));
+        serverView.handleNetworkInput(new PlaceMessage(4,5,new Coordinate(0,1))); //successful placement
+        Assert.assertEquals(new Die(4,Color.GREEN), model.getPlayerByID(4).getWindow().getDie(new Coordinate(0,1)));
     }
 
     @Test

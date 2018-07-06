@@ -27,7 +27,7 @@ public class RMIManager implements RemoteManager {
         }
         catch (RemoteException | NotBoundException e) {
             Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.SEVERE,"error while closing",e);
+            logger.log(Level.SEVERE,"RMIManager",e);
         }
     }
 

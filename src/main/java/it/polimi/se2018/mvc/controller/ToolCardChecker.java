@@ -5,7 +5,16 @@ import it.polimi.se2018.mvc.model.Player;
 import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.*;
 
+/**
+ * This class is used by a visitor from the class {@link Controller} to check if a player could
+ * use a toolcard or not
+ */
 public class ToolCardChecker implements ToolCardCheckerHandler {
+
+    /**
+     * board is the reference to the board of the game.
+     * It's used only to check some information and never to modify the state of the game
+     */
     private final Board board;
 
     public ToolCardChecker(Board board) {

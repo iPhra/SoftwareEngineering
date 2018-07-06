@@ -2,7 +2,6 @@ package it.polimi.se2018.network.messages.responses.sync.modelupdates;
 
 import it.polimi.se2018.GameInstance;
 import it.polimi.se2018.mvc.model.Board;
-import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.network.messages.responses.sync.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,14 +11,12 @@ import static junit.framework.TestCase.fail;
 
 public class TestWindowResponse {
     private WindowResponse response;
-    private Square[][] window;
 
     @Before
     public void init() {
         GameInstance gameInstance = new GameInstance();
         gameInstance.createGame();
         Board board = gameInstance.getManager().getModel();
-        window = board.getPlayerByID(1).getWindow().modelViewCopy();
         response = new WindowResponse(1,board,1);
     }
 

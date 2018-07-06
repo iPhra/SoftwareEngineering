@@ -6,6 +6,9 @@ import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.network.messages.Coordinate;
 import javafx.application.Platform;
 
+/**
+ * This state is reach during the usage of toolcard that move die, when the player has to select a die from his winodw
+ */
 public class StateWindowStart extends StateWindow {
 
     public StateWindowStart(GameSceneController gameSceneController) {

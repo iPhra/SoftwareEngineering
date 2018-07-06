@@ -46,7 +46,7 @@ public class GUIClient extends Client {
                 }
             }
             catch(IOException | ClassNotFoundException  e){
-                e.printStackTrace();
+                System.exit(1);
             }
         }
         return setup;

@@ -10,8 +10,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SocketServerConnection implements ServerConnection, Runnable {
+    private static final String SOCKET_SERVER_CONNECTION = "SocketServerConnection";
     private final Server server;
     private final Socket socket;
     private int playerID;
@@ -19,6 +22,7 @@ public class SocketServerConnection implements ServerConnection, Runnable {
     private ObjectInputStream in;
     private boolean isOpen;
     private ServerView serverView;
+    private final Logger logger = Logger.getAnonymousLogger();
 
     public SocketServerConnection(Socket socket, Server server){
         this.socket = socket;
@@ -30,7 +34,7 @@ public class SocketServerConnection implements ServerConnection, Runnable {
             in = new ObjectInputStream(socket.getInputStream());
         }
         catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, SOCKET_SERVER_CONNECTION,e);
         }
     }
 
@@ -87,7 +91,7 @@ public class SocketServerConnection implements ServerConnection, Runnable {
             out.close();
             socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, SOCKET_SERVER_CONNECTION,e);
         }
     }
 
@@ -102,7 +106,7 @@ public class SocketServerConnection implements ServerConnection, Runnable {
                 }
             }
             catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, SOCKET_SERVER_CONNECTION,e);
             }
             catch (IOException e) {
                 server.handleDisconnection(playerID);

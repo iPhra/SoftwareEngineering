@@ -13,14 +13,21 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * This is the controller of the scene of GUI that ask to the player the nickname that he would use during the game
+ */
 public class PlayerNameSceneController implements SceneController {
+    private static final String PLAYER_NAME_SCENE_CONTROLLER = "PlayerNameSceneController";
     private GUIClient guiClient;
     private Stage stage;
     private List<Window> windows;
     private PrivateObjective privateObjective;
     private boolean windowSelectionOver;
     private boolean reconnecting;
+    private final Logger logger = Logger.getAnonymousLogger();
 
     @FXML
     private TextField nickTextField;
@@ -42,7 +49,7 @@ public class PlayerNameSceneController implements SceneController {
             selectWindowSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, PLAYER_NAME_SCENE_CONTROLLER,e);
         }
     }
 
@@ -54,12 +61,14 @@ public class PlayerNameSceneController implements SceneController {
             loader.setController(gameSceneController);
             Parent root = loader.load();
             guiClient.getGUIView().getGuiLogic().setSceneController(gameSceneController);
-            stage.setWidth(1440);
-            stage.setHeight(900);
+            stage.setMinWidth(1440);
+            stage.setMinHeight(900);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             gameSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, PLAYER_NAME_SCENE_CONTROLLER,e);
         }
     }
 
@@ -76,7 +85,7 @@ public class PlayerNameSceneController implements SceneController {
             reconnectionSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, PLAYER_NAME_SCENE_CONTROLLER,e);
         }
     }
 

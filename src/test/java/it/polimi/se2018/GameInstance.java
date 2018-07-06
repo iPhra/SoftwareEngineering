@@ -27,7 +27,7 @@ public class GameInstance {
         windows.add(database.generateWindowByTitle("KALEIDOSCOPIC DREAM"));
         windows.add(database.generateWindowByTitle("FRACTAL DROPS"));
         windows.add(database.generateWindowByTitle("LUX MUNDI"));
-        windows.add(database.generateWindowByTitle("GRAVITAS"));
+        windows.add(database.generateWindowByTitle("AURORA SAGRADIS"));
         for(int i=1;i<5;i++) {
             serverView.handleNetworkInput(new SetupMessage(i,0,windows.get(i-1)));
         }

@@ -17,10 +17,21 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used by controller to perform the usage of a toolcard.
+ * It's used by a Visitor to understand what method perform
+ */
 public class ToolCardController implements ToolCardHandler{
+    /**
+     * String used a lot of times are written here
+     */
     private static final String INVALID_POSITION = "The selected position is invalid";
     private static final String PLAYER = "Player ";
     private static final String FROM = " from ";
+
+    /**
+     * This is the reference of the board of the game. It's used to call the method to modify it.
+     */
     private final Board board;
 
     ToolCardController(Board board) {

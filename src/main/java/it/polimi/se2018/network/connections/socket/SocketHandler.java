@@ -31,7 +31,7 @@ public class SocketHandler implements Runnable {
             }
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.exit(1);
         }
     }
 }

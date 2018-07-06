@@ -21,10 +21,6 @@ class CLIData extends ClientData {
         this.cliView = cliView;
     }
 
-    /**
-     *
-     * @return
-     */
     private StringBuilder generateUpperDashes() {
         StringBuilder result = new StringBuilder();
         result.append("╔");

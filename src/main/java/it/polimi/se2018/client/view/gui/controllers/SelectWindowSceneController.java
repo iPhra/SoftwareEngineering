@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SelectWindowSceneController extends MatchHandler implements SceneController, Initializable {
+    private static final String SELECT_WINDOW_SCENE_CONTROLLER = "SelectWindowSceneController";
     private final GUILogic guiLogic;
     private final List<Window> windows;
     private final PrivateObjective privateObjective;
@@ -106,7 +107,7 @@ public class SelectWindowSceneController extends MatchHandler implements SceneCo
                 scoreBoardSceneController.setStage(stage);
                 scene.setRoot(root);
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.getAnonymousLogger().log(Level.SEVERE, SELECT_WINDOW_SCENE_CONTROLLER);
             }
         });
     }
@@ -119,12 +120,14 @@ public class SelectWindowSceneController extends MatchHandler implements SceneCo
             loader.setController(gameSceneController);
             Parent root = loader.load();
             guiLogic.setSceneController(gameSceneController);
-            stage.setWidth(1440);
-            stage.setHeight(900);
+            stage.setMinWidth(1440);
+            stage.setMinHeight(900);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             gameSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.SEVERE, SELECT_WINDOW_SCENE_CONTROLLER);
         }
     }
 

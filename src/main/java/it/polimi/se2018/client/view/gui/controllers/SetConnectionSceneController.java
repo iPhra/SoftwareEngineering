@@ -12,6 +12,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SetConnectionSceneController implements SceneController {
     private GUIClient guiClient;
@@ -98,7 +100,7 @@ public class SetConnectionSceneController implements SceneController {
             playerNameSceneController.setStage(stage);
             scene.setRoot(root);
         }catch(IOException e){
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.SEVERE,"SetConnectionSceneController");
         }
     }
 

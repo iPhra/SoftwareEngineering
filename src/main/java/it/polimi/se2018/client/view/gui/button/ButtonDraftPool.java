@@ -6,6 +6,9 @@ import it.polimi.se2018.mvc.model.Die;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * This class control the button of the draft pool
+ */
 public class ButtonDraftPool extends ButtonGame {
     private int position;
 

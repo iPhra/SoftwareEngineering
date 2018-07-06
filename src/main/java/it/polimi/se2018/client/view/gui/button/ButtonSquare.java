@@ -7,6 +7,9 @@ import it.polimi.se2018.network.messages.Coordinate;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * This class control the button of squares
+ */
 public class ButtonSquare extends ButtonGame {
     private final Coordinate coordinate;
 
@@ -21,7 +24,9 @@ public class ButtonSquare extends ButtonGame {
         return coordinate;
     }
 
-    //this method is called when ia die is put on this square
+    /**
+     * this method is called when ia die is put on this square
+     */
     public void setDie(Die die) {
         setImage("/dice/"+ die.getColor().getAbbreviation()+ die.getValue()+ ".png");
     }
@@ -33,6 +38,10 @@ public class ButtonSquare extends ButtonGame {
         else setDisable(true);
     }
 
+    /**
+     * This method set the image of this button
+     * @param imageUrl it's the url of the image
+     */
     private void setImage(String imageUrl){
         ImageView imageView = new ImageView(new Image(imageUrl));
         imageView.setFitHeight(40);

@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ReconnectionSceneController implements SceneController {
     private GUIClient guiClient;
@@ -39,12 +41,14 @@ public class ReconnectionSceneController implements SceneController {
             loader.setController(gameSceneController);
             Parent root = loader.load();
             guiClient.getGUIView().getGuiLogic().setSceneController(gameSceneController);
-            stage.setWidth(1440);
-            stage.setHeight(900);
+            stage.setMinWidth(1440);
+            stage.setMinHeight(900);
+            stage.setMaximized(true);
+            stage.setResizable(true);
             gameSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.SEVERE,"ReconnectionSceneController");
         }
     }
 }

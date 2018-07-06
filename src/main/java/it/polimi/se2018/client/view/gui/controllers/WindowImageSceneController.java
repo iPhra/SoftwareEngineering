@@ -13,6 +13,9 @@ import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the controller of a window when player has to choose the window that he will use during the game
+ */
 class WindowImageSceneController implements Initializable{
     private final Window window;
 

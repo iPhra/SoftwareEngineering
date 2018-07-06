@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ScoreBoardSceneController implements Initializable, SceneController{
     private final List<String> sortedPlayersNames;
@@ -83,7 +85,7 @@ public class ScoreBoardSceneController implements Initializable, SceneController
             setConnectionSceneController.setStage(stage);
             scene.setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getAnonymousLogger().log(Level.SEVERE,"ScoreBoardSceneController");
         }
     }
 }

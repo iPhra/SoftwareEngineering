@@ -41,6 +41,9 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         getDuration();
     }
 
+    /**
+     * This method get the time of the timer from the file of configuration
+     */
     private void getDuration() {
         InputStream in = ClassLoader.getSystemClassLoader().getResourceAsStream("TimerProperties.txt");
         try(BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
@@ -59,17 +62,30 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         }
     }
 
+    /**
+     * This method start the timer
+     */
     private void startTimer() {
         clock = new WaitingThread(timeout, this);
         clock.start();
     }
 
+    /**
+     * This method notify an error to a specific player in the game
+     * @param playerID id of the player that has to receive the message
+     * @param message is the message of error that is generated during an operation
+     */
     private void notifyError(int playerID, String message) {
         TextResponse response = new TextResponse(playerID);
         response.setDescription(message);
         view.handleNetworkOutput(response);
     }
 
+    /**
+     * This method is called when the turn of a player end
+     * @param player is the player of whom the turn is ended
+     * @param backToDraftPool to understand if the die in hand of the player has to return to the draftpool or not
+     */
     private void refreshPlayer(Player player, boolean backToDraftPool) {
         player.setHasUsedCard(false);
         player.setHasDraftedDie(false);
@@ -81,6 +97,11 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         model.incrementStateID();
     }
 
+    /**
+     * This method is called when match end. It generate and send a endGameResponse to the players
+     * @param passingPlayer the reference to the last player
+     * @param timeout if timeout is occured controller has to notify it to the current player
+     */
     private void endMatch(Player passingPlayer, boolean timeout) {
         gameManager.setMatchPlaying(false);
         if(timeout) view.handleNetworkOutput(new TimeUpResponse(passingPlayer.getId()));
@@ -94,6 +115,11 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         gameManager.endGame();
     }
 
+    /**
+     * This method is called when round end. It end the turn and generate a new round or end the game
+     * @param player is the player who passed the turn
+     * @param timeout is a boolean to understand if tinmeout is occured. If it ends controller has to notify it to the current player
+     */
     private void endRound(Player player, boolean timeout) {
         model.setRound(model.getRound().changeRound());
         model.getRoundTracker().updateRoundTracker(model.getDraftPool().getAllDice());
@@ -105,6 +131,11 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         startTimer();
     }
 
+    /**
+     * This method is called when turn end. It end the turn and go to the next one
+     * @param player is the player who turn is ended
+     * @param timeout is a boolean to understand if timeout is occured. If it endws controller has to notify it to the current player
+     */
     private void endTurn(Player player, boolean timeout) {
         model.getRound().changeTurn();
         refreshPlayer(player,true);
@@ -113,6 +144,11 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         startTimer();
     }
 
+    /**
+     * This method handle a draft message from the player. Check if the player could draft and call the method of the model to draft the choosen die
+     * @param draftMessage is the message comes from the player
+     * @throws NoDieException if the position of the draftpool choosen by the player don't have a die
+     */
     private void draft(DraftMessage draftMessage) throws NoDieException {
         Player player = model.getPlayerByID(draftMessage.getPlayerID());
         Die die = model.getDraftPool().getDie(draftMessage.getDraftPoolPosition());
@@ -121,11 +157,21 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         player.setHasDraftedDie(true);
     }
 
+    /**
+     * This method place the die
+     * @param diePlacer is the placer used to place the die
+     * @throws InvalidPlacementException if the die can not go to the choosen position
+     */
     private void placeDie(DiePlacer diePlacer) throws InvalidPlacementException {
         diePlacer.placeDie();
     }
 
     //reads player, checks if it's his turn, call handleMove
+
+    /**
+     * Check is the message receive is legit. If it's the turn of the player who give the message and the message it is of the current turn
+     * @param message is the message received from the client
+     */
     private void checkInput(Message message){
         if(gameManager.isMatchPlaying()) {
             Player player = model.getPlayerByID(message.getPlayerID());
@@ -135,6 +181,10 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         else message.handle(this); //if this is a setup response i don't have to check if the turn is correct
     }
 
+    /**
+     * Generate the final standing of players according to public and private objective and other points
+     * @return
+     */
     private List<Player> playersScoreBoard(){
         List<Player> sortedPlayers = new ArrayList<>(model.getPlayers());
         sortedPlayers.sort(new ScoreComparator(Arrays.asList(model.getPublicObjectives()), model.getRound()));
@@ -146,6 +196,11 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         this.model = model;
     }
 
+    /**
+     * Yhis method is called when a player remains alone in a game
+     * @param windowSelection is true if the player remains alone during the selection of window
+     * @param lastPlayerID is the ID of the player in game
+     */
     void endMatchAsLast(boolean windowSelection, int lastPlayerID) {
         gameManager.setMatchPlaying(false);
         EndGameResponse endGameResponse = new EndGameResponse(lastPlayerID);
@@ -251,6 +306,9 @@ public class Controller implements Observer<Message>, MessageHandler, Stopper {
         }
     }
 
+    /**
+     * This method set the model at the beginning of the game
+     */
     public void startMatch() {
         toolCardController = new ToolCardController(model);
         model.incrementStateID();

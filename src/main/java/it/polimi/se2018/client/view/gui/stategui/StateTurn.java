@@ -8,6 +8,9 @@ import it.polimi.se2018.network.messages.requests.PlaceMessage;
 import it.polimi.se2018.network.messages.requests.ToolCardRequestMessage;
 import javafx.application.Platform;
 
+/**
+ * This state is the normal state of the game when is your turn and the player is not using a toolcard
+ */
 public class StateTurn extends State {
 
     public StateTurn(GameSceneController gameSceneController) {
@@ -18,12 +21,11 @@ public class StateTurn extends State {
 
     @Override
     public void doActionWindow(Coordinate coordinate) {
-        PlaceMessage placeMessage = new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), coordinate);
         Platform.runLater(() -> {
             changeState(new StateTurn(gameSceneController));
             gameSceneController.disableAllButton();
         });
-        gameSceneController.getGuiView().handleNetworkOutput(placeMessage);
+        gameSceneController.getGuiView().handleNetworkOutput(new PlaceMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), coordinate));
     }
 
     @Override

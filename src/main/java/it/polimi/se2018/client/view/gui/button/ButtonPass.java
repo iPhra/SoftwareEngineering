@@ -2,7 +2,9 @@ package it.polimi.se2018.client.view.gui.button;
 
 import it.polimi.se2018.client.view.gui.button.buttoncheckusability.ButtonCheckUsabilityHandler;
 
-
+/**
+ * This button control the button pass
+ */
 public class ButtonPass extends ButtonGame{
 
     public ButtonPass() {

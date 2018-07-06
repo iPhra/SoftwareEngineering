@@ -3,6 +3,10 @@ package it.polimi.se2018.client.view.gui.button.buttoncheckusability;
 import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
 import it.polimi.se2018.client.view.gui.button.*;
 
+/**
+ * This class is used to able and disable buttons of the GUI according to the current state.
+ * The state is on when is the turn of the player and he is not using a toolcard
+ */
 public class ButtonCheckUsabilityTurn implements ButtonCheckUsabilityHandler {
     private final GameSceneController gameSceneController;
 

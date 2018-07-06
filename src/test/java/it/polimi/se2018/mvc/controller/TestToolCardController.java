@@ -4,6 +4,7 @@ import it.polimi.se2018.GameInstance;
 import it.polimi.se2018.mvc.model.Board;
 import it.polimi.se2018.mvc.model.Color;
 import it.polimi.se2018.mvc.model.Die;
+import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.mvc.model.toolcards.*;
 import it.polimi.se2018.mvc.view.ServerView;
 import it.polimi.se2018.network.messages.Coordinate;
@@ -538,6 +539,18 @@ public class TestToolCardController {
             toolCardMessage8.addRoundTrackerPosition(new Coordinate(0, 6));
             toolCardMessage8.setCondition(false);
             serverView.handleNetworkInput(toolCardMessage8);
+            Assert.assertEquals(die, model.getPlayerByID(1).getWindow().getSquare(new Coordinate(0, 2)).getDie());
+            Assert.assertEquals(dieTwo, model.getPlayerByID(1).getWindow().getSquare(new Coordinate(1, 2)).getDie());
+            Assert.assertEquals(dieThree, model.getPlayerByID(1).getWindow().getSquare(new Coordinate(2, 2)).getDie());
+            Square squareOne = model.getPlayerByID(1).getWindow().getSquare(new Coordinate(0, 2));
+            Square squareTwo = model.getPlayerByID(1).getWindow().getSquare(new Coordinate(1, 2));
+            Square squareThree = model.getPlayerByID(1).getWindow().getSquare(new Coordinate(2, 2));
+            for(Square squares : model.getPlayerByID(1).getWindow()){
+                if (squares != squareOne && squares != squareTwo && squares != squareThree) {
+                    Assert.assertTrue(squares.isEmpty());
+                }
+            }
+            Assert.assertTrue(model.getPlayerByID(1).hasUsedCard());
 
 
         } catch (NoDieException e) {

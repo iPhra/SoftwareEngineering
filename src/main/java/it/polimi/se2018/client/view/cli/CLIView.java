@@ -13,6 +13,9 @@ import java.io.PrintStream;
 
 import static java.lang.System.*;
 
+/**
+ * This calss is the view client-side. It's usedif you use a CLI
+ */
 public class CLIView extends ClientView {
     private final CLIData cliModel;
     private final PrintStream printStream;
@@ -31,8 +34,19 @@ public class CLIView extends ClientView {
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
 
+    /**
+     * Print a text to the player
+     * @param string that you show to the player
+     */
     void print(String string) { printStream.print(string); }
 
+    /**
+     * Take the input from the player with the limitation derived from the future usage of that input
+     * @param bottom minimum input that the player can give
+     * @param top maximum input that the player can give
+     * @return the input from the player
+     * @throws HaltException is called if the time is up
+     */
     synchronized int takeInput(int bottom, int top) throws HaltException {
         inputGetter = new Thread(new InputGetter(this, bufferedReader,printStream,top,bottom));
         inputGetter.start();
@@ -54,18 +68,31 @@ public class CLIView extends ClientView {
         else return input;
     }
 
+    /**
+     * This method is called by InputGiver after a value has been read from the command line
+     * @param input is the
+     */
     synchronized void giveInput(int input) {
         this.input = input;
         inputGiven = true;
         notifyAll();
     }
 
+    /**
+     * This method is called by InputGiver if it was interrupted by a timeout and hasn't read anything from the command line
+     */
     synchronized void setInterrupted() {
         stopped = true;
         inputGiven = true;
         notifyAll();
     }
 
+    /**
+     * Get a coorinate from the player
+     * @return the given coordinate
+     * @throws ChangeActionException is the exception that throw if you would change action
+     * @throws HaltException is called if the time is up
+     */
     Coordinate getCoordinate() throws ChangeActionException, HaltException {
         cliModel.showYourWindow();
         printStream.println("\n\nChoose the row");
@@ -82,6 +109,12 @@ public class CLIView extends ClientView {
         throw new ChangeActionException();
     }
 
+    /**
+     * Get a position of the round tracker from the player
+     * @return the given position
+     * @throws ChangeActionException is called if the player decides to cahnge the action
+     * @throws HaltException is called if the time is up
+     */
     Coordinate getRoundTrackPosition() throws ChangeActionException, HaltException {
         int turn = -1;
         int pos = -1;
@@ -105,6 +138,12 @@ public class CLIView extends ClientView {
         return new Coordinate(turn, pos);
     }
 
+    /**
+     * Get a position of the draftpool from the player
+     * @return the given position
+     * @throws ChangeActionException is called if the player decides to cahnge action
+     * @throws HaltException is called if tipe is up
+     */
     int getDraftPoolPosition() throws ChangeActionException, HaltException {
         int choice;
         int confirm;
@@ -122,11 +161,22 @@ public class CLIView extends ClientView {
         }
     }
 
+    /**
+     * Get a die value ferom the player (a number from 1 to 6)
+     * @return the given value (1-6)
+     * @throws HaltException is called if time is up
+     */
     int getDieValue() throws HaltException {
         printStream.print("\n\nChoose the value of the die (value goes from 1 to 6)");
         return takeInput(1,6);
     }
 
+    /**
+     * Get from the player the decision to increment or decrement the die
+     * It is used during the usage of {@link it.polimi.se2018.mvc.model.toolcards.GrozingPliers}
+     * @return the decision from the player
+     * @throws HaltException is called if time is up
+     */
     int getIncrementOrDecrement() throws HaltException {
         printStream.println("\n\n0 to decrease, 1 to increase.");
         return takeInput(0,1);

@@ -6,6 +6,10 @@ import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindow;
 import it.polimi.se2018.network.messages.Coordinate;
 import javafx.application.Platform;
 
+/**
+ * This state allow the player to press the round tracker buttons, pass buttons and toolcards buttons.
+ * It's reach during the usage of a toolcard
+ */
 public class StateRoundTracker extends StateWindow {
 
     public StateRoundTracker(GameSceneController gameSceneController) {

@@ -4,6 +4,9 @@ import it.polimi.se2018.client.view.gui.stategui.State;
 import it.polimi.se2018.client.view.gui.stategui.StateTurn;
 import javafx.application.Platform;
 
+/**
+ * This state is reach during the usage of the toolcard that nedd position of the widnow
+ */
 public abstract class StateWindow extends State {
 
     @Override

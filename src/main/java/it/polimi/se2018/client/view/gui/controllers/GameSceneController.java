@@ -36,8 +36,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * This is the controller of the scene of the game
+ */
 public class GameSceneController extends MatchHandler implements SceneController, Initializable {
+    private static final String GAME_SCENE_CONTROLLER = "GameSceneController";
     private final GUIView guiView;
     private final GUIData guiModel;
     private final int playerID;
@@ -52,25 +58,46 @@ public class GameSceneController extends MatchHandler implements SceneController
     private List<List<MenuItemRoundTracker>> roundTrackerMenuItems;
     private List<ButtonToolCard> toolCardButtons;
     private ButtonPass buttonPass;
+    private final Logger logger;
 
     @FXML
     private BorderPane borderPane;
 
+    /**
+     * This is the gridpane that contains serviceLabel, nameLabel, favorPointsLabel, the window of the player, the die
+     * drafted, the private objective of the player, the pass button
+     */
     @FXML
     private GridPane botGridPane;
 
+    /**
+     * This is the gridpane that contains the windows of enemy players and their names
+     */
     @FXML
     private GridPane rightGridPane;
 
+    /**
+     * This is the gridpane that contains the toolcards (ButtonToolCard), the public objectives, the draftpool, the
+     * roundtracker
+     */
     @FXML
     private GridPane leftGridPane;
 
+    /**
+     * This is the label in which service messages are shown
+     */
     @FXML
     private Label serviceLabel;
 
+    /**
+     * This is the label in which the name of the player is shown
+     */
     @FXML
     private Label nameLabel;
 
+    /**
+     * This is the label in which the number of player's favor points is shown
+     */
     @FXML
     private Label favorPointsLabel;
 
@@ -80,6 +107,7 @@ public class GameSceneController extends MatchHandler implements SceneController
         this.playerID = guiLogic.getPlayerID();
         toolCardGUI = new ToolCardGUI(this);
         currentState = new StateTurn(this);
+        logger = Logger.getAnonymousLogger();
     }
 
     @Override
@@ -100,6 +128,9 @@ public class GameSceneController extends MatchHandler implements SceneController
         checkTurn();
     }
 
+    /**
+     * This method sets the right gridpane
+     */
     private void setRightGridpane(){
         List<Square[][]> enemyWindows = new ArrayList<>(guiModel.getBoard().getPlayerWindows());
         int indexOfThisPlayer = guiModel.getBoard().getPlayerIDs().indexOf(playerID);
@@ -125,12 +156,16 @@ public class GameSceneController extends MatchHandler implements SceneController
                 GridPane.setMargin(pane,new Insets(0,0,400,0));
                 j++;
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, GAME_SCENE_CONTROLLER,e);
+
             }
             rightGridPane.setVgap(200);
         }
     }
 
+    /**
+     * This method sets the bot gridpane
+     */
     private void setBotGridPane(){
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/windowScene.fxml")));
         loader.setController((new WindowSceneController(windowPlayerButtons,this)));
@@ -142,8 +177,8 @@ public class GameSceneController extends MatchHandler implements SceneController
             windowPane.setMaxHeight(283);
             botGridPane.add(windowPane,1,0);
             GridPane.setMargin(windowPane, new Insets(0,20,160,0));
-        }catch(IOException e){
-            e.printStackTrace();
+        } catch(IOException e){
+            logger.log(Level.SEVERE, GAME_SCENE_CONTROLLER,e);
         }
         int myIndex = guiModel.getBoard().getPlayerIDs().indexOf(playerID);
         nameLabel.setText(guiModel.getBoard().getPlayerNames().get(myIndex));
@@ -166,6 +201,9 @@ public class GameSceneController extends MatchHandler implements SceneController
         botGridPane.setHgap(80);
     }
 
+    /**
+     * This method sets the left gridpane
+     */
     private void setLeftGridpane(){
         boolean[] toolCardPanesHaveImage = new boolean[3];
         for(int i=0; i<3; i++) toolCardPanesHaveImage[i] = false;
@@ -221,8 +259,8 @@ public class GameSceneController extends MatchHandler implements SceneController
             pane.getChildren().add(node);
             pane.setMaxWidth(500);
             pane.setMaxHeight(25);
-        }catch(IOException e){
-            e.printStackTrace();
+        } catch(IOException e){
+            logger.log(Level.SEVERE, GAME_SCENE_CONTROLLER,e);
         }
         return pane;
     }
@@ -240,18 +278,24 @@ public class GameSceneController extends MatchHandler implements SceneController
             pane.getChildren().add(node);
             pane.setMaxWidth(473);
             pane.setMaxHeight(99);
-        }catch(IOException e){
-            e.printStackTrace();
+        } catch(IOException e){
+            logger.log(Level.SEVERE, GAME_SCENE_CONTROLLER,e);
         }
         return pane;
     }
 
+    /**
+     * This method puts in list draftPoolButtons the buttons (ButtonDraftPool) instantiated basing on dice in guimodel
+     */
     private void setDraftPoolButtons(){
         for(Die die : guiModel.getBoard().getDraftPool()){
             draftPoolButtons.add(new ButtonDraftPool(die));
         }
     }
 
+    /**
+     * This method puts in list roundTrackerMenuItems the menuitems (MenuItemRoundTracker) instantiated basing on dice in guimodel
+     */
     private void setRoundTrackerMenuItems(){
         List<List<Die>> roundTracker = new ArrayList<>(guiModel.getBoard().getRoundTracker());
         for(int i=0; i < roundTracker.size(); i++){
@@ -263,6 +307,10 @@ public class GameSceneController extends MatchHandler implements SceneController
         }
     }
 
+    /**
+     * This method puts in list windowPlayerButtons the buttons (ButtonSquare) instantiated basing on window of the
+     * player in guimodel
+     */
     private void setWindowPlayerButtons(){
         for(Square[] row : guiModel.getBoard().getPlayerWindows().get(guiModel.getBoard().getPlayerIDs().indexOf(playerID))){
             for(Square square : row){
@@ -273,6 +321,10 @@ public class GameSceneController extends MatchHandler implements SceneController
         }
     }
 
+    /**
+     * This method puts in list toolCardButtons the buttons (ButtonToolCard) instantiated basing on toolCards in
+     * guimodel
+     */
     private void setToolCardButtons(){
         for(int i=0; i < guiModel.getToolCards().size(); i++){
             toolCardButtons.add(new ButtonToolCard(i, guiModel.getToolCards().get(i),guiModel.getBoard().getToolCardUsage().get(i)));
@@ -282,8 +334,8 @@ public class GameSceneController extends MatchHandler implements SceneController
     }
 
     /**
-     * This method refreshes reloads the sub-fxmls and puts in them the lists of buttons. So, it requires that those lists
-     * have been updated already before calling this
+     * This method refreshes everything: it reloads the sub-fxmls and puts in them the lists of buttons. So, it requires
+     * that those lists have been updated already before calling this
      */
     private void refreshAll(){
             leftGridPane.getChildren().clear();
@@ -297,6 +349,10 @@ public class GameSceneController extends MatchHandler implements SceneController
             setBotGridPane();
     }
 
+    /**
+     * This method checks if it's the turn of the player. If yes, it calls setAllButton. If not, it calls
+     * disableAllButton
+     */
     private void checkTurn(){
         if (playerID != guiModel.getBoard().getCurrentPlayerID()) disableAllButton();
         else setAllButton();
@@ -322,14 +378,19 @@ public class GameSceneController extends MatchHandler implements SceneController
         setToolCardButtons();
     }
 
-
-    //This method is called by the controller of the button pass turn
+    /**
+     * This method is called by the controller of the button pass turn
+     */
     private void passTurnButtonClicked() {
         guiView.handleNetworkOutput(new PassMessage(playerID, guiModel.getBoard().getStateID(), false));
         disableAllButton();
     }
 
-    //This method is called by controller of tool cards
+    /**
+     * This method is called by controller of toolcards and does the action of the selected toolcard, basing on current
+     * state
+     * @param toolCardIndex it's the index of selected toolcard
+     */
     private void buttonToolCardClicked(int toolCardIndex){
         currentState.doActionToolCard(toolCardIndex);
     }
@@ -341,9 +402,7 @@ public class GameSceneController extends MatchHandler implements SceneController
      */
     public void createPlusOrMinusWindow(){
         GameSceneController gameSceneController = this;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(()-> {
                 FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChoosePlusOrMinusScene.fxml")));
                 try {
                     Parent root = loader.load();
@@ -353,13 +412,10 @@ public class GameSceneController extends MatchHandler implements SceneController
                     secondaryStage.setTitle("Choose plus one or minus one");
                     secondaryStage.setScene(new Scene(root, 403, 119));
                     secondaryStage.show();
-                    secondaryStage.setOnCloseRequest(t -> {
-                        gameSceneController.getCurrentState().changeState(new StateTurn(gameSceneController));
-                    });
+                    secondaryStage.setOnCloseRequest(t -> gameSceneController.getCurrentState().changeState(new StateTurn(gameSceneController)));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, GAME_SCENE_CONTROLLER,e);
                 }
-            }
         });
     }
 
@@ -370,9 +426,7 @@ public class GameSceneController extends MatchHandler implements SceneController
      */
     public void createNumberWindow(){
         GameSceneController gameSceneController = this;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(()-> {
                 FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ChooseNumberScene.fxml")));
                 try {
                     Parent root = loader.load();
@@ -382,13 +436,10 @@ public class GameSceneController extends MatchHandler implements SceneController
                     secondaryStage.setTitle("Choose the value");
                     secondaryStage.setScene(new Scene(root, 446, 261));
                     secondaryStage.show();
-                    secondaryStage.setOnCloseRequest(t -> {
-                        gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), new Random().nextInt(6) + 1));
-                    });
+                    secondaryStage.setOnCloseRequest(t -> gameSceneController.getGuiView().handleNetworkOutput(new InputMessage(gameSceneController.getPlayerID(), gameSceneController.getGuiModel().getBoard().getStateID(), new Random().nextInt(6) + 1)));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, GAME_SCENE_CONTROLLER,e);
                 }
-            }
         });
     }
 
@@ -398,24 +449,19 @@ public class GameSceneController extends MatchHandler implements SceneController
      */
     public void createOneOrTwo(){
         GameSceneController gameSceneController = this;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/OneOrTwoDice.fxml")));
-                try {
-                    Parent root = loader.load();
-                    AnotherDieYesOrNoSceneController controller = loader.getController();
-                    controller.setGameSceneController(gameSceneController);
-                    Stage secondaryStage = new Stage();
-                    secondaryStage.setTitle("Do you want to move one or two dice?");
-                    secondaryStage.setScene(new Scene(root, 279, 143));
-                    secondaryStage.show();
-                    secondaryStage.setOnCloseRequest(t -> {
-                        gameSceneController.getCurrentState().changeState(new StateTurn(gameSceneController));
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        Platform.runLater(()-> {
+            FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/OneOrTwoDice.fxml")));
+            try {
+                Parent root = loader.load();
+                OneOrTwoDiceSceneController controller = loader.getController();
+                controller.setGameSceneController(gameSceneController);
+                Stage secondaryStage = new Stage();
+                secondaryStage.setTitle("Do you want to move one or two dice?");
+                secondaryStage.setScene(new Scene(root, 279, 143));
+                secondaryStage.show();
+                secondaryStage.setOnCloseRequest(t -> gameSceneController.getCurrentState().changeState(new StateTurn(gameSceneController)));
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, GAME_SCENE_CONTROLLER,e);
             }
         });
     }
@@ -545,7 +591,7 @@ public class GameSceneController extends MatchHandler implements SceneController
                 scoreBoardSceneController.setStage(stage);
                 scene.setRoot(root);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, GAME_SCENE_CONTROLLER,e);
             }
         });
     }

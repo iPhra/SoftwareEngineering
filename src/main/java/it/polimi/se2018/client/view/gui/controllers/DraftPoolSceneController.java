@@ -9,7 +9,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller of the draftpool in GUI view
+ */
 class DraftPoolSceneController implements Initializable{
+    /**
+     * Buttons in the draftpool.
+     */
     private final List<ButtonDraftPool> buttons;
     private final GameSceneController gameSceneController;
 
