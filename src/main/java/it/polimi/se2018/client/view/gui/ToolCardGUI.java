@@ -2,7 +2,7 @@ package it.polimi.se2018.client.view.gui;
 
 import it.polimi.se2018.client.view.gui.controllers.GameSceneController;
 import it.polimi.se2018.client.view.gui.stategui.State;
-import it.polimi.se2018.client.view.gui.stategui.StateRoundTracker;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateRoundTracker;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowEnd;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowPlace;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowStart;

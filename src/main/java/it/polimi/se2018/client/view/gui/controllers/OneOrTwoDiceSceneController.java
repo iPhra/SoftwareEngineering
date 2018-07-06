@@ -1,7 +1,7 @@
 package it.polimi.se2018.client.view.gui.controllers;
 
 import it.polimi.se2018.client.view.gui.stategui.State;
-import it.polimi.se2018.client.view.gui.stategui.StateRoundTracker;
+import it.polimi.se2018.client.view.gui.stategui.statewindow.StateRoundTracker;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowEnd;
 import it.polimi.se2018.client.view.gui.stategui.statewindow.StateWindowStart;
 import javafx.fxml.FXML;
