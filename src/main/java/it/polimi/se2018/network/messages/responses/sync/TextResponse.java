@@ -5,8 +5,8 @@ package it.polimi.se2018.network.messages.responses.sync;
  */
 public class TextResponse extends SyncResponse {
 
-    public TextResponse(int player){
-        super(player);
+    public TextResponse(int playerID){
+        super(playerID);
     }
 
     /**

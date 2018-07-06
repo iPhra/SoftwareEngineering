@@ -13,9 +13,9 @@ import java.util.*;
 @SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class ModelView implements Serializable {
     private final List<String> playerNames;
-    private final List<Integer> playerID;
+    private final List<Integer> playerIDs;
     private final List<Square[][]> playerWindows;
-    private final List<Integer> playerFavorPoint;
+    private final List<Integer> playerFavorPoints;
     private List<Die> draftPool;
     private List<List<Die>> roundTracker;
     private List<Boolean> toolCardUsability;
@@ -29,9 +29,9 @@ public class ModelView implements Serializable {
 
     public ModelView(Board board) {
         playerWindows = new ArrayList<>();
-        playerFavorPoint = new ArrayList<>();
+        playerFavorPoints = new ArrayList<>();
         playerNames = new ArrayList<>();
-        playerID = new ArrayList<>();
+        playerIDs = new ArrayList<>();
         toolCardUsability = new ArrayList<>();
         toolCardUsage = new ArrayList<>();
         draftPool = board.getDraftPool().modelViewCopy();
@@ -44,9 +44,9 @@ public class ModelView implements Serializable {
     private void setPlayers(Board board) {
         for (Player player : board.getPlayers()) {
             playerWindows.add(player.getWindow().modelViewCopy());
-            playerFavorPoint.add(player.getFavorPoints());
+            playerFavorPoints.add(player.getFavorPoints());
             playerNames.add(player.getName());
-            playerID.add(player.getId());
+            playerIDs.add(player.getId());
         }
     }
 
@@ -69,7 +69,7 @@ public class ModelView implements Serializable {
     }
 
     public void setPlayerFavorPoint(int playerID, int favorPoints) {
-        playerFavorPoint.set(playerID,favorPoints);
+        playerFavorPoints.set(playerID,favorPoints);
     }
 
     public void setDraftPool(List<Die> draftPool) {
@@ -132,16 +132,16 @@ public class ModelView implements Serializable {
         return playerNames;
     }
 
-    public List<Integer> getPlayerID() {
-        return playerID;
+    public List<Integer> getPlayerIDs() {
+        return playerIDs;
     }
 
     public List<Square[][]> getPlayerWindows() {
         return playerWindows;
     }
 
-    public List<Integer> getPlayerFavorPoint() {
-        return playerFavorPoint;
+    public List<Integer> getPlayerFavorPoints() {
+        return playerFavorPoints;
     }
 
     public List<Die> getDraftPool() {

@@ -21,8 +21,8 @@ public class SetupResponse extends SyncResponse {
 
     private final int playersNumber;
 
-    public SetupResponse(int player, List<Window> windows, PrivateObjective privateObjective, int playersNumber) {
-        super(player);
+    public SetupResponse(int playerID, List<Window> windows, PrivateObjective privateObjective, int playersNumber) {
+        super(playerID);
         this.windows = windows;
         this.privateObjective = privateObjective;
         this.playersNumber = playersNumber;

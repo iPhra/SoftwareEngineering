@@ -19,8 +19,8 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
     @Override
     public boolean checkUsability(CopperFoilBurnisher toolCard, boolean isUsed, Player player) {
         boolean condition = checkFavorPoints(isUsed, player);
-        //you need to check if 1 die exists: if so, there are 19 empty slots or less
-        if(player.getWindow().countEmptySlots()>19) condition = false;
+        //you need to check if 1 die exists: if so, there are 18 empty slots or less
+        if(player.getWindow().countEmptySlots()>18) condition = false;
         return condition;
     }
 
@@ -34,8 +34,8 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
     @Override
     public boolean checkUsability(EglomiseBrush toolCard, boolean isUsed, Player player) {
         boolean condition = checkFavorPoints(isUsed, player);
-        //you need to check if 1 die exists: if so, there are 19 empty slots or less
-        if(player.getWindow().countEmptySlots()>19) condition = false;
+        //you need to check if 1 die exists: if so, there are 18 empty slots or less
+        if(player.getWindow().countEmptySlots()>18) condition = false;
         return condition;
     }
 
@@ -78,8 +78,8 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
     @Override
     public boolean checkUsability(Lathekin toolCard, boolean isUsed, Player player) {
         boolean condition = checkFavorPoints(isUsed, player);
-        //because you need to check if 2 dice exist: if yes, there are 18 empty slots or less
-        if (player.getWindow().countEmptySlots() > 18) condition = false;
+        //because you need to check if 3 dice exist: if yes, there are 18 empty slots or less
+        if (player.getWindow().countEmptySlots() > 17) condition = false;
         return condition;
     }
 
@@ -102,8 +102,8 @@ public class ToolCardChecker implements ToolCardCheckerHandler {
 
     @Override
     public boolean checkUsability(TapWheel toolCard, boolean isUsed, Player player) {
-        if(!checkFavorPoints(isUsed, player)) return false;
         //you need to check if two dice exist: if so there are 18 empty slots or less left
+        if(!checkFavorPoints(isUsed, player) || player.getWindow().countEmptySlots() > 18) return false;
         for(Square square: player.getWindow()) {
             if(!square.isEmpty() && board.getRoundTracker().containsColor(square.getDie().getColor())) return true;
         }

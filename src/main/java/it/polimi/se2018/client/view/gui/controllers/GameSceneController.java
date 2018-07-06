@@ -102,7 +102,7 @@ public class GameSceneController extends MatchHandler implements SceneController
 
     private void setRightGridpane(){
         List<Square[][]> enemyWindows = new ArrayList<>(guiModel.getBoard().getPlayerWindows());
-        int indexOfThisPlayer = guiModel.getBoard().getPlayerID().indexOf(playerID);
+        int indexOfThisPlayer = guiModel.getBoard().getPlayerIDs().indexOf(playerID);
         enemyWindows.remove(indexOfThisPlayer);
         List<String> enemyNames = new ArrayList<>(guiModel.getBoard().getPlayerNames());
         enemyNames.remove(indexOfThisPlayer);
@@ -145,9 +145,9 @@ public class GameSceneController extends MatchHandler implements SceneController
         }catch(IOException e){
             e.printStackTrace();
         }
-        int myIndex = guiModel.getBoard().getPlayerID().indexOf(playerID);
+        int myIndex = guiModel.getBoard().getPlayerIDs().indexOf(playerID);
         nameLabel.setText(guiModel.getBoard().getPlayerNames().get(myIndex));
-        favorPointsLabel.setText("You have " + guiModel.getBoard().getPlayerFavorPoint().get(myIndex) + " Favor Points");
+        favorPointsLabel.setText("You have " + guiModel.getBoard().getPlayerFavorPoints().get(myIndex) + " Favor Points");
         if(guiModel.getBoard().getCurrentPlayerID()==playerID && guiModel.getBoard().hasDieInHand()){
             Die dieInHand = guiModel.getBoard().getDieInHand();
             dieInHandImageView = new ImageView(new Image("/dice/"+ dieInHand.getColor().getAbbreviation()+ dieInHand.getValue()+ ".png"));
@@ -264,7 +264,7 @@ public class GameSceneController extends MatchHandler implements SceneController
     }
 
     private void setWindowPlayerButtons(){
-        for(Square[] row : guiModel.getBoard().getPlayerWindows().get(guiModel.getBoard().getPlayerID().indexOf(playerID))){
+        for(Square[] row : guiModel.getBoard().getPlayerWindows().get(guiModel.getBoard().getPlayerIDs().indexOf(playerID))){
             for(Square square : row){
                 ButtonSquare  buttonSquare = new ButtonSquare(new Coordinate(square.getRow(), square.getCol()),square);
                 if (!square.isEmpty()) buttonSquare.setDie(square.getDie());

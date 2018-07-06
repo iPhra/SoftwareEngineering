@@ -12,8 +12,8 @@ public class ScoreBoardResponse extends SyncResponse {
     private final List<Integer> sortedPlayersScores;
     private final boolean lastPlayer;
 
-    public ScoreBoardResponse(int player, List<Player> sortedPlayers, boolean lastPlayer){
-        super(player);
+    public ScoreBoardResponse(int playerID, List<Player> sortedPlayers, boolean lastPlayer){
+        super(playerID);
         this.lastPlayer = lastPlayer;
         sortedPlayersNames = new ArrayList<>();
         sortedPlayersScores = new ArrayList<>();

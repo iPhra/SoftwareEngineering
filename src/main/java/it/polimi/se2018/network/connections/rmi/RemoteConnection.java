@@ -7,7 +7,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 @SuppressWarnings("EmptyMethod")
-public interface RemoteConnection extends Remote{
+public interface RemoteConnection extends Remote {
 
     void getResponse(Response response) throws RemoteException;
     void getMessage(Message message) throws RemoteException;

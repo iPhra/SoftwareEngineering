@@ -99,8 +99,8 @@ public class WindowBuilder {
                 int level2 = (int) (long) jsonMap2.get("level");
                 String board2 = (String) jsonMap2.get("board");
 
-                Window window1 = createMap(title1,level1,board1);
-                Window window2 = createMap(title2,level2,board2);
+                Window window1 = createWindow(title1,level1,board1);
+                Window window2 = createWindow(title2,level2,board2);
                 windows.add(new Pair<>(window1, window2));
             }
             Collections.shuffle(windows);
@@ -117,7 +117,7 @@ public class WindowBuilder {
      * @param board is the pattern of this window
      * @return the new created Window
      */
-    private static Window createMap(String title, int level, String board) {
+    private static Window createWindow(String title, int level, String board) {
         Square[][] squares = new Square[4][5];
         String[] tokens = board.split(",");
         int row =0;

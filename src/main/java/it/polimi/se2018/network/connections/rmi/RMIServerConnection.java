@@ -96,7 +96,7 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
 
     @Override
     public void ping() {
-        //empty method
+        //Pinging has to be empty
     }
 
     @Override

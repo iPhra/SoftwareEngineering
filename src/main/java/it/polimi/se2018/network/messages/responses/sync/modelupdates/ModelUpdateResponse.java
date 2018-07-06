@@ -19,8 +19,8 @@ public class ModelUpdateResponse extends SyncResponse {
     private final boolean hasUsedCard;
     private final int favorPoints;
     private final List<Boolean> toolCardUsage;
-    private Die dieInHand;
     private final List<Boolean> toolCardUsability;
+    private Die dieInHand;
 
     public ModelUpdateResponse(int playerID, int stateID, Board board) {
         super(playerID);

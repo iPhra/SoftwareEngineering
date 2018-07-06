@@ -31,11 +31,24 @@ public class RMIManager implements RemoteManager {
         }
     }
 
+    public synchronized void closePlayerConnection(int playerID, ServerConnection serverConnection) {
+        try {
+            registry.unbind("ServerConnection"+playerID);
+            UnicastRemoteObject.unexportObject((RemoteConnection)serverConnection,true);
+        }
+        catch (NotBoundException | RemoteException e) {
+            Logger logger = Logger.getAnonymousLogger();
+            logger.log(Level.ALL,e.getMessage());
+        }
+    }
+
     //false if he's not registered or reconnecting
+    @Override
     public boolean checkName(String nickname) {
         return nickname.length()>15 || !(server.checkRegistration(nickname) || server.checkDisconnection(nickname));
     }
 
+    @Override
     public void addClient(int playerID, String nickname, RemoteConnection clientConnection) {
         ServerConnection serverConnection = new RMIServerConnection(server, clientConnection, this, playerID);
         try {
@@ -50,18 +63,8 @@ public class RMIManager implements RemoteManager {
         else server.handleReconnection(playerID,serverConnection);
     }
 
+    @Override
     public int getID(String nickname) {
         return server.checkRegistration(nickname)? Server.generateID() : server.getPlayerID(nickname);
-    }
-
-    public synchronized void closePlayerConnection(int playerID, ServerConnection serverConnection) {
-        try {
-            registry.unbind("ServerConnection"+playerID);
-            UnicastRemoteObject.unexportObject((RemoteConnection)serverConnection,true);
-        }
-        catch (NotBoundException | RemoteException e) {
-            Logger logger = Logger.getAnonymousLogger();
-            logger.log(Level.ALL,e.getMessage());
-        }
     }
 }

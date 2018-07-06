@@ -13,8 +13,8 @@ public class InputResponse extends SyncResponse {
      */
     private final Color color;
 
-    public InputResponse(int player, Color color) {
-        super(player);
+    public InputResponse(int playerID, Color color) {
+        super(playerID);
         this.color = color;
     }
 

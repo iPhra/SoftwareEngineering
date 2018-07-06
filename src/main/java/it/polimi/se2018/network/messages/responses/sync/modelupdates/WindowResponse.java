@@ -5,17 +5,11 @@ import it.polimi.se2018.mvc.model.Square;
 import it.polimi.se2018.network.messages.responses.sync.SyncResponseHandler;
 
 public class WindowResponse extends ModelUpdateResponse {
-    private final int playerWindowID;
     private final Square[][] window;
 
     public WindowResponse(int playerID, Board board, int playerWindowID) {
         super(playerID,board.getStateID(),board);
-        this.playerWindowID = playerWindowID;
         window = board.getPlayerByID(playerWindowID).getWindow().modelViewCopy();
-    }
-
-    public int getPlayerWindowID() {
-        return playerWindowID;
     }
 
     public Square[][] getWindow() {

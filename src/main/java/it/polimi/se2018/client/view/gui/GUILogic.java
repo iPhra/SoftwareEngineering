@@ -96,7 +96,6 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
 
     @Override
     public void handleResponse(ToolCardResponse toolCardResponse) {
-        Platform.runLater(() -> ((GameSceneController) sceneController).setText("You can use the tool card!"));
         ((GameSceneController) sceneController).useToolCard(toolCardResponse.getToolCardNumber());
     }
 
@@ -150,7 +149,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         modelView.setHasUsedCard(draftPoolResponse.hasUsedCard());
         modelView.setDieInHand(draftPoolResponse.getDieInHand());
         modelView.setToolCardUsability(draftPoolResponse.getToolCardUsability());
-        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(draftPoolResponse.getCurrentPlayerID()),draftPoolResponse.getFavorPoints());
+        modelView.setPlayerFavorPoint(modelView.getPlayerIDs().indexOf(draftPoolResponse.getCurrentPlayerID()),draftPoolResponse.getFavorPoints());
         modelView.setStateID(draftPoolResponse.getStateID());
         modelView.setCurrentPlayerID(draftPoolResponse.getCurrentPlayerID());
         modelView.setDraftPool(draftPoolResponse.getDraftPool());
@@ -172,7 +171,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         modelView.setHasUsedCard(roundTrackerResponse.hasUsedCard());
         modelView.setDieInHand(roundTrackerResponse.getDieInHand());
         modelView.setToolCardUsability(roundTrackerResponse.getToolCardUsability());
-        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(roundTrackerResponse.getCurrentPlayerID()),roundTrackerResponse.getFavorPoints());
+        modelView.setPlayerFavorPoint(modelView.getPlayerIDs().indexOf(roundTrackerResponse.getCurrentPlayerID()),roundTrackerResponse.getFavorPoints());
         modelView.setStateID(roundTrackerResponse.getStateID());
         modelView.setCurrentPlayerID(roundTrackerResponse.getCurrentPlayerID());
         modelView.setRoundTracker(roundTrackerResponse.getRoundTracker());
@@ -192,10 +191,10 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         modelView.setHasUsedCard(windowResponse.hasUsedCard());
         modelView.setDieInHand(windowResponse.getDieInHand());
         modelView.setToolCardUsability(windowResponse.getToolCardUsability());
-        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getFavorPoints());
+        modelView.setPlayerFavorPoint(modelView.getPlayerIDs().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getFavorPoints());
         modelView.setStateID(windowResponse.getStateID());
         modelView.setCurrentPlayerID(windowResponse.getCurrentPlayerID());
-        modelView.setPlayerWindow(modelView.getPlayerID().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
+        modelView.setPlayerWindow(modelView.getPlayerIDs().indexOf(windowResponse.getCurrentPlayerID()),windowResponse.getWindow());
         modelView.setToolCardUsage(windowResponse.getToolCardUsage());
         Platform.runLater(() -> {
             ((GameSceneController) sceneController).clearAndRefreshAll();
@@ -212,7 +211,7 @@ public class GUILogic implements SyncResponseHandler, Observer<SyncResponse> {
         modelView.setHasUsedCard(modelUpdateResponse.hasUsedCard());
         modelView.setDieInHand(modelUpdateResponse.getDieInHand());
         modelView.setToolCardUsability(modelUpdateResponse.getToolCardUsability());
-        modelView.setPlayerFavorPoint(modelView.getPlayerID().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
+        modelView.setPlayerFavorPoint(modelView.getPlayerIDs().indexOf(modelUpdateResponse.getCurrentPlayerID()),modelUpdateResponse.getFavorPoints());
         modelView.setStateID(modelUpdateResponse.getStateID());
         modelView.setCurrentPlayerID(modelUpdateResponse.getCurrentPlayerID());
         modelView.setToolCardUsage(modelUpdateResponse.getToolCardUsage());

@@ -11,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class SocketServerConnection implements ServerConnection, Runnable{
+public class SocketServerConnection implements ServerConnection, Runnable {
     private final Server server;
     private final Socket socket;
     private int playerID;

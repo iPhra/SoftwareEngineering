@@ -20,7 +20,7 @@ public class WaitingThread extends Thread {
     /**
      * {@code true} if this thread was interrupted before waking up
      */
-    private Boolean stopped = false;
+    private boolean stopped;
 
     public WaitingThread(Duration timeout, Stopper caller) {
         this.timeout = timeout;

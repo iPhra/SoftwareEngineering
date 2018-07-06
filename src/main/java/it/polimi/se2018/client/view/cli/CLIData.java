@@ -96,7 +96,7 @@ class CLIData extends ClientData {
     }
 
     void showYourWindow() {
-        int yourIndex = board.getPlayerID().indexOf(playerID);
+        int yourIndex = board.getPlayerIDs().indexOf(playerID);
         Square[][] window = board.getPlayerWindows().get(yourIndex);
         cliView.print("\nYour window is:\n\n");
         StringBuilder builder = createRowIndex();
@@ -186,8 +186,8 @@ class CLIData extends ClientData {
     }
 
     void showFavorPoints() {
-        int yourIndex = board.getPlayerID().indexOf(playerID);
-        cliView.print("Favor points left: " + board.getPlayerFavorPoint().get(yourIndex));
+        int yourIndex = board.getPlayerIDs().indexOf(playerID);
+        cliView.print("Favor points left: " + board.getPlayerFavorPoints().get(yourIndex));
         cliView.print("\n\n\n");
     }
 
