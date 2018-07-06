@@ -489,6 +489,55 @@ public class TestToolCardController {
             Assert.assertTrue(model.getPlayerByID(1).getWindow().getSquare(new Coordinate(1, 1)).isEmpty());
             Assert.assertEquals(die, model.getPlayerByID(1).getWindow().getSquare(new Coordinate(1, 3)).getDie());
             Assert.assertEquals(dieThree, model.getPlayerByID(1).getWindow().getSquare(new Coordinate(2, 2)).getDie());
+            serverView.handleNetworkInput(new PassMessage(1, 12, false));
+
+            serverView.handleNetworkInput(new ToolCardRequestMessage(1, 13, 0));
+            ToolCardMessage toolCardMessage4 = new ToolCardMessage(1, 13, 0);
+            toolCardMessage4.addStartingPosition(new Coordinate(1, 3));
+            toolCardMessage4.addFinalPosition(new Coordinate(3, 1));
+            toolCardMessage4.addStartingPosition(new Coordinate(1, 2));
+            toolCardMessage4.addFinalPosition(new Coordinate(3, 2));
+            toolCardMessage4.addRoundTrackerPosition(new Coordinate(0, 6));
+            toolCardMessage4.setCondition(true);
+            serverView.handleNetworkInput(toolCardMessage4);
+            Assert.assertEquals(die, model.getPlayerByID(1).getWindow().getSquare(new Coordinate(1, 3)).getDie());
+            Assert.assertEquals(dieTwo, model.getPlayerByID(1).getWindow().getSquare(new Coordinate(1, 2)).getDie());
+
+            serverView.handleNetworkInput(new ToolCardRequestMessage(1, 13, 0));
+            ToolCardMessage toolCardMessage5 = new ToolCardMessage(1, 13, 0);
+            toolCardMessage5.addFinalPosition(new Coordinate(2, 3));
+            toolCardMessage5.addStartingPosition(new Coordinate(1, 3));
+            toolCardMessage5.addFinalPosition(new Coordinate(1, 3));
+            toolCardMessage5.addStartingPosition(new Coordinate(2, 2));
+            toolCardMessage5.addRoundTrackerPosition(new Coordinate(0, 6));
+            toolCardMessage5.setCondition(true);
+            serverView.handleNetworkInput(toolCardMessage5);
+
+            serverView.handleNetworkInput(new ToolCardRequestMessage(1, 13, 0));
+            ToolCardMessage toolCardMessage6 = new ToolCardMessage(1, 13, 0);
+            toolCardMessage6.addFinalPosition(new Coordinate(0, 2));
+            toolCardMessage6.addStartingPosition(new Coordinate(1, 3));
+            toolCardMessage6.addStartingPosition(new Coordinate(2, 2));
+            toolCardMessage6.addFinalPosition(new Coordinate(3, 3));
+            toolCardMessage6.addRoundTrackerPosition(new Coordinate(0, 6));
+            toolCardMessage6.setCondition(true);
+            serverView.handleNetworkInput(toolCardMessage6);
+
+            serverView.handleNetworkInput(new ToolCardRequestMessage(1, 13, 0));
+            ToolCardMessage toolCardMessage7 = new ToolCardMessage(1, 13, 0);
+            toolCardMessage7.addFinalPosition(new Coordinate(0, 2));
+            toolCardMessage7.addStartingPosition(new Coordinate(1, 3));
+            toolCardMessage7.addRoundTrackerPosition(new Coordinate(0, 1));
+            toolCardMessage7.setCondition(false);
+            serverView.handleNetworkInput(toolCardMessage7);
+
+            serverView.handleNetworkInput(new ToolCardRequestMessage(1, 13, 0));
+            ToolCardMessage toolCardMessage8 = new ToolCardMessage(1, 13, 0);
+            toolCardMessage8.addFinalPosition(new Coordinate(0, 2));
+            toolCardMessage8.addStartingPosition(new Coordinate(1, 3));
+            toolCardMessage8.addRoundTrackerPosition(new Coordinate(0, 6));
+            toolCardMessage8.setCondition(false);
+            serverView.handleNetworkInput(toolCardMessage8);
 
 
         } catch (NoDieException e) {

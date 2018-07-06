@@ -216,13 +216,18 @@ public class ToolCardController implements ToolCardHandler{
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         boolean twoDice = toolCardMessage.isCondition();
         Square squareOne = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
+        checkEmptiness(squareOne);
+        if(twoDice) checkEmptiness(player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1)));
         Die dieOne = squareOne.popDie();
         Coordinate roundTrackerIndex = toolCardMessage.getRoundTrackerPosition();
         Die roundTrackerDie = board.getRoundTracker().getDie(roundTrackerIndex.getRow(), roundTrackerIndex.getCol());
         Square squareTwo = null;
         Die dieTwo = null;
         Coordinate finalPositionTwo = null;
-        if (dieOne.getColor() != roundTrackerDie.getColor()) throw new ToolCardException("First die does not match the color on the Round Tracker\n");
+        if (dieOne.getColor() != roundTrackerDie.getColor()) {
+            squareOne.setDie(dieOne);
+            throw new ToolCardException("First die does not match the color on the Round Tracker\n");
+        }
         Coordinate finalPositionOne = toolCardMessage.getFinalPosition().get(0);
         if(twoDice){
             squareTwo = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(1));
@@ -239,11 +244,13 @@ public class ToolCardController implements ToolCardHandler{
         if (twoDice) {
             if (dieOne.getColor() != dieTwo.getColor()){
                 squareOne.setDie(dieOne);
+                squareTwo.setDie(dieTwo);
                 player.getWindow().getSquare(finalPositionOne).setDie(null);
                 throw new ToolCardException("\nSecond die does not match the color on the Round Tracker\n");
             }
             if (nearPosition(toolCardMessage.getFinalPosition().get(0), toolCardMessage.getFinalPosition().get(1))) {
                 squareOne.setDie(dieOne);
+                squareTwo.setDie(dieTwo);
                 player.getWindow().getSquare(finalPositionOne).setDie(null);
                 throw new ToolCardException("\nDice can't be moved together\n");
             }
