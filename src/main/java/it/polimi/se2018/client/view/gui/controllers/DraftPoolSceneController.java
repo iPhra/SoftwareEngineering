@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * This is the controller of the draftpool in GUI view
+ * This is the controller of the draftpool shown in game scene
  */
 class DraftPoolSceneController implements Initializable{
     /**

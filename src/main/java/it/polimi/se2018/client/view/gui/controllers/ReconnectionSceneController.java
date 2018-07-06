@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This is the controller of the scene that is shown when player reconnects during window selection. If player chose his
+ * window before disconnecting, he will get that window. If not, server will choose it for him randomly before entering
+ * this scene
+ */
 public class ReconnectionSceneController implements SceneController {
     private GUIClient guiClient;
     private Stage stage;

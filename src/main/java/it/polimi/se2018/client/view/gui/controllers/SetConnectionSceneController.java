@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This is the controller of the starting scene that allows the player to choose connections settings
+ */
 public class SetConnectionSceneController implements SceneController {
     private GUIClient guiClient;
     private Stage stage;
@@ -54,6 +57,9 @@ public class SetConnectionSceneController implements SceneController {
         this.stage = stage;
     }
 
+    /**
+     * This method is called when player wrote the ip address and pressed enter in corresponding textField
+     */
     public void ipHandler() {
         ip = ipAddressField.getText();
         ipGiven = true;
@@ -65,6 +71,9 @@ public class SetConnectionSceneController implements SceneController {
         }
     }
 
+    /**
+     * This method is called when player wrote the port and pressed enter in corresponding textField
+     */
     public void portHandler() {
         port = Integer.parseInt(portField.getText());
         portGiven = true;
@@ -76,6 +85,10 @@ public class SetConnectionSceneController implements SceneController {
         }
     }
 
+    /**
+     * This method is called when player chooses default settings for the connection (default settings are supposed to
+     * be chosen if server is running in local host)
+     */
     public void defaultSettingsChosen() {
         setSelectedConnection();
         guiClient.setDefaultParams();

@@ -11,6 +11,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller of the scene that shows the window of the player during the game with buttons
+ */
 @SuppressWarnings("unused")
 public class WindowSceneController implements Initializable {
     private final List<ButtonSquare> buttons;

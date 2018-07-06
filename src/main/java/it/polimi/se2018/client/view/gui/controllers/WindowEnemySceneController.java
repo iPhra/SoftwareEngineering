@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * This class is the controller of scenes of the windows of wnwmy players
+ * This class is the controller of scenes of the windows of enemy players
  */
 class WindowEnemySceneController implements Initializable{
     /**

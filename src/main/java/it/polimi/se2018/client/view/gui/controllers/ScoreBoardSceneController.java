@@ -19,6 +19,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This is the controller of the scene that shows the final scoreboard of the game just played. That scene is shown at
+ * the end of the game or to the last remaining player if everyone else is disconnected. In that case, the scene just
+ * shows him a message announcing he is the winner. There is a button that, if clicked, allows to start a new game
+ */
 public class ScoreBoardSceneController implements Initializable, SceneController{
     private final List<String> sortedPlayersNames;
     private final List<Integer> sortedPlayersScores;
@@ -26,9 +31,15 @@ public class ScoreBoardSceneController implements Initializable, SceneController
     private GUIClient guiClient;
     private Stage stage;
 
+    /**
+     * This is the label in which the final scoreboard is shown
+     */
     @FXML
     private Label scoreboardLabel;
 
+    /**
+     * This is the button that allows, if clicked, to start a new game
+     */
     @FXML
     private Button newGameButton;
 

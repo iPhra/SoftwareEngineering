@@ -13,6 +13,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller of the roundtracker shown in game scene
+ */
 class RoundTrackerSceneController implements Initializable {
     private final List<List<MenuItemRoundTracker>> roundTracker;
     private final GameSceneController gameSceneController;

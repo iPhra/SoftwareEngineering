@@ -28,6 +28,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This is the controller of the scene that allows the player to choose his window amongst four
+ */
 public class SelectWindowSceneController extends MatchHandler implements SceneController, Initializable {
     private static final String SELECT_WINDOW_SCENE_CONTROLLER = "SelectWindowSceneController";
     private final GUILogic guiLogic;
@@ -85,6 +88,10 @@ public class SelectWindowSceneController extends MatchHandler implements SceneCo
         BorderPane.setAlignment(imageView, Pos.TOP_CENTER);
     }
 
+    /**
+     * This method is called when player chose his window. It sends that to the server
+     * @param windowNumber
+     */
     private void windowChosen(int windowNumber){
         for(Button button : buttons){
             button.setDisable(true);
@@ -93,6 +100,11 @@ public class SelectWindowSceneController extends MatchHandler implements SceneCo
         guiLogic.getGuiView().handleNetworkOutput(new SetupMessage(guiLogic.getPlayerID(),0,windows.get(windowNumber)));
     }
 
+    /**
+     * This method gets the gui to the ScoreBoardScene. It's called if every other player disconnected during window
+     * selection. In that case, this player is considered the winner
+     * @param scene it's the current scene that has to be changed
+     */
     private void toScoreBoardScene(Scene scene) {
         Platform.runLater(() -> {
             FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/ScoreBoardScene.fxml")));
@@ -112,6 +124,10 @@ public class SelectWindowSceneController extends MatchHandler implements SceneCo
         });
     }
 
+    /**
+     * This method gets the gui to the GameScene. It's called if every player chose the window or if timer ran up
+     * @param scene it's the current scene that has to be changed
+     */
     private void toMatchScene(Scene scene) {
         FXMLLoader loader = new FXMLLoader((getClass().getResource("/scenes/GameScene.fxml")));
         try {
