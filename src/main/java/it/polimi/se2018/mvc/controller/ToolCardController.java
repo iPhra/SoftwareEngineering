@@ -18,27 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is used by controller to perform the usage of a toolcard.
- * It's used by a Visitor to understand what method perform
+ * This class is used by {@link Controller} to perform the effect of a {@link ToolCard}.
+ * For more details check Visitor pattern.
  */
-public class ToolCardController implements ToolCardHandler{
-    /**
-     * String used a lot of times are written here
-     */
+public class ToolCardController implements ToolCardHandler {
     private static final String INVALID_POSITION = "The selected position is invalid";
     private static final String PLAYER = "Player ";
     private static final String FROM = " from ";
-
-    /**
-     * This is the reference of the board of the game. It's used to call the method to modify it.
-     */
     private final Board board;
 
     ToolCardController(Board board) {
         this.board = board;
     }
 
-    private boolean nearPosition (Coordinate firstPosition, Coordinate secondPosition) {
+    private boolean nearPosition(Coordinate firstPosition, Coordinate secondPosition) {
         return firstPosition.getCol() == secondPosition.getCol() &&
                 (firstPosition.getRow() == secondPosition.getRow() + 1 ||
                         firstPosition.getRow() == secondPosition.getRow() - 1) ||
@@ -65,7 +58,7 @@ public class ToolCardController implements ToolCardHandler{
     }
 
     @Override
-    public void useCard (CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+    public void useCard(CopperFoilBurnisher toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         checkEmptiness(squareStart);
@@ -81,7 +74,7 @@ public class ToolCardController implements ToolCardHandler{
     }
 
     @Override
-    public void useCard (CorkBackedStraightedge toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
+    public void useCard(CorkBackedStraightedge toolCard, ToolCardMessage toolCardMessage) throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         try {
             Die dieToPlace = player.getDieInHand();
@@ -97,7 +90,7 @@ public class ToolCardController implements ToolCardHandler{
     }
 
     @Override
-    public void useCard (EglomiseBrush toolCard, ToolCardMessage toolCardMessage)  throws ToolCardException {
+    public void useCard(EglomiseBrush toolCard, ToolCardMessage toolCardMessage)  throws ToolCardException {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         Square squareStart = player.getWindow().getSquare(toolCardMessage.getStartingPosition().get(0));
         checkEmptiness(squareStart);
@@ -113,7 +106,7 @@ public class ToolCardController implements ToolCardHandler{
     }
 
     @Override
-    public void useCard (FluxBrush toolCard, ToolCardMessage toolCardMessage) {
+    public void useCard(FluxBrush toolCard, ToolCardMessage toolCardMessage) {
         Player player = board.getPlayerByID(toolCardMessage.getPlayerID());
         Die dieToGive = new Die(player.getDieInHand().getValue(), player.getDieInHand().getColor());
         dieToGive.rollDie();

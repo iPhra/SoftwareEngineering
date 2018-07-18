@@ -86,7 +86,7 @@ public class Server implements Stopper {
     }
 
     /**
-     * This method lanches the thread that wakes up after the timer has ran out
+     * This method launches the thread that wakes up after the timer has ran out
      */
     private void startTimer() {
         clock = new WaitingThread(timeout, this);

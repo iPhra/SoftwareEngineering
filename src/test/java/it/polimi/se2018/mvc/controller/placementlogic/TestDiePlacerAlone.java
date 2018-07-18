@@ -42,10 +42,9 @@ public class TestDiePlacerAlone {
         placer = new DiePlacerAlone(die,new Coordinate(0,2), window);
         try {
             placer.placeDie();
-            Assert.assertEquals(die, window.getSquare(new Coordinate(0,2)).getDie());
-        }
-        catch (InvalidPlacementException e) {
             fail();
+        }
+        catch (InvalidPlacementException ignored) {
         }
 
         placer = new DiePlacerAlone(die,new Coordinate(0,4), window);

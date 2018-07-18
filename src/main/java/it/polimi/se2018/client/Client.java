@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * This class is the abstract class extended by CLI and GUI
+ * This is the abstract Client class
  */
 public abstract class Client {
     boolean setup;
@@ -32,7 +32,7 @@ public abstract class Client {
     }
 
     /**
-     * This method sets the default params of connection read from the file of network properties.
+     * This method sets the default params of the connection read from the config file.
      * It's used if the player chooses to use the default settings.
      */
     public void setDefaultParams() {

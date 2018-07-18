@@ -13,22 +13,12 @@ import it.polimi.se2018.network.messages.requests.ToolCardMessage;
 import java.io.Serializable;
 
 /**
- * Abstract class of toolcard is usefull to use the pattern Visitor.
+ * Abstract Tool Card class.
+ * Used to distinguish dynamic type in Visitor pattern.
  */
 public abstract class ToolCard implements Serializable {
-    /**
-     * Name of a specific tool card
-     */
     private final String title;
-
-    /**
-     * Description of the toolcard explains its usage condition and what the toolcard do
-     */
     private final String description;
-
-    /**
-     * ImagePath of the specific tool card
-     */
     String imagePath;
 
     ToolCard(String title, String description) {
@@ -43,12 +33,6 @@ public abstract class ToolCard implements Serializable {
         return imagePath;
     }
 
-    /**
-     * This method do the action of the tool card
-     * @param handler is the handler used to understand the specific imlementation to use
-     * @param toolCardMessage is the message relative to this tool card
-     * @throws ToolCardException if a problem arises when using the tool card
-     */
     public abstract void handle(ToolCardHandler handler, ToolCardMessage toolCardMessage) throws ToolCardException;
 
     public abstract ToolCardMessage handleView(ToolCardCLIHandler handler, int toolCardNumber) throws ChangeActionException, HaltException;

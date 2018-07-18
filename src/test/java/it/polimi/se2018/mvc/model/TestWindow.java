@@ -74,14 +74,10 @@ public class TestWindow {
         Color colorOne = Color.values()[random.nextInt(6)];
         int valueOne = random.nextInt(6)+1;
         Die dieOne = new Die(valueOne,colorOne);
-        Color colorTwo = Color.values()[random.nextInt(6)];
-        int valueTwo = random.nextInt(6)+1;
-        Die dieTwo = new Die(valueTwo,colorTwo);
         Coordinate coordinate = new Coordinate(random.nextInt(4), random.nextInt(5));
         Assert.assertNotEquals(dieOne, window.getDie(coordinate));
         matrix[coordinate.getRow()][coordinate.getCol()].setDie(dieOne);
         Assert.assertEquals(dieOne, window.getDie(coordinate));
-        Assert.assertNotEquals(dieTwo, window.getDie(coordinate));
     }
 
     @Test

@@ -20,8 +20,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- * This class is the implementation of the client for the GUI. It handle the message from the server
- * and manage the RMI or socket connection to the sever
+ * This class is the implementation of the client for the GUI.
  */
 public class GUIClient extends Client {
     private GUIView guiView;
@@ -76,7 +75,7 @@ public class GUIClient extends Client {
                     guiView = new GUIView(this,playerID);
                     clientConnection = new RMIClientConnection(this, guiView);
                     manager.addClient(playerID, playerName, (RemoteConnection) UnicastRemoteObject.exportObject((RemoteConnection) clientConnection, 0));
-                    RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//localhost/ServerConnection" + playerID);
+                    RemoteConnection serverConnection = (RemoteConnection) Naming.lookup("//"+ ip +":"+port+"/ServerConnection" + playerID);
                     ((RMIClientConnection) clientConnection).setServerConnection(serverConnection);
                     guiView.setClientConnection(clientConnection);
                     new Thread((RMIClientConnection) clientConnection).start();
@@ -112,7 +111,7 @@ public class GUIClient extends Client {
 
     public void createRMIConnection(){
         try {
-            manager = (RemoteManager) Naming.lookup("//localhost/RemoteManager");
+            manager = (RemoteManager) Naming.lookup("//"+ ip +":"+port+"/RemoteManager");
         }
         catch(RemoteException | NotBoundException | MalformedURLException e){
             System.exit(1);

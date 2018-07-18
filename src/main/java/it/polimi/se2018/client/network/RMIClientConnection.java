@@ -114,7 +114,7 @@ public class RMIClientConnection extends ClientConnection implements RemoteConne
 
     @Override
     public void stop() {
-        clock.interrupt();
+        if(clock!=null) clock.interrupt();
         isOpen = false;
         matchPlaying = false;
         try {

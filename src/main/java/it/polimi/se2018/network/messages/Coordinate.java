@@ -22,16 +22,10 @@ public class Coordinate implements Serializable{
         this.col = col;
     }
 
-    /**
-     * @return the x of the coordinate
-     */
     public int getRow() {
         return row;
     }
 
-    /**
-     * @return the y of the coordinate
-     */
     public int getCol() {
         return col;
     }

@@ -3,7 +3,7 @@ package it.polimi.se2018.mvc.model.objectives.publicobjectives;
 import it.polimi.se2018.mvc.model.objectives.ObjectiveCard;
 
 /**
- * This is the abstract public objective card. it extends {@link ObjectiveCard}
+ * This is the abstract Public Objective card.
  */
 public abstract class PublicObjective extends ObjectiveCard {
 

@@ -59,7 +59,7 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
         }
         catch(RemoteException e) {
             server.handleDisconnection(playerID);
-            clock.interrupt();
+            if(clock!=null) clock.interrupt();
         }
     }
 
@@ -101,7 +101,7 @@ public class RMIServerConnection implements ServerConnection, RemoteConnection, 
 
     @Override
     public void stop() {
-        clock.interrupt();
+        if(clock!=null) clock.interrupt();
         isOpen=false;
     }
 

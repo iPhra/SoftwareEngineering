@@ -125,7 +125,7 @@ public class Window implements Iterable<Square>, Serializable {
 
     /**
      * Used by method adjacentOk
-     * @param coordinate of a Square that uou have to check the position nearby
+     * @param coordinate of a Square that you have to check the position nearby
      * @return returns the adjacent dice of a die
      */
     public List<Die> adjacentDice(Coordinate coordinate) {

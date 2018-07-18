@@ -4,9 +4,10 @@ import java.io.Serializable;
 
 /**
  * This is the abstract class representing a request from the client to the server
- * For more details, check Visitor pattern
+ * For more details check Visitor pattern
  */
 public abstract class Message implements Serializable {
+
     /**
      * This is the id of the player making a request
      */

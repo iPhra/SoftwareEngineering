@@ -9,27 +9,15 @@ import it.polimi.se2018.mvc.model.Square;
 import java.util.List;
 
 
-
 /**
- * This class place a die in a specific square and check the condition.
- * Used by the toolcard when move a die or by the standard placement of the turn
+ * This class is used to check if a die can be placed in a specific square, and to place it.
+ * Used by {@link it.polimi.se2018.mvc.controller.Controller} and {@link it.polimi.se2018.mvc.model.toolcards.ToolCard}.
  */
 @SuppressWarnings("SimplifiableIfStatement")
 public abstract class DiePlacer {
 
-    /**
-     * This is the die thata the placer has to place in a square
-     */
     final Die die;
-
-    /**
-     * This is the square where the placer try to place the die
-     */
     final Square square;
-
-    /**
-     * This is the window of the player where the placer try to place the die
-     */
     final Window window;
 
     DiePlacer(Die die, Coordinate coordinate, Window window) {
@@ -39,20 +27,20 @@ public abstract class DiePlacer {
     }
 
     /**
-     * Check if a die could go in a specific square or not
-     * @return true if the die could go, false otherwise
+     * Checks if a die can be placed in the square
+     *
+     * @return {@code true} if the condition is met
      */
-    protected abstract boolean checkCondition ();
+    protected abstract boolean checkCondition();
 
     /**
-     * Used by method checkCondition in order to check if you can place die
-     * without "violating" adjacent dice color
-     * @return true if you can place the die, false otherwise
+     * Checks if the color condition on adjacent dice is met
+     * @return {@code true} if the color condition is met
      */
     boolean isColorOk() {
         List<Die> adjacent = window.adjacentDice(new Coordinate(square.getRow(), square.getCol()));
-        for (Die near : adjacent){
-            if (die.getColor().equals(near.getColor())){
+        for (Die near : adjacent) {
+            if (die.getColor().equals(near.getColor())) {
                 return false;
             }
         }
@@ -60,26 +48,22 @@ public abstract class DiePlacer {
     }
 
     /**
-     * Used by method placeDie in order to check if you can place die
-     * without "violating" adjacent dice value
-     * @return true if you can place the die, false otherwise
+     * Checks if the value condition on adjacent dice is met
+     * @return {@code true} if the value condition is met
      */
     boolean isValueOk() {
-        List<Die> adjacent= window.adjacentDice(new Coordinate(square.getRow(),square.getCol()));
-        for (Die near : adjacent){
-            if (die.getValue() == near.getValue()){
+        List<Die> adjacent = window.adjacentDice(new Coordinate(square.getRow(), square.getCol()));
+        for (Die near : adjacent) {
+            if (die.getValue() == near.getValue()) {
                 return false;
             }
         }
         return true;
     }
 
-    //all dice in diagonal and adjacent to a given die
-
     /**
-     * Used by method placeDie in order to check if you can place die
-     * without "violating" the rule that the die has to be near another one
-     * @return true if you can place the die, false otherwise
+     * Checks if the condition on adjacent dice is met
+     * @return {@code true} if the condition is met
      */
     boolean hasSurroundingDice() {
         List<Die> surrounding = window.adjacentDice(new Coordinate(square.getRow(), square.getCol()));
@@ -94,11 +78,12 @@ public abstract class DiePlacer {
     }
 
     /**
-     * This method place the die of the placer
-     * @throws InvalidPlacementException because you can't place the die in that {@link Square}
+     * This method places the die.
+     *
+     * @throws InvalidPlacementException if the condition is not met
      */
     public void placeDie() throws InvalidPlacementException {
-        if(!this.checkCondition()) throw new InvalidPlacementException();
+        if (!this.checkCondition()) throw new InvalidPlacementException();
         square.setDie(die);
     }
 }

@@ -42,7 +42,10 @@ public class RMIManager implements RemoteManager {
         }
     }
 
-    //false if he's not registered or reconnecting
+    /**
+     * @param nickname is the nickname of the player to check if he's registered or reconnecting
+     * @return {@code false} if he's not registered or reconnecting
+     */
     @Override
     public boolean checkName(String nickname) {
         return nickname.length()>15 || !(server.checkRegistration(nickname) || server.checkDisconnection(nickname));

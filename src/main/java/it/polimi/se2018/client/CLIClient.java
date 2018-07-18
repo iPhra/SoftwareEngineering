@@ -17,8 +17,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * This class is the implementation of the client for the CLI. It handle the message from the server
- * and manage the RMI or socket connection to the sever
+ * This class is the implementation of the client for the CLI.
  */
 @SuppressWarnings("FieldCanBeLocal")
 public class CLIClient extends Client {
@@ -37,9 +36,6 @@ public class CLIClient extends Client {
         output = new PrintStream(System.out);
     }
 
-    /**
-     * This method prints text to player
-     */
     private void welcome() {
         output.println(" _  _  _ _______        _______  _____  _______ _______      _______  _____     \n" +
                 " |  |  | |______ |      |       |     | |  |  | |______         |    |     |    \n" +
@@ -60,7 +56,7 @@ public class CLIClient extends Client {
     }
 
     /**
-     * This method sends this thread in wait
+     * This method stops this thread until the game ends or the client disconnects
      */
     private synchronized void waitForAction() {
         while(!disconnected && !gameEnded) {
@@ -81,8 +77,8 @@ public class CLIClient extends Client {
     }
 
     /**
-     * This method asks and takes the nickname frotm the player
-     * @return the nickname chosen by the player
+     * This method gets the nickname from the player
+     * @return the choen nickname
      */
     private String getNickname() {
         output.println("\nChoose your nickname");
@@ -137,7 +133,7 @@ public class CLIClient extends Client {
     }
 
     /**
-     * This method asks to the player the type of connection that he would use
+     * This method asks to the player the type of connection that he wants to use
      */
     private void chooseConnection() {
         boolean connection = true;
@@ -203,7 +199,7 @@ public class CLIClient extends Client {
     }
 
     /**
-     * Creates a socket connection
+     * This method creates a socket connection
      */
     private void createSocketConnection(){
         try {
@@ -246,7 +242,7 @@ public class CLIClient extends Client {
     }
 
     /**
-     * This methods start a new game
+     * This methods starts a new game
      */
     private void startNewGame() {
         output.println("\nInsert [1] to start another game, anything else to quit");
