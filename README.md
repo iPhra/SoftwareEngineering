@@ -31,4 +31,4 @@ The project has been developed with the following technologies:
 | ---------- | --------- | --------------- |
 | Edoardo | Lamonaca | edoardo.lamonaca@mail.polimi.it |
 | Emilio | Imperiali | emilio.imperiali@mail.polimi.it |
-| Francesco | Lorenzo  | francesco.lorenzo@mail.polimi.it |
+| Francesco | Lorenzo  | francesco1.lorenzo@mail.polimi.it |
