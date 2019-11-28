@@ -9,7 +9,7 @@
 ## Description
 Repository of the project developed for the "Prova finale di Ingegneria del Software" (Final test of Software Engineering) course, part of the Bachelor of Science in Computer Science and Engineering at Politecnico di Milano.
 
-This fianl test aims at assessing the students' ability to design a complex software system given the requirements of all the stakeholders.
+This final test aims at assessing the students' ability to design a complex software system given the requirements of all the stakeholders.
 
 This repository refers to the 2018 edition of the course, whose main topic is an online multiplayer board game called Sagrada by Floodgate Games, that has to be implemented using Java. Requirements included:
 - Using MVC  
